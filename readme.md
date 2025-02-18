@@ -1,4 +1,5 @@
 [![CI](https://github.com/kb21-rw/time-tracker-frontend/actions/workflows/ci.yml/badge.svg)](https://github.com/kb21-rw/time-tracker-frontend/actions/workflows/ci.yml)
+
 # Time Tracker Frontend
 
 # React + TypeScript + Vite
