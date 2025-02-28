@@ -2,4 +2,9 @@
 @theme{
     --font-inter: "Inter", sans-serif;
     --font-fredoka: "Fredoka", sans-serif;
+    --color-primary: #2B22D2;
+    --color-secondary: #130E74;
+    --color-tertiary: #4042E2;
+    --color-quaternary: #09005D;
+    --color-accent: #D50000;
 }
