@@ -1,15 +1,15 @@
 @import 'tailwindcss';
-@theme{
-    --font-inter: "Inter", sans-serif;
-    --font-fredoka: "Fredoka", sans-serif;
-    --color-primary: #2B22D2;
-    --color-secondary: #130E74;
-    --color-tertiary: #4042E2;
-    --color-quaternary: #09005D;
-    --color-accent: #D50000;
+@theme {
+    --font-inter: 'Inter', sans-serif;
+    --font-fredoka: 'Fredoka', sans-serif;
+    --color-primary: #2b22d2;
+    --color-secondary: #130e74;
+    --color-tertiary: #4042e2;
+    --color-quaternary: #09005d;
+    --color-accent: #d50000;
 }
 @layer utilities {
     .text-shadow-custom {
-      text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     }
 }

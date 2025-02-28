@@ -1,5 +1,5 @@
 import './App.css'
-import { RouterProvider} from "react-router-dom"
+import { RouterProvider } from 'react-router-dom'
 import { router } from './routes'
 function App() {
     //test env variables
@@ -7,7 +7,7 @@ function App() {
     // console.log(import.meta.env.VITE_APP_NAME);
     return (
         <>
-        <RouterProvider router={router} />
+            <RouterProvider router={router} />
         </>
     )
 }

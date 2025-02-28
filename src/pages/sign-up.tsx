@@ -13,13 +13,17 @@ export default function SignUpPage() {
                 </h1>
             </div>
             <div className="flex h-full justify-between items-center">
-                <img src={SignUpImage} className="hidden lg:block  max-w-lg" alt="" />
+                <img
+                    src={SignUpImage}
+                    className="hidden lg:block  max-w-lg"
+                    alt="signup page image"
+                />
                 <div className="flex flex-col w-full lg:w-2/5">
-                    <Input label="Full Name:" placeholder="Full name"/>
-                    <Input label="Email Address:" placeholder="email@gmail.com"/>
-                    <Input label="Password:" type="password" placeholder="password"/>
-                    <Input label="Confirm Password:" type="password" placeholder="password"/>
-                    <Button className='text-xl'> Create Account </Button>
+                    <Input label="Full Name:" placeholder="Full name" />
+                    <Input label="Email Address:" placeholder="email@gmail.com" />
+                    <Input label="Password:" type="password" placeholder="password" />
+                    <Input label="Confirm Password:" type="password" placeholder="password" />
+                    <Button className="text-xl"> Create Account </Button>
                 </div>
             </div>
         </div>
