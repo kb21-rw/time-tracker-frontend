@@ -1,4 +1,4 @@
-import IconProps from './iconinterface'
+import IconProps from '../iconinterface'
 
 export default function LogoIcon({ className }: IconProps) {
     return (
