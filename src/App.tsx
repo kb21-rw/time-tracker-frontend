@@ -1,5 +1,6 @@
 import { RouterProvider } from 'react-router-dom'
 import { router } from './routes'
+import SignUpPage from './pages/sign-up'
 function App() {
     //test env variables
     // console.log(import.meta.env.VITE_API_URL);
@@ -7,6 +8,7 @@ function App() {
     return (
         <>
             <RouterProvider router={router} />
+           {/* <SignUpPage/> */}
         </>
     )
 }
