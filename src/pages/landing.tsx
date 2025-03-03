@@ -1,5 +1,4 @@
 import LogoIcon from '../assets/icons/LogoIcon'
-import Button from '../components/shared/Button'
 import LandingImage from '../assets/images/landing-image.svg'
 import { Link } from 'react-router-dom'
 
