@@ -5,7 +5,7 @@ import Input from '../components/shared/Input'
 
 export default function SignUpPage() {
     return (
-        <div className="w-full flex flex-col px-4 py-2 md:px-24 md:py-12 h-screen bg-gray-100">
+        <div className="w-full flex flex-col px-4 py-2 md:px-24 md:py-12 h-screen">
             <div className="w-full flex justify-between items-center">
                 <LogoIcon className="w-12 md:w-20" />
                 <h1 className="text-3xl md:text-5xl font-fredoka font-semibold text-primary text-shadow-custom">
