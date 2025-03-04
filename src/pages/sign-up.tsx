@@ -7,21 +7,28 @@ import { signUpSchema } from '../util/validationSchema'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
-import { isFormComplete } from '../util/helpers'
 
 type FormFields = z.infer<typeof signUpSchema>
+
+const defaultValues: FormFields = {
+    fullName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+}
+
 export default function SignUpPage() {
     const {
         register,
         handleSubmit,
         reset,
-        watch,
-        formState: { errors },
-    } = useForm<FormFields>({ resolver: zodResolver(signUpSchema) })
+        formState: { errors, isValid },
+    } = useForm<FormFields>({
+        resolver: zodResolver(signUpSchema),
+        mode: 'all',
+        defaultValues,
+    })
     const [isSubmitting, setIsSubmitting] = useState(false)
-
-    const formData = watch()
-    const isComplete = isFormComplete(formData)
 
     const onSubmit: SubmitHandler<FormFields> = data => {
         setIsSubmitting(true)
@@ -78,7 +85,7 @@ export default function SignUpPage() {
                         <Button
                             className="text-xl w-full mt-6"
                             isLoading={isSubmitting}
-                            disabled={!isComplete || isSubmitting}
+                            disabled={!isValid || isSubmitting}
                         >
                             Create Account
                         </Button>
