@@ -13,7 +13,7 @@ export default function LandingPage() {
             </div>
 
             <div className="flex justify-between mt-20 items-center">
-                <div className="flex flex-col gap-6  ">
+                <div className="flex lg:flex-col gap-12 flex-col text-center items-center">
                     <p className="text-5xl font-bold font-inter text-secondary ">
                         Where focus meets <br /> productivity
                     </p>
@@ -28,7 +28,7 @@ export default function LandingPage() {
                         Get started
                     </Link>
                 </div>
-                <img src={LandingImage} alt="landing page Image" />
+                <img src={LandingImage} alt="landing page Image"  className='lg:block hidden'/>
             </div>
         </div>
     )
