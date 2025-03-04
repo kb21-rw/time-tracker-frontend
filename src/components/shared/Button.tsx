@@ -1,8 +1,5 @@
-import { ButtonHTMLAttributes } from 'react'
+import { ButtonProps } from '../../util/interfaces'
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-    isLoading?: boolean
-}
 export default function Button({ isLoading, className, ...props }: ButtonProps) {
     return (
         <button
