@@ -1,13 +1,12 @@
 import { ButtonProps } from '../../util/interfaces'
 
-export default function Button({ isLoading, className, ...props }: ButtonProps) {
+export default function Button({ isLoading, className, disabled, children }: ButtonProps) {
     return (
         <button
-            {...props}
-            className={`bg-primary shadow shadow-black/40 drop-shadow-xl text-white rounded-lg text-center p-4 ${className} ${isLoading ? 'bg-primary/45' : ''}`}
-            disabled={isLoading}
+            className={`bg-primary shadow shadow-black/40 drop-shadow-xl text-white rounded-lg text-center p-4 ${className} ${isLoading || disabled ? 'bg-primary/50' : ''}`}
+            disabled={isLoading || disabled}
         >
-            {isLoading ? 'Loading...' : props.children}
+            {isLoading ? 'Loading...' : children}
         </button>
     )
 }

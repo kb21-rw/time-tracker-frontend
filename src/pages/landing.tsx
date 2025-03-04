@@ -28,7 +28,7 @@ export default function LandingPage() {
                         Get started
                     </Link>
                 </div>
-                <img src={LandingImage} alt="landing page Image"  className='lg:block hidden'/>
+                <img src={LandingImage} alt="landing page Image" className="lg:block hidden" />
             </div>
         </div>
     )

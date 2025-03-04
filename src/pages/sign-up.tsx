@@ -1,9 +1,34 @@
+import { z } from 'zod'
 import LogoIcon from '../assets/icons/LogoIcon'
 import SignUpImage from '../assets/images/signup-image.svg'
 import Button from '../components/shared/Button'
 import Input from '../components/shared/Input'
+import { signUpSchema } from '../util/validationSchema'
+import { SubmitHandler, useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useState } from 'react'
+import { isFormComplete } from '../util/helpers'
 
+type FormFields = z.infer<typeof signUpSchema>
 export default function SignUpPage() {
+    const {
+        register,
+        handleSubmit,
+        reset,
+        watch,
+        formState: { errors },
+    } = useForm<FormFields>({ resolver: zodResolver(signUpSchema) })
+    const [isSubmitting, setIsSubmitting] = useState(false)
+
+    const formData = watch()
+    const isComplete = isFormComplete(formData)
+
+    const onSubmit: SubmitHandler<FormFields> = data => {
+        setIsSubmitting(true)
+        alert(`submitted successfully |${data}`)
+        reset()
+        setIsSubmitting(false)
+    }
     return (
         <div className="w-full flex flex-col px-4 py-2 md:px-24 md:py-12 h-screen">
             <div className="w-full flex justify-between items-center">
@@ -19,11 +44,45 @@ export default function SignUpPage() {
                     alt="signup page image"
                 />
                 <div className="flex flex-col w-full lg:w-2/5">
-                    <Input label="Full Name:" placeholder="Full name" />
-                    <Input label="Email Address:" placeholder="email@gmail.com" />
-                    <Input label="Password:" type="password" placeholder="password" />
-                    <Input label="Confirm Password:" type="password" placeholder="password" />
-                    <Button className="text-xl"> Create Account </Button>
+                    <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
+                        <Input
+                            id="fullName"
+                            label="Full Name:"
+                            placeholder="Full name"
+                            register={register('fullName')}
+                            error={errors.fullName}
+                        />
+                        <Input
+                            id="email"
+                            label="Email Address:"
+                            placeholder="email@gmail.com"
+                            register={register('email')}
+                            error={errors.email}
+                        />
+                        <Input
+                            id="password"
+                            label="Password:"
+                            type="password"
+                            placeholder="password"
+                            register={register('password')}
+                            error={errors.password}
+                        />
+                        <Input
+                            id="confirmPassword"
+                            label="Confirm Password:"
+                            type="password"
+                            placeholder="password"
+                            register={register('confirmPassword')}
+                            error={errors.confirmPassword}
+                        />
+                        <Button
+                            className="text-xl w-full mt-6"
+                            isLoading={isSubmitting}
+                            disabled={!isComplete || isSubmitting}
+                        >
+                            Create Account
+                        </Button>
+                    </form>
                 </div>
             </div>
         </div>
