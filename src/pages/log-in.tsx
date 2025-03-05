@@ -17,6 +17,7 @@ export default function LoginPage() {
         formState: { errors, isValid },
     } = useForm<FormFields>({
         resolver: zodResolver(loginSchema),
+        mode: 'all',
         defaultValues: { email: '', password: '' },
     })
     const [isSubmitting, setIsSubmitting] = useState(false)
