@@ -1,5 +1,4 @@
 import { z } from 'zod'
-import LogoIcon from '../assets/icons/LogoIcon'
 import SignUpImage from '../assets/images/signup-image.svg'
 import Button from '../components/shared/Button'
 import Input from '../components/shared/Input'
@@ -7,6 +6,7 @@ import { signUpSchema } from '../util/validationSchema'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
+import FocusFlowHeader from '../components/shared/FocusFlowHeader'
 
 type FormFields = z.infer<typeof signUpSchema>
 
@@ -38,12 +38,7 @@ export default function SignUpPage() {
     }
     return (
         <div className="w-full flex flex-col px-4 py-2 md:px-24 md:py-12 h-screen">
-            <div className="w-full flex justify-between items-center">
-                <LogoIcon className="w-12 md:w-20" />
-                <h1 className="text-3xl md:text-5xl font-fredoka font-semibold text-primary text-shadow-custom">
-                    Focus<span className="font-inter text-secondary"> Flow</span>
-                </h1>
-            </div>
+            <FocusFlowHeader />
             <div className="flex h-full justify-between items-center">
                 <img
                     src={SignUpImage}

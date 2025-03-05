@@ -1,17 +1,11 @@
-import LogoIcon from '../assets/icons/LogoIcon'
 import LandingImage from '../assets/images/landing-image.svg'
 import { Link } from 'react-router-dom'
+import FocusFlowHeader from '../components/shared/FocusFlowHeader'
 
 export default function LandingPage() {
     return (
         <div className="w-full flex flex-col px-4 py-2 md:px-24 md:py-12 h-screen">
-            <div className="flex justify-between ">
-                <LogoIcon />
-                <p className="text-3xl md:text-5xl font-fredoka font-semibold text-primary text-shadow-custom">
-                    Focus<span className="font-inter text-secondary"> Flow</span>
-                </p>
-            </div>
-
+            <FocusFlowHeader />
             <div className="flex justify-between mt-20 items-center">
                 <div className="flex lg:flex-col gap-12 flex-col text-center items-center">
                     <p className="text-5xl font-bold font-inter text-secondary ">
