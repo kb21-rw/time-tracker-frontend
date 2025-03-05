@@ -11,6 +11,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { signupUser } from '../redux/slice/authSlice'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
+import { handleAxiosError } from '../util/helpers'
+import { AxiosError } from 'axios'
 
 type FormFields = z.infer<typeof signUpSchema>
 
@@ -45,7 +47,7 @@ export default function SignUpPage() {
                 toast.error('Signup failed')
             }
         } catch (error) {
-            console.error('An error occured', error)
+            handleAxiosError(error as AxiosError)
         }
     }
 
