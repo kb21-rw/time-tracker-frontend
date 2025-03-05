@@ -42,7 +42,7 @@ export default function SignUpPage() {
             const { meta: responseData } = await dispatch(signupUser(data)) // Dispatch signup action
             if (responseData.requestStatus === 'fulfilled') {
                 navigate('/login')
-                toast.success('Signup successful!')
+                toast.success('You have successfully created an account!')
             } else {
                 toast.error('Signup failed')
             }
