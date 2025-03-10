@@ -5,7 +5,13 @@ import Input from '../components/shared/Input'
 import { signUpSchema } from '../util/validationSchema'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useState } from 'react'
+import { AppDispatch, RootState } from '../redux/store'
+import { useDispatch, useSelector } from 'react-redux'
+import { signupUser } from '../redux/slice/authSlice'
+import toast from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom'
+import { handleAxiosError } from '../util/helpers'
+import { AxiosError } from 'axios'
 import FocusFlowHeader from '../components/shared/FocusFlowHeader'
 
 type FormFields = z.infer<typeof signUpSchema>
@@ -18,24 +24,33 @@ const defaultValues: FormFields = {
 }
 
 export default function SignUpPage() {
+    const dispatch = useDispatch<AppDispatch>()
+    const { loading, error } = useSelector((state: RootState) => state.auth)
     const {
         register,
         handleSubmit,
-        reset,
         formState: { errors, isValid },
     } = useForm<FormFields>({
         resolver: zodResolver(signUpSchema),
         mode: 'all',
         defaultValues,
     })
-    const [isSubmitting, setIsSubmitting] = useState(false)
+    const navigate = useNavigate()
 
-    const onSubmit: SubmitHandler<FormFields> = data => {
-        setIsSubmitting(true)
-        alert(`submitted successfully |${data}`)
-        reset()
-        setIsSubmitting(false)
+    const onSubmit: SubmitHandler<FormFields> = async data => {
+        try {
+            const { meta: responseData } = await dispatch(signupUser(data)) // Dispatch signup action
+            if (responseData.requestStatus === 'fulfilled') {
+                navigate('/login')
+                toast.success('You have successfully created an account!')
+            } else {
+                toast.error('Signup failed')
+            }
+        } catch (error) {
+            handleAxiosError(error as AxiosError)
+        }
     }
+
     return (
         <div className="w-full flex flex-col px-4 py-2 md:px-24 md:py-12 h-screen">
             <FocusFlowHeader />
@@ -77,10 +92,16 @@ export default function SignUpPage() {
                             register={register('confirmPassword')}
                             error={errors.confirmPassword}
                         />
+                        {error && (
+                            <p className="text-red-500 text-sm mt-2">
+                                {typeof error === 'string' ? error : JSON.stringify(error)}
+                            </p>
+                        )}
+
                         <Button
                             className="text-xl w-full mt-6"
-                            isLoading={isSubmitting}
-                            disabled={!isValid || isSubmitting}
+                            isLoading={loading}
+                            disabled={!isValid || loading}
                         >
                             Create Account
                         </Button>
