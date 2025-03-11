@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import LogoIcon from '../assets/icons/LogoIcon'
 import SignUpImage from '../assets/images/signup-image.svg'
 import Button from '../components/shared/Button'
 import Input from '../components/shared/Input'
@@ -11,7 +12,6 @@ import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import { handleAxiosError } from '../util/helpers'
 import { AxiosError } from 'axios'
-import FocusFlowHeader from '../components/shared/FocusFlowHeader'
 import { signUpSchema } from '../schema'
 
 type FormFields = z.infer<typeof signUpSchema>
@@ -37,14 +37,9 @@ export default function SignUpPage() {
     })
     const navigate = useNavigate()
 
-    const onSubmit: SubmitHandler<FormFields> = async data => {
+    const onSubmit: SubmitHandler<FormFields> = async ({ confirmPassword, ...data }) => {
         try {
-            const signUpData = {
-                fullName: data.fullName,
-                email: data.email,
-                password: data.password,
-            }
-            const { meta: responseData } = await dispatch(signupUser(signUpData)) // Dispatch signup action
+            const { meta: responseData } = await dispatch(signupUser(data))
             if (responseData.requestStatus === 'fulfilled') {
                 navigate('/login')
                 toast.success('You have successfully created an account!')
@@ -58,7 +53,12 @@ export default function SignUpPage() {
 
     return (
         <div className="w-full flex flex-col px-4 py-2 md:px-24 md:py-12 h-screen">
-            <FocusFlowHeader />
+            <div className="w-full flex justify-between items-center">
+                <LogoIcon className="w-12 md:w-20" />
+                <h1 className="text-3xl md:text-5xl font-fredoka font-semibold text-primary text-shadow-custom">
+                    Focus<span className="font-inter text-secondary"> Flow</span>
+                </h1>
+            </div>
             <div className="flex h-full justify-between items-center">
                 <img
                     src={SignUpImage}
