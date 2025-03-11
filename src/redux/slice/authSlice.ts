@@ -1,8 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import axios from 'axios'
-import { API_URL } from '../../constants'
+import api from '../../lib/api'
 
-// Async thunk for signing up
 export const signupUser = createAsyncThunk(
     'auth/signupUser',
     async (
@@ -10,9 +8,7 @@ export const signupUser = createAsyncThunk(
         { rejectWithValue },
     ) => {
         try {
-            const response = await axios.post(`${API_URL}/users`, userData, {
-                headers: { 'Content-Type': 'application/json' },
-            })
+            const response = await api.post(`/users`, userData)
             return response.data
         } catch (error: any) {
             const errorMessage = error.response?.data?.message || 'Signup failed'
