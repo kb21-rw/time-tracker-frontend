@@ -1,6 +1,5 @@
 import FocusFlowHeader from '../components/shared/FocusFlowHeader'
 import LoginImage from '../assets/images/landing-image.svg'
-import { loginSchema } from '../util/validationSchema'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SubmitHandler, useForm } from 'react-hook-form'
@@ -8,6 +7,7 @@ import Input from '../components/shared/Input'
 import { Link } from 'react-router-dom'
 import Button from '../components/shared/Button'
 import { useState } from 'react'
+import { loginSchema } from '../schema'
 
 type FormFields = z.infer<typeof loginSchema>
 export default function LoginPage() {
@@ -56,7 +56,7 @@ export default function LoginPage() {
                             type="password"
                         />
                         {/* add link to forgot password page */}
-                        <Link to="#" className="absolute right-0 text-primary ">
+                        <Link to="#" className="absolute right-0 text-primary-600 ">
                             Forgot password?
                         </Link>
                         <Button
@@ -69,7 +69,7 @@ export default function LoginPage() {
                     </form>
                     <p className="text-center mt-8 text-lg">
                         Don't have an account?{' '}
-                        <Link to="/" className="text-primary">
+                        <Link to="/" className="text-primary-600">
                             Create account
                         </Link>
                     </p>

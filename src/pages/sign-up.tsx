@@ -2,7 +2,6 @@ import { z } from 'zod'
 import SignUpImage from '../assets/images/signup-image.svg'
 import Button from '../components/shared/Button'
 import Input from '../components/shared/Input'
-import { signUpSchema } from '../util/validationSchema'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { AppDispatch, RootState } from '../redux/store'
@@ -13,6 +12,7 @@ import { useNavigate } from 'react-router-dom'
 import { handleAxiosError } from '../util/helpers'
 import { AxiosError } from 'axios'
 import FocusFlowHeader from '../components/shared/FocusFlowHeader'
+import { signUpSchema } from '../schema'
 
 type FormFields = z.infer<typeof signUpSchema>
 
