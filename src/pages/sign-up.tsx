@@ -39,7 +39,12 @@ export default function SignUpPage() {
 
     const onSubmit: SubmitHandler<FormFields> = async data => {
         try {
-            const { meta: responseData } = await dispatch(signupUser(data)) // Dispatch signup action
+            const signUpData = {
+                fullName: data.fullName,
+                email: data.email,
+                password: data.password,
+            }
+            const { meta: responseData } = await dispatch(signupUser(signUpData)) // Dispatch signup action
             if (responseData.requestStatus === 'fulfilled') {
                 navigate('/login')
                 toast.success('You have successfully created an account!')
