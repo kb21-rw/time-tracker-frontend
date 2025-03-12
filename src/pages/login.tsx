@@ -34,7 +34,7 @@ export default function LoginPage() {
         try {
             const { meta: responseData } = await dispatch(loginUser(data))
             if (responseData.requestStatus === 'fulfilled') {
-                navigate('/')
+                navigate('/dashboard')
                 toast.success('Successfully logged in!')
             } else {
                 toast.error('Login failed')
