@@ -2,7 +2,6 @@ import { z } from 'zod'
 import SignUpImage from '../assets/images/signup-image.svg'
 import Button from '../components/shared/Button'
 import Input from '../components/shared/Input'
-import { signUpSchema } from '../util/validationSchema'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { AppDispatch, RootState } from '../redux/store'
@@ -12,6 +11,7 @@ import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import { handleAxiosError } from '../util/helpers'
 import { AxiosError } from 'axios'
+import { signUpSchema } from '../schema'
 import FocusFlowHeader from '../components/shared/FocusFlowHeader'
 
 type FormFields = z.infer<typeof signUpSchema>
@@ -37,9 +37,9 @@ export default function SignUpPage() {
     })
     const navigate = useNavigate()
 
-    const onSubmit: SubmitHandler<FormFields> = async data => {
+    const onSubmit: SubmitHandler<FormFields> = async ({ confirmPassword, ...data }) => {
         try {
-            const { meta: responseData } = await dispatch(signupUser(data)) // Dispatch signup action
+            const { meta: responseData } = await dispatch(signupUser(data))
             if (responseData.requestStatus === 'fulfilled') {
                 navigate('/login')
                 toast.success('You have successfully created an account!')
