@@ -1,5 +1,4 @@
 import { z } from 'zod'
-import LogoIcon from '../assets/icons/LogoIcon'
 import SignUpImage from '../assets/images/signup-image.svg'
 import Button from '../components/shared/Button'
 import Input from '../components/shared/Input'
