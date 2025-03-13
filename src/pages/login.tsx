@@ -56,7 +56,7 @@ export default function LoginPage() {
                             type="password"
                         />
                         {/* add link to forgot password page */}
-                        <Link to="#" className="absolute right-0 text-primary-600 ">
+                        <Link to="/forgot-password" className="absolute right-0 text-primary-600 ">
                             Forgot password?
                         </Link>
                         <Button
