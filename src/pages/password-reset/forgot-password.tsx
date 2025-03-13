@@ -15,6 +15,7 @@ function ForgotPasswordPage() {
         register,
         handleSubmit,
         formState: { errors, isValid },
+        reset,
     } = useForm<FormData>({
         resolver: zodResolver(
             z.object({
@@ -29,6 +30,7 @@ function ForgotPasswordPage() {
         try {
             // const response = await api.post('/request-reset-password', { email: data.email })
             toast.success('Reset password link has been sent to your email.')
+            reset()
         } catch (error) {
             toast.error('Failed to send reset password link. Please try again.')
         }
