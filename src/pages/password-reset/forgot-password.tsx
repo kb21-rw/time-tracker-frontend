@@ -1,10 +1,11 @@
 import { FieldValues, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useNavigate } from 'react-router-dom'
 import Button from '../../components/shared/Button'
 import Input from '../../components/shared/Input'
 import FocusFlowHeader from '../../components/shared/FocusFlowHeader'
+import { toast } from 'react-hot-toast'
+
 type FormData = {
     email: string
 }
@@ -23,11 +24,14 @@ function ForgotPasswordPage() {
         mode: 'all',
         defaultValues: { email: '' },
     })
-
-    const navigate = useNavigate()
-    const onSubmit = (data: FieldValues) => {
+    const onSubmit = async (data: FieldValues) => {
         console.log(data)
-        navigate('/forgot-password/verify-code')
+        try {
+            // const response = await api.post('/request-reset-password', { email: data.email })
+            toast.success('Reset password link has been sent to your email.')
+        } catch (error) {
+            toast.error('Failed to send reset password link. Please try again.')
+        }
     }
     return (
         <div className="w-full flex flex-col px-4 py-2 md:px-24 md:py-12 h-screen">
