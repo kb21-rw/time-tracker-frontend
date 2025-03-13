@@ -77,7 +77,7 @@ export default function LoginPage() {
                                 {typeof error === 'string' ? error : JSON.stringify(error)}
                             </p>
                         )}
-                        <Link to="#" className="absolute right-0 text-primary-600 ">
+                        <Link to="/forgot-password" className="absolute right-0 text-primary-600 ">
                             Forgot password?
                         </Link>
                         <Button
