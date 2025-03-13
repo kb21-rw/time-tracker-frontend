@@ -37,7 +37,6 @@ function ResetPasswordPage() {
                     type="password"
                 />
                 <Button className="w-full text-xl" disabled={!isValid}>
-                    {' '}
                     Submit
                 </Button>
             </form>

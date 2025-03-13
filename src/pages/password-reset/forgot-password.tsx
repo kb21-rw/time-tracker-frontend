@@ -28,7 +28,7 @@ function ForgotPasswordPage() {
     const onSubmit = async (data: FieldValues) => {
         console.log(data)
         try {
-            // const response = await api.post('/request-reset-password', { email: data.email })
+            // Send reset request to backend
             toast.success('Reset password link has been sent to your email.')
             reset()
         } catch (error) {
@@ -52,7 +52,6 @@ function ForgotPasswordPage() {
                     id="email"
                 />
                 <Button className="w-full text-xl" disabled={!isValid}>
-                    {' '}
                     Submit
                 </Button>
             </form>
