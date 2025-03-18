@@ -5,12 +5,19 @@ import Button from '../../components/shared/Button'
 import Input from '../../components/shared/Input'
 import FocusFlowHeader from '../../components/shared/FocusFlowHeader'
 import { toast } from 'react-hot-toast'
+import { useDispatch, useSelector } from 'react-redux'
+import { AppDispatch, RootState } from '../../redux/store'
+import { forgotPassword } from '../../redux/slice/authSlice'
+import { handleAxiosError } from '../../util/helpers'
+import { AxiosError } from 'axios'
 
 type FormData = {
     email: string
 }
 
 function ForgotPasswordPage() {
+    const dispatch = useDispatch<AppDispatch>()
+    const { loading, error } = useSelector((state: RootState) => state.auth)
     const {
         register,
         handleSubmit,
@@ -26,13 +33,18 @@ function ForgotPasswordPage() {
         defaultValues: { email: '' },
     })
     const onSubmit = async (data: FieldValues) => {
-        console.log(data)
         try {
-            // Send reset request to backend
-            toast.success('Reset password link has been sent to your email.')
-            reset()
+            const { meta: responseData } = await dispatch(forgotPassword(data.email))
+            if (responseData.requestStatus === 'fulfilled') {
+                toast.success(
+                    'Successfully sent a password reset link to your email. Please check your inbox.',
+                )
+                reset()
+            } else {
+                toast.error('Failed to send reset password link. Please try again.')
+            }
         } catch (error) {
-            toast.error('Failed to send reset password link. Please try again.')
+            handleAxiosError(error as AxiosError)
         }
     }
     return (
@@ -51,7 +63,13 @@ function ForgotPasswordPage() {
                     error={errors.email}
                     id="email"
                 />
-                <Button className="w-full text-xl" disabled={!isValid}>
+                {error && (
+                    <p className="text-red-500 text-sm mt-2">
+                        {typeof error === 'string' ? error : JSON.stringify(error)}
+                    </p>
+                )}
+
+                <Button className="w-full text-xl" isLoading={loading} disabled={!isValid}>
                     Submit
                 </Button>
             </form>
