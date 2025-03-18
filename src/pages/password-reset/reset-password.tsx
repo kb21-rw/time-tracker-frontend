@@ -10,7 +10,7 @@ import { AppDispatch, RootState } from '../../redux/store'
 import { handleAxiosError } from '../../util/helpers'
 import { resetPassword } from '../../redux/slice/authSlice'
 import toast from 'react-hot-toast'
-import { useNavigate, useSearchParams} from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { AxiosError } from 'axios'
 
 type FormData = z.infer<typeof passwordSchema>
@@ -18,8 +18,8 @@ function ResetPasswordPage() {
     const dispatch = useDispatch<AppDispatch>()
     const { loading, error } = useSelector((state: RootState) => state.auth)
     const navigate = useNavigate()
-    const [searchParams] = useSearchParams();
-    const token = searchParams.get('token');
+    const [searchParams] = useSearchParams()
+    const token = searchParams.get('token')
     const {
         register,
         handleSubmit,
