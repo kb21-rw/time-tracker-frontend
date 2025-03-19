@@ -1,7 +1,13 @@
 import Sidebar from "../components/Sidebar"
 import { FaPlus } from 'react-icons/fa6'
+import WorkspaceCard from "../components/WorkspaceCard"
 
-
+const workspaces = [
+    { id: 1, name: 'The Gym', creationDate: '24/02/2024' },
+    { id: 2, name: 'Alu', creationDate: '30/03/2025' },
+    { id: 3, name: 'Kepler', creationDate: '29/06/2023' },
+    { id: 3, name: 'AUCA', creationDate: '09/11/2025' },
+]
 
 export default function WorkspacePage() {
   return (
@@ -22,7 +28,11 @@ export default function WorkspacePage() {
                           <p>Workspace</p>
                           <p>Creation date</p>
                       </div>
-
+                       <div className="mt-7 flex flex-col gap-y-2">
+                            {workspaces.map((workspace)=>(
+                                <WorkspaceCard key={workspace.id} name={workspace.name} creationDate={workspace.creationDate}></WorkspaceCard>
+                            ))}
+                       </div>
                   </div>
               </div>
           </div>
