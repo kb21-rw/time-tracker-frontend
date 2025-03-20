@@ -1,6 +1,6 @@
-import Sidebar from "../components/Sidebar"
+import Sidebar from '../components/Sidebar'
 import { FaPlus } from 'react-icons/fa6'
-import WorkspaceCard from "../components/WorkspaceCard"
+import WorkspaceCard from '../components/WorkspaceCard'
 
 const workspaces = [
     { id: 1, name: 'The Gym', creationDate: '24/02/2024' },
@@ -10,32 +10,36 @@ const workspaces = [
 ]
 
 export default function WorkspacePage() {
-  return (
-      <div>
-          <div className="flex w-full">
-              <Sidebar />
-              <div className="w-full bg-white">
-                  <div className="w-full shadow-md  py-7 px-5 flex justify-between items-center">
-                      <p className="text-xl font-bold">Workspaces</p>
-                      <button className="flex items-center gap-x-2 bg-primary-500 rounded-lg text-white px-3 py-2 md:px-5 md:py-3 cursor-pointer">
-                          <FaPlus />
-                          <span className="hidden sm:inline">New Work Space</span>
-                          <span className="sm:hidden">New</span>
-                      </button>
-                  </div>
-                  <div className="pt-15">
-                      <div className="flex items-center justify-between mx-4 md:mx-16  text-base md:text-xl font-bold">
-                          <p>Workspace</p>
-                          <p>Creation date</p>
-                      </div>
-                       <div className="mt-7 flex flex-col gap-y-2">
-                            {workspaces.map((workspace)=>(
-                                <WorkspaceCard key={workspace.id} name={workspace.name} creationDate={workspace.creationDate}></WorkspaceCard>
+    return (
+        <div>
+            <div className="flex w-full">
+                <Sidebar />
+                <div className="w-full bg-white">
+                    <div className="w-full shadow-md  py-7 px-5 flex justify-between items-center">
+                        <p className="text-xl font-bold">Workspaces</p>
+                        <button className="flex items-center gap-x-2 bg-primary-500 rounded-lg text-white px-3 py-2 md:px-5 md:py-3 cursor-pointer">
+                            <FaPlus />
+                            <span className="hidden sm:inline">New Work Space</span>
+                            <span className="sm:hidden">New</span>
+                        </button>
+                    </div>
+                    <div className="pt-15">
+                        <div className="flex items-center justify-between mx-4 md:mx-16  text-base md:text-xl font-bold">
+                            <p>Workspace</p>
+                            <p>Creation date</p>
+                        </div>
+                        <div className="mt-7 flex flex-col gap-y-2">
+                            {workspaces.map(workspace => (
+                                <WorkspaceCard
+                                    key={workspace.id}
+                                    name={workspace.name}
+                                    creationDate={workspace.creationDate}
+                                ></WorkspaceCard>
                             ))}
-                       </div>
-                  </div>
-              </div>
-          </div>
-      </div>
-  )
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
 }

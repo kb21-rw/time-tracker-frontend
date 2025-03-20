@@ -1,4 +1,3 @@
-
 export default function WorkspaceDetails() {
-  return <div>WorkspaceDetails</div>
+    return <div>WorkspaceDetails</div>
 }
