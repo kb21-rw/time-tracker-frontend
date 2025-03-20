@@ -4,10 +4,10 @@ import WorkspaceCard from '../components/WorkspaceCard'
 import { Workspaces } from '../util/interfaces'
 
 const workspaces: Workspaces[] | [] = [
-    { id: "1", name: 'The Gym', creationDate: '24/02/2024' },
-    { id: "2", name: 'Alu', creationDate: '30/03/2025' },
-    { id: "3", name: 'Kepler', creationDate: '29/06/2023' },
-    { id: "3", name: 'AUCA', creationDate: '09/11/2025' },
+    { id: '1', name: 'The Gym', creationDate: '24/02/2024' },
+    { id: '2', name: 'Alu', creationDate: '30/03/2025' },
+    { id: '3', name: 'Kepler', creationDate: '29/06/2023' },
+    { id: '3', name: 'AUCA', creationDate: '09/11/2025' },
 ]
 
 export default function WorkspacePage() {
@@ -30,8 +30,7 @@ export default function WorkspacePage() {
                             <p>Creation date</p>
                         </div>
                         <div className="mt-7 flex flex-col gap-y-2">
-                            {
-                             workspaces.length > 0 ?
+                            {workspaces.length > 0 ? (
                                 workspaces.map(workspace => (
                                     <WorkspaceCard
                                         key={workspace.id}
@@ -39,9 +38,9 @@ export default function WorkspacePage() {
                                         creationDate={workspace.creationDate}
                                     ></WorkspaceCard>
                                 ))
-                            :
-                                <p className='mx-auto mt-8 text-xl'>You don't have any workspace</p>
-                        }
+                            ) : (
+                                <p className="mx-auto mt-8 text-xl">You don't have any workspace</p>
+                            )}
                         </div>
                     </div>
                 </div>

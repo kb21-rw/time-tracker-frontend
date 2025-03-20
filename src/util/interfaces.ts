@@ -36,7 +36,7 @@ export interface WorkspaceProps {
 }
 
 export interface Workspaces {
-    id: string,
-    name: string,
+    id: string
+    name: string
     creationDate: string
 }
