@@ -1,4 +1,4 @@
-import Sidebar from '../components/Sidebar'
+import Sidebar from '../components/shared/Sidebar'
 import { FaPlus } from 'react-icons/fa6'
 import WorkspaceCard from '../components/WorkspaceCard'
 import { Workspaces } from '../util/interfaces'

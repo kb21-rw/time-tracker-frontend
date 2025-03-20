@@ -1,9 +1,9 @@
-import Home from '../assets/images/homeIcon.svg'
-import Profile from '../assets/images/iconamoon_profile.svg'
-import SidebarImage from '../assets/images/sidebar-close.svg'
-import Download from '../assets/images/download_icon.svg'
-import Notification from '../assets/images/notification-line.svg'
-import Settings from '../assets/images/settings_icon.svg'
+import Home from '../../assets/images/homeIcon.svg'
+import Profile from '../../assets/images/iconamoon_profile.svg'
+import SidebarImage from '../../assets/images/sidebar-close.svg'
+import Download from '../../assets/images/download_icon.svg'
+import Notification from '../../assets/images/notification-line.svg'
+import Settings from '../../assets/images/settings_icon.svg'
 
 export default function Sidebar() {
     return (
