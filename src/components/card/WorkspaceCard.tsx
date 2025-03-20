@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { MdModeEditOutline } from 'react-icons/md'
-import { WorkspaceProps } from '../util/interfaces'
+import { WorkspaceProps } from '../../util/interfaces'
 
 export default function WorkspaceCard(props: WorkspaceProps) {
     return (
