@@ -1,12 +1,13 @@
 import Sidebar from '../components/Sidebar'
 import { FaPlus } from 'react-icons/fa6'
 import WorkspaceCard from '../components/WorkspaceCard'
+import { Workspaces } from '../util/interfaces'
 
-const workspaces = [
-    { id: 1, name: 'The Gym', creationDate: '24/02/2024' },
-    { id: 2, name: 'Alu', creationDate: '30/03/2025' },
-    { id: 3, name: 'Kepler', creationDate: '29/06/2023' },
-    { id: 3, name: 'AUCA', creationDate: '09/11/2025' },
+const workspaces: Workspaces[] | [] = [
+    { id: "1", name: 'The Gym', creationDate: '24/02/2024' },
+    { id: "2", name: 'Alu', creationDate: '30/03/2025' },
+    { id: "3", name: 'Kepler', creationDate: '29/06/2023' },
+    { id: "3", name: 'AUCA', creationDate: '09/11/2025' },
 ]
 
 export default function WorkspacePage() {
