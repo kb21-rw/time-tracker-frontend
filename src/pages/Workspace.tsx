@@ -29,13 +29,18 @@ export default function WorkspacePage() {
                             <p>Creation date</p>
                         </div>
                         <div className="mt-7 flex flex-col gap-y-2">
-                            {workspaces.map(workspace => (
-                                <WorkspaceCard
-                                    key={workspace.id}
-                                    name={workspace.name}
-                                    creationDate={workspace.creationDate}
-                                ></WorkspaceCard>
-                            ))}
+                            {
+                             workspaces.length > 0 ?
+                                workspaces.map(workspace => (
+                                    <WorkspaceCard
+                                        key={workspace.id}
+                                        name={workspace.name}
+                                        creationDate={workspace.creationDate}
+                                    ></WorkspaceCard>
+                                ))
+                            :
+                                <p className='mx-auto mt-8 text-xl'>You don't have any workspace</p>
+                        }
                         </div>
                     </div>
                 </div>
