@@ -96,6 +96,9 @@ const authSlice = createSlice({
                 state.user = JSON.parse(user)
             }
         },
+        clearError: state => {
+            state.error = null
+        },
     },
     extraReducers: builder => {
         builder
@@ -150,5 +153,5 @@ const authSlice = createSlice({
     },
 })
 
-export const { logout, restoreAuth } = authSlice.actions
+export const { clearError, logout, restoreAuth } = authSlice.actions
 export default authSlice.reducer

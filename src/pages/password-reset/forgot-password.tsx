@@ -7,9 +7,10 @@ import FocusFlowHeader from '../../components/shared/FocusFlowHeader'
 import { toast } from 'react-hot-toast'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../../redux/store'
-import { forgotPassword } from '../../redux/slice/authSlice'
+import { forgotPassword, clearError } from '../../redux/slice/authSlice'
 import { handleAxiosError } from '../../util/helpers'
 import { AxiosError } from 'axios'
+import { useEffect } from 'react'
 
 type FormData = {
     email: string
@@ -32,6 +33,11 @@ function ForgotPasswordPage() {
         mode: 'all',
         defaultValues: { email: '' },
     })
+
+    useEffect(() => {
+        dispatch(clearError())
+    }, [dispatch])
+
     const onSubmit = async (data: FieldValues) => {
         try {
             const { meta: responseData } = await dispatch(forgotPassword(data.email))
