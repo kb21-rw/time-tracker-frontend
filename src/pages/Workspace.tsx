@@ -1,6 +1,6 @@
 import Sidebar from '../components/shared/Sidebar'
 import { FaPlus } from 'react-icons/fa6'
-import WorkspaceCard from '../components/WorkspaceCard'
+import WorkspaceCard from '../components/card/WorkspaceCard'
 import { Workspaces } from '../util/interfaces'
 
 const workspaces: Workspaces[] | [] = [
