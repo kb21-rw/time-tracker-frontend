@@ -29,3 +29,14 @@ export enum UserRole {
     ADMIN = 'Admin',
     MEMBER = 'Member',
 }
+
+export interface WorkspaceProps {
+    name: string
+    creationDate: string
+}
+
+export interface Workspaces {
+    id: string
+    name: string
+    creationDate: string
+}
