@@ -4,13 +4,22 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import Input from '../components/shared/Input'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Button from '../components/shared/Button'
-import { useState } from 'react'
 import { loginSchema } from '../schema'
+import { useDispatch, useSelector } from 'react-redux'
+import { AppDispatch, RootState } from '../redux/store'
+import { loginUser } from '../redux/slice/authSlice'
+import toast from 'react-hot-toast'
+import { handleAxiosError } from '../util/helpers'
+import { AxiosError } from 'axios'
 
 type FormFields = z.infer<typeof loginSchema>
 export default function LoginPage() {
+    const dispatch = useDispatch<AppDispatch>()
+    const { loading, error } = useSelector((state: RootState) => state.auth)
+    const navigate = useNavigate()
+
     const {
         register,
         handleSubmit,
@@ -20,11 +29,19 @@ export default function LoginPage() {
         mode: 'all',
         defaultValues: { email: '', password: '' },
     })
-    const [isSubmitting, setIsSubmitting] = useState(false)
-    const onSubmit: SubmitHandler<FormFields> = data => {
-        setIsSubmitting(true)
-        alert(`submitted successfully | ${data}`)
-        setIsSubmitting(false)
+
+    const onSubmit: SubmitHandler<FormFields> = async data => {
+        try {
+            const { meta: responseData } = await dispatch(loginUser(data))
+            if (responseData.requestStatus === 'fulfilled') {
+                navigate('/dashboard')
+                toast.success('Successfully logged in!')
+            } else {
+                toast.error('Login failed')
+            }
+        } catch (error) {
+            handleAxiosError(error as AxiosError)
+        }
     }
 
     return (
@@ -55,14 +72,18 @@ export default function LoginPage() {
                             error={errors.password}
                             type="password"
                         />
-                        {/* add link to forgot password page */}
-                        <Link to="#" className="absolute right-0 text-primary-600 ">
+                        {error && (
+                            <p className="text-red-500 text-sm mt-2">
+                                {typeof error === 'string' ? error : JSON.stringify(error)}
+                            </p>
+                        )}
+                        <Link to="/forgot-password" className="absolute right-0 text-primary-600 ">
                             Forgot password?
                         </Link>
                         <Button
                             className="text-xl w-full mt-14"
-                            isLoading={isSubmitting}
-                            disabled={!isValid || isSubmitting}
+                            isLoading={loading}
+                            disabled={!isValid || loading}
                         >
                             Sign In
                         </Button>

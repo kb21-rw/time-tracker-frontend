@@ -10,3 +10,33 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
     error?: FieldError
     register: UseFormRegisterReturn
 }
+
+export interface User {
+    id: number
+    fullName: string
+    email: string
+    roles: UserRole
+}
+
+export interface AuthState {
+    user: User | null
+    token: string | null
+    loading: boolean
+    error: any
+}
+
+export enum UserRole {
+    ADMIN = 'Admin',
+    MEMBER = 'Member',
+}
+
+export interface WorkspaceProps {
+    name: string
+    creationDate: string
+}
+
+export interface Workspaces {
+    id: string
+    name: string
+    creationDate: string
+}
