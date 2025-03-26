@@ -29,3 +29,12 @@ export enum UserRole {
     ADMIN = 'Admin',
     MEMBER = 'Member',
 }
+export interface Workspace {
+    id: string
+    name: string
+}
+export interface WorkspaceState {
+    workspace: Workspace | null
+    loading: boolean
+    error: any
+}

@@ -1,10 +1,10 @@
-import Input from '../../components/shared/Input'
-import Button from '../../components/shared/Button'
+import Input from '../../components/shared/ui/Input'
+import Button from '../../components/shared/ui/Button'
 import { FieldValues, useForm } from 'react-hook-form'
 import { passwordSchema } from '../../schema/password'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import FocusFlowHeader from '../../components/shared/FocusFlowHeader'
+import FocusFlowHeader from '../../components/shared/ui/FocusFlowHeader'
 
 type FormData = z.infer<typeof passwordSchema>
 function ResetPasswordPage() {

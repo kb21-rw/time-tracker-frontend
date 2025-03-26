@@ -1,9 +1,9 @@
 import { FieldValues, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import Button from '../../components/shared/Button'
-import Input from '../../components/shared/Input'
-import FocusFlowHeader from '../../components/shared/FocusFlowHeader'
+import Button from '../../components/shared/ui/Button'
+import Input from '../../components/shared/ui/Input'
+import FocusFlowHeader from '../../components/shared/ui/FocusFlowHeader'
 import { toast } from 'react-hot-toast'
 
 type FormData = {
