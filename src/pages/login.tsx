@@ -33,9 +33,16 @@ export default function LoginPage() {
     const onSubmit: SubmitHandler<FormFields> = async data => {
         try {
             const { meta: responseData } = await dispatch(loginUser(data))
+            const user = localStorage.getItem('user')
+            const userData = JSON.parse(user || '{}')
             if (responseData.requestStatus === 'fulfilled') {
-                navigate('/dashboard')
-                toast.success('Successfully logged in!')
+                if (userData.roles === 'Admin') {
+                    navigate('/workspace')
+                    toast.success('Successfully logged in!')
+                } else {
+                    navigate('/dashboard')
+                    toast.success('Successfully logged in!')
+                }
             } else {
                 toast.error('Login failed')
             }
