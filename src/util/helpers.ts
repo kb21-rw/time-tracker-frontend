@@ -7,3 +7,7 @@ export const handleAxiosError = (error: AxiosError) => {
         return error.message
     }
 }
+export const formatDate = (isoString: string): string => {
+    const date = new Date(isoString)
+    return date.toLocaleDateString('en-GB')
+}
