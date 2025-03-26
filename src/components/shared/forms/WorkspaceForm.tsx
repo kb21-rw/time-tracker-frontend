@@ -1,6 +1,6 @@
 import Input from '../ui/Input'
 import Button from '../ui/Button'
-import { FieldValues, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useDispatch, useSelector } from 'react-redux'
@@ -18,7 +18,7 @@ const workspaceShema = z.object({
 type workspaceData = z.infer<typeof workspaceShema>
 function WorkspaceForm() {
     const dispatch = useDispatch<AppDispatch>()
-    const { loading, error } = useSelector((state: RootState) => state.workspace)
+    const { error } = useSelector((state: RootState) => state.workspace)
     const {
         register,
         handleSubmit,
@@ -28,7 +28,7 @@ function WorkspaceForm() {
         mode: 'all',
         defaultValues: { name: '' },
     })
-    const onSubmit = async(data: workspaceData) => {
+    const onSubmit = async (data: workspaceData) => {
         try {
             const { meta: responseData } = await dispatch(createWorkspace(data))
             if (responseData.requestStatus === 'fulfilled') {
@@ -50,11 +50,11 @@ function WorkspaceForm() {
                 register={register('name')}
                 error={errors.name}
             />
-              {error && (
-                            <p className="text-red-500 text-sm mt-2">
-                                {typeof error === 'string' ? error : JSON.stringify(error)}
-                            </p>
-                        )}
+            {error && (
+                <p className="text-red-500 text-sm mt-2">
+                    {typeof error === 'string' ? error : JSON.stringify(error)}
+                </p>
+            )}
             <Button className="w-full" disabled={!isValid}>
                 Create WorkSpace
             </Button>

@@ -6,7 +6,7 @@ const store = configureStore({
     reducer: {
         counter: counterReducer,
         auth: authReducer,
-        workspace: workspaceReducer
+        workspace: workspaceReducer,
     },
 })
 

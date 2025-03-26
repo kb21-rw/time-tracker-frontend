@@ -58,7 +58,7 @@ export default function SignUpPage() {
                 <img
                     src={SignUpImage}
                     className="hidden lg:block  max-w-lg"
-                    alt="signup page image"
+                    alt="signup page illustration"
                 />
                 <div className="flex flex-col w-full lg:w-2/5">
                     <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
@@ -106,7 +106,6 @@ export default function SignUpPage() {
                             Create Account
                         </Button>
                     </form>
-
                 </div>
             </div>
         </div>
