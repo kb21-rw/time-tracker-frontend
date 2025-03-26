@@ -29,14 +29,23 @@ export enum UserRole {
     ADMIN = 'Admin',
     MEMBER = 'Member',
 }
-
+export interface WorkspaceForCreation {
+    id: string
+    name: string
+}
+export interface WorkspaceState {
+    workspaces: Workspace[]
+    loading: boolean
+    error: any
+}
 export interface WorkspaceProps {
     name: string
     creationDate: string
 }
 
-export interface Workspaces {
+export interface Workspace {
     id: string
     name: string
-    creationDate: string
+    created_at: string
+    updated_at: string
 }
