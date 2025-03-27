@@ -14,26 +14,30 @@ export default function Sidebar() {
                     {/* The links that redirect to specific route will be added later */}
                     <div className="space-y-3">
                         <Link to="#">
-                            <img src={Home} className="h-7 w-7" />
+                            <img src={Home} className="h-7 w-7" alt="The home icon" />
                         </Link>
                         <Link to="#">
-                            <img src={Profile} className="h-7 w-7" />
-                        </Link>
-                    </div>
-                    <div>
-                        <Link to="#">
-                            <img src={SidebarImage} className="h-7 w-7" />
+                            <img src={Profile} className="h-7 w-7" alt="The profile icon" />
                         </Link>
                     </div>
                     <div>
                         <Link to="#">
-                            <img src={Notification} className="h-7 w-7" />
+                            <img src={SidebarImage} className="h-7 w-7" alt="The sidebar image" />
+                        </Link>
+                    </div>
+                    <div>
+                        <Link to="#">
+                            <img
+                                src={Notification}
+                                className="h-7 w-7"
+                                alt="The notification image"
+                            />
                         </Link>
                         <Link to="#">
-                            <img src={Download} className="h-7 w-7" />
+                            <img src={Download} className="h-7 w-7" alt="The download image" />
                         </Link>
                         <Link to="#">
-                            <img src={Settings} className="h-7 w-7" />
+                            <img src={Settings} className="h-7 w-7" alt="The settings image" />
                         </Link>
                     </div>
                 </div>
