@@ -1,16 +1,20 @@
 import Sidebar from '../components/shared/Sidebar'
 import { FaPlus } from 'react-icons/fa6'
 import WorkspaceCard from '../components/card/WorkspaceCard'
-import { Workspaces } from '../util/interfaces'
-
-const workspaces: Workspaces[] | [] = [
-    { id: '1', name: 'The Gym', creationDate: '24/02/2024' },
-    { id: '2', name: 'Alu', creationDate: '30/03/2025' },
-    { id: '3', name: 'Kepler', creationDate: '29/06/2023' },
-    { id: '3', name: 'AUCA', creationDate: '09/11/2025' },
-]
-
+import { useDispatch, useSelector } from 'react-redux'
+import { AppDispatch, RootState } from '../redux/store'
+import { useEffect } from 'react'
+import { getWorkspacesByUser } from '../redux/slice/workspaceSlice'
 export default function WorkspacePage() {
+    const dispatch = useDispatch<AppDispatch>()
+    const { workspaces, error, loading } = useSelector((state: RootState) => state.workspaces)
+    useEffect(() => {
+        dispatch(getWorkspacesByUser())
+    }, [dispatch])
+
+    if (loading) return `loading`
+    if (error) return error
+
     return (
         <div>
             <div className="flex w-full">
@@ -31,11 +35,11 @@ export default function WorkspacePage() {
                         </div>
                         <div className="mt-7 flex flex-col gap-y-2 mx-8">
                             {workspaces.length > 0 ? (
-                                workspaces.map(workspace => (
+                                workspaces.map(({ id, name, created_at: creationDate }) => (
                                     <WorkspaceCard
-                                        key={workspace.id}
-                                        name={workspace.name}
-                                        creationDate={workspace.creationDate}
+                                        key={id}
+                                        name={name}
+                                        creationDate={creationDate}
                                     ></WorkspaceCard>
                                 ))
                             ) : (
