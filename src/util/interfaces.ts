@@ -1,3 +1,4 @@
+import { ColumnDef } from '@tanstack/react-table'
 import { ButtonHTMLAttributes } from 'react'
 import { FieldError, UseFormRegisterReturn } from 'react-hook-form'
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -39,4 +40,14 @@ export interface Workspaces {
     id: string
     name: string
     creationDate: string
+}
+export interface DataTableProps<TData, TValue> {
+    columns: ColumnDef<TData, TValue>[]
+    data: TData[]
+}
+export type TableUser = {
+    id: string
+    names: string
+    email: string
+    actions?: string
 }

@@ -2,10 +2,27 @@ import { FaPlus } from 'react-icons/fa6'
 import Sidebar from '../components/shared/Sidebar'
 import WorkSpaceSidebar from '../components/ui/WorkSpaceSidebar'
 import { Download } from 'lucide-react'
+import UsersTable from '../components/ui/UsersTable'
+import { columns } from '../components/ui/columns'
+import { TableUser } from '@/util/interfaces'
 export default function WorkspaceDetails() {
+    const data: TableUser[] = [
+        {
+            id: '728ed52f',
+            names: 'John Doe',
+            email: 'john.doe@example.com',
+        },
+        {
+            id: '728ed52f',
+            names: 'John Doe',
+            email: 'john.doe@example.com',
+        },
+
+        // ...
+    ]
     return (
         <div className="flex w-full justify-around">
-            <div className='w-27'>
+            <div className="w-27">
                 <Sidebar />
             </div>
             <div className="">
@@ -20,11 +37,15 @@ export default function WorkspaceDetails() {
                         <span className="sm:hidden">New</span>
                     </button>
                 </div>
-                <div className='w-full'>
-                    <div className='w-full flex justify-between px-9 py-12 font-bold text-xl'>
+                <div className="w-full">
+                    <div className="w-full flex justify-between px-9 py-12 font-bold text-xl">
                         <p>Users</p>
-                        <Download className='text-primary-500'/>
+                        <Download className="text-primary-500" />
                     </div>
+                    <UsersTable columns={columns} data={data} />
+                </div>
+                <div className="w-full">
+                    <p className='text-xl font-bold px-9 py-12'>Groups</p>
                     
                 </div>
             </div>
