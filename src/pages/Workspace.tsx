@@ -11,8 +11,10 @@ export default function WorkspacePage() {
     useEffect(() => {
         dispatch(getWorkspacesByUser())
     }, [dispatch])
+
     if (loading) return `loading`
     if (error) return error
+
     return (
         <div>
             <div className="flex w-full">
