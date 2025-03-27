@@ -44,7 +44,7 @@ export default function WorkspaceSidebar() {
                         <SidebarMenu>
                             <SidebarMenuButton className=' text-base'>
                                 <Group />
-                                <h1>Team 1</h1>
+                                <h1>Group 1</h1>
                             </SidebarMenuButton>
                         </SidebarMenu>
                     </SidebarGroup>
