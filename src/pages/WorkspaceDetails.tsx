@@ -9,7 +9,11 @@ import {
     CollapsibleContent,
     CollapsibleTrigger,
 } from '@/components/shadcn/collapsible'
+import { useLocation, Navigate } from 'react-router-dom'
 export default function WorkspaceDetails() {
+    const { state } = useLocation()
+    if (!state) return <Navigate to="/workspace" />
+    const { name } = state
     const data: TableUser[] = [
         {
             id: '728ed52f',
@@ -58,7 +62,7 @@ export default function WorkspaceDetails() {
             </div>
             <div className="bg-white w-full">
                 <div className="w-full shadow-md py-7 px-5 flex justify-between items-center">
-                    <p className="text-xl font-bold">The Gym</p>
+                    <p className="text-xl font-bold">{name}</p>
                     <button className="flex items-center gap-x-2 bg-primary-500 rounded-lg text-white px-3 py-2 md:px-5 md:py-3 cursor-pointer">
                         <Plus className="w-5 h-5" />
                         <span className="hidden sm:inline">New User</span>
