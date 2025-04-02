@@ -9,12 +9,8 @@ import { createWorkspace } from '../../../redux/slice/workspaceSlice'
 import toast from 'react-hot-toast'
 import { handleAxiosError } from '../../../util/helpers'
 import { AxiosError } from 'axios'
-const workspaceShema = z.object({
-    name: z
-        .string()
-        .min(3, { message: 'name must be at least 3 characters' })
-        .regex(/^[A-Z]/, { message: 'name must start with a capital letter' }),
-})
+import { workspaceShema } from '../../../schema/workspace'
+
 type workspaceData = z.infer<typeof workspaceShema>
 function WorkspaceForm() {
     const dispatch = useDispatch<AppDispatch>()
