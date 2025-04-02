@@ -21,14 +21,34 @@ export default function LandingPage() {
                         Streamlining your day and <br />
                         making every moment count.
                     </p>
-                    <Link
-                        className="w-48 bg-primary shadow shadow-black/40 drop-shadow-xl text-white rounded-lg text-center p-4"
-                        to="/sign-up"
-                    >
-                        Get started
-                    </Link>
+                    <div className='grid grid-cols-2 gap-4'>
+                        <Link
+                            className="w-48 bg-primary shadow shadow-black/40 drop-shadow-xl text-white rounded-lg text-center p-4"
+                            to="/sign-up"
+                        >
+                            Log in as an admin
+                        </Link>
+
+                        <Link
+                            className="w-48 bg-primary shadow shadow-black/40 drop-shadow-xl text-white rounded-lg text-center p-4"
+                            to="/sign-up"
+                        >
+                            Log in as a user
+                        </Link>
+
+                        <Link
+                            className="w-48 bg-primary shadow shadow-black/40 drop-shadow-xl text-white rounded-lg text-center p-4 col-span-2 mx-auto"
+                            to="/sign-up"
+                        >
+                            Get started
+                        </Link>
+                    </div>
                 </div>
-                <img src={LandingImage} alt="landing page Image"  className='lg:block hidden'/>
+                <img
+                    src={LandingImage}
+                    alt="landing page illustration"
+                    className="lg:block hidden"
+                />
             </div>
         </div>
     )

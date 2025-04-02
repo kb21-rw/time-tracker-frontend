@@ -16,7 +16,7 @@ export default function SignUpPage() {
                 <img
                     src={SignUpImage}
                     className="hidden lg:block  max-w-lg"
-                    alt="signup page image"
+                    alt="signup page illustration"
                 />
                 <div className="flex flex-col w-full lg:w-2/5">
                     <Input label="Full Name:" placeholder="Full name" />
