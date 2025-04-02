@@ -1,7 +1,6 @@
 import Home from '../../assets/images/homeIcon.svg'
 import Profile from '../../assets/images/iconamoon_profile.svg'
 import SidebarImage from '../../assets/images/sidebar-close.svg'
-import Download from '../../assets/images/download_icon.svg'
 import Notification from '../../assets/images/notification-line.svg'
 import Settings from '../../assets/images/settings_icon.svg'
 import { Link } from 'react-router-dom'
@@ -28,9 +27,6 @@ export default function Sidebar() {
                     <div>
                         <Link to="#">
                             <img src={Notification} className="h-7 w-7" alt="Notification" />
-                        </Link>
-                        <Link to="#">
-                            <img src={Download} className="h-7 w-7" alt="Download" />
                         </Link>
                         <Link to="#">
                             <img src={Settings} className="h-7 w-7" alt="Settings" />

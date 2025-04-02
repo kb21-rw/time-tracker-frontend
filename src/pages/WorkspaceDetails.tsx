@@ -102,7 +102,7 @@ export default function WorkspaceDetails() {
                                             className="w-full flex justify-between items-center px-3 py-3 rounded-md"
                                         >
                                             <p>{project.names}</p>
-                                            <Pen className="w-4 h-4" />
+                                            <Pen className="w-4 h-4 text-primary-500" />
                                         </div>
                                     ))}
                                 </CollapsibleContent>
