@@ -32,7 +32,6 @@ function WorkspaceForm() {
         try {
             const { meta: responseData } = await dispatch(createWorkspace(data))
             if (responseData.requestStatus === 'fulfilled') {
-                console.log(responseData)
                 toast.success('You have successfully created a workspace!')
             } else {
                 toast.error('Signup failed')

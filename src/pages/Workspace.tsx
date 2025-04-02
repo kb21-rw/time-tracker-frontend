@@ -2,6 +2,9 @@ import Sidebar from '../components/shared/Sidebar'
 import { FaPlus } from 'react-icons/fa6'
 import WorkspaceCard from '../components/card/WorkspaceCard'
 import { Workspaces } from '../util/interfaces'
+import Modal from '../components/shared/shared/Modal'
+import { useState } from 'react'
+import WorkspaceForm from '../components/shared/forms/WorkspaceForm'
 
 const workspaces: Workspaces[] | [] = [
     { id: '1', name: 'The Gym', creationDate: '24/02/2024' },
@@ -11,6 +14,7 @@ const workspaces: Workspaces[] | [] = [
 ]
 
 export default function WorkspacePage() {
+    const [isModalOpen, setIsModalOpen] = useState(false)
     return (
         <div>
             <div className="flex w-full">
@@ -18,7 +22,7 @@ export default function WorkspacePage() {
                 <div className="w-full bg-white">
                     <div className="w-full shadow-md  py-7 px-5 flex justify-between items-center">
                         <p className="text-xl font-bold">Workspaces</p>
-                        <button className="flex items-center gap-x-2 bg-primary-500 rounded-lg text-white px-3 py-2 md:px-5 md:py-3 cursor-pointer">
+                        <button className="flex items-center gap-x-2 bg-primary-500 rounded-lg text-white px-3 py-2 md:px-5 md:py-3 cursor-pointer" onClick={() => setIsModalOpen(true)}>
                             <FaPlus />
                             <span className="hidden sm:inline">New Work Space</span>
                             <span className="sm:hidden">New</span>
@@ -45,6 +49,10 @@ export default function WorkspacePage() {
                     </div>
                 </div>
             </div>
+                        <Modal title="Create work space" isOpen={isModalOpen} onClose={()=> setIsModalOpen(false)}>
+                          
+                          <WorkspaceForm/>
+                        </Modal>
         </div>
     )
 }
