@@ -15,7 +15,7 @@ import { User } from '../../../util/interfaces'
 type workspaceData = z.infer<typeof workspaceShema>
 function WorkspaceForm() {
     const dispatch = useDispatch<AppDispatch>()
-    const { error } = useSelector((state: RootState) => state.workspace)
+    const { error } = useSelector((state: RootState) => state.workspaces)
     const {
         register,
         handleSubmit,
