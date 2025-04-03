@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import api from '../../lib/api'
-import { User, WorkspaceState } from '../../util/interfaces'
+import { WorkspaceState } from '../../util/interfaces'
 
 const initialState: WorkspaceState = {
     workspace: null,
@@ -9,7 +9,7 @@ const initialState: WorkspaceState = {
 }
 export const createWorkspace = createAsyncThunk(
     'workspaces',
-    async (workspaceName: { name: string, user: User }, { rejectWithValue }) => {
+    async (workspaceName: { name: string }, { rejectWithValue }) => {
         try {
             const response = await api.post(`/workspaces`, workspaceName)
             return response.data

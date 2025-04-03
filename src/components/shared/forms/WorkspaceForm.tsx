@@ -30,7 +30,7 @@ function WorkspaceForm() {
             const user = localStorage.getItem('user') as unknown as User
 
             if (user) {
-                const { meta: responseData } = await dispatch(createWorkspace({ ...data, user }))
+                const { meta: responseData } = await dispatch(createWorkspace({ ...data }))
                 if (responseData.requestStatus === 'fulfilled') {
                     toast.success('You have successfully created a workspace!')
                 } else {
