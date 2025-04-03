@@ -33,7 +33,7 @@ export default function WorkspacePage() {
                             <p>Workspace</p>
                             <p>Creation date</p>
                         </div>
-                        <div className="mt-7 flex flex-col gap-y-2">
+                        <div className="mt-7 flex flex-col gap-y-2 mx-8">
                             {workspaces.length > 0 ? (
                                 workspaces.map(({ id, name, created_at: creationDate }) => (
                                     <WorkspaceCard
