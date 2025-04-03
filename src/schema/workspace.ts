@@ -1,6 +1,6 @@
-import { z } from "zod";
+import { z } from 'zod'
 
- export const workspaceShema = z.object({
+export const workspaceShema = z.object({
     name: z
         .string()
         .min(3, { message: 'name must be at least 3 characters' })
