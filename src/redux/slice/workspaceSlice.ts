@@ -3,7 +3,7 @@ import api from '../../lib/api'
 import { WorkspaceState } from '../../util/interfaces'
 
 const initialState: WorkspaceState = {
-    workspace: null,
+    workspaces: [],
     loading: false,
     error: null,
 }
@@ -21,8 +21,22 @@ export const createWorkspace = createAsyncThunk(
         }
     },
 )
+export const getWorkspacesByUser = createAsyncThunk(
+    'workspace/getByUser',
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await api.get('workspaces')
+            return response.data
+        } catch (error: any) {
+            const errorMessage = error.response?.data?.message || 'Fetching workspaces failed'
+            return rejectWithValue(
+                typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage),
+            )
+        }
+    },
+)
 
-const workspaceSlice = createSlice({
+const workspacesSlice = createSlice({
     name: 'workspace',
     initialState,
     reducers: {},
@@ -34,13 +48,25 @@ const workspaceSlice = createSlice({
             })
             .addCase(createWorkspace.fulfilled, (state, action) => {
                 state.loading = false
-                state.workspace = action.payload.workspace
+                state.workspaces.push(action.payload.workspace)
             })
             .addCase(createWorkspace.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.payload
+            })
+            .addCase(getWorkspacesByUser.pending, state => {
+                state.loading = true
+                state.error = null
+            })
+            .addCase(getWorkspacesByUser.fulfilled, (state, action) => {
+                state.loading = false
+                state.workspaces = action.payload
+            })
+            .addCase(getWorkspacesByUser.rejected, (state, action) => {
                 state.loading = false
                 state.error = action.payload
             })
     },
 })
 
-export default workspaceSlice.reducer
+export default workspacesSlice.reducer

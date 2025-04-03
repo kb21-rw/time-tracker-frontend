@@ -1,12 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 import authReducer from './slice/authSlice'
 import counterReducer from './slice/counterSlice'
-import workspaceReducer from './slice/workspaceSlice'
+import workspacesReducer from './slice/workspaceSlice'
 const store = configureStore({
     reducer: {
         counter: counterReducer,
         auth: authReducer,
-        workspace: workspaceReducer,
+        workspaces: workspacesReducer,
     },
 })
 
