@@ -10,7 +10,6 @@ import toast from 'react-hot-toast'
 import { handleAxiosError } from '../../../util/helpers'
 import { AxiosError } from 'axios'
 import { workspaceShema } from '../../../schema/workspace'
-import { User } from '../../../util/interfaces'
 
 type workspaceData = z.infer<typeof workspaceShema>
 function WorkspaceForm() {
@@ -27,15 +26,11 @@ function WorkspaceForm() {
     })
     const onSubmit = async (data: workspaceData) => {
         try {
-            const user = localStorage.getItem('user') as unknown as User
-
-            if (user) {
-                const { meta: responseData } = await dispatch(createWorkspace({ ...data }))
-                if (responseData.requestStatus === 'fulfilled') {
-                    toast.success('You have successfully created a workspace!')
-                } else {
-                    toast.error('creating workspace failed')
-                }
+            const { meta: responseData } = await dispatch(createWorkspace({ ...data }))
+            if (responseData.requestStatus === 'fulfilled') {
+                toast.success('You have successfully created a workspace!')
+            } else {
+                toast.error('creating workspace failed')
             }
         } catch (error) {
             handleAxiosError(error as AxiosError)
