@@ -7,23 +7,26 @@ interface ModalProps {
 function Modal({ title, children, isOpen, onClose }: PropsWithChildren<ModalProps>) {
     if (!isOpen) return null
     return (
-        <section className="fixed inset-0 z-50 overflow-y-auto">
-            <div className="flex min-h-screen items-center justify-center p-4">
-                <div
-                    className="fixed inset-0 bg-black opacity-50 transition-opacity"
-                    onClick={onClose}
-                ></div>
-                <div className=" lg:w-1/2 mt-20 p-10 flex flex-col gap-14 ">
-                    <div className="flex justify-between">
-                        <p className="text-2xl font-inter font-bold">{title}</p>
-                        <button className="text-2xl font-sem-bold" onClick={onClose}>
-                            X
-                        </button>
-                    </div>
-                    {children}
-                </div>
+        <div className="fixed inset-0 z-50 overflow-y-auto ">
+        <div className="flex min-h-screen items-center justify-center p-4 transparent-bg ">
+          <div
+            className="fixed inset-0"
+            onClick={onClose}
+          ></div>
+          <div className="relative bg-white rounded-lg shadow-xl max-w-lg w-full">
+            <div className="flex items-center justify-between p-4 border-b">
+              <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
+              <button
+                onClick={onClose}
+                className="text-gray-400 hover:text-gray-500"
+              >
+                X
+              </button>
             </div>
-        </section>
+            <div className="p-6">{children}</div>
+          </div>
+        </div>
+      </div>
     )
 }
 

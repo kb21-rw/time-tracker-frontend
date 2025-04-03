@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import api from '../../lib/api'
-import { WorkspaceState } from '../../util/interfaces'
+import { User, WorkspaceState } from '../../util/interfaces'
 
 const initialState: WorkspaceState = {
     workspace: null,
@@ -9,7 +9,7 @@ const initialState: WorkspaceState = {
 }
 export const createWorkspace = createAsyncThunk(
     'workspaces',
-    async (workspaceName: { name: string }, { rejectWithValue }) => {
+    async (workspaceName: { name: string, user: User }, { rejectWithValue }) => {
         try {
             const response = await api.post(`/workspaces`, workspaceName)
             return response.data
@@ -37,7 +37,7 @@ const workspaceSlice = createSlice({
                 state.workspace = action.payload.workspace
             })
             .addCase(createWorkspace.rejected, (state, action) => {
-                state.loading = true
+                state.loading = false
                 state.error = action.payload
             })
     },
