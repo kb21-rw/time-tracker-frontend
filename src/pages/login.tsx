@@ -37,7 +37,7 @@ export default function LoginPage() {
             const userData = JSON.parse(user || '{}')
             if (responseData.requestStatus === 'fulfilled') {
                 if (userData.roles === 'Admin') {
-                    navigate('/workspace')
+                    navigate('/manage-workspaces')
                     toast.success('Successfully logged in!')
                 } else {
                     navigate('/dashboard')
