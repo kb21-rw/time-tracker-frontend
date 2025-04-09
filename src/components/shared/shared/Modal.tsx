@@ -1,16 +1,4 @@
-import { Button } from '@/components/shadcn/button'
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from '@/components/shadcn/dialog'
-import { Input } from '@/components/shadcn/input'
-import { Label } from '@/components/shadcn/label'
-import { Title } from '@radix-ui/react-dialog'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/shadcn/dialog'
 import { PropsWithChildren } from 'react'
 
 interface ModalProps {
