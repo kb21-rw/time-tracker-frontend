@@ -71,11 +71,7 @@ export default function WorkspacePage() {
                     <WorkspaceForm />
                 </DialogDemo>
             }
-            {/* <Modal
-               
-            >
-               
-            </Modal> */}
+
         </div>
     )
 }
