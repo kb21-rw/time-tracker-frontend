@@ -14,7 +14,7 @@ import { workspaceShema } from '../../../schema/workspace'
 type workspaceData = z.infer<typeof workspaceShema>
 function WorkspaceForm() {
     const dispatch = useDispatch<AppDispatch>()
-    const { error } = useSelector((state: RootState) => state.workspaces)
+    const {loading, error } = useSelector((state: RootState) => state.workspaces)
     const {
         register,
         handleSubmit,
@@ -50,7 +50,7 @@ function WorkspaceForm() {
                     {typeof error === 'string' ? error : JSON.stringify(error)}
                 </p>
             )}
-            <Button className="w-full" disabled={!isValid}>
+            <Button className="w-full" disabled={!isValid}  isLoading={loading}>
                 Create WorkSpace
             </Button>
         </form>

@@ -5,19 +5,18 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../redux/store'
 import { useEffect, useState } from 'react'
 import { getWorkspacesByUser } from '../redux/slice/workspaceSlice'
-import Modal from '@/components/shared/shared/Modal'
+import DialogDemo from '@/components/shared/shared/Modal'
 import WorkspaceForm from '@/components/shared/forms/WorkspaceForm'
+
 export default function WorkspacePage() {
     const [isModalOpen, setIsModalOpen] = useState(false)
 
     const dispatch = useDispatch<AppDispatch>()
     const { workspaces, error, loading } = useSelector((state: RootState) => state.workspaces)
+
     useEffect(() => {
         dispatch(getWorkspacesByUser())
     }, [dispatch])
-
-    if (loading) return `loading`
-    if (error) return error
 
     return (
         <div>
@@ -62,13 +61,21 @@ export default function WorkspacePage() {
                     </div>
                 </div>
             </div>
-            <Modal
-                title="Create work space"
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
+
+            {
+                <DialogDemo
+                    title="Create workspace"
+                    isModalOpen={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                >
+                    <WorkspaceForm />
+                </DialogDemo>
+            }
+            {/* <Modal
+               
             >
-                <WorkspaceForm />
-            </Modal>
+               
+            </Modal> */}
         </div>
     )
 }
