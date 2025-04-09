@@ -12,7 +12,7 @@ export default function WorkspacePage() {
     const [isModalOpen, setIsModalOpen] = useState(false)
 
     const dispatch = useDispatch<AppDispatch>()
-    const { workspaces, error, loading } = useSelector((state: RootState) => state.workspaces)
+    const { workspaces } = useSelector((state: RootState) => state.workspaces)
 
     useEffect(() => {
         dispatch(getWorkspacesByUser())
@@ -71,7 +71,6 @@ export default function WorkspacePage() {
                     <WorkspaceForm />
                 </DialogDemo>
             }
-
         </div>
     )
 }
