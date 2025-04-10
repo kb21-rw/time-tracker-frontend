@@ -32,7 +32,7 @@ export default function ManageWorkspacesPage() {
                 dispatch(getWorkspacesByUser())
                 setIsModalOpen(false)
             } else {
-                toast.error('creating workspace failed')
+                toast.error('Creating workspace failed')
             }
         } catch (error) {
             handleAxiosError(error as AxiosError)
