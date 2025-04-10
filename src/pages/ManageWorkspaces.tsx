@@ -1,16 +1,20 @@
 import Sidebar from '../components/shared/Sidebar'
 import { FaPlus } from 'react-icons/fa6'
 import WorkspaceCard from '../components/card/WorkspaceCard'
-import { Workspaces } from '../util/interfaces'
+import { useDispatch, useSelector } from 'react-redux'
+import { AppDispatch, RootState } from '../redux/store'
+import { useEffect } from 'react'
+import { getWorkspacesByUser } from '../redux/slice/workspaceSlice'
+export default function ManageWorkspacesPage() {
+    const dispatch = useDispatch<AppDispatch>()
+    const { workspaces, error, loading } = useSelector((state: RootState) => state.workspaces)
+    useEffect(() => {
+        dispatch(getWorkspacesByUser())
+    }, [dispatch])
 
-const workspaces: Workspaces[] | [] = [
-    { id: '1', name: 'The Gym', creationDate: '24/02/2024' },
-    { id: '2', name: 'Alu', creationDate: '30/03/2025' },
-    { id: '3', name: 'Kepler', creationDate: '29/06/2023' },
-    { id: '3', name: 'AUCA', creationDate: '09/11/2025' },
-]
+    if (loading) return `loading`
+    if (error) return error
 
-export default function WorkspacePage() {
     return (
         <div>
             <div className="flex w-full">
@@ -29,13 +33,13 @@ export default function WorkspacePage() {
                             <p>Workspace</p>
                             <p>Creation date</p>
                         </div>
-                        <div className="mt-7 flex flex-col gap-y-2">
+                        <div className="mt-7 flex flex-col gap-y-2 mx-8">
                             {workspaces.length > 0 ? (
-                                workspaces.map(workspace => (
+                                workspaces.map(({ id, name, created_at: creationDate }) => (
                                     <WorkspaceCard
-                                        key={workspace.id}
-                                        name={workspace.name}
-                                        creationDate={workspace.creationDate}
+                                        key={id}
+                                        name={name}
+                                        creationDate={creationDate}
                                     ></WorkspaceCard>
                                 ))
                             ) : (

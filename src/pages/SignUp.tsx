@@ -1,43 +1,50 @@
-import FocusFlowHeader from '../components/shared/FocusFlowHeader'
-import LoginImage from '../assets/images/landing-image.svg'
 import { z } from 'zod'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { SubmitHandler, useForm } from 'react-hook-form'
-import Input from '../components/shared/Input'
-import { Link, useNavigate } from 'react-router-dom'
+import SignUpImage from '../assets/images/signup-image.svg'
 import Button from '../components/shared/Button'
-import { loginSchema } from '../schema'
-import { useDispatch, useSelector } from 'react-redux'
+import Input from '../components/shared/Input'
+import { SubmitHandler, useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { AppDispatch, RootState } from '../redux/store'
-import { loginUser } from '../redux/slice/authSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { signupUser } from '../redux/slice/authSlice'
 import toast from 'react-hot-toast'
+import { Link, useNavigate } from 'react-router-dom'
 import { handleAxiosError } from '../util/helpers'
 import { AxiosError } from 'axios'
+import { signUpSchema } from '../schema'
+import FocusFlowHeader from '../components/shared/FocusFlowHeader'
 
-type FormFields = z.infer<typeof loginSchema>
-export default function LoginPage() {
+type FormFields = z.infer<typeof signUpSchema>
+
+const defaultValues: FormFields = {
+    fullName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+}
+
+export default function SignUpPage() {
     const dispatch = useDispatch<AppDispatch>()
     const { loading, error } = useSelector((state: RootState) => state.auth)
-    const navigate = useNavigate()
-
     const {
         register,
         handleSubmit,
         formState: { errors, isValid },
     } = useForm<FormFields>({
-        resolver: zodResolver(loginSchema),
+        resolver: zodResolver(signUpSchema),
         mode: 'all',
-        defaultValues: { email: '', password: '' },
+        defaultValues,
     })
+    const navigate = useNavigate()
 
-    const onSubmit: SubmitHandler<FormFields> = async data => {
+    const onSubmit: SubmitHandler<FormFields> = async ({ confirmPassword, ...data }) => {
         try {
-            const { meta: responseData } = await dispatch(loginUser(data))
+            const { meta: responseData } = await dispatch(signupUser(data))
             if (responseData.requestStatus === 'fulfilled') {
-                navigate('/dashboard')
-                toast.success('Successfully logged in!')
+                navigate('/login')
+                toast.success('You have successfully created an account!')
             } else {
-                toast.error('Login failed')
+                toast.error('Signup failed')
             }
         } catch (error) {
             handleAxiosError(error as AxiosError)
@@ -49,49 +56,60 @@ export default function LoginPage() {
             <FocusFlowHeader />
             <div className="flex h-full justify-between items-center">
                 <img
-                    src={LoginImage}
+                    src={SignUpImage}
                     className="hidden lg:block  max-w-lg"
-                    alt="login page image"
+                    alt="signup page image"
                 />
-                <div className="flex flex-col justify-between w-full lg:w-2/5 relative">
-                    <h1 className="text-4xl font-bold my-8">Sign in as an admin</h1>
+                <div className="flex flex-col w-full lg:w-2/5">
                     <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
+                        <Input
+                            id="fullName"
+                            label="Full Name:"
+                            placeholder="Full name"
+                            register={register('fullName')}
+                            error={errors.fullName}
+                        />
                         <Input
                             id="email"
                             label="Email Address:"
-                            placeholder="Enter your email"
+                            placeholder="email@gmail.com"
                             register={register('email')}
                             error={errors.email}
-                            type="email"
                         />
                         <Input
                             id="password"
                             label="Password:"
-                            placeholder="Enter your password"
+                            type="password"
+                            placeholder="password"
                             register={register('password')}
                             error={errors.password}
+                        />
+                        <Input
+                            id="confirmPassword"
+                            label="Confirm Password:"
                             type="password"
+                            placeholder="password"
+                            register={register('confirmPassword')}
+                            error={errors.confirmPassword}
                         />
                         {error && (
                             <p className="text-red-500 text-sm mt-2">
                                 {typeof error === 'string' ? error : JSON.stringify(error)}
                             </p>
                         )}
-                        <Link to="/forgot-password" className="absolute right-0 text-primary-600 ">
-                            Forgot password?
-                        </Link>
+
                         <Button
-                            className="text-xl w-full mt-14"
+                            className="text-xl w-full mt-6"
                             isLoading={loading}
                             disabled={!isValid || loading}
                         >
-                            Sign In
+                            Create Account
                         </Button>
                     </form>
                     <p className="text-center mt-8 text-lg">
-                        Don't have an account?{' '}
-                        <Link to="/" className="text-primary-600">
-                            Create account
+                        Already have an account?{' '}
+                        <Link to="/login" className="text-primary-600">
+                            Log in
                         </Link>
                     </p>
                 </div>
