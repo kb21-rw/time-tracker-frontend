@@ -51,7 +51,7 @@ const workspacesSlice = createSlice({
                 state.workspaces.push(action.payload.workspace)
             })
             .addCase(createWorkspace.rejected, (state, action) => {
-                state.loading = true
+                state.loading = false
                 state.error = action.payload
             })
             .addCase(getWorkspacesByUser.pending, state => {
@@ -63,7 +63,7 @@ const workspacesSlice = createSlice({
                 state.workspaces = action.payload
             })
             .addCase(getWorkspacesByUser.rejected, (state, action) => {
-                state.loading = true
+                state.loading = false
                 state.error = action.payload
             })
     },
