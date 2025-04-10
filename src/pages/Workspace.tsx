@@ -4,9 +4,14 @@ import WorkspaceCard from '../components/card/WorkspaceCard'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../redux/store'
 import { useEffect, useState } from 'react'
-import { getWorkspacesByUser } from '../redux/slice/workspaceSlice'
+import { createWorkspace, getWorkspacesByUser } from '../redux/slice/workspaceSlice'
 import DialogDemo from '@/components/shared/shared/Modal'
 import WorkspaceForm from '@/components/shared/forms/WorkspaceForm'
+import { z } from 'zod'
+import { workspaceShema } from '@/schema/workspace'
+import toast from 'react-hot-toast'
+import { handleAxiosError } from '@/util/helpers'
+import { AxiosError } from 'axios'
 
 export default function WorkspacePage() {
     const [isModalOpen, setIsModalOpen] = useState(false)
@@ -17,7 +22,22 @@ export default function WorkspacePage() {
     useEffect(() => {
         dispatch(getWorkspacesByUser())
     }, [dispatch])
+    type workspaceData = z.infer<typeof workspaceShema>
 
+    const handleWorkspaceSubmit = async (data: workspaceData) => {
+        try {
+            const { meta: responseData } = await dispatch(createWorkspace({ ...data }))
+            if (responseData.requestStatus === 'fulfilled') {
+                toast.success('You have successfully created a workspace!')
+                dispatch(getWorkspacesByUser())
+                setIsModalOpen(false)
+            } else {
+                toast.error('creating workspace failed')
+            }
+        } catch (error) {
+            handleAxiosError(error as AxiosError)
+        }
+    }
     return (
         <div>
             <div className="flex w-full">
@@ -68,7 +88,7 @@ export default function WorkspacePage() {
                     isModalOpen={isModalOpen}
                     onClose={() => setIsModalOpen(false)}
                 >
-                    <WorkspaceForm />
+                    <WorkspaceForm handleWorkspaceSubmit={handleWorkspaceSubmit} />
                 </DialogDemo>
             }
         </div>

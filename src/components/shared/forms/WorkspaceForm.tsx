@@ -3,17 +3,16 @@ import Button from '../ui/Button'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useDispatch, useSelector } from 'react-redux'
-import { AppDispatch, RootState } from '../../../redux/store'
-import { createWorkspace } from '../../../redux/slice/workspaceSlice'
-import toast from 'react-hot-toast'
-import { handleAxiosError } from '../../../util/helpers'
-import { AxiosError } from 'axios'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../../redux/store'
 import { workspaceShema } from '../../../schema/workspace'
 
 type workspaceData = z.infer<typeof workspaceShema>
-function WorkspaceForm() {
-    const dispatch = useDispatch<AppDispatch>()
+
+interface WorkspaceFormProps {
+    handleWorkspaceSubmit: (data: workspaceData) => void
+}
+function WorkspaceForm({ handleWorkspaceSubmit }: Readonly<WorkspaceFormProps>) {
     const { loading, error } = useSelector((state: RootState) => state.workspaces)
     const {
         register,
@@ -24,20 +23,9 @@ function WorkspaceForm() {
         mode: 'all',
         defaultValues: { name: '' },
     })
-    const onSubmit = async (data: workspaceData) => {
-        try {
-            const { meta: responseData } = await dispatch(createWorkspace({ ...data }))
-            if (responseData.requestStatus === 'fulfilled') {
-                toast.success('You have successfully created a workspace!')
-            } else {
-                toast.error('creating workspace failed')
-            }
-        } catch (error) {
-            handleAxiosError(error as AxiosError)
-        }
-    }
+
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(handleWorkspaceSubmit)}>
             <Input
                 label="Enter workSpace name"
                 placeholder="Enter workSpace name"
