@@ -4,54 +4,21 @@ import { Download, ChevronDown, Plus, Pen } from 'lucide-react'
 import UsersTable from '../components/ui/UsersTable'
 import { columns } from '../components/ui/columns'
 import { TableUser } from '@/util/interfaces'
+import { Group } from '../util/interfaces'
 import {
     Collapsible,
     CollapsibleContent,
     CollapsibleTrigger,
 } from '@/components/shadcn/collapsible'
 import { useLocation, Navigate } from 'react-router-dom'
+import userData from '../data/users.json'
+import groupData from '../data/groups.json'
 export default function WorkspaceDetails() {
     const { state } = useLocation()
     if (!state) return <Navigate to="/workspace" />
     const { name } = state
-    const data: TableUser[] = [
-        {
-            id: '728ed52f',
-            names: 'John Doe',
-            email: 'john.doe@example.com',
-        },
-        {
-            id: '728ed52f',
-            names: 'John Doe',
-            email: 'john.doe@example.com',
-        },
-    ]
-    const groups = [
-        {
-            id: '728ed52f',
-            name: 'Group 1',
-            projects: [
-                {
-                    id: '728ed52f',
-                    names: 'Project 1',
-                },
-                {
-                    id: '728ed52f',
-                    names: 'Project 2',
-                },
-            ],
-        },
-        {
-            id: '728ed52f',
-            name: 'Group 2',
-            projects: [
-                {
-                    id: '728ed52f',
-                    names: 'Project x',
-                },
-            ],
-        },
-    ]
+    const data: TableUser[] = userData
+    const groups: Group[] = groupData
     return (
         <div className="flex w-full justify-around">
             <div className="w-27">

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../redux/store'
 import { useEffect } from 'react'
 import { getWorkspacesByUser } from '../redux/slice/workspaceSlice'
-export default function WorkspacePage() {
+export default function ManageWorkspacesPage() {
     const dispatch = useDispatch<AppDispatch>()
     const { workspaces, error, loading } = useSelector((state: RootState) => state.workspaces)
     useEffect(() => {

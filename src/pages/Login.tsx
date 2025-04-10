@@ -37,7 +37,7 @@ export default function LoginPage() {
             const userData = JSON.parse(user || '{}')
             if (responseData.requestStatus === 'fulfilled') {
                 if (userData.roles === 'Admin') {
-                    navigate('/workspace')
+                    navigate('/manage-workspaces')
                     toast.success('Successfully logged in!')
                 } else {
                     navigate('/dashboard')
@@ -97,7 +97,7 @@ export default function LoginPage() {
                     </form>
                     <p className="text-center mt-8 text-lg">
                         Don't have an account?{' '}
-                        <Link to="/" className="text-primary-600">
+                        <Link to="/sign-up" className="text-primary-600">
                             Create account
                         </Link>
                     </p>
