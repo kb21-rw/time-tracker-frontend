@@ -5,7 +5,7 @@ import LoginPage from '../pages/Login'
 import DashboardPage from '../pages/Dashboard'
 import ForgotPasswordPage from '../pages/password-reset/ForgotPassword'
 import ResetPasswordPage from '../pages/password-reset/ResetPassword'
-import ManageWorkspacePage from '../pages/ManageWorkspace'
+import ManageWorkspacesPage from '../pages/ManageWorkspaces'
 import WorkspaceDetails from '../pages/WorkspaceDetails'
 
 export const router = createBrowserRouter([
@@ -35,7 +35,7 @@ export const router = createBrowserRouter([
     },
     {
         path: '/manage-workspaces',
-        element: <ManageWorkspacePage />,
+        element: <ManageWorkspacesPage />,
     },
     {
         path: '/workspace-details',
