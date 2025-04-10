@@ -1,11 +1,11 @@
 import { createBrowserRouter } from 'react-router-dom'
-import LandingPage from '../pages/landing'
-import SignUpPage from '../pages/sign-up'
-import LoginPage from '../pages/login'
-import DashboardPage from '../pages/dashboard'
-import ForgotPasswordPage from '../pages/password-reset/forgot-password'
-import ResetPasswordPage from '../pages/password-reset/reset-password'
-import WorkspacePage from '../pages/Workspace'
+import LandingPage from '../pages/Landing'
+import SignUpPage from '../pages/SignUp'
+import LoginPage from '../pages/Login'
+import DashboardPage from '../pages/Dashboard'
+import ForgotPasswordPage from '../pages/password-reset/ForgotPassword'
+import ResetPasswordPage from '../pages/password-reset/ResetPassword'
+import ManageWorkspacesPage from '../pages/ManageWorkspaces'
 import WorkspaceDetails from '../pages/WorkspaceDetails'
 
 export const router = createBrowserRouter([
@@ -34,8 +34,8 @@ export const router = createBrowserRouter([
         element: <ResetPasswordPage />,
     },
     {
-        path: '/workspace',
-        element: <WorkspacePage />,
+        path: '/manage-workspaces',
+        element: <ManageWorkspacesPage />,
     },
     {
         path: '/workspace-details',

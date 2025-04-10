@@ -1,6 +1,6 @@
 import LandingImage from '../assets/images/landing-image.svg'
 import { Link } from 'react-router-dom'
-import FocusFlowHeader from '../components/shared/FocusFlowHeader'
+import FocusFlowHeader from '../components/shared/ui/FocusFlowHeader'
 
 export default function LandingPage() {
     return (
@@ -23,7 +23,7 @@ export default function LandingPage() {
                 </div>
                 <img
                     src={LandingImage}
-                    alt="landing page Image"
+                    alt="Landing page illustration"
                     className="lg:block hidden w-2/5 mr-20"
                 />
             </div>

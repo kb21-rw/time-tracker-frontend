@@ -1,18 +1,18 @@
 import { z } from 'zod'
 import SignUpImage from '../assets/images/signup-image.svg'
-import Button from '../components/shared/Button'
-import Input from '../components/shared/Input'
+import Button from '../components/shared/ui/Button'
+import Input from '../components/shared/ui/Input'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { AppDispatch, RootState } from '../redux/store'
 import { useDispatch, useSelector } from 'react-redux'
 import { signupUser } from '../redux/slice/authSlice'
 import toast from 'react-hot-toast'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { handleAxiosError } from '../util/helpers'
 import { AxiosError } from 'axios'
 import { signUpSchema } from '../schema'
-import FocusFlowHeader from '../components/shared/FocusFlowHeader'
+import FocusFlowHeader from '../components/shared/ui/FocusFlowHeader'
 
 type FormFields = z.infer<typeof signUpSchema>
 
@@ -58,7 +58,7 @@ export default function SignUpPage() {
                 <img
                     src={SignUpImage}
                     className="hidden lg:block  max-w-lg"
-                    alt="signup page image"
+                    alt="signup page illustration"
                 />
                 <div className="flex flex-col w-full lg:w-2/5">
                     <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
@@ -106,6 +106,12 @@ export default function SignUpPage() {
                             Create Account
                         </Button>
                     </form>
+                    <p className="text-center mt-8 text-lg">
+                        Already have an account?{' '}
+                        <Link to="/login" className="text-primary-600">
+                            Log in
+                        </Link>
+                    </p>
                 </div>
             </div>
         </div>

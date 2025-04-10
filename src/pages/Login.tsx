@@ -1,11 +1,11 @@
-import FocusFlowHeader from '../components/shared/FocusFlowHeader'
+import FocusFlowHeader from '../components/shared/ui/FocusFlowHeader'
 import LoginImage from '../assets/images/landing-image.svg'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import Input from '../components/shared/Input'
+import Input from '../components/shared/ui/Input'
 import { Link, useNavigate } from 'react-router-dom'
-import Button from '../components/shared/Button'
+import Button from '../components/shared/ui/Button'
 import { loginSchema } from '../schema'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../redux/store'
@@ -33,9 +33,16 @@ export default function LoginPage() {
     const onSubmit: SubmitHandler<FormFields> = async data => {
         try {
             const { meta: responseData } = await dispatch(loginUser(data))
+            const user = localStorage.getItem('user')
+            const userData = JSON.parse(user || '{}')
             if (responseData.requestStatus === 'fulfilled') {
-                navigate('/workspace')
-                toast.success('Successfully logged in!')
+                if (userData.roles === 'Admin') {
+                    navigate('/manage-workspaces')
+                    toast.success('Successfully logged in!')
+                } else {
+                    navigate('/dashboard')
+                    toast.success('Successfully logged in!')
+                }
             } else {
                 toast.error('Login failed')
             }
@@ -90,7 +97,7 @@ export default function LoginPage() {
                     </form>
                     <p className="text-center mt-8 text-lg">
                         Don't have an account?{' '}
-                        <Link to="/" className="text-primary-600">
+                        <Link to="/sign-up" className="text-primary-600">
                             Create account
                         </Link>
                     </p>
