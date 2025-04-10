@@ -13,7 +13,7 @@ import toast from 'react-hot-toast'
 import { handleAxiosError } from '@/util/helpers'
 import { AxiosError } from 'axios'
 
-export default function WorkspacePage() {
+export default function ManageWorkspacesPage() {
     const [isModalOpen, setIsModalOpen] = useState(false)
 
     const dispatch = useDispatch<AppDispatch>()

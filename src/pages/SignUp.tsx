@@ -8,7 +8,7 @@ import { AppDispatch, RootState } from '../redux/store'
 import { useDispatch, useSelector } from 'react-redux'
 import { signupUser } from '../redux/slice/authSlice'
 import toast from 'react-hot-toast'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { handleAxiosError } from '../util/helpers'
 import { AxiosError } from 'axios'
 import { signUpSchema } from '../schema'
@@ -106,6 +106,12 @@ export default function SignUpPage() {
                             Create Account
                         </Button>
                     </form>
+                    <p className="text-center mt-8 text-lg">
+                        Already have an account?{' '}
+                        <Link to="/login" className="text-primary-600">
+                            Log in
+                        </Link>
+                    </p>
                 </div>
             </div>
         </div>

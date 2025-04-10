@@ -63,3 +63,13 @@ export type TableUser = {
     email: string
     actions?: string
 }
+export interface Project {
+    id: string
+    names: string
+}
+
+export interface Group {
+    id: string
+    name: string
+    projects: Project[]
+}
