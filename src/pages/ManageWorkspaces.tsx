@@ -8,10 +8,12 @@ import { createWorkspace, getWorkspacesByUser } from '../redux/slice/workspaceSl
 import DialogDemo from '@/components/shared/shared/Modal'
 import WorkspaceForm from '@/components/shared/forms/WorkspaceForm'
 import { z } from 'zod'
-import { workspaceShema } from '@/schema/workspace'
+import { workspaceShema } from '@/schema/modal'
 import toast from 'react-hot-toast'
 import { handleAxiosError } from '@/util/helpers'
 import { AxiosError } from 'axios'
+
+export type workspaceData = z.infer<typeof workspaceShema>
 
 export default function ManageWorkspacesPage() {
     const [isModalOpen, setIsModalOpen] = useState(false)
@@ -22,7 +24,6 @@ export default function ManageWorkspacesPage() {
     useEffect(() => {
         dispatch(getWorkspacesByUser())
     }, [dispatch])
-    type workspaceData = z.infer<typeof workspaceShema>
 
     const handleWorkspaceSubmit = async (data: workspaceData) => {
         try {
@@ -69,6 +70,7 @@ export default function ManageWorkspacesPage() {
                                         return (
                                             <WorkspaceCard
                                                 key={id}
+                                                id={id}
                                                 name={name}
                                                 creationDate={creationDate}
                                             ></WorkspaceCard>
