@@ -60,4 +60,4 @@ function InviteUserForm({ workspaceId, handleWorkspaceSubmit }: Readonly<InviteU
     )
 }
 
-export default InviteUserForm;
+export default InviteUserForm
