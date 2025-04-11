@@ -43,6 +43,7 @@ export interface WorkspaceState {
 }
 
 export interface WorkspaceProps {
+    id: string
     name: string
     creationDate: string
 }
@@ -72,4 +73,8 @@ export interface Group {
     id: string
     name: string
     projects: Project[]
+}
+export interface WorkspaceRenameProps {
+    id: string
+    setIsModalOpen: (value: React.SetStateAction<boolean>) => void
 }
