@@ -1,4 +1,4 @@
-import { ButtonProps } from '../../util/interfaces'
+import { ButtonProps } from '../../../util/interfaces'
 import LoadingSpinner from './LoadingSpinner'
 
 export default function Button({ isLoading, className, disabled, children }: ButtonProps) {
