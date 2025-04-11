@@ -70,6 +70,7 @@ export default function ManageWorkspacesPage() {
                                             <WorkspaceCard
                                                 key={id}
                                                 name={name}
+                                                workspaceId = {id}
                                                 creationDate={creationDate}
                                             ></WorkspaceCard>
                                         )

@@ -38,7 +38,7 @@ export const router = createBrowserRouter([
         element: <ManageWorkspacesPage />,
     },
     {
-        path: '/workspace-details',
+        path: ':workspaceId',
         element: <WorkspaceDetails />,
     },
 ])

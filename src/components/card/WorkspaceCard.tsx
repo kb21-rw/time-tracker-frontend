@@ -6,7 +6,7 @@ import { formatDate } from '../../util/helpers'
 export default function WorkspaceCard(props: WorkspaceProps) {
     const formattedDate = formatDate(props.creationDate)
     return (
-        <Link to="/workspace-details" state={{ name: props.name }}>
+        <Link to={`/${props.workspaceId}`} state={{ name: props.name, workspaceId: props.workspaceId }}>
             <div className="border rounded-full border-gray-200 py-3 md:py-4">
                 <div className="flex justify-between items-center px-4 md:px-11">
                     <p className=" text-sm md:text-lg">{props.name}</p>
