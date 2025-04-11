@@ -43,6 +43,7 @@ export interface WorkspaceState {
 }
 
 export interface WorkspaceProps {
+    workspaceId: string
     name: string
     creationDate: string
 }
