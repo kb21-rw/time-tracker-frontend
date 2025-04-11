@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../redux/store'
-import { workspaceShema } from '../../../schema/workspace'
+import { workspaceShema } from '../../../schema/modal'
 import { workspaceData } from '@/pages/ManageWorkspaces'
 
 interface WorkspaceFormProps {
