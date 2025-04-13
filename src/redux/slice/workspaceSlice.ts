@@ -52,7 +52,8 @@ export const inviteUser = createAsyncThunk(
                 typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage),
             )
         }
-    })
+    },
+)
 
 export const renameWorkspace = createAsyncThunk(
     'workspace/rename',
