@@ -5,7 +5,7 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../redux/store'
-import { inviteUserSchema } from '../../../schema/workspace'
+import { inviteUserSchema } from '../../../schema/modal'
 
 type inviteUserData = z.infer<typeof inviteUserSchema>
 

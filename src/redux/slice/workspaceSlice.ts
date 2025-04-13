@@ -14,7 +14,7 @@ export const createWorkspace = createAsyncThunk(
             const response = await api.post(`/workspaces`, workspaceName)
             return response.data
         } catch (error: any) {
-            const errorMessage = error.response?.data?.message || 'creating Workspace faile'
+            const errorMessage = error.response?.data?.message || 'creating Workspace failed'
             return rejectWithValue(
                 typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage),
             )
@@ -48,6 +48,20 @@ export const inviteUser = createAsyncThunk(
             return response.data
         } catch (error: any) {
             const errorMessage = error.response?.data?.message || 'Failed to invite user'
+            return rejectWithValue(
+                typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage),
+            )
+        }
+    })
+
+export const renameWorkspace = createAsyncThunk(
+    'workspace/rename',
+    async ({ name, id }: { name: string; id: string }, { rejectWithValue }) => {
+        try {
+            await api.patch(`workspaces/${id}`, { name })
+            return { id, name }
+        } catch (error: any) {
+            const errorMessage = error.response.data.message || 'Renaming workspace failed'
             return rejectWithValue(
                 typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage),
             )
@@ -93,6 +107,24 @@ const workspacesSlice = createSlice({
                 state.loading = false
             })
             .addCase(inviteUser.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.payload
+            })
+            .addCase(renameWorkspace.pending, state => {
+                state.loading = true
+                state.error = null
+            })
+            .addCase(renameWorkspace.fulfilled, (state, action) => {
+                state.loading = false
+                const index = state.workspaces.findIndex(
+                    workspace => workspace.id === action.payload.id,
+                )
+                if (index !== -1) {
+                    state.workspaces[index].name = action.payload.name
+                }
+                state.workspaces[1].name
+            })
+            .addCase(renameWorkspace.rejected, (state, action) => {
                 state.loading = false
                 state.error = action.payload
             })
