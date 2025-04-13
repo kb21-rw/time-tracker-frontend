@@ -32,7 +32,7 @@ function InviteUserForm({ workspaceId, handleWorkspaceSubmit }: Readonly<InviteU
     return (
         <form onSubmit={handleSubmit(handleInviteSubmit)}>
             <Input
-                label="User’ Full Name"
+                label="User’s Full Name"
                 id="fullName"
                 register={register('fullName')}
                 error={errors.fullName}
@@ -43,7 +43,7 @@ function InviteUserForm({ workspaceId, handleWorkspaceSubmit }: Readonly<InviteU
                 </p>
             )}
             <Input
-                label="User Email"
+                label="User's Email"
                 id="email"
                 register={register('email')}
                 error={errors.email}
