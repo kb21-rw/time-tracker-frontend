@@ -6,7 +6,7 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { AppDispatch, RootState } from '../redux/store'
 import { useDispatch, useSelector } from 'react-redux'
-import { signupUser } from '../redux/slice/authSlice'
+import { signupAdmin } from '../redux/slice/authSlice'
 import toast from 'react-hot-toast'
 import { Link, useNavigate } from 'react-router-dom'
 import { handleAxiosError } from '../util/helpers'
@@ -39,7 +39,7 @@ export default function SignUpPage() {
 
     const onSubmit: SubmitHandler<FormFields> = async ({ confirmPassword, ...data }) => {
         try {
-            const { meta: responseData } = await dispatch(signupUser(data))
+            const { meta: responseData } = await dispatch(signupAdmin(data))
             if (responseData.requestStatus === 'fulfilled') {
                 navigate('/login')
                 toast.success('You have successfully created an account!')
