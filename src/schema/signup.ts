@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export const signUpSchema = z
+export const  signUpSchema = z
     .object({
         fullName: z.string().refine(value => value.trim().split(/\s+/).length >= 2, {
             message: 'Please enter your full name (first and last name)',

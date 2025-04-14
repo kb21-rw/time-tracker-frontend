@@ -45,7 +45,7 @@ function UserSignUp() {
                             error={errors.ConfirmPassword}
                         />
                         <Link
-                            to="/login"
+                            to=""
                             className="text-primary-600 text-lg flex justify-end font-inter"
                         >
                             Already have an accaunt
