@@ -35,10 +35,15 @@ export const router = createBrowserRouter([
     },
     {
         path: '/manage-workspaces',
-        element: <ManageWorkspacesPage />,
-    },
-    {
-        path: ':workspaceId',
-        element: <WorkspaceDetails />,
+        children: [
+            {
+                index: true,
+                element: <ManageWorkspacesPage />,
+            },
+            {
+                path: ':id',
+                element: <WorkspaceDetails />,
+            },
+        ],
     },
 ])
