@@ -7,6 +7,7 @@ import ForgotPasswordPage from '../pages/password-reset/ForgotPassword'
 import ResetPasswordPage from '../pages/password-reset/ResetPassword'
 import ManageWorkspacesPage from '../pages/ManageWorkspaces'
 import WorkspaceDetails from '../pages/WorkspaceDetails'
+import UserSignUp from '@/pages/UserSignUp'
 
 export const router = createBrowserRouter([
     {
@@ -40,5 +41,9 @@ export const router = createBrowserRouter([
     {
         path: '/workspace-details',
         element: <WorkspaceDetails />,
+    },
+    {
+        path: '/user-signUp',
+        element: <UserSignUp />,
     },
 ])
