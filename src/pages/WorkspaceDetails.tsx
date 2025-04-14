@@ -17,7 +17,6 @@ import { useState } from 'react'
 import DialogDemo from '@/components/shared/shared/Modal'
 import InviteUserForm from '@/components/shared/forms/InviteUserForm'
 
-
 export default function WorkspaceDetails() {
     const { state } = useLocation()
     const { id } = useParams<{ id: string }>()

@@ -14,14 +14,13 @@ import { InviteUserFormProps } from '@/util/interfaces'
 
 type inviteUserData = z.infer<typeof inviteUserSchema>
 
-
 function InviteUserForm({ id, setIsModalOpen }: Readonly<InviteUserFormProps>) {
-     const { loading, error } = useSelector((state: RootState) => state.workspaces)
-     const dispatch = useDispatch<AppDispatch>()
+    const { loading, error } = useSelector((state: RootState) => state.workspaces)
+    const dispatch = useDispatch<AppDispatch>()
 
     async function handleInviteUser(userData: inviteUserData) {
         try {
-            const { meta: responseData } = await dispatch(inviteUser({ userData, id}))
+            const { meta: responseData } = await dispatch(inviteUser({ userData, id }))
 
             if (responseData.requestStatus === 'fulfilled') {
                 toast.success('You have successfully invited a new user to this workspace')
@@ -43,7 +42,6 @@ function InviteUserForm({ id, setIsModalOpen }: Readonly<InviteUserFormProps>) {
         mode: 'all',
         defaultValues: { fullName: '', email: '' },
     })
-   
 
     return (
         <form onSubmit={handleSubmit(handleInviteUser)}>
