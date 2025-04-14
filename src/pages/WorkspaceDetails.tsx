@@ -16,42 +16,16 @@ import groupData from '../data/groups.json'
 import { useState } from 'react'
 import DialogDemo from '@/components/shared/shared/Modal'
 import InviteUserForm from '@/components/shared/forms/InviteUserForm'
-import { useDispatch } from 'react-redux'
-import { AppDispatch } from '@/redux/store'
-import { inviteUser } from '@/redux/slice/workspaceSlice'
-import { z } from 'zod'
-import { inviteUserSchema } from '../schema/modal'
-import toast from 'react-hot-toast'
-import { handleAxiosError } from '@/util/helpers'
-import { AxiosError } from 'axios'
+
 
 export default function WorkspaceDetails() {
     const { state } = useLocation()
-    const { workspaceId } = useParams<{ workspaceId: string }>()
+    const { id } = useParams<{ id: string }>()
     const [isModalOpen, setIsModalOpen] = useState(false)
-    if (!state || !workspaceId) return <Navigate to="/workspace" />
+    if (!state || !id) return <Navigate to="/manage-workspaces" />
     const { name } = state
     const data: TableUser[] = userData
     const groups: Group[] = groupData
-
-    const dispatch = useDispatch<AppDispatch>()
-
-    type inviteUserData = z.infer<typeof inviteUserSchema>
-
-    async function handleWorkspaceSubmit(workspaceId: string, userData: inviteUserData) {
-        try {
-            const { meta: responseData } = await dispatch(inviteUser({ workspaceId, userData }))
-
-            if (responseData.requestStatus === 'fulfilled') {
-                toast.success('You have successfully invited user on a workspace')
-                setIsModalOpen(false)
-            } else {
-                toast.error('Failed to invite user')
-            }
-        } catch (error) {
-            handleAxiosError(error as AxiosError)
-        }
-    }
 
     return (
         <>
@@ -125,10 +99,7 @@ export default function WorkspaceDetails() {
                     isModalOpen={isModalOpen}
                     onClose={() => setIsModalOpen(false)}
                 >
-                    <InviteUserForm
-                        workspaceId={workspaceId}
-                        handleWorkspaceSubmit={handleWorkspaceSubmit}
-                    />
+                    <InviteUserForm id={id} setIsModalOpen={setIsModalOpen} />
                 </DialogDemo>
             }
         </>

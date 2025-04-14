@@ -3,18 +3,37 @@ import Button from '../ui/Button'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useSelector } from 'react-redux'
-import { RootState } from '../../../redux/store'
+import { useDispatch, useSelector } from 'react-redux'
+import { AppDispatch, RootState } from '../../../redux/store'
 import { inviteUserSchema } from '../../../schema/modal'
+import toast from 'react-hot-toast'
+import { handleAxiosError } from '@/util/helpers'
+import { AxiosError } from 'axios'
+import { inviteUser } from '@/redux/slice/workspaceSlice'
+import { InviteUserFormProps } from '@/util/interfaces'
 
 type inviteUserData = z.infer<typeof inviteUserSchema>
 
-interface InviteUserFormProps {
-    workspaceId: string
-    handleWorkspaceSubmit: (workspaceId: string, data: inviteUserData) => void
-}
-function InviteUserForm({ workspaceId, handleWorkspaceSubmit }: Readonly<InviteUserFormProps>) {
-    const { loading, error } = useSelector((state: RootState) => state.workspaces)
+
+function InviteUserForm({ id, setIsModalOpen }: Readonly<InviteUserFormProps>) {
+     const { loading, error } = useSelector((state: RootState) => state.workspaces)
+     const dispatch = useDispatch<AppDispatch>()
+
+    async function handleInviteUser(userData: inviteUserData) {
+        try {
+            const { meta: responseData } = await dispatch(inviteUser({ userData, id}))
+
+            if (responseData.requestStatus === 'fulfilled') {
+                toast.success('You have successfully invited a new user to this workspace')
+                setIsModalOpen(false)
+            } else {
+                toast.error('Failed to invite user')
+            }
+        } catch (error) {
+            handleAxiosError(error as AxiosError)
+        }
+    }
+
     const {
         register,
         handleSubmit,
@@ -24,13 +43,10 @@ function InviteUserForm({ workspaceId, handleWorkspaceSubmit }: Readonly<InviteU
         mode: 'all',
         defaultValues: { fullName: '', email: '' },
     })
-
-    const handleInviteSubmit = (data: inviteUserData) => {
-        handleWorkspaceSubmit(workspaceId, data)
-    }
+   
 
     return (
-        <form onSubmit={handleSubmit(handleInviteSubmit)}>
+        <form onSubmit={handleSubmit(handleInviteUser)}>
             <Input
                 label="User’s Full Name"
                 id="fullName"
