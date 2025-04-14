@@ -22,7 +22,7 @@ function UserSignUp() {
     return (
         <section className="w-full flex flex-col px-4 py-2 md:px-24 md:py-12 h-screen">
             <FocusFlowHeader />
-            <div className="flex  justify-between items-center ">
+            <div className="flex justify-between items-center mt-4 ">
                 <img
                     src={UserSignupImage}
                     className="hidden lg:block  max-w-lg"
