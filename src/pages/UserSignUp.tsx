@@ -34,7 +34,7 @@ function UserSignUp() {
                 <div className="flex flex-col w-full lg:w-2/5 mt-12 ">
                     <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
                         <Input
-                            label="Create Password:"
+                            label="Create password:"
                             placeholder="CreatePassword"
                             type="password"
                             id="createPassword"
@@ -42,7 +42,7 @@ function UserSignUp() {
                             error={errors.CreatePassword}
                         />
                         <Input
-                            label="Confirm Password:"
+                            label="Confirm password:"
                             placeholder="ConfirmPassword"
                             type="password"
                             id="confirmPassword"
