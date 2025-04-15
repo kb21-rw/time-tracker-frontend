@@ -1,5 +1,5 @@
 import FocusFlowHeader from '@/components/shared/ui/FocusFlowHeader'
-import UserSignupImage from '../assets/images/usersignup.svg'
+import UserSignupImage from '../assets/images/usersignup-image.png'
 import Input from '@/components/shared/ui/Input'
 import { Link } from 'react-router-dom'
 import Button from '@/components/shared/ui/Button'
