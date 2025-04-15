@@ -10,9 +10,9 @@ import toast from 'react-hot-toast'
 import { AxiosError } from 'axios'
 import { handleAxiosError } from '@/util/helpers'
 import { workspaceData } from '@/pages/ManageWorkspaces'
-import { ModalControlProps } from '@/util/interfaces'
+import { WorkspaceModalSharedProps } from '@/util/interfaces'
 
-export function RenameWorkspaceForm({ id, setIsModalOpen }: ModalControlProps) {
+export function RenameWorkspaceForm({ id, setIsModalOpen }: WorkspaceModalSharedProps) {
     const dispatch = useDispatch<AppDispatch>()
     const handleWorkspaceRenaming = async (data: workspaceData) => {
         try {
