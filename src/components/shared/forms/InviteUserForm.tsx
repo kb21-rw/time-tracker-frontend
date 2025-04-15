@@ -46,7 +46,7 @@ function InviteUserForm({ id, setIsModalOpen }: Readonly<InviteUserFormProps>) {
     return (
         <form onSubmit={handleSubmit(handleInviteUser)}>
             <Input
-                label="User’s Full Name"
+                label="User’s full name"
                 id="fullName"
                 register={register('fullName')}
                 error={errors.fullName}
@@ -57,7 +57,7 @@ function InviteUserForm({ id, setIsModalOpen }: Readonly<InviteUserFormProps>) {
                 </p>
             )}
             <Input
-                label="User's Email"
+                label="User's email"
                 id="email"
                 register={register('email')}
                 error={errors.email}
@@ -68,7 +68,7 @@ function InviteUserForm({ id, setIsModalOpen }: Readonly<InviteUserFormProps>) {
                 </p>
             )}
             <Button className="w-full" disabled={!isValid} isLoading={loading}>
-                Send an Invite
+                Send invite
             </Button>
         </form>
     )
