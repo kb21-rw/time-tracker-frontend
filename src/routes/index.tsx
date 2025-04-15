@@ -43,7 +43,7 @@ export const router = createBrowserRouter([
         element: <WorkspaceDetails />,
     },
     {
-        path: '/user-signUp',
+        path: '/user-signup',
         element: <UserSignUp />,
     },
 ])
