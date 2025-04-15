@@ -10,11 +10,11 @@ import toast from 'react-hot-toast'
 import { handleAxiosError } from '@/util/helpers'
 import { AxiosError } from 'axios'
 import { inviteUser } from '@/redux/slice/workspaceSlice'
-import { InviteUserFormProps } from '@/util/interfaces'
+import { ModalControlProps } from '@/util/interfaces'
 
 type inviteUserData = z.infer<typeof inviteUserSchema>
 
-function InviteUserForm({ id, setIsModalOpen }: Readonly<InviteUserFormProps>) {
+function InviteUserForm({ id, setIsModalOpen }: Readonly<ModalControlProps>) {
     const { loading, error } = useSelector((state: RootState) => state.workspaces)
     const dispatch = useDispatch<AppDispatch>()
 

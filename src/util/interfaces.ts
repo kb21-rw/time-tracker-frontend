@@ -58,10 +58,6 @@ export interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
     data: TData[]
 }
-export interface InviteUserFormProps {
-    id: string
-    setIsModalOpen: (value: React.SetStateAction<boolean>) => void
-}
 export type TableUser = {
     id: string
     names: string
@@ -78,7 +74,7 @@ export interface Group {
     name: string
     projects: Project[]
 }
-export interface WorkspaceRenameProps {
+export interface ModalControlProps  {
     id: string
     setIsModalOpen: (value: React.SetStateAction<boolean>) => void
 }
