@@ -74,7 +74,7 @@ export interface Group {
     name: string
     projects: Project[]
 }
-export interface ModalControlProps  {
+export interface ModalControlProps {
     id: string
     setIsModalOpen: (value: React.SetStateAction<boolean>) => void
 }
