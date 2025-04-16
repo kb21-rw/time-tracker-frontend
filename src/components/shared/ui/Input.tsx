@@ -8,7 +8,7 @@ export default function Input({
     type = 'text',
     placeholder,
     register,
-}: InputProps) {
+}: Readonly<InputProps>) {
     const [showPassword, setShowPassword] = useState(false)
     const togglePasswordVisibility = () => setShowPassword(previousState => !previousState)
 
