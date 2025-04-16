@@ -59,8 +59,8 @@ export const renameWorkspace = createAsyncThunk(
     'workspace/rename',
     async ({ name, id }: { name: string; id: string }, { rejectWithValue }) => {
         try {
-            await api.patch(`workspaces/${id}`, { name })
-            return { id, name }
+            const response = await api.patch(`workspaces/${id}`, { name })
+            return response.data
         } catch (error: any) {
             const errorMessage = error.response.data.message || 'Renaming workspace failed'
             return rejectWithValue(
