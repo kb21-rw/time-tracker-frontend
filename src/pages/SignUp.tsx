@@ -61,6 +61,7 @@ export default function SignUpPage() {
                     alt="signup page illustration"
                 />
                 <div className="flex flex-col w-full lg:w-2/5">
+                    <h1 className="text-2xl md:text-4xl font-bold my-8">Sign up as an admin</h1>
                     <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
                         <Input
                             id="fullName"
@@ -106,7 +107,7 @@ export default function SignUpPage() {
                             Create Account
                         </Button>
                     </form>
-                    <p className="text-center mt-8 text-lg">
+                    <p className="text-right mt-8 text-lg">
                         Already have an account?{' '}
                         <Link to="/login" className="text-primary-600">
                             Log in
