@@ -6,7 +6,7 @@ import Button from '@/components/shared/ui/Button'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { userSignUpShcema } from '../schema/usersignup'
+import { userSignUpShcema } from '../schema/signup'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/redux/store'
 
@@ -31,7 +31,7 @@ function UserSignUp() {
                     className="hidden lg:block  max-w-lg"
                     alt="signup page illustration"
                 />
-                <div className="flex flex-col w-full lg:w-2/5 mt-12 ">
+                <div className="flex flex-col w-full lg:w-2/5 lg:mt-12 md:mt-32">
                     <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
                         <Input
                             label="Create password:"
@@ -49,12 +49,12 @@ function UserSignUp() {
                             register={register('ConfirmPassword')}
                             error={errors.ConfirmPassword}
                         />
-                        <Link
-                            to="/login"
-                            className="text-primary-600 text-lg flex justify-end font-inter"
-                        >
-                            Already have an account
-                        </Link>
+                        <p className="text-center flex justify-end gap-2 p-6 text-lg">
+                            Already have an account?{' '}
+                            <Link to="/login" className="text-primary-600">
+                                Log in
+                            </Link>
+                        </p>
                         <Button
                             className="text-xl mt-5 font-inter w-full"
                             isLoading={loading}
