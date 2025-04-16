@@ -36,6 +36,25 @@ export const getWorkspacesByUser = createAsyncThunk(
     },
 )
 
+export const inviteUser = createAsyncThunk(
+    'workspace/inviteUser',
+    async (
+        params: { id: string; userData: { fullName: string; email: string } },
+        { rejectWithValue },
+    ) => {
+        const { id, userData } = params
+        try {
+            const response = await api.post(`Workspaces/${id}/invitations`, userData)
+            return response.data
+        } catch (error: any) {
+            const errorMessage = error.response?.data?.message || 'Failed to invite user'
+            return rejectWithValue(
+                typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage),
+            )
+        }
+    },
+)
+
 export const renameWorkspace = createAsyncThunk(
     'workspace/rename',
     async ({ name, id }: { name: string; id: string }, { rejectWithValue }) => {
@@ -50,6 +69,7 @@ export const renameWorkspace = createAsyncThunk(
         }
     },
 )
+
 const workspacesSlice = createSlice({
     name: 'workspace',
     initialState,
@@ -77,6 +97,17 @@ const workspacesSlice = createSlice({
                 state.workspaces = action.payload
             })
             .addCase(getWorkspacesByUser.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.payload
+            })
+            .addCase(inviteUser.pending, state => {
+                state.loading = true
+                state.error = null
+            })
+            .addCase(inviteUser.fulfilled, state => {
+                state.loading = false
+            })
+            .addCase(inviteUser.rejected, (state, action) => {
                 state.loading = false
                 state.error = action.payload
             })

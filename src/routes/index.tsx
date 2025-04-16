@@ -36,14 +36,19 @@ export const router = createBrowserRouter([
     },
     {
         path: '/manage-workspaces',
-        element: <ManageWorkspacesPage />,
+        children: [
+            {
+                index: true,
+                element: <ManageWorkspacesPage />,
+            },
+            {
+                path: ':id',
+                element: <WorkspaceDetails />,
+            },
+        ],
     },
     {
-        path: '/workspace-details',
-        element: <WorkspaceDetails />,
-    },
-    {
-        path: '/user-signUp',
+        path: '/user-signup',
         element: <UserSignUp />,
     },
 ])
