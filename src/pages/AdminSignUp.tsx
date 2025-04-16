@@ -23,7 +23,7 @@ const defaultValues: FormFields = {
     confirmPassword: '',
 }
 
-export default function SignUpPage() {
+export default function AdminSignUpPage() {
     const dispatch = useDispatch<AppDispatch>()
     const { loading, error } = useSelector((state: RootState) => state.auth)
     const {
