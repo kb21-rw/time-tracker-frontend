@@ -30,9 +30,9 @@ export default function WorkspaceDetails() {
     const { workspaceUsers, loading } = useSelector((state: RootState) => state.workspaces)
     const data: TableUser[] = workspaceUsers
 
-    useEffect(()=> {
+    useEffect(() => {
         dispatch(getWorkspaceUsers(id))
-    },[dispatch])
+    }, [dispatch])
 
     return (
         <>
@@ -60,7 +60,7 @@ export default function WorkspaceDetails() {
                             <p>Users</p>
                             <Download className="text-primary-500" />
                         </div>
-                        <UsersTable columns={columns} data={data} loading={loading}/>
+                        <UsersTable columns={columns} data={data} loading={loading} />
                     </div>
                     <div className="w-full py-12">
                         <p className="text-xl font-bold px-9 pb-4">Groups</p>
