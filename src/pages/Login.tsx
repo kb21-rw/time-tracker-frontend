@@ -61,11 +61,11 @@ export default function LoginPage() {
                     alt="login page image"
                 />
                 <div className="flex flex-col justify-between w-full lg:w-2/5 relative">
-                    <h1 className="text-4xl font-bold my-8">Sign in as an admin</h1>
+                    <h1 className="text-4xl font-bold my-8">Log in</h1>
                     <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
                         <Input
                             id="email"
-                            label="Email Address:"
+                            label="Email address:"
                             placeholder="Enter your email"
                             register={register('email')}
                             error={errors.email}
@@ -92,10 +92,10 @@ export default function LoginPage() {
                             isLoading={loading}
                             disabled={!isValid || loading}
                         >
-                            Sign In
+                            Log in
                         </Button>
                     </form>
-                    <p className="text-center mt-8 text-lg">
+                    <p className="text-right mt-8 text-lg">
                         Don't have an account?{' '}
                         <Link to="/sign-up" className="text-primary-600">
                             Create account
