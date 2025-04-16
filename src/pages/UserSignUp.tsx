@@ -31,7 +31,7 @@ function UserSignUp() {
                     className="hidden lg:block  max-w-lg"
                     alt="signup page illustration"
                 />
-                <div className="flex flex-col w-full lg:w-2/5 lg:mt-12 md:mt-32">
+                <div className="flex flex-col w-full lg:w-2/5 lg:mt-12 md:mt-32 mt-7">
                     <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
                         <Input
                             label="Create password:"
