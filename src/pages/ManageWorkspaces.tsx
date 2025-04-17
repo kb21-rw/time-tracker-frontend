@@ -51,14 +51,14 @@ export default function ManageWorkspacesPage() {
                             onClick={() => setIsModalOpen(true)}
                         >
                             <FaPlus />
-                            <span className="hidden sm:inline">New Work Space</span>
+                            <span className="hidden sm:inline">New Workspace</span>
                             <span className="sm:hidden">New</span>
                         </button>
                     </div>
                     <div className="pt-15">
-                        <div className="flex items-center justify-between mx-4 md:mx-16  text-base md:text-xl font-bold">
+                        <div className="flex items-center justify-between mx-4 md:mx-16 text-base md:text-xl font-bold">
                             <p>Workspace</p>
-                            <p>Creation date</p>
+                            <p className="mr-5">Creation date</p>
                         </div>
                         <div className="mt-7 flex flex-col gap-y-2 mx-8">
                             {workspaces.length > 0 ? (

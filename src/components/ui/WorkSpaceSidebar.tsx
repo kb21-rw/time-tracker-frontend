@@ -1,4 +1,4 @@
-import { Calendar, Clock, Group } from 'lucide-react'
+import { Clock, Group } from 'lucide-react'
 import {
     Sidebar,
     SidebarHeader,
@@ -6,7 +6,6 @@ import {
     SidebarGroup,
     SidebarGroupLabel,
     SidebarMenu,
-    SidebarMenuItem,
     SidebarMenuButton,
     SidebarProvider,
 } from '../shadcn/sidebar'
@@ -30,12 +29,6 @@ export default function WorkspaceSidebar() {
                                 <Clock />
                                 <h1>Timer</h1>
                             </SidebarMenuButton>
-                            <SidebarMenuItem>
-                                <SidebarMenuButton className=" text-base">
-                                    <Calendar />
-                                    <h1>Calendar</h1>
-                                </SidebarMenuButton>
-                            </SidebarMenuItem>
                         </SidebarMenu>
                     </SidebarGroup>
                     <SidebarGroup>

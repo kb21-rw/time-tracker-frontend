@@ -11,7 +11,7 @@ export default function Sidebar() {
             <aside className="row-span-5 bg-primary-800 p-4 h-screen top-0 bottom-0">
                 <div className="space-y-2 h-full px-2 mb-2 py-4 flex flex-col justify-between">
                     {/* The links that redirect to specific route will be added later */}
-                    <div className="space-y-3">
+                    <div className="flex flex-col gap-10">
                         <Link to="#">
                             <img src={Home} className="h-10 w-10" alt="Home" />
                         </Link>
@@ -24,7 +24,7 @@ export default function Sidebar() {
                             <img src={SidebarImage} className="h-10 w-10" alt="Sidebar" />
                         </Link>
                     </div>
-                    <div>
+                    <div className="flex flex-col gap-10">
                         <Link to="#">
                             <img src={Notification} className="h-7 w-7" alt="Notification" />
                         </Link>
