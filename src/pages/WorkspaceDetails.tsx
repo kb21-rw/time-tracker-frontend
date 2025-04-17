@@ -11,11 +11,13 @@ import {
     CollapsibleTrigger,
 } from '@/components/shadcn/collapsible'
 import { useLocation, Navigate, useParams } from 'react-router-dom'
-import userData from '../data/users.json'
 import groupData from '../data/groups.json'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import DialogDemo from '@/components/shared/shared/Modal'
 import InviteUserForm from '@/components/shared/forms/InviteUserForm'
+import { useDispatch, useSelector } from 'react-redux'
+import { AppDispatch, RootState } from '@/redux/store'
+import { getWorkspaceUsers } from '@/redux/slice/workspaceSlice'
 
 export default function WorkspaceDetails() {
     const { state } = useLocation()
@@ -23,8 +25,14 @@ export default function WorkspaceDetails() {
     const [isModalOpen, setIsModalOpen] = useState(false)
     if (!state || !id) return <Navigate to="/manage-workspaces" />
     const { name } = state
-    const data: TableUser[] = userData
     const groups: Group[] = groupData
+    const dispatch = useDispatch<AppDispatch>()
+    const { workspaceUsers, loading } = useSelector((state: RootState) => state.workspaces)
+    const data: TableUser[] = workspaceUsers
+
+    useEffect(() => {
+        dispatch(getWorkspaceUsers(id))
+    }, [dispatch])
 
     return (
         <>
@@ -52,7 +60,7 @@ export default function WorkspaceDetails() {
                             <p>Users</p>
                             <Download className="text-primary-500" />
                         </div>
-                        <UsersTable columns={columns} data={data} />
+                        <UsersTable columns={columns} data={data} loading={loading} />
                     </div>
                     <div className="w-full py-12">
                         <p className="text-xl font-bold px-9 pb-4">Groups</p>

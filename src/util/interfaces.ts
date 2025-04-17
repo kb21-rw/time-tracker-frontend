@@ -38,6 +38,7 @@ export interface WorkspaceForCreation {
 
 export interface WorkspaceState {
     workspaces: Workspace[]
+    workspaceUsers: []
     loading: boolean
     error: any
 }
@@ -57,6 +58,7 @@ export interface Workspace {
 export interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
     data: TData[]
+    loading: boolean
 }
 export type TableUser = {
     id: string
