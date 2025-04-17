@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { InputProps } from '../../util/interfaces'
+import { InputProps } from '../../../util/interfaces'
 
 export default function Input({
     label,
@@ -8,7 +8,7 @@ export default function Input({
     type = 'text',
     placeholder,
     register,
-}: InputProps) {
+}: Readonly<InputProps>) {
     const [showPassword, setShowPassword] = useState(false)
     const togglePasswordVisibility = () => setShowPassword(previousState => !previousState)
 

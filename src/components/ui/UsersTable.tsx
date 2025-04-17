@@ -1,11 +1,12 @@
 import { flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table'
-
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../shadcn/table'
 import { DataTableProps } from '@/util/interfaces'
+import { Loader2 } from 'lucide-react'
 
 export default function UsersTable<TData, TValue>({
     columns,
     data,
+    loading = false,
 }: DataTableProps<TData, TValue>) {
     const table = useReactTable({
         data,
@@ -19,26 +20,29 @@ export default function UsersTable<TData, TValue>({
                 <TableHeader>
                     {table.getHeaderGroups().map(headerGroup => (
                         <TableRow key={headerGroup.id} className="border-none">
-                            {headerGroup.headers.map(header => {
-                                return (
-                                    <TableHead
-                                        key={header.id}
-                                        className="text-primary-500 text-base"
-                                    >
-                                        {header.isPlaceholder
-                                            ? null
-                                            : flexRender(
-                                                  header.column.columnDef.header,
-                                                  header.getContext(),
-                                              )}
-                                    </TableHead>
-                                )
-                            })}
+                            {headerGroup.headers.map(header => (
+                                <TableHead key={header.id} className="text-primary-500 text-base">
+                                    {header.isPlaceholder
+                                        ? null
+                                        : flexRender(
+                                              header.column.columnDef.header,
+                                              header.getContext(),
+                                          )}
+                                </TableHead>
+                            ))}
                         </TableRow>
                     ))}
                 </TableHeader>
                 <TableBody>
-                    {table.getRowModel().rows?.length ? (
+                    {loading ? (
+                        <TableRow>
+                            <TableCell colSpan={columns.length} className="h-24 text-center">
+                                <div className="flex items-center justify-center gap-2 text-muted-foreground">
+                                    <Loader2 className="animate-spin h-5 w-5" />
+                                </div>
+                            </TableCell>
+                        </TableRow>
+                    ) : table.getRowModel().rows?.length ? (
                         table.getRowModel().rows.map(row => (
                             <TableRow
                                 key={row.id}
@@ -55,7 +59,7 @@ export default function UsersTable<TData, TValue>({
                     ) : (
                         <TableRow>
                             <TableCell colSpan={columns.length} className="h-24 text-center">
-                                No results.
+                                No users found in this workspace
                             </TableCell>
                         </TableRow>
                     )}

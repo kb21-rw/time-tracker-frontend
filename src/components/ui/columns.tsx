@@ -7,7 +7,7 @@ import UserAddIcon from '@/assets/icons/UserAddIcon'
 
 export const columns: ColumnDef<TableUser>[] = [
     {
-        accessorKey: 'names',
+        accessorKey: 'fullName',
         header: 'Full Names',
     },
     {
