@@ -6,7 +6,7 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { AppDispatch, RootState } from '../redux/store'
 import { useDispatch, useSelector } from 'react-redux'
-import { signupUser } from '../redux/slice/authSlice'
+import { signupAdmin } from '../redux/slice/authSlice'
 import toast from 'react-hot-toast'
 import { Link, useNavigate } from 'react-router-dom'
 import { handleAxiosError } from '../util/helpers'
@@ -23,7 +23,7 @@ const defaultValues: FormFields = {
     confirmPassword: '',
 }
 
-export default function SignUpPage() {
+export default function AdminSignUpPage() {
     const dispatch = useDispatch<AppDispatch>()
     const { loading, error } = useSelector((state: RootState) => state.auth)
     const {
@@ -39,7 +39,7 @@ export default function SignUpPage() {
 
     const onSubmit: SubmitHandler<FormFields> = async ({ confirmPassword, ...data }) => {
         try {
-            const { meta: responseData } = await dispatch(signupUser(data))
+            const { meta: responseData } = await dispatch(signupAdmin(data))
             if (responseData.requestStatus === 'fulfilled') {
                 navigate('/login')
                 toast.success('You have successfully created an account!')
@@ -61,6 +61,7 @@ export default function SignUpPage() {
                     alt="signup page illustration"
                 />
                 <div className="flex flex-col w-full lg:w-2/5">
+                    <h1 className="text-2xl md:text-4xl font-bold my-8">Sign up as an admin</h1>
                     <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
                         <Input
                             id="fullName"
@@ -106,7 +107,7 @@ export default function SignUpPage() {
                             Create Account
                         </Button>
                     </form>
-                    <p className="text-center mt-8 text-lg">
+                    <p className="text-right mt-8 text-lg">
                         Already have an account?{' '}
                         <Link to="/login" className="text-primary-600">
                             Log in

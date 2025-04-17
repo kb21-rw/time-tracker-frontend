@@ -1,17 +1,27 @@
 import FocusFlowHeader from '@/components/shared/ui/FocusFlowHeader'
 import UserSignupImage from '../assets/images/usersignup-image.png'
 import Input from '@/components/shared/ui/Input'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import Button from '@/components/shared/ui/Button'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { userSignUpShcema } from '../schema/signup'
-import { useSelector } from 'react-redux'
-import { RootState } from '@/redux/store'
+import { useDispatch, useSelector } from 'react-redux'
+import { AppDispatch, RootState } from '@/redux/store'
+import { signupUser } from '@/redux/slice/authSlice'
+import toast from 'react-hot-toast'
+import { handleAxiosError } from '@/util/helpers'
+import { AxiosError } from 'axios'
 
 type UserFormFiled = z.infer<typeof userSignUpShcema>
-function UserSignUp() {
+export default function UserSignUpPage() {
+    const dispatch = useDispatch<AppDispatch>()
+    const { loading, error } = useSelector((state: RootState) => state.auth)
+    const navigate = useNavigate()
+    const [searchParams] = useSearchParams()
+    const token = searchParams.get('token')
+
     const {
         register,
         handleSubmit,
@@ -20,8 +30,24 @@ function UserSignUp() {
         resolver: zodResolver(userSignUpShcema),
         mode: 'all',
     })
-    const { loading } = useSelector((state: RootState) => state.auth)
-    const onSubmit = (data: UserFormFiled) => console.log(data)
+    const onSubmit = async ({ ConfirmPassword: password }: UserFormFiled) => {
+        try {
+            if (!token) {
+                toast.error('A token is needed to signup as a user!')
+                return
+            }
+            const acceptInvitationData = { token, password }
+            const { meta: responseData } = await dispatch(signupUser(acceptInvitationData))
+            if (responseData.requestStatus === 'fulfilled') {
+                toast.success('Successfully created a user account!')
+                navigate('/login')
+            } else {
+                toast.error('Failed to create a user account. Please try again.')
+            }
+        } catch (error) {
+            handleAxiosError(error as AxiosError)
+        }
+    }
     return (
         <section className="w-full flex flex-col px-4 py-2 md:px-24 md:py-12 h-screen">
             <FocusFlowHeader />
@@ -32,6 +58,8 @@ function UserSignUp() {
                     alt="signup page illustration"
                 />
                 <div className="flex flex-col w-full lg:w-2/5 lg:mt-12 md:mt-32 mt-7">
+                    <h1 className="text-4xl font-bold my-8">Sign up as a user</h1>
+
                     <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
                         <Input
                             label="Create password:"
@@ -49,12 +77,11 @@ function UserSignUp() {
                             register={register('ConfirmPassword')}
                             error={errors.ConfirmPassword}
                         />
-                        <p className="text-center flex justify-end gap-2 p-6 text-lg">
-                            Already have an account?{' '}
-                            <Link to="/login" className="text-primary-600">
-                                Log in
-                            </Link>
-                        </p>
+                        {error && (
+                            <p className="text-red-500 text-sm mt-2">
+                                {typeof error === 'string' ? error : JSON.stringify(error)}
+                            </p>
+                        )}
                         <Button
                             className="text-xl mt-5 font-inter w-full"
                             isLoading={loading}
@@ -62,11 +89,15 @@ function UserSignUp() {
                         >
                             Create Account
                         </Button>
+                        <p className="text-right flex justify-end gap-2 p-6 text-lg">
+                            Already have an account?{' '}
+                            <Link to="/login" className="text-primary-600">
+                                Log in
+                            </Link>
+                        </p>
                     </form>
                 </div>
             </div>
         </section>
     )
 }
-
-export default UserSignUp
