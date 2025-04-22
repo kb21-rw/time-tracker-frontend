@@ -118,6 +118,3 @@ export default function AdminSignUpPage() {
         </div>
     )
 }
-function setIsSubmitting(arg0: boolean) {
-    throw new Error('Function not implemented.')
-}
