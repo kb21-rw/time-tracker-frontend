@@ -14,20 +14,12 @@ export default function LandingPage() {
                     <p className="font-inter text-3xl w-2/3">
                         Streamlining your day and making every moment count.
                     </p>
-                    <div className="flex flex-row gap-4">
-                        <Link
-                            className="w-52 bg-primary-600 shadow text-xl shadow-black/40 drop-shadow-xl text-white rounded-lg text-center p-4"
-                            to="/sign-up"
-                        >
-                            Create an account
-                        </Link>
-                        <Link
-                            className="w-52 bg-primary-600 shadow text-xl shadow-black/40 drop-shadow-xl text-white rounded-lg text-center p-4"
-                            to="/login"
-                        >
-                            Login
-                        </Link>
-                    </div>
+                    <Link
+                        className="w-52 bg-primary-600 shadow text-xl shadow-black/40 drop-shadow-xl text-white rounded-lg text-center p-4"
+                        to="/sign-up"
+                    >
+                        Get started
+                    </Link>
                 </div>
                 <img
                     src={LandingImage}
