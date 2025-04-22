@@ -22,7 +22,7 @@ export default function LandingPage() {
                             Create an account
                         </Link>
                         <Link
-                            className="w-52 bg-primary-600 shadow text-xl shadow-black/40 drop-shadow-xl text-white rounded-lg text-center p-4"
+                            className="w-52 bg-primary-600 shadow text-xl shadow-black/40 drop-shadow-xl text-blue rounded-lg text-center p-4"
                             to="/login"
                         >
                             Login
