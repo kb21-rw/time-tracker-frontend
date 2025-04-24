@@ -107,7 +107,7 @@ export default function AdminSignUpPage() {
                             Create Account
                         </Button>
                     </form>
-                    <p className="text-right mt-8 text-lg">
+                    <p className="text-center mt-8 text-lg">
                         Already have an account?{' '}
                         <Link to="/login" className="text-primary-600">
                             Log in

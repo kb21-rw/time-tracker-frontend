@@ -95,7 +95,7 @@ export default function LoginPage() {
                             Log in
                         </Button>
                     </form>
-                    <p className="text-right mt-8 text-lg">
+                    <p className="text-center mt-8 text-lg">
                         Don't have an account?{' '}
                         <Link to="/sign-up" className="text-primary-600">
                             Create account

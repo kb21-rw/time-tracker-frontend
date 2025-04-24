@@ -8,6 +8,9 @@ import ResetPasswordPage from '../pages/password-reset/ResetPassword'
 import ManageWorkspacesPage from '../pages/ManageWorkspaces'
 import WorkspaceDetails from '../pages/WorkspaceDetails'
 import UserSignUpPage from '@/pages/UserSignUp'
+import TimeTracker from '@/pages/TimeTracker'
+import UsersDetails from '@/pages/workspace-details/users'
+import GroupsDetails from '@/pages/workspace-details/groups'
 
 export const router = createBrowserRouter([
     {
@@ -44,11 +47,25 @@ export const router = createBrowserRouter([
             {
                 path: ':id',
                 element: <WorkspaceDetails />,
+                children: [
+                    {
+                        index: true,
+                        element: <UsersDetails />,
+                    },
+                    {
+                        path: '/groups',
+                        element: <GroupsDetails />,
+                    },
+                ],
             },
         ],
     },
     {
         path: '/user-signup',
         element: <UserSignUpPage />,
+    },
+    {
+        path: '/tracker',
+        element: <TimeTracker />,
     },
 ])
