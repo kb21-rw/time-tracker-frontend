@@ -8,6 +8,7 @@ import ResetPasswordPage from '../pages/password-reset/ResetPassword'
 import ManageWorkspacesPage from '../pages/ManageWorkspaces'
 import WorkspaceDetails from '../pages/WorkspaceDetails'
 import UserSignUpPage from '@/pages/UserSignUp'
+import { ProtectedRoute } from './ProtectedRoute'
 
 export const router = createBrowserRouter([
     {
@@ -23,10 +24,6 @@ export const router = createBrowserRouter([
         element: <LoginPage />,
     },
     {
-        path: '/dashboard',
-        element: <DashboardPage />,
-    },
-    {
         path: '/forgot-password',
         element: <ForgotPasswordPage />,
     },
@@ -35,20 +32,29 @@ export const router = createBrowserRouter([
         element: <ResetPasswordPage />,
     },
     {
-        path: '/manage-workspaces',
-        children: [
-            {
-                index: true,
-                element: <ManageWorkspacesPage />,
-            },
-            {
-                path: ':id',
-                element: <WorkspaceDetails />,
-            },
-        ],
-    },
-    {
         path: '/user-signup',
         element: <UserSignUpPage />,
+    },
+    {
+        element: <ProtectedRoute />,
+        children: [
+            {
+                path: '/dashboard',
+                element: <DashboardPage />,
+            },
+            {
+                path: '/manage-workspaces',
+                children: [
+                    {
+                        index: true,
+                        element: <ManageWorkspacesPage />,
+                    },
+                    {
+                        path: ':id',
+                        element: <WorkspaceDetails />,
+                    },
+                ],
+            },
+        ],
     },
 ])
