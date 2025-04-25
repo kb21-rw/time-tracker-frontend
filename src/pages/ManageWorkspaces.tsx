@@ -61,7 +61,7 @@ export default function ManageWorkspacesPage() {
                     <div className="pt-15">
                         <div className="flex items-center justify-between mx-4 md:mx-16  text-base md:text-xl font-bold">
                             <p>Workspace</p>
-                            <p className='mr-20 md:mr-26'>Creation date</p>
+                            <p className="mr-20 md:mr-26">Creation date</p>
                         </div>
                         <div className="mt-7 flex flex-col gap-y-2 mx-8">
                             {workspaces.length > 0 ? (

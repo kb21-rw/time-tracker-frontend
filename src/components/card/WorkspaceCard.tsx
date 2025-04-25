@@ -19,9 +19,7 @@ export default function WorkspaceCard({ name, creationDate, id }: WorkspaceProps
                 <div className="flex items-center gap-x-9 md:gap-x-26">
                     <span>{formattedDate}</span>
                     <button onClick={() => setIsModalOpen(true)}>
-                    <Pencil
-                        className="text-primary-500 w-5 h-5"
-                    />
+                        <Pencil className="text-primary-500 w-5 h-5" />
                     </button>
                 </div>
             </div>
