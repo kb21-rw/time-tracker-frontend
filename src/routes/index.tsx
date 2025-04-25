@@ -8,6 +8,7 @@ import ResetPasswordPage from '../pages/password-reset/ResetPassword'
 import ManageWorkspacesPage from '../pages/ManageWorkspaces'
 import WorkspaceDetails from '../pages/WorkspaceDetails'
 import UserSignUpPage from '@/pages/UserSignUp'
+import { ProtectedRoute } from './ProtectedRoute'
 import TimeTracker from '@/pages/TimeTracker'
 import UsersDetails from '@/pages/workspace-details/users'
 import GroupsDetails from '@/pages/workspace-details/groups'
@@ -26,10 +27,6 @@ export const router = createBrowserRouter([
         element: <LoginPage />,
     },
     {
-        path: '/dashboard',
-        element: <DashboardPage />,
-    },
-    {
         path: '/forgot-password',
         element: <ForgotPasswordPage />,
     },
@@ -38,16 +35,27 @@ export const router = createBrowserRouter([
         element: <ResetPasswordPage />,
     },
     {
-        path: '/manage-workspaces',
+        path: '/user-signup',
+        element: <UserSignUpPage />,
+    },
+    {
+        element: <ProtectedRoute />,
         children: [
             {
-                index: true,
-                element: <ManageWorkspacesPage />,
+                path: '/dashboard',
+                element: <DashboardPage />,
             },
             {
-                path: ':id',
-                element: <WorkspaceDetails />,
+                path: '/manage-workspaces',
                 children: [
+                    {
+                        index: true,
+                        element: <ManageWorkspacesPage />,
+                    },
+                    {
+                        path: ':id',
+                        element: <WorkspaceDetails />,
+                        children: [
                     {
                         index: true,
                         element: <UsersDetails />,
@@ -58,11 +66,9 @@ export const router = createBrowserRouter([
                     },
                 ],
             },
+                ],
+            },
         ],
-    },
-    {
-        path: '/user-signup',
-        element: <UserSignUpPage />,
     },
     {
         path: '/tracker',
