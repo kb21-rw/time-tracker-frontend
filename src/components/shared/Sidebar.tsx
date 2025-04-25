@@ -15,7 +15,7 @@ export default function Sidebar() {
                 <div className="space-y-2 h-full px-2 mb-2 py-4 flex flex-col justify-between">
                     {/* The links that redirect to specific route will be added later */}
                     <div className="space-y-3">
-                        <Link to="Tracker">
+                        <Link to="/tracker">
                             <img src={Home} className="h-10 w-10" alt="Home" />
                         </Link>
                     </div>

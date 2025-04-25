@@ -53,7 +53,7 @@ export const router = createBrowserRouter([
                         element: <UsersDetails />,
                     },
                     {
-                        path: '/groups',
+                        path: 'groups',
                         element: <GroupsDetails />,
                     },
                 ],

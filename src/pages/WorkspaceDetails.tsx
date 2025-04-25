@@ -1,7 +1,7 @@
 import Sidebar from '../components/shared/Sidebar'
 import { Download, Plus } from 'lucide-react'
-import { useLocation, Navigate, useParams, Outlet } from 'react-router-dom'
-import { useState } from 'react'
+import { useLocation, Navigate, useParams, Outlet, useNavigate } from 'react-router-dom'
+import { useState, useEffect } from 'react'
 import DialogDemo from '@/components/shared/shared/Modal'
 import InviteUserForm from '@/components/shared/forms/InviteUserForm'
 
@@ -9,8 +9,21 @@ export default function WorkspaceDetails() {
     const { state } = useLocation()
     const { id } = useParams<{ id: string }>()
     const [isModalOpen, setIsModalOpen] = useState(false)
-    if (!state || !id) return <Navigate to="/manage-workspaces" />
-    const { name } = state
+    const [workspaceName, setWorkspaceName] = useState<string | null>(null)
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if (state?.name) {
+            setWorkspaceName(state.name)
+        }
+        else if (!state && !workspaceName && id) {
+            navigate('/manage-workspaces')
+        }
+    }, [state, id])
+
+    if (!id || (!state?.name && !workspaceName)) {
+        return <Navigate to="/manage-workspaces" />
+    }
 
     return (
         <>
@@ -20,7 +33,7 @@ export default function WorkspaceDetails() {
                 <div className="bg-white w-full">
                     <div className="w-full shadow-md py-7 px-9 flex justify-between items-center">
                         <p className="text-xl font-bold flex gap-x-4 items-center">
-                            {name}
+                            {workspaceName || state?.name}
                             <Download className="text-primary-500 w-5 h-5" />
                         </p>
                         <button
@@ -33,8 +46,8 @@ export default function WorkspaceDetails() {
                         </button>
                     </div>
                     <div>
-                            <Outlet />
-                        </div>
+                        <Outlet context={{ workspaceName }} />
+                    </div>
                 </div>
             </div>
             {

@@ -10,10 +10,14 @@ import {
     SidebarMenuButton,
     SidebarProvider,
 } from '../shadcn/sidebar'
-import { Link } from 'react-router-dom'
+import { Link, useParams, useLocation } from 'react-router-dom'
 import FluentGroup from '../../assets/icons/FluentGroup'
 
 export default function WorkspaceSidebar() {
+    const { id } = useParams<{ id: string }>()
+    const location = useLocation()
+    const isInWorkspace = location.pathname.includes('/manage-workspaces/')
+
     return (
         <SidebarProvider className="p-0 m-0">
             <Sidebar className="relative text-white text-base font-bold">
@@ -34,31 +38,39 @@ export default function WorkspaceSidebar() {
                     </SidebarMenu>
                 </SidebarHeader>
                 <SidebarContent className="px-7 mb-20">
-                    <SidebarGroup className="my-auto space-y-2">
-                        <SidebarGroupLabel>
-                            <h1 className="text-blue-100 text-base">Manage</h1>
-                        </SidebarGroupLabel>
-                        <SidebarMenu>
-                            <SidebarMenuItem>
-                                <SidebarMenuButton className=" text-base">
-                                    <Link to="#" className="flex gap-2">
-                                        <FluentGroup className="w-7 h-7" />
-                                        <h1>Users</h1>
-                                    </Link>
-                                </SidebarMenuButton>
-                            </SidebarMenuItem>
-                        </SidebarMenu>
-                        <SidebarMenu>
-                            <SidebarMenuItem>
-                                <SidebarMenuButton className=" text-base">
-                                    <Link to="#" className="flex gap-2">
-                                        <Group className="w-7 h-7" />
-                                        <h1>Groups</h1>
-                                    </Link>
-                                </SidebarMenuButton>
-                            </SidebarMenuItem>
-                        </SidebarMenu>
-                    </SidebarGroup>
+                    {isInWorkspace && (
+                        <SidebarGroup className="my-auto space-y-2">
+                            <SidebarGroupLabel>
+                                <h1 className="text-blue-100 text-base">Manage</h1>
+                            </SidebarGroupLabel>
+                            <SidebarMenu>
+                                <SidebarMenuItem>
+                                    <SidebarMenuButton className="text-base">
+                                        <Link
+                                            to={`/manage-workspaces/${id}`}
+                                            className="flex gap-2"
+                                        >
+                                            <FluentGroup className="w-7 h-7" />
+                                            <h1>Users</h1>
+                                        </Link>
+                                    </SidebarMenuButton>
+                                </SidebarMenuItem>
+                            </SidebarMenu>
+                            <SidebarMenu>
+                                <SidebarMenuItem>
+                                    <SidebarMenuButton className="text-base">
+                                        <Link
+                                            to={`/manage-workspaces/${id}/groups`}
+                                            className="flex gap-2"
+                                        >
+                                            <Group className="w-7 h-7" />
+                                            <h1>Groups</h1>
+                                        </Link>
+                                    </SidebarMenuButton>
+                                </SidebarMenuItem>
+                            </SidebarMenu>
+                        </SidebarGroup>
+                    )}
                 </SidebarContent>
             </Sidebar>
         </SidebarProvider>
