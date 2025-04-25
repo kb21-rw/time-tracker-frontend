@@ -1,11 +1,11 @@
-import { columns } from "@/components/ui/columns"
-import UsersTable from "@/components/ui/UsersTable"
-import { getWorkspaceUsers } from "@/redux/slice/workspaceSlice"
-import { AppDispatch, RootState } from "@/redux/store"
-import { TableUser } from "@/util/interfaces"
-import { useEffect } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { useParams } from "react-router-dom"
+import { columns } from '@/components/ui/columns'
+import UsersTable from '@/components/ui/UsersTable'
+import { getWorkspaceUsers } from '@/redux/slice/workspaceSlice'
+import { AppDispatch, RootState } from '@/redux/store'
+import { TableUser } from '@/util/interfaces'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
 
 export default function UsersDetails() {
     const { id } = useParams<{ id: string }>()

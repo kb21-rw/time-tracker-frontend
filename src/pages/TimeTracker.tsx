@@ -7,7 +7,9 @@ export default function TimeTracker() {
     return (
         <div>
             <Sidebar />
-            <div className={`bg-white flex-1 transition-all duration-300 ${isOpen ? 'ml-84' : 'ml-20'}`}>
+            <div
+                className={`bg-white flex-1 transition-all duration-300 ${isOpen ? 'ml-84' : 'ml-20'}`}
+            >
                 <h1>Time tracker page</h1>
             </div>
         </div>

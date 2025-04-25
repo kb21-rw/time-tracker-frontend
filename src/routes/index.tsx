@@ -56,16 +56,16 @@ export const router = createBrowserRouter([
                         path: ':id',
                         element: <WorkspaceDetails />,
                         children: [
-                    {
-                        index: true,
-                        element: <UsersDetails />,
+                            {
+                                index: true,
+                                element: <UsersDetails />,
+                            },
+                            {
+                                path: 'groups',
+                                element: <GroupsDetails />,
+                            },
+                        ],
                     },
-                    {
-                        path: 'groups',
-                        element: <GroupsDetails />,
-                    },
-                ],
-            },
                 ],
             },
         ],
