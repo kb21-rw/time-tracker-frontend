@@ -1,4 +1,4 @@
-import { columns } from '@/components/ui/columns'
+import { usersTableColumns } from '@/components/ui/UsersTableColums'
 import UsersTable from '@/components/ui/UsersTable'
 import { getWorkspaceUsers } from '@/redux/slice/workspaceSlice'
 import { AppDispatch, RootState } from '@/redux/store'
@@ -22,7 +22,7 @@ export default function UsersDetails() {
             <div className="w-full flex justify-between px-9 py-12 font-bold text-xl">
                 <p>Users</p>
             </div>
-            <UsersTable columns={columns} data={data} loading={loading} />
+            <UsersTable columns={usersTableColumns} data={data} loading={loading} />
         </div>
     )
 }

@@ -24,7 +24,7 @@ export default function WorkspaceSidebar() {
                 <SidebarHeader>
                     <SidebarMenu>
                         <SidebarMenuItem className="px-7">
-                            <SidebarMenuButton size="lg" className="my-6">
+                            <SidebarMenuButton size="lg" className="my-1">
                                 <Link to="/tracker" className="flex items-center gap-2">
                                     <Clock
                                         fill="white"
@@ -37,7 +37,7 @@ export default function WorkspaceSidebar() {
                         </SidebarMenuItem>
                     </SidebarMenu>
                 </SidebarHeader>
-                <SidebarContent className="px-7 mb-20">
+                <SidebarContent className="px-7 mb-10">
                     {isInWorkspace && (
                         <SidebarGroup className="my-auto space-y-2">
                             <SidebarGroupLabel>

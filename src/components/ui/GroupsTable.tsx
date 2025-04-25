@@ -3,7 +3,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '.
 import { DataTableProps } from '@/util/interfaces'
 import { Loader2 } from 'lucide-react'
 
-export default function UsersTable<TData, TValue>({
+export default function GroupsTable<TData, TValue>({
     columns,
     data,
     loading = false,
@@ -21,7 +21,10 @@ export default function UsersTable<TData, TValue>({
                     {table.getHeaderGroups().map(headerGroup => (
                         <TableRow key={headerGroup.id} className="border-none bg-white">
                             {headerGroup.headers.map(header => (
-                                <TableHead key={header.id} className="text-primary-500 text-base">
+                                <TableHead
+                                    key={header.id}
+                                    className="text-primary-500 text-lg font-bold"
+                                >
                                     {header.isPlaceholder
                                         ? null
                                         : flexRender(
@@ -59,7 +62,7 @@ export default function UsersTable<TData, TValue>({
                     ) : (
                         <TableRow>
                             <TableCell colSpan={columns.length} className="h-24 text-center">
-                                No users found in this workspace
+                                No clients and projects found in this workspace
                             </TableCell>
                         </TableRow>
                     )}
