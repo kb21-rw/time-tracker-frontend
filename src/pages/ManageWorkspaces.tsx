@@ -12,12 +12,13 @@ import { workspaceShema } from '@/schema/modal'
 import toast from 'react-hot-toast'
 import { handleAxiosError } from '@/util/helpers'
 import { AxiosError } from 'axios'
+import { selectSidebarOpen } from '@/redux/features/sidebarSlice'
 
 export type workspaceData = z.infer<typeof workspaceShema>
 
 export default function ManageWorkspacesPage() {
     const [isModalOpen, setIsModalOpen] = useState(false)
-
+    const isOpen = useSelector(selectSidebarOpen)
     const dispatch = useDispatch<AppDispatch>()
     const { workspaces } = useSelector((state: RootState) => state.workspaces)
 
@@ -43,7 +44,9 @@ export default function ManageWorkspacesPage() {
         <div>
             <div className="flex w-full">
                 <Sidebar />
-                <div className="w-full bg-white">
+                <div
+                    className={`w-full bg-white flex-1 transition-all duration-300 ${isOpen ? 'ml-84' : 'ml-20'}`}
+                >
                     <div className="w-full shadow-md  py-7 px-5 flex justify-between items-center">
                         <p className="text-xl font-bold">Workspaces</p>
                         <button

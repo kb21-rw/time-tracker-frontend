@@ -11,6 +11,7 @@
     --color-primary-600: #2b22d2; /* --color-primary: #2b22d2;*/
     --color-primary-500: #4042e2; /* --color-tertiary: #4042e2;*/
     --color-accent-500: #d50000; /* --color-accent: #d50000;*/
+    --color-background-accent: #F6F6F6;
 }
 @layer utilities {
     .text-shadow-custom {

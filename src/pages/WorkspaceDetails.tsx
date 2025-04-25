@@ -4,6 +4,8 @@ import { useLocation, Navigate, useParams, Outlet, useNavigate } from 'react-rou
 import { useState, useEffect } from 'react'
 import DialogDemo from '@/components/shared/shared/Modal'
 import InviteUserForm from '@/components/shared/forms/InviteUserForm'
+import { useSelector } from 'react-redux'
+import { selectSidebarOpen } from '../redux/features/sidebarSlice'
 
 export default function WorkspaceDetails() {
     const { state } = useLocation()
@@ -11,12 +13,12 @@ export default function WorkspaceDetails() {
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [workspaceName, setWorkspaceName] = useState<string | null>(null)
     const navigate = useNavigate()
+    const isOpen = useSelector(selectSidebarOpen)
 
     useEffect(() => {
         if (state?.name) {
             setWorkspaceName(state.name)
-        }
-        else if (!state && !workspaceName && id) {
+        } else if (!state && !workspaceName && id) {
             navigate('/manage-workspaces')
         }
     }, [state, id])
@@ -27,11 +29,10 @@ export default function WorkspaceDetails() {
 
     return (
         <>
-            <div className="flex w-full justify-around">
+            <div className="flex min-h-screen">
                 <Sidebar />
-
-                <div className="bg-white w-full">
-                    <div className="w-full shadow-md py-7 px-9 flex justify-between items-center">
+                <div className={`flex-1 transition-all duration-300 ${isOpen ? 'ml-84' : 'ml-20'}`}>
+                    <div className="w-full shadow-md py-7 px-9 flex justify-between items-center bg-white">
                         <p className="text-xl font-bold flex gap-x-4 items-center">
                             {workspaceName || state?.name}
                             <Download className="text-primary-500 w-5 h-5" />
@@ -45,7 +46,7 @@ export default function WorkspaceDetails() {
                             <span className="sm:hidden">New</span>
                         </button>
                     </div>
-                    <div>
+                    <div className="bg-background-accent min-h-screen">
                         <Outlet context={{ workspaceName }} />
                     </div>
                 </div>
