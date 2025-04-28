@@ -4,6 +4,7 @@ import { WorkspaceState } from '../../util/interfaces'
 
 const initialState: WorkspaceState = {
     workspaces: [],
+    workspaceUsers: [],
     loading: false,
     error: null,
 }
@@ -59,10 +60,25 @@ export const renameWorkspace = createAsyncThunk(
     'workspace/rename',
     async ({ name, id }: { name: string; id: string }, { rejectWithValue }) => {
         try {
-            await api.patch(`workspaces/${id}`, { name })
-            return { id, name }
+            const response = await api.patch(`workspaces/${id}`, { name })
+            return response.data
         } catch (error: any) {
             const errorMessage = error.response.data.message || 'Renaming workspace failed'
+            return rejectWithValue(
+                typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage),
+            )
+        }
+    },
+)
+
+export const getWorkspaceUsers = createAsyncThunk(
+    'workspace/getUsers',
+    async (id: string, { rejectWithValue }) => {
+        try {
+            const response = await api.get(`Workspaces/${id}/users`)
+            return response.data
+        } catch (error: any) {
+            const errorMessage = error.response?.data?.message || 'Fetching users failed'
             return rejectWithValue(
                 typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage),
             )
@@ -126,6 +142,18 @@ const workspacesSlice = createSlice({
                 state.workspaces[1].name
             })
             .addCase(renameWorkspace.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.payload
+            })
+            .addCase(getWorkspaceUsers.pending, state => {
+                state.loading = true
+                state.error = null
+            })
+            .addCase(getWorkspaceUsers.fulfilled, (state, action) => {
+                state.loading = false
+                state.workspaceUsers = action.payload
+            })
+            .addCase(getWorkspaceUsers.rejected, (state, action) => {
                 state.loading = false
                 state.error = action.payload
             })

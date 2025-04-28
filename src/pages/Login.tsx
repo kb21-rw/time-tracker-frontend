@@ -65,7 +65,7 @@ export default function LoginPage() {
                     <form className="w-full mt-3" onSubmit={handleSubmit(onSubmit)}>
                         <Input
                             id="email"
-                            label="Email Address:"
+                            label="Email address:"
                             placeholder="Enter your email"
                             register={register('email')}
                             error={errors.email}
@@ -92,7 +92,7 @@ export default function LoginPage() {
                             isLoading={loading}
                             disabled={!isValid || loading}
                         >
-                            Sign In
+                            Log in
                         </Button>
                     </form>
                     <p className="text-center mt-8 text-lg">

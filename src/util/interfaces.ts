@@ -38,6 +38,7 @@ export interface WorkspaceForCreation {
 
 export interface WorkspaceState {
     workspaces: Workspace[]
+    workspaceUsers: []
     loading: boolean
     error: any
 }
@@ -57,6 +58,7 @@ export interface Workspace {
 export interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
     data: TData[]
+    loading: boolean
 }
 export type TableUser = {
     id: string
@@ -66,15 +68,27 @@ export type TableUser = {
 }
 export interface Project {
     id: string
-    names: string
+    clientId: string
+    name: string
+}
+
+export interface Client {
+    id: string
+    workspaceId: string
+    name: string
 }
 
 export interface Group {
-    id: string
-    name: string
+    clients: Client[]
     projects: Project[]
 }
 export interface WorkspaceModalSharedProps {
     id: string
     setIsModalOpen: (value: React.SetStateAction<boolean>) => void
+}
+export type GroupTable = {
+    id: string
+    client: string
+    project: string
+    actions: string
 }

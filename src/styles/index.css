@@ -6,11 +6,13 @@
 @theme {
     --font-inter: 'Inter', sans-serif;
     --font-fredoka: 'Fredoka', sans-serif;
+    --font-poppins: 'Poppins', sans-serif;
     --color-primary-800: #09005d; /* --color-quaternary: #09005d;*/
     --color-primary-700: #130e74; /* --color-secondary: #130e74;*/
     --color-primary-600: #2b22d2; /* --color-primary: #2b22d2;*/
     --color-primary-500: #4042e2; /* --color-tertiary: #4042e2;*/
     --color-accent-500: #d50000; /* --color-accent: #d50000;*/
+    --color-background-accent: #f6f6f6;
 }
 @layer utilities {
     .text-shadow-custom {

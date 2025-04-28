@@ -1,13 +1,17 @@
 import { createBrowserRouter } from 'react-router-dom'
 import LandingPage from '../pages/Landing'
-import SignUpPage from '../pages/SignUp'
+import AdminSignUpPage from '../pages/AdminSignUp'
 import LoginPage from '../pages/Login'
 import DashboardPage from '../pages/Dashboard'
 import ForgotPasswordPage from '../pages/password-reset/ForgotPassword'
 import ResetPasswordPage from '../pages/password-reset/ResetPassword'
 import ManageWorkspacesPage from '../pages/ManageWorkspaces'
 import WorkspaceDetails from '../pages/WorkspaceDetails'
-import UserSignUp from '@/pages/UserSignUp'
+import UserSignUpPage from '@/pages/UserSignUp'
+import { ProtectedRoute } from './ProtectedRoute'
+import TimeTracker from '@/pages/TimeTracker'
+import UsersDetails from '@/pages/workspace-details/users'
+import GroupsDetails from '@/pages/workspace-details/groups'
 
 export const router = createBrowserRouter([
     {
@@ -16,15 +20,11 @@ export const router = createBrowserRouter([
     },
     {
         path: '/sign-up',
-        element: <SignUpPage />,
+        element: <AdminSignUpPage />,
     },
     {
         path: '/login',
         element: <LoginPage />,
-    },
-    {
-        path: '/dashboard',
-        element: <DashboardPage />,
     },
     {
         path: '/forgot-password',
@@ -35,20 +35,43 @@ export const router = createBrowserRouter([
         element: <ResetPasswordPage />,
     },
     {
-        path: '/manage-workspaces',
+        path: '/user-signup',
+        element: <UserSignUpPage />,
+    },
+    {
+        element: <ProtectedRoute />,
         children: [
             {
-                index: true,
-                element: <ManageWorkspacesPage />,
+                path: '/dashboard',
+                element: <DashboardPage />,
             },
             {
-                path: ':id',
-                element: <WorkspaceDetails />,
+                path: '/manage-workspaces',
+                children: [
+                    {
+                        index: true,
+                        element: <ManageWorkspacesPage />,
+                    },
+                    {
+                        path: ':id',
+                        element: <WorkspaceDetails />,
+                        children: [
+                            {
+                                index: true,
+                                element: <UsersDetails />,
+                            },
+                            {
+                                path: 'groups',
+                                element: <GroupsDetails />,
+                            },
+                        ],
+                    },
+                ],
             },
         ],
     },
     {
-        path: '/user-signup',
-        element: <UserSignUp />,
+        path: '/tracker',
+        element: <TimeTracker />,
     },
 ])
