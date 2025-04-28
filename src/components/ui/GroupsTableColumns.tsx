@@ -33,9 +33,7 @@ export const groupsTableColumns: ColumnDef<GroupTable>[] = [
     {
         accessorKey: 'actions',
         header: 'Actions',
-        cell: ({ row }) => {
-            const _rowData = row.original
-
+        cell: () => {
             const [isPopupOpen, setIsPopupOpen] = useState(false)
             const [popupPosition, setPopupPosition] = useState<{
                 x: number
