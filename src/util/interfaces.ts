@@ -68,15 +68,27 @@ export type TableUser = {
 }
 export interface Project {
     id: string
-    names: string
+    clientId: string
+    name: string
+}
+
+export interface Client {
+    id: string
+    workspaceId: string
+    name: string
 }
 
 export interface Group {
-    id: string
-    name: string
+    clients: Client[]
     projects: Project[]
 }
 export interface WorkspaceModalSharedProps {
     id: string
     setIsModalOpen: (value: React.SetStateAction<boolean>) => void
+}
+export type GroupTable = {
+    id: string
+    client: string
+    project: string
+    actions: string
 }

@@ -1,26 +1,46 @@
-[
-    {
-        "id": "728ed52f",
-        "name": "Group 1",
-        "projects": [
-            {
-                "id": "728ed52f",
-                "names": "Project 1"
-            },
-            {
-                "id": "728ed52f",
-                "names": "Project 2"
-            }
-        ]
-    },
-    {
-        "id": "728ed52f",
-        "name": "Group 2",
-        "projects": [
-            {
-                "id": "728ed52f",
-                "names": "Project x"
-            }
-        ]
-    }
-]
+{
+    "clients": [
+        {
+            "id": "1",
+            "workspaceId": "ws1",
+            "name": "The Gym"
+        },
+        {
+            "id": "2",
+            "workspaceId": "ws1",
+            "name": "ALU"
+        },
+        {
+            "id": "3",
+            "workspaceId": "ws1",
+            "name": "Kepler"
+        }
+    ],
+    "projects": [
+        {
+            "id": "1",
+            "clientId": "1",
+            "name": "Codewars"
+        },
+        {
+            "id": "2",
+            "clientId": "1",
+            "name": "Planning time boxes"
+        },
+        {
+            "id": "3",
+            "clientId": "2",
+            "name": "Typing"
+        },
+        {
+            "id": "4",
+            "clientId": "2",
+            "name": "Other meetings"
+        },
+        {
+            "id": "5",
+            "clientId": "3",
+            "name": "All Hands"
+        }
+    ]
+}

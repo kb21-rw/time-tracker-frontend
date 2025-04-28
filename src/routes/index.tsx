@@ -9,6 +9,9 @@ import ManageWorkspacesPage from '../pages/ManageWorkspaces'
 import WorkspaceDetails from '../pages/WorkspaceDetails'
 import UserSignUpPage from '@/pages/UserSignUp'
 import { ProtectedRoute } from './ProtectedRoute'
+import TimeTracker from '@/pages/TimeTracker'
+import UsersDetails from '@/pages/workspace-details/users'
+import GroupsDetails from '@/pages/workspace-details/groups'
 
 export const router = createBrowserRouter([
     {
@@ -52,9 +55,23 @@ export const router = createBrowserRouter([
                     {
                         path: ':id',
                         element: <WorkspaceDetails />,
+                        children: [
+                            {
+                                index: true,
+                                element: <UsersDetails />,
+                            },
+                            {
+                                path: 'groups',
+                                element: <GroupsDetails />,
+                            },
+                        ],
                     },
                 ],
             },
         ],
+    },
+    {
+        path: '/tracker',
+        element: <TimeTracker />,
     },
 ])
