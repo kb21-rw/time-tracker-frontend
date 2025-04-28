@@ -7,14 +7,14 @@ export default function LandingPage() {
         <div className="w-full flex flex-col px-4 py-2 md:px-24 md:py-12 h-screen">
             <FocusFlowHeader />
             <div className="flex justify-between mt-20 items-center gap-6">
-                <div className="w-1/2 flex lg:flex-col gap-12 flex-col text-left">
-                    <p className="text-5xl font-bold font-inter text-primary-700">
+                <div className="lg:w-1/2 flex lg:flex-col gap-12 items-center flex-col w-full ">
+                    <p className="lg:text-5xl text-4xl font-bold font-inter ml-14 text-primary-700">
                         Where focus meets productivity
                     </p>
                     <p className="font-inter text-3xl w-2/3">
                         Streamlining your day and making every moment count.
                     </p>
-                    <div className="flex flex-row gap-4">
+                    <div className="flex lg:flex-row gap-4 flex-col">
                         <Link
                             className="w-52 bg-primary-600 shadow text-xl shadow-black/40 drop-shadow-xl text-white rounded-lg text-center p-4"
                             to="/sign-up"
