@@ -50,7 +50,7 @@ export default function UsersTable<TData, TValue>({
                                 data-state={row.getIsSelected() && 'selected'}
                             >
                                 {row.getVisibleCells().map(cell => (
-                                    <TableCell key={cell.id}>
+                                    <TableCell key={cell.id} className="truncate max-w-[100px]">
                                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                     </TableCell>
                                 ))}

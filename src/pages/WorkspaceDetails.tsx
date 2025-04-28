@@ -29,9 +29,11 @@ export default function WorkspaceDetails() {
 
     return (
         <>
-            <div className="flex min-h-screen">
+            <div className="flex w-full min-h-screen bg-background-accent">
                 <Sidebar />
-                <div className={`flex-1 transition-all duration-300 ${isOpen ? 'ml-84' : 'ml-20'}`}>
+                <div
+                    className={`flex-1 transition-all duration-300 ml-20 ${isOpen ? 'md:ml-68' : 'ml-20'}`}
+                >
                     <div className="w-full shadow-md py-7 px-9 flex justify-between items-center bg-white">
                         <p className="text-xl font-bold flex gap-x-4 items-center">
                             {workspaceName || state?.name}
@@ -46,7 +48,7 @@ export default function WorkspaceDetails() {
                             <span className="sm:hidden">New</span>
                         </button>
                     </div>
-                    <div className="bg-background-accent min-h-screen">
+                    <div>
                         <Outlet context={{ workspaceName }} />
                     </div>
                 </div>

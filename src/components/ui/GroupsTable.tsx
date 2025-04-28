@@ -23,7 +23,7 @@ export default function GroupsTable<TData, TValue>({
                             {headerGroup.headers.map(header => (
                                 <TableHead
                                     key={header.id}
-                                    className="text-primary-500 text-lg font-bold"
+                                    className="text-primary-500 text-lg text-center font-bold"
                                 >
                                     {header.isPlaceholder
                                         ? null
@@ -53,7 +53,7 @@ export default function GroupsTable<TData, TValue>({
                                 data-state={row.getIsSelected() && 'selected'}
                             >
                                 {row.getVisibleCells().map(cell => (
-                                    <TableCell key={cell.id}>
+                                    <TableCell key={cell.id} className="truncate max-w-[100px]">
                                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                     </TableCell>
                                 ))}

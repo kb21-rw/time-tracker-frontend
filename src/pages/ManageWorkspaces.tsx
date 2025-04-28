@@ -45,7 +45,7 @@ export default function ManageWorkspacesPage() {
             <div className="flex w-full">
                 <Sidebar />
                 <div
-                    className={`w-full bg-white flex-1 transition-all duration-300 ${isOpen ? 'ml-84' : 'ml-20'}`}
+                    className={`w-full bg-white flex-1 transition-all duration-300 ml-20 ${isOpen ? 'md:ml-64' : 'ml-20'}`}
                 >
                     <div className="w-full shadow-md  py-7 px-5 flex justify-between items-center">
                         <p className="text-xl font-bold">Workspaces</p>

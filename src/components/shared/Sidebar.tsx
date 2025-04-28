@@ -37,7 +37,7 @@ export default function Sidebar() {
                 </div>
             </aside>
             <div
-                className={`${isOpen ? 'w-64' : 'w-0'} transition-all duration-300 overflow-hidden bg-primary-800 h-full`}
+                className={`${isOpen ? 'w-48' : 'w-0'} transition-all duration-300 overflow-hidden h-full`}
             >
                 <WorkSpaceSidebar />
             </div>
