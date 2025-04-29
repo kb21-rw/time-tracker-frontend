@@ -1,11 +1,11 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/shadcn/dialog'
+import { CommonModalProps } from '@/util/interfaces'
 import { PropsWithChildren } from 'react'
 
-interface ModalProps {
-    isModalOpen: boolean
-    onClose: () => void
+interface ModalProps extends CommonModalProps {
     title: string
 }
+
 export default function DialogDemo({
     title,
     children,
