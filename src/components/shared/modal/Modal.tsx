@@ -2,7 +2,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/s
 import { CommonModalProps } from '@/util/interfaces'
 import { PropsWithChildren } from 'react'
 
-interface ModalProps extends CommonModalProps{
+interface ModalProps extends CommonModalProps {
     title: string
 }
 
