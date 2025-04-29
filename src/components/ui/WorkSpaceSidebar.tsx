@@ -6,9 +6,9 @@ import {
     SidebarGroup,
     SidebarGroupLabel,
     SidebarMenu,
-    SidebarMenuItem,
     SidebarMenuButton,
     SidebarProvider,
+    SidebarMenuItem,
 } from '../shadcn/sidebar'
 import { Link, useParams, useLocation } from 'react-router-dom'
 import FluentGroup from '../../assets/icons/FluentGroup'

@@ -52,7 +52,7 @@ export default function AdminSignUpPage() {
     }
 
     return (
-        <div className="w-full flex flex-col px-4 py-2 md:px-24 md:py-12 h-screen">
+        <div className="w-full flex flex-col px-4 py-2 md:px-24 md:py-12">
             <FocusFlowHeader />
             <div className="flex h-full justify-between items-center">
                 <img
@@ -60,8 +60,7 @@ export default function AdminSignUpPage() {
                     className="hidden lg:block  max-w-lg"
                     alt="signup page illustration"
                 />
-                <div className="flex flex-col w-full lg:w-2/5">
-                    <h1 className="text-2xl md:text-4xl font-bold my-8">Sign up as an admin</h1>
+                <div className="flex flex-col w-full lg:w-2/5 mt-10">
                     <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
                         <Input
                             id="fullName"

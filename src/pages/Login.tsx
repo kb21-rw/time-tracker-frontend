@@ -58,11 +58,11 @@ export default function LoginPage() {
                 <img
                     src={LoginImage}
                     className="hidden lg:block  max-w-lg"
-                    alt="login page image"
+                    alt="login page illustration"
                 />
                 <div className="flex flex-col justify-between w-full lg:w-2/5 relative">
-                    <h1 className="text-4xl font-bold my-8">Log in</h1>
-                    <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
+                    <h1 className="text-4xl font-bold my-8 font-inter">Log in</h1>
+                    <form className="w-full mt-3" onSubmit={handleSubmit(onSubmit)}>
                         <Input
                             id="email"
                             label="Email address:"
