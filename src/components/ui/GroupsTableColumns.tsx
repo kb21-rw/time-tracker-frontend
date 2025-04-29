@@ -4,7 +4,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import { GroupTable } from '../../util/interfaces'
 import { Pencil, Plus } from 'lucide-react'
 import { useState } from 'react'
-import EditModal from '../shared/shared/EditModal'
+import EditModal from '../shared/modal/EditModal'
 import EditButtons from './EditButtons'
 
 export const groupsTableColumns: ColumnDef<GroupTable>[] = [
