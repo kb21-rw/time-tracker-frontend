@@ -43,8 +43,8 @@ export const groupsTableColumns: ColumnDef<GroupTable>[] = [
             const handleEditClick = (event: React.MouseEvent<SVGSVGElement>) => {
                 const rect = event.currentTarget.getBoundingClientRect()
                 setPopupPosition({
-                    x: rect.right + window.scrollX - 20,
-                    y: rect.bottom + window.scrollY + 40,
+                    x: rect.right + window.scrollX - 40,
+                    y: rect.bottom + window.scrollY + 50,
                 })
                 setIsPopupOpen(true)
             }
