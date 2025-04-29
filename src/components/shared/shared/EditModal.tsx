@@ -1,18 +1,17 @@
 import { Dialog, DialogContent } from '@/components/shadcn/dialog'
+import { CommonModalProps } from '@/util/interfaces'
 import { PropsWithChildren } from 'react'
 
-interface ModalProps {
-    isModalOpen: boolean
-    onClose: () => void
+interface EditModalProps extends CommonModalProps {
     popupPosition?: { x: number; y: number }
 }
 
-export default function EditPopUpModal({
+export default function EditModal({
     children,
     isModalOpen,
     onClose,
     popupPosition,
-}: PropsWithChildren<ModalProps>) {
+}: PropsWithChildren<EditModalProps>) {
     return (
         <Dialog open={isModalOpen} onOpenChange={onClose} modal={false}>
             <DialogContent

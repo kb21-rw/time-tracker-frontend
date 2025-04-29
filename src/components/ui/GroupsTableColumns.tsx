@@ -4,7 +4,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import { GroupTable } from '../../util/interfaces'
 import { Pencil, Plus } from 'lucide-react'
 import { useState } from 'react'
-import EditPopUpModal from '../shared/shared/EditPopUpModal'
+import EditModal from '../shared/shared/EditModal'
 import EditButtons from './EditButtons'
 
 export const groupsTableColumns: ColumnDef<GroupTable>[] = [
@@ -60,13 +60,13 @@ export const groupsTableColumns: ColumnDef<GroupTable>[] = [
                         className="text-primary-500 w-5 h-5 cursor-pointer"
                     />
                     {isPopupOpen && popupPosition && (
-                        <EditPopUpModal
+                        <EditModal
                             isModalOpen={isPopupOpen}
                             onClose={closePopup}
                             popupPosition={popupPosition}
                         >
                             <EditButtons />
-                        </EditPopUpModal>
+                        </EditModal>
                     )}
                 </div>
             )

@@ -92,3 +92,8 @@ export type GroupTable = {
     project: string
     actions: string
 }
+
+export interface CommonModalProps {
+    isModalOpen: boolean
+    onClose: () => void
+}
