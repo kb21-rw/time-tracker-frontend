@@ -9,11 +9,13 @@ import EditButtons from '../ui/EditButtons'
 
 interface GroupsTableColumnsProps {
     setEditClientModal: React.Dispatch<React.SetStateAction<boolean>>
+    setCreateProjectModal: React.Dispatch<React.SetStateAction<boolean>>
     setSelectedRow: React.Dispatch<React.SetStateAction<GroupTable | null>>
 }
 
 export const groupsTableColumns = ({
     setEditClientModal,
+    setCreateProjectModal,
     setSelectedRow,
 }: GroupsTableColumnsProps): ColumnDef<GroupTable>[] => [
     {
@@ -22,7 +24,7 @@ export const groupsTableColumns = ({
             return (
                 <div className="flex gap-6.5 items-center">
                     <p>Clients</p>
-                    <Plus className="w-5 h-5" />
+                    <Plus className="w-5 h-5 hover:cursor-grab" />
                 </div>
             )
         },
@@ -33,7 +35,10 @@ export const groupsTableColumns = ({
             return (
                 <div className="flex gap-6.5 items-center">
                     <p>Projects</p>
-                    <Plus className="w-5 h-5" />
+                    <Plus
+                        className="w-5 h-5 hover:cursor-grab"
+                        onClick={() => setCreateProjectModal(true)}
+                    />
                 </div>
             )
         },

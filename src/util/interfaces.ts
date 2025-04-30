@@ -97,3 +97,9 @@ export interface CommonModalProps {
     isModalOpen: boolean
     onClose: () => void
 }
+
+export interface ClientState {
+    clients: Client[]
+    loading: boolean
+    error: any
+}
