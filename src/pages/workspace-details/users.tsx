@@ -1,5 +1,5 @@
-import { usersTableColumns } from '@/components/ui/UsersTableColums'
-import UsersTable from '@/components/ui/UsersTable'
+import { usersTableColumns } from '@/components/tables/UsersTableColums'
+import UsersTable from '@/components/tables/UsersTable'
 import { getWorkspaceUsers } from '@/redux/slice/workspaceSlice'
 import { AppDispatch, RootState } from '@/redux/store'
 import { TableUser } from '@/util/interfaces'
