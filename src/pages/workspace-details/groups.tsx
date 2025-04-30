@@ -34,7 +34,7 @@ export default function GroupsDetails() {
             <GroupsTable data={groupTableData} columns={columns} loading={false} />
 
             <DialogDemo
-                title={`Edit ${selectedRow?.client || 'Client'}`}
+                title={`Edit \u2018${selectedRow?.client || 'Client'}\u2019`}
                 isModalOpen={editClientModal}
                 onClose={() => setEditClientModal(false)}
             >
