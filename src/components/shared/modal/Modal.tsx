@@ -20,7 +20,7 @@ export default function DialogDemo({
                         {title}
                     </DialogTitle>
                 </DialogHeader>
-                <div className="p-6">{children}</div>
+                <div>{children}</div>
             </DialogContent>
         </Dialog>
     )

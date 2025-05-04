@@ -1,16 +1,12 @@
 'use client'
 
 import { ColumnDef } from '@tanstack/react-table'
-import { GroupTable } from '../../util/interfaces'
+import { GroupsTableColumnsProps, GroupTable } from '../../util/interfaces'
 import { Pencil, Plus } from 'lucide-react'
 import { useState } from 'react'
 import EditModal from '../shared/modal/EditModal'
 import EditButtons from '../ui/EditButtons'
 
-interface GroupsTableColumnsProps {
-    setEditClientModal: React.Dispatch<React.SetStateAction<boolean>>
-    setSelectedRow: React.Dispatch<React.SetStateAction<GroupTable | null>>
-}
 
 export const groupsTableColumns = ({
     setEditClientModal,

@@ -5,10 +5,7 @@ import { useForm } from 'react-hook-form'
 import { useSelector } from 'react-redux'
 import Button from '../ui/Button'
 import Input from '../ui/Input'
-
-interface RenameClientProps {
-    clientName?: string
-}
+import { RenameClientProps } from '@/util/interfaces'
 
 export default function RenameClientForm({ clientName }: RenameClientProps) {
     const { loading, error } = useSelector((state: RootState) => state.workspaces)
