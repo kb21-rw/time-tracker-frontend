@@ -1,8 +1,6 @@
 import Button from '../shared/ui/Button'
 import { EditButtonsProps } from '../../util/interfaces'
 
-
-
 export default function EditButtons({ setClientModal, rowData, setSelectedRow }: EditButtonsProps) {
     return (
         <div className="flex px-3 py-4 gap-2">

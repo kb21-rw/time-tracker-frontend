@@ -7,7 +7,6 @@ import { useState } from 'react'
 import EditModal from '../shared/modal/EditModal'
 import EditButtons from '../ui/EditButtons'
 
-
 export const groupsTableColumns = ({
     setEditClientModal,
     setSelectedRow,
