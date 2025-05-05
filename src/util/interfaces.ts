@@ -110,6 +110,7 @@ export interface RenameClientProps {
 
 export interface GroupsTableColumnsProps {
     setEditClientModal: React.Dispatch<React.SetStateAction<boolean>>
+    setCreateProjectModal: React.Dispatch<React.SetStateAction<boolean>>
     setSelectedRow: React.Dispatch<React.SetStateAction<GroupTable | null>>
 }
 
