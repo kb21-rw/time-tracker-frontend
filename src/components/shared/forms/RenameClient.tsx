@@ -12,7 +12,6 @@ export default function RenameClientForm({ clientName }: RenameClientProps) {
 
     const {
         register,
-        handleSubmit,
         formState: { errors, isValid },
     } = useForm({
         resolver: zodResolver(clientSchema),
@@ -21,10 +20,7 @@ export default function RenameClientForm({ clientName }: RenameClientProps) {
     })
 
     return (
-        <form
-            onSubmit={handleSubmit(() => console.log('submitted'))}
-            className="w-full flex flex-col items-center"
-        >
+        <form className="w-full flex flex-col items-center">
             <div className="w-full">
                 <Input
                     id="client-name"
