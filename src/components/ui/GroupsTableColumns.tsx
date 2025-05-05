@@ -6,15 +6,27 @@ import { Pencil, Plus } from 'lucide-react'
 import { useState } from 'react'
 import EditModal from '../shared/modal/EditModal'
 import EditButtons from './EditButtons'
+import DialogDemo from '../shared/modal/Modal'
+import CreateClient from '../shared/forms/CreateClient'
 
 export const groupsTableColumns: ColumnDef<GroupTable>[] = [
     {
         accessorKey: 'client',
         header: () => {
+            const [isModalOpen, setIsModalOpen] = useState(false)
             return (
                 <div className="flex gap-6.5 items-center">
                     <p>Clients</p>
-                    <Plus className="w-5 h-5" />
+                    <Plus className="w-5 h-5" onClick={() => setIsModalOpen(true)} />
+                    {isModalOpen && (
+                        <DialogDemo
+                            title="Create client"
+                            isModalOpen={isModalOpen}
+                            onClose={() => setIsModalOpen(false)}
+                        >
+                            <CreateClient />
+                        </DialogDemo>
+                    )}
                 </div>
             )
         },
