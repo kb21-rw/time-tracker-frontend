@@ -5,17 +5,13 @@ import { useForm } from 'react-hook-form'
 import { useSelector } from 'react-redux'
 import Button from '../ui/Button'
 import Input from '../ui/Input'
-
-interface RenameClientProps {
-    clientName?: string
-}
+import { RenameClientProps } from '@/util/interfaces'
 
 export default function RenameClientForm({ clientName }: RenameClientProps) {
     const { loading, error } = useSelector((state: RootState) => state.workspaces)
 
     const {
         register,
-        handleSubmit,
         formState: { errors, isValid },
     } = useForm({
         resolver: zodResolver(clientSchema),
@@ -24,10 +20,7 @@ export default function RenameClientForm({ clientName }: RenameClientProps) {
     })
 
     return (
-        <form
-            onSubmit={handleSubmit(() => console.log('submitted'))}
-            className="w-full flex flex-col items-center"
-        >
+        <form className="w-full flex flex-col items-center">
             <div className="w-full">
                 <Input
                     id="client-name"

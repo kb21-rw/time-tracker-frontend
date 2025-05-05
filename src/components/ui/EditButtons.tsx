@@ -1,11 +1,5 @@
 import Button from '../shared/ui/Button'
-import { GroupTable } from '../../util/interfaces'
-
-interface EditButtonsProps {
-    setClientModal?: React.Dispatch<React.SetStateAction<boolean>>
-    rowData?: GroupTable
-    setSelectedRow?: React.Dispatch<React.SetStateAction<GroupTable | null>>
-}
+import { EditButtonsProps } from '../../util/interfaces'
 
 export default function EditButtons({ setClientModal, rowData, setSelectedRow }: EditButtonsProps) {
     return (
