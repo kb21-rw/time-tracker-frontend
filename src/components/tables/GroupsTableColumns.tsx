@@ -1,13 +1,16 @@
 'use client'
 
 import { ColumnDef } from '@tanstack/react-table'
-import { GroupTable } from '../../util/interfaces'
+import { GroupsTableColumnsProps, GroupTable } from '../../util/interfaces'
 import { Pencil, Plus } from 'lucide-react'
 import { useState } from 'react'
 import EditModal from '../shared/modal/EditModal'
-import EditButtons from './EditButtons'
+import EditButtons from '../ui/EditButtons'
 
-export const groupsTableColumns: ColumnDef<GroupTable>[] = [
+export const groupsTableColumns = ({
+    setEditClientModal,
+    setSelectedRow,
+}: GroupsTableColumnsProps): ColumnDef<GroupTable>[] => [
     {
         accessorKey: 'client',
         header: () => {
@@ -33,7 +36,8 @@ export const groupsTableColumns: ColumnDef<GroupTable>[] = [
     {
         accessorKey: 'actions',
         header: 'Actions',
-        cell: () => {
+        cell: ({ row }) => {
+            const rowData = row.original
             const [isPopupOpen, setIsPopupOpen] = useState(false)
             const [popupPosition, setPopupPosition] = useState<{
                 x: number
@@ -65,7 +69,11 @@ export const groupsTableColumns: ColumnDef<GroupTable>[] = [
                             onClose={closePopup}
                             popupPosition={popupPosition}
                         >
-                            <EditButtons />
+                            <EditButtons
+                                setClientModal={setEditClientModal}
+                                rowData={rowData}
+                                setSelectedRow={setSelectedRow}
+                            />
                         </EditModal>
                     )}
                 </div>

@@ -14,3 +14,7 @@ export const inviteUserSchema = z.object({
 
     email: z.string().email({ message: 'Please enter a valid email address' }),
 })
+
+export const clientSchema = z.object({
+    name: z.string().min(2, { message: 'Client name should be at least 3 characters' }),
+})

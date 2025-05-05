@@ -141,3 +141,14 @@
         @apply bg-background text-foreground;
     }
 }
+
+/* Custom styles */
+.no-select-on-focus:focus {
+    user-select: none;
+    caret-color: auto;
+}
+
+/* Make the input selectable again after clicking */
+.no-select-on-focus:active {
+    user-select: text;
+}

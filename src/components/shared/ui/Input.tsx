@@ -8,6 +8,7 @@ export default function Input({
     type = 'text',
     placeholder,
     register,
+    ...props
 }: Readonly<InputProps>) {
     const [showPassword, setShowPassword] = useState(false)
     const togglePasswordVisibility = () => setShowPassword(previousState => !previousState)
@@ -21,6 +22,7 @@ export default function Input({
             )}
             <div className="relative h-14 mt-5">
                 <input
+                    {...props}
                     id={id}
                     {...register}
                     {...(!label && { 'aria-label': placeholder })}
