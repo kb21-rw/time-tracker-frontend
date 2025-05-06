@@ -19,7 +19,6 @@ export default function CreateProjectForm() {
     }, [dispatch])
     const {
         register,
-        handleSubmit,
         formState: { errors, isValid },
     } = useForm({
         resolver: zodResolver(ProjectSchema),
@@ -27,7 +26,7 @@ export default function CreateProjectForm() {
         defaultValues: { client: '', name: '' },
     })
     return (
-        <Form className="flex flex-col" onSubmit={handleSubmit(() => console.log('submitted'))}>
+        <Form className="flex flex-col">
             <div className="w-full max-w-3xl font-inter pb-6 text-xl">
                 <div className="relative md:w-1/2">
                     <select
