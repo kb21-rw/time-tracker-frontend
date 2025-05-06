@@ -26,7 +26,7 @@ function CreateClient() {
                 error={errors.clientname}
             />
 
-            <div className="flex justify-center items-center w-full mt-4">
+            <div className="flex justify-center w-full mt-4">
                 <Button className="w-1/2" disabled={!isValid} isLoading={loading}>
                     Create Client
                 </Button>

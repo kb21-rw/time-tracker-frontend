@@ -16,7 +16,7 @@ export default function RenameClientForm({ clientName }: RenameClientProps) {
     } = useForm({
         resolver: zodResolver(clientSchema),
         mode: 'all',
-        defaultValues: { name: clientName || '' },
+        defaultValues: { clientname: clientName ?? '' },
     })
 
     return (
@@ -26,9 +26,9 @@ export default function RenameClientForm({ clientName }: RenameClientProps) {
                     id="client-name"
                     type="text"
                     label="Rename Client"
-                    register={register('name')}
-                    placeholder={`${clientName || 'new name'}`}
-                    error={errors.name}
+                    register={register('clientname')}
+                    placeholder={`${clientName ?? 'new name'}`}
+                    error={errors.clientname}
                     tabIndex={-1}
                     className="no-select-on-focus"
                 />
