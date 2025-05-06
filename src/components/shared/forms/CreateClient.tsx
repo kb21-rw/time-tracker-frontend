@@ -5,10 +5,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/redux/store'
+import { clientSchema } from '@/schema/modal'
 
-export const clientSchema = z.object({
-    clientname: z.string().min(3, { message: 'client name must be at least 3 characters' }),
-})
 type clientData = z.infer<typeof clientSchema>
 function CreateClient() {
     const { loading } = useSelector((state: RootState) => state.workspaces)
