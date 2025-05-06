@@ -9,6 +9,7 @@ import EditButtons from '../ui/EditButtons'
 
 export const groupsTableColumns = ({
     setEditClientModal,
+    setCreateProjectModal,
     setSelectedRow,
 }: GroupsTableColumnsProps): ColumnDef<GroupTable>[] => [
     {
@@ -17,7 +18,7 @@ export const groupsTableColumns = ({
             return (
                 <div className="flex gap-6.5 items-center">
                     <p>Clients</p>
-                    <Plus className="w-5 h-5" />
+                    <Plus className="w-5 h-5 hover:cursor-grab" />
                 </div>
             )
         },
@@ -28,7 +29,10 @@ export const groupsTableColumns = ({
             return (
                 <div className="flex gap-6.5 items-center">
                     <p>Projects</p>
-                    <Plus className="w-5 h-5" />
+                    <Plus
+                        className="w-5 h-5 hover:cursor-grab"
+                        onClick={() => setCreateProjectModal(true)}
+                    />
                 </div>
             )
         },
