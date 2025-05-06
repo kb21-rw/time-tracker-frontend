@@ -11,13 +11,13 @@ export const clientSchema = z.object({
 })
 type clientData = z.infer<typeof clientSchema>
 function CreateClient() {
-    const { loading, error } = useSelector((state: RootState) => state.workspaces)
+    const { loading } = useSelector((state: RootState) => state.workspaces)
     const {
         register,
         handleSubmit,
         formState: { errors, isValid },
     } = useForm<clientData>({ resolver: zodResolver(clientSchema), mode: 'all' })
-    const onSubmit = (data: clientData) => console.log(data)
+    const onSubmit = (data: clientData) => data
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <Input
@@ -28,9 +28,11 @@ function CreateClient() {
                 error={errors.clientname}
             />
 
-            <Button className="w-full" disabled={!isValid} isLoading={loading}>
-                Create Client
-            </Button>
+            <div className="flex justify-center items-center w-full mt-4">
+                <Button className="w-1/2" disabled={!isValid} isLoading={loading}>
+                    Create Client
+                </Button>
+            </div>
         </form>
     )
 }
