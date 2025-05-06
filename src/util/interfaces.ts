@@ -102,13 +102,19 @@ export interface RenameClientProps {
     clientName?: string
 }
 
+export interface RenameProjectProps {
+    projectName?: string
+}
+
 export interface GroupsTableColumnsProps {
     setEditClientModal: React.Dispatch<React.SetStateAction<boolean>>
+    setEditProjectModal: React.Dispatch<React.SetStateAction<boolean>>
     setSelectedRow: React.Dispatch<React.SetStateAction<GroupTable | null>>
 }
 
 export interface EditButtonsProps {
     setClientModal?: React.Dispatch<React.SetStateAction<boolean>>
+    setProjectModal?: React.Dispatch<React.SetStateAction<boolean>>
     rowData?: GroupTable
     setSelectedRow?: React.Dispatch<React.SetStateAction<GroupTable | null>>
 }
