@@ -1,4 +1,4 @@
-import { Dialog, DialogContent } from '@/components/shadcn/dialog'
+import { Dialog, DialogContent, DialogTitle } from '@/components/shadcn/dialog'
 import { CommonModalProps } from '@/util/interfaces'
 import { PropsWithChildren } from 'react'
 
@@ -25,6 +25,7 @@ export default function EditModal({
                     zIndex: 50,
                 }}
             >
+                <DialogTitle className="sr-only">Edit Options</DialogTitle>
                 <div className="py-2">{children}</div>
             </DialogContent>
         </Dialog>

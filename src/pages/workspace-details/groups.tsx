@@ -1,10 +1,15 @@
 import { Group, GroupTable } from '@/util/interfaces'
 import groupData from '../../data/groups.json'
-import GroupsTable from '@/components/ui/GroupsTable'
-import { groupsTableColumns } from '@/components/ui/GroupsTableColumns'
+import GroupsTable from '@/components/tables/GroupsTable'
+import DialogDemo from '@/components/shared/modal/Modal'
+import { useState } from 'react'
+import { groupsTableColumns } from '@/components/tables/GroupsTableColumns'
+import RenameClientForm from '@/components/shared/forms/RenameClient'
 
 export default function GroupsDetails() {
     const { clients, projects }: Group = groupData
+    const [editClientModal, setEditClientModal] = useState(false)
+    const [selectedRow, setSelectedRow] = useState<GroupTable | null>(null)
 
     const groupTableData: GroupTable[] = clients
         .map(client => {
@@ -18,13 +23,23 @@ export default function GroupsDetails() {
         })
         .flat()
 
+    const columns = groupsTableColumns({ setEditClientModal, setSelectedRow })
+
     return (
         <div className="w-full">
             <div className="w-full flex justify-between px-9 py-12 font-bold text-xl">
                 <p>Groups</p>
             </div>
 
-            <GroupsTable data={groupTableData} columns={groupsTableColumns} loading={false} />
+            <GroupsTable data={groupTableData} columns={columns} loading={false} />
+
+            <DialogDemo
+                title={`Edit \u2018${selectedRow?.client || 'Client'}\u2019`}
+                isModalOpen={editClientModal}
+                onClose={() => setEditClientModal(false)}
+            >
+                <RenameClientForm clientName={selectedRow?.client} />
+            </DialogDemo>
         </div>
     )
 }
