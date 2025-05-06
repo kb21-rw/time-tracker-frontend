@@ -22,8 +22,8 @@ function CreateClient() {
                 label="Enter Client Name"
                 placeholder="Enter Client Name"
                 id="clientname"
-                register={register('clientname')}
-                error={errors.clientname}
+                register={register('name')}
+                error={errors.name}
             />
 
             <div className="flex justify-center w-full mt-4">
