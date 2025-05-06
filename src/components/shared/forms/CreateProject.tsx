@@ -14,9 +14,11 @@ export default function CreateProjectForm() {
     const { id } = useParams<{ id: string }>()
     const dispatch = useDispatch<AppDispatch>()
     const { clients, error: clientsError } = useSelector((state: RootState) => state.clients)
+
     useEffect(() => {
         dispatch(getWorkspaceClients(id!))
     }, [dispatch])
+
     const {
         register,
         formState: { errors, isValid },
@@ -25,13 +27,14 @@ export default function CreateProjectForm() {
         mode: 'all',
         defaultValues: { client: '', name: '' },
     })
+
     return (
         <Form className="flex flex-col">
             <div className="w-full max-w-3xl font-inter pb-6 text-xl">
                 <div className="relative md:w-1/2">
                     <select
                         {...register('client')}
-                        className="w-full appearance-none bg-transparent text-black text-xl font-normal pr-8 py-1 focus:outline-none cursor-pointer"
+                        className="w-full appearance-none bg-transparent text-black text-lg font-normal pr-8 py-1 focus:outline-none cursor-pointer"
                     >
                         <option value="" disabled hidden>
                             Select Client

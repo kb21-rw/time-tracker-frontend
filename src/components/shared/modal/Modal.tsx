@@ -16,7 +16,7 @@ export default function DialogDemo({
         <Dialog open={isModalOpen} onOpenChange={onClose}>
             <DialogContent className="sm:max-w-[425px] z-[100]">
                 <DialogHeader>
-                    <DialogTitle className="text-lg font-semibold text-gray-900">
+                    <DialogTitle className="text-xl font-bold text-gray-900">
                         {title}
                     </DialogTitle>
                 </DialogHeader>

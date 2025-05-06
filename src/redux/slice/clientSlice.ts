@@ -11,7 +11,7 @@ export const getWorkspaceClients = createAsyncThunk(
     'workspaces/getClients',
     async (id: string, { rejectWithValue }) => {
         try {
-            const response = await api.get(`Workspaces/${id}/clients`)
+            const response = await api.get(`workspaces/${id}/clients`)
             return response.data
         } catch (error: any) {
             const errorMessage = error.response?.data?.message || 'Fetching clients failed'
