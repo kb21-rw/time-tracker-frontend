@@ -1,15 +1,11 @@
-import { RootState } from '@/redux/store'
 import { clientSchema } from '@/schema/modal'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { useSelector } from 'react-redux'
 import Button from '../ui/Button'
 import Input from '../ui/Input'
 import { RenameClientProps } from '@/util/interfaces'
 
 export default function RenameClientForm({ clientName }: RenameClientProps) {
-    const { loading, error } = useSelector((state: RootState) => state.workspaces)
-
     const {
         register,
         formState: { errors, isValid },
@@ -33,12 +29,8 @@ export default function RenameClientForm({ clientName }: RenameClientProps) {
                     className="no-select-on-focus"
                 />
             </div>
-            {error && (
-                <p className="text-red-500 text-sm mt-2">
-                    {typeof error === 'string' ? error : JSON.stringify(error)}
-                </p>
-            )}
-            <Button className="w-1/2" disabled={!isValid} isLoading={loading}>
+
+            <Button className="w-1/2" disabled={!isValid}>
                 Save
             </Button>
         </form>

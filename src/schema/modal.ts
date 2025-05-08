@@ -18,3 +18,8 @@ export const inviteUserSchema = z.object({
 export const clientSchema = z.object({
     name: z.string().min(3, { message: 'Client name must be at least 3 characters' }),
 })
+
+export const ProjectSchema = z.object({
+    client: z.string().min(2, { message: 'Client is required' }),
+    name: z.string().min(3, { message: 'Project name required' }),
+})

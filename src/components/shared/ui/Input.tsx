@@ -16,7 +16,7 @@ export default function Input({
     return (
         <div className="w-full max-w-3xl font-inter pb-6 text-left">
             {label && (
-                <label className="text-quaternary" htmlFor={id}>
+                <label className="text-primary-800" htmlFor={id}>
                     {label}
                 </label>
             )}
