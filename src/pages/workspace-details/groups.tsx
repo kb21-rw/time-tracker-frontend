@@ -43,7 +43,7 @@ export default function GroupsDetails() {
                 <RenameClientForm clientName={selectedRow?.client} />
             </DialogDemo>
             <DialogDemo
-                title={`Edit \u2018${selectedRow?.project || 'Project'}\u2019`}
+                title="Edit Project"
                 isModalOpen={editProjectModal}
                 onClose={() => setEditProjectModal(false)}
             >
