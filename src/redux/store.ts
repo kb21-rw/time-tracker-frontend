@@ -3,6 +3,7 @@ import counterReducer from './slice/counterSlice'
 import workspacesReducer from './slice/workspaceSlice'
 import authReducer from './slice/authSlice'
 import sidebarReducer from './features/sidebarSlice'
+import clientReducer from './slice/clientSlice'
 
 const store = configureStore({
     reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
         auth: authReducer,
         workspaces: workspacesReducer,
         sidebar: sidebarReducer,
+        clients: clientReducer,
     },
 })
 

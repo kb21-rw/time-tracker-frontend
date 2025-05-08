@@ -98,6 +98,12 @@ export interface CommonModalProps {
     onClose: () => void
 }
 
+export interface ClientState {
+    clients: Client[]
+    loading: boolean
+    error: any
+}
+
 export interface RenameClientProps {
     clientName?: string
 }
@@ -109,6 +115,7 @@ export interface RenameProjectProps {
 export interface GroupsTableColumnsProps {
     setEditClientModal: React.Dispatch<React.SetStateAction<boolean>>
     setEditProjectModal: React.Dispatch<React.SetStateAction<boolean>>
+    setCreateProjectModal: React.Dispatch<React.SetStateAction<boolean>>
     setSelectedRow: React.Dispatch<React.SetStateAction<GroupTable | null>>
 }
 

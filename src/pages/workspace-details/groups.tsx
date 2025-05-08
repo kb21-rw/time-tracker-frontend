@@ -6,11 +6,14 @@ import { useState } from 'react'
 import { groupsTableColumns } from '@/components/tables/GroupsTableColumns'
 import RenameClientForm from '@/components/shared/forms/RenameClient'
 import RenameProject from '@/components/shared/forms/RenameProject'
+import CreateProjectForm from '@/components/shared/forms/CreateProject'
+
 
 export default function GroupsDetails() {
     const { clients, projects }: Group = groupData
     const [editClientModal, setEditClientModal] = useState(false)
     const [editProjectModal, setEditProjectModal] = useState(false)
+    const [createProjectModal, setCreateProjectModal] = useState(false)
     const [selectedRow, setSelectedRow] = useState<GroupTable | null>(null)
 
     const groupTableData: GroupTable[] = clients
@@ -25,7 +28,7 @@ export default function GroupsDetails() {
         })
         .flat()
 
-    const columns = groupsTableColumns({ setEditClientModal, setEditProjectModal, setSelectedRow })
+    const columns = groupsTableColumns({ setEditClientModal, setEditProjectModal,setCreateProjectModal, setSelectedRow })
 
     return (
         <div className="w-full">
@@ -48,6 +51,15 @@ export default function GroupsDetails() {
                 onClose={() => setEditProjectModal(false)}
             >
                 <RenameProject projectName={selectedRow?.project} />
+            </DialogDemo>
+
+            <DialogDemo
+                title="Create Project"
+                isModalOpen={createProjectModal}
+                onClose={() => setCreateProjectModal(false)}
+            >
+                <CreateProjectForm />
+
             </DialogDemo>
         </div>
     )
