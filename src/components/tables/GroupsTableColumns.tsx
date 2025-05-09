@@ -11,6 +11,7 @@ import EditButtons from '../ui/EditButtons'
 
 export const groupsTableColumns = ({
     setEditClientModal,
+    setEditProjectModal,
     setCreateProjectModal,
     setSelectedRow,
 }: GroupsTableColumnsProps): ColumnDef<GroupTable>[] => [
@@ -87,6 +88,7 @@ export const groupsTableColumns = ({
                         >
                             <EditButtons
                                 setClientModal={setEditClientModal}
+                                setProjectModal={setEditProjectModal}
                                 rowData={rowData}
                                 setSelectedRow={setSelectedRow}
                             />
