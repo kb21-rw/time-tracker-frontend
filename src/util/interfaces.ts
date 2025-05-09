@@ -38,11 +38,13 @@ export interface WorkspaceForCreation {
 
 export interface WorkspaceState {
     workspaces: Workspace[]
+    workspaceUsers: []
     loading: boolean
     error: any
 }
 
 export interface WorkspaceProps {
+    id: string
     name: string
     creationDate: string
 }
@@ -56,6 +58,7 @@ export interface Workspace {
 export interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
     data: TData[]
+    loading: boolean
 }
 export type TableUser = {
     id: string
@@ -65,11 +68,54 @@ export type TableUser = {
 }
 export interface Project {
     id: string
-    names: string
+    clientId: string
+    name: string
+}
+
+export interface Client {
+    id: string
+    workspaceId: string
+    name: string
 }
 
 export interface Group {
-    id: string
-    name: string
+    clients: Client[]
     projects: Project[]
+}
+export interface WorkspaceModalSharedProps {
+    id: string
+    setIsModalOpen: (value: React.SetStateAction<boolean>) => void
+}
+export type GroupTable = {
+    id: string
+    client: string
+    project: string
+    actions: string
+}
+
+export interface CommonModalProps {
+    isModalOpen: boolean
+    onClose: () => void
+}
+
+export interface ClientState {
+    clients: Client[]
+    loading: boolean
+    error: any
+}
+
+export interface RenameClientProps {
+    clientName?: string
+}
+
+export interface GroupsTableColumnsProps {
+    setEditClientModal: React.Dispatch<React.SetStateAction<boolean>>
+    setCreateProjectModal: React.Dispatch<React.SetStateAction<boolean>>
+    setSelectedRow: React.Dispatch<React.SetStateAction<GroupTable | null>>
+}
+
+export interface EditButtonsProps {
+    setClientModal?: React.Dispatch<React.SetStateAction<boolean>>
+    rowData?: GroupTable
+    setSelectedRow?: React.Dispatch<React.SetStateAction<GroupTable | null>>
 }

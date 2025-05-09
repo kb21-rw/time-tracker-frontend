@@ -8,8 +8,8 @@ const initialState: AuthState = {
     loading: false,
     error: null,
 }
-export const signupUser = createAsyncThunk(
-    'auth/signupUser',
+export const signupAdmin = createAsyncThunk(
+    'auth/signupAdmin',
     async (
         userData: { fullName: string; email: string; password: string },
         { rejectWithValue },
@@ -19,6 +19,21 @@ export const signupUser = createAsyncThunk(
             return response.data
         } catch (error: any) {
             const errorMessage = error.response?.data?.message || 'Signup failed'
+            return rejectWithValue(
+                typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage),
+            )
+        }
+    },
+)
+
+export const signupUser = createAsyncThunk(
+    'workspaces/invitations/accept',
+    async ({ token, password }: { token: string; password: string }, { rejectWithValue }) => {
+        try {
+            const response = await api.post(`workspaces/invitations/accept`, { token, password })
+            return response.data
+        } catch (error: any) {
+            const errorMessage = error.response.data.message || 'Accepting invitation failed'
             return rejectWithValue(
                 typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage),
             )
@@ -102,6 +117,19 @@ const authSlice = createSlice({
     },
     extraReducers: builder => {
         builder
+            .addCase(signupAdmin.pending, state => {
+                state.loading = true
+                state.error = null
+            })
+            .addCase(signupAdmin.fulfilled, (state, action) => {
+                state.loading = false
+                state.user = action.payload.user
+                state.token = action.payload.token
+            })
+            .addCase(signupAdmin.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.payload
+            })
             .addCase(signupUser.pending, state => {
                 state.loading = true
                 state.error = null
