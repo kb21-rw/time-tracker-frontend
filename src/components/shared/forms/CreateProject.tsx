@@ -9,11 +9,19 @@ import { useSelector, useDispatch } from 'react-redux'
 import { getWorkspaceClients } from '@/redux/slice/clientSlice'
 import { useEffect } from 'react'
 import DownArrow from '@/assets/icons/DownArrow'
+import { z } from 'zod'
+import { createProject } from '@/redux/slice/projectSlice'
+import toast from 'react-hot-toast'
+import { handleAxiosError } from '@/util/helpers'
+import { AxiosError } from 'axios'
+
+type createProjectData = z.infer<typeof ProjectSchema>
 
 export default function CreateProjectForm() {
     const { id } = useParams<{ id: string }>()
     const dispatch = useDispatch<AppDispatch>()
     const { clients, error: clientsError } = useSelector((state: RootState) => state.clients)
+    const { loading, error } = useSelector((state: RootState) => state.project)
 
     useEffect(() => {
         dispatch(getWorkspaceClients(id!))
@@ -21,19 +29,40 @@ export default function CreateProjectForm() {
 
     const {
         register,
+        handleSubmit,
         formState: { errors, isValid },
     } = useForm({
         resolver: zodResolver(ProjectSchema),
         mode: 'all',
-        defaultValues: { client: '', name: '' },
+        defaultValues: { clientId: '', name: '' },
     })
 
+    const handleCreateProject = async (data: createProjectData) => {
+        try {
+            const { meta: responseData } = await dispatch(
+                createProject({
+                    workspaceId: id!,
+                    clientId: data.clientId,
+                    name: data.name,
+                }),
+            )
+
+            if (responseData.requestStatus === 'fulfilled') {
+                toast.success('You have successfully created a new Project')
+            } else {
+                toast.error('Failed to create a new project')
+            }
+        } catch (error) {
+            handleAxiosError(error as AxiosError)
+        }
+    }
+
     return (
-        <Form className="flex flex-col">
+        <Form className="flex flex-col" onSubmit={handleSubmit(handleCreateProject)}>
             <div className="w-full max-w-3xl font-inter pb-6 text-xl">
                 <div className="relative md:w-1/2">
                     <select
-                        {...register('client')}
+                        {...register('clientId')}
                         className="w-full appearance-none bg-transparent text-black text-lg font-normal pr-8 py-1 focus:outline-none cursor-pointer"
                     >
                         <option value="" disabled hidden>
@@ -67,8 +96,12 @@ export default function CreateProjectForm() {
                 error={errors.name}
                 register={register('name')}
             />
-
-            <Button className="self-center w-1/2" disabled={!isValid}>
+            {error && (
+                <p className="text-red-500 text-sm mt-2">
+                    {typeof error === 'string' ? error : JSON.stringify(error)}
+                </p>
+            )}
+            <Button className="self-center w-1/2" disabled={!isValid} isLoading={loading}>
                 Create Project
             </Button>
         </Form>

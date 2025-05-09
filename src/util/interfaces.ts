@@ -104,6 +104,12 @@ export interface ClientState {
     error: any
 }
 
+export interface projectState {
+    project: Project | null
+    loading: boolean
+    error: any
+}
+
 export interface RenameClientProps {
     clientName?: string
 }
