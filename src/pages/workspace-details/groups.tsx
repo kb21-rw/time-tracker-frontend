@@ -8,7 +8,6 @@ import RenameClientForm from '@/components/shared/forms/RenameClient'
 import RenameProject from '@/components/shared/forms/RenameProject'
 import CreateProjectForm from '@/components/shared/forms/CreateProject'
 
-
 export default function GroupsDetails() {
     const { clients, projects }: Group = groupData
     const [editClientModal, setEditClientModal] = useState(false)
@@ -28,7 +27,12 @@ export default function GroupsDetails() {
         })
         .flat()
 
-    const columns = groupsTableColumns({ setEditClientModal, setEditProjectModal,setCreateProjectModal, setSelectedRow })
+    const columns = groupsTableColumns({
+        setEditClientModal,
+        setEditProjectModal,
+        setCreateProjectModal,
+        setSelectedRow,
+    })
 
     return (
         <div className="w-full">
@@ -59,7 +63,6 @@ export default function GroupsDetails() {
                 onClose={() => setCreateProjectModal(false)}
             >
                 <CreateProjectForm />
-
             </DialogDemo>
         </div>
     )
