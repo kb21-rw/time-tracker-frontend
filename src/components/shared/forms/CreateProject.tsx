@@ -17,7 +17,11 @@ import { AxiosError } from 'axios'
 
 type createProjectData = z.infer<typeof ProjectSchema>
 
-export default function CreateProjectForm() {
+export default function CreateProjectForm({
+    setCreateProjectModal,
+}: {
+    setCreateProjectModal: React.Dispatch<React.SetStateAction<boolean>>
+}) {
     const { id } = useParams<{ id: string }>()
     const dispatch = useDispatch<AppDispatch>()
     const { clients, error: clientsError } = useSelector((state: RootState) => state.clients)
@@ -49,6 +53,7 @@ export default function CreateProjectForm() {
 
             if (responseData.requestStatus === 'fulfilled') {
                 toast.success('You have successfully created a new Project')
+                setCreateProjectModal(false)
             } else {
                 toast.error('Failed to create a new project')
             }

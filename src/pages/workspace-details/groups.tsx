@@ -51,7 +51,7 @@ export default function GroupsDetails() {
                 isModalOpen={createProjectModal}
                 onClose={() => setCreateProjectModal(false)}
             >
-                <CreateProjectForm />
+                <CreateProjectForm setCreateProjectModal={setCreateProjectModal} />
             </DialogDemo>
         </div>
     )
