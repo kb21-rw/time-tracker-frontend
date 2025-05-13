@@ -29,14 +29,15 @@ export default function UserSignUpPage() {
     } = useForm<UserFormFiled>({
         resolver: zodResolver(userSignUpShcema),
         mode: 'all',
+        defaultValues: { fullName: ''},
     })
-    const onSubmit = async ({ ConfirmPassword: password }: UserFormFiled) => {
+    const onSubmit = async ({ ConfirmPassword: password, fullName }: UserFormFiled) => {
         try {
             if (!token) {
                 toast.error('A token is needed to signup as a user!')
                 return
             }
-            const acceptInvitationData = { token, password }
+            const acceptInvitationData = { fullName, token, password }
             const { meta: responseData } = await dispatch(signupUser(acceptInvitationData))
             if (responseData.requestStatus === 'fulfilled') {
                 toast.success('Successfully created a user account!')
@@ -61,6 +62,18 @@ export default function UserSignUpPage() {
                     <h1 className="text-4xl font-bold my-8">Sign up as a user</h1>
 
                     <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
+                        <Input
+                            label="Full Name:"
+                            placeholder="Full Name"
+                            id="fullName"
+                            register={register('fullName')}
+                            error={errors.fullName}
+                        />
+                        {error && (
+                            <p className="text-red-500 text-sm mt-2">
+                                {typeof error === 'string' ? error : JSON.stringify(error)}
+                            </p>
+                        )}
                         <Input
                             label="Create password:"
                             placeholder="CreatePassword"
