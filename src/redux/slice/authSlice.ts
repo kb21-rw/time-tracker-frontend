@@ -29,11 +29,15 @@ export const signupAdmin = createAsyncThunk(
 export const signupUser = createAsyncThunk(
     'workspaces/invitations/accept',
     async (
-        { token, password,fullName }: { token: string; fullName: string; password: string },
+        { token, password, fullName }: { token: string; fullName: string; password: string },
         { rejectWithValue },
     ) => {
         try {
-            const response = await api.post(`workspaces/invitations/accept`, { token, fullName, password })
+            const response = await api.post(`workspaces/invitations/accept`, {
+                token,
+                fullName,
+                password,
+            })
             return response.data
         } catch (error: any) {
             const errorMessage = error.response.data.message || 'Accepting invitation failed'

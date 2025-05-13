@@ -29,7 +29,7 @@ export default function UserSignUpPage() {
     } = useForm<UserFormFiled>({
         resolver: zodResolver(userSignUpShcema),
         mode: 'all',
-        defaultValues: { fullName: ''},
+        defaultValues: { fullName: '' },
     })
     const onSubmit = async ({ ConfirmPassword: password, fullName }: UserFormFiled) => {
         try {

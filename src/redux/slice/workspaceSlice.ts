@@ -39,10 +39,7 @@ export const getWorkspacesByUser = createAsyncThunk(
 
 export const inviteUser = createAsyncThunk(
     'workspace/inviteUser',
-    async (
-        params: { id: string; userData: { email: string } },
-        { rejectWithValue },
-    ) => {
+    async (params: { id: string; userData: { email: string } }, { rejectWithValue }) => {
         const { id, userData } = params
         try {
             const response = await api.post(`Workspaces/${id}/invitations`, userData)
