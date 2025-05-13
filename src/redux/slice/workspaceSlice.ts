@@ -40,7 +40,7 @@ export const getWorkspacesByUser = createAsyncThunk(
 export const inviteUser = createAsyncThunk(
     'workspace/inviteUser',
     async (
-        params: { id: string; userData: { fullName: string; email: string } },
+        params: { id: string; userData: { email: string } },
         { rejectWithValue },
     ) => {
         const { id, userData } = params
