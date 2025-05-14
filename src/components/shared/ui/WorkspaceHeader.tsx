@@ -1,7 +1,11 @@
-import { WorkspaceHeaderProps } from "@/util/interfaces";
-import { Download, Plus } from "lucide-react";
+import { WorkspaceHeaderProps } from '@/util/interfaces'
+import { Download, Plus } from 'lucide-react'
 
-export default function WorkspaceHeader({workspaceName, buttonText, setIsModalOpen}: WorkspaceHeaderProps) {
+export default function WorkspaceHeader({
+    workspaceName,
+    buttonText,
+    setIsModalOpen,
+}: WorkspaceHeaderProps) {
     return (
         <div className="w-full shadow-md py-7 px-9 flex justify-between items-center bg-white">
             <p className="text-xl font-bold flex gap-x-4 items-center">

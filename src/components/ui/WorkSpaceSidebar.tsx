@@ -1,4 +1,4 @@
-import { Clock, Group } from 'lucide-react'
+import { Clock, Group, Users } from 'lucide-react'
 import {
     Sidebar,
     SidebarHeader,
@@ -11,7 +11,7 @@ import {
     SidebarMenuItem,
 } from '../shadcn/sidebar'
 import { Link, useParams, useLocation } from 'react-router-dom'
-import FluentGroup from '../../assets/icons/FluentGroup'
+import FluentProject from '../../assets/icons/FluentProject'
 
 export default function WorkspaceSidebar() {
     const { id } = useParams<{ id: string }>()
@@ -50,7 +50,7 @@ export default function WorkspaceSidebar() {
                                             to={`/manage-workspaces/${id}`}
                                             className="flex gap-2"
                                         >
-                                            <FluentGroup className="w-7 h-7" />
+                                            <Users className="w-7 h-7" />
                                             <h1>Users</h1>
                                         </Link>
                                     </SidebarMenuButton>
@@ -76,7 +76,7 @@ export default function WorkspaceSidebar() {
                                             to={`/manage-workspaces/${id}/projects`}
                                             className="flex gap-2"
                                         >
-                                            <Group className="w-7 h-7" />
+                                            <FluentProject className="w-7 h-7" />
                                             <h1>Projects</h1>
                                         </Link>
                                     </SidebarMenuButton>
