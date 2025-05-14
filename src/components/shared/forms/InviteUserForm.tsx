@@ -47,6 +47,7 @@ function InviteUserForm({ id, setIsModalOpen }: Readonly<WorkspaceModalSharedPro
         <form onSubmit={handleSubmit(handleInviteUser)}>
             <Input
                 label="User's email"
+                placeholder="Enter user's email"
                 id="email"
                 register={register('email')}
                 error={errors.email}
