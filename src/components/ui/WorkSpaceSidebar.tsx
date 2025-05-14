@@ -60,11 +60,24 @@ export default function WorkspaceSidebar() {
                                 <SidebarMenuItem>
                                     <SidebarMenuButton className="text-base">
                                         <Link
-                                            to={`/manage-workspaces/${id}/groups`}
+                                            to={`/manage-workspaces/${id}/clients`}
                                             className="flex gap-2"
                                         >
                                             <Group className="w-7 h-7" />
-                                            <h1>Groups</h1>
+                                            <h1>Clients</h1>
+                                        </Link>
+                                    </SidebarMenuButton>
+                                </SidebarMenuItem>
+                            </SidebarMenu>
+                            <SidebarMenu>
+                                <SidebarMenuItem>
+                                    <SidebarMenuButton className="text-base">
+                                        <Link
+                                            to={`/manage-workspaces/${id}/projects`}
+                                            className="flex gap-2"
+                                        >
+                                            <Group className="w-7 h-7" />
+                                            <h1>Projects</h1>
                                         </Link>
                                     </SidebarMenuButton>
                                 </SidebarMenuItem>

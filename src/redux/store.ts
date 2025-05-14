@@ -4,6 +4,7 @@ import workspacesReducer from './slice/workspaceSlice'
 import authReducer from './slice/authSlice'
 import sidebarReducer from './features/sidebarSlice'
 import clientReducer from './slice/clientSlice'
+import projectReducer from './slice/projectSlice'
 
 const store = configureStore({
     reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
         workspaces: workspacesReducer,
         sidebar: sidebarReducer,
         clients: clientReducer,
+        projects: projectReducer,
     },
 })
 

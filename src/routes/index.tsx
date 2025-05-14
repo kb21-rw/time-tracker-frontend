@@ -11,7 +11,8 @@ import UserSignUpPage from '@/pages/UserSignUp'
 import { ProtectedRoute } from './ProtectedRoute'
 import TimeTracker from '@/pages/TimeTracker'
 import UsersDetails from '@/pages/workspace-details/users'
-import GroupsDetails from '@/pages/workspace-details/groups'
+import ClientsPage from '@/pages/workspace-details/clients'
+import ProjectsPage from '@/pages/workspace-details/projects'
 
 export const router = createBrowserRouter([
     {
@@ -61,8 +62,12 @@ export const router = createBrowserRouter([
                                 element: <UsersDetails />,
                             },
                             {
-                                path: 'groups',
-                                element: <GroupsDetails />,
+                                path: 'clients',
+                                element: <ClientsPage />,
+                            },
+                            {
+                                path: 'projects',
+                                element: <ProjectsPage />,
                             },
                         ],
                     },

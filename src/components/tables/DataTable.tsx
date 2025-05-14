@@ -3,10 +3,11 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '.
 import { DataTableProps } from '@/util/interfaces'
 import { Loader2 } from 'lucide-react'
 
-export default function GroupsTable<TData, TValue>({
+export default function DataTable<TData, TValue>({
     columns,
     data,
     loading = false,
+    tableName,
 }: DataTableProps<TData, TValue>) {
     const table = useReactTable({
         data,
@@ -23,7 +24,7 @@ export default function GroupsTable<TData, TValue>({
                             {headerGroup.headers.map(header => (
                                 <TableHead
                                     key={header.id}
-                                    className="text-primary-500 text-lg text-center font-bold"
+                                    className="text-primary-500 text-lg font-bold"
                                 >
                                     {header.isPlaceholder
                                         ? null
@@ -62,7 +63,7 @@ export default function GroupsTable<TData, TValue>({
                     ) : (
                         <TableRow>
                             <TableCell colSpan={columns.length} className="h-24 text-center">
-                                No clients and projects found in this workspace
+                                No {tableName} found in this workspace
                             </TableCell>
                         </TableRow>
                     )}
