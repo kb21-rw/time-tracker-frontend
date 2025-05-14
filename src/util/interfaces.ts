@@ -129,7 +129,7 @@ export type OutletContextType = {
     id: string
 }
 export interface projectState {
-    project: Project[]
+    projects: Project[]
     loading: boolean
     error: any
 }

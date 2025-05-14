@@ -3,7 +3,7 @@ import { projectState } from '@/util/interfaces'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
 const initialState: projectState = {
-    project: [],
+    projects: [],
     loading: false,
     error: null,
 }
@@ -11,17 +11,17 @@ const initialState: projectState = {
 export const createProject = createAsyncThunk(
     'project',
     async (
-        params: { workspaceId: string; clientId: string; name: string },
+        projectParams: { workspaceId: string; clientId: string; name: string },
         { rejectWithValue },
     ) => {
         try {
             const response = await api.post(
-                `/workspaces/${params.workspaceId}/clients/${params.clientId}/projects`,
-                { name: params.name },
+                `/workspaces/${projectParams.workspaceId}/clients/${projectParams.clientId}/projects`,
+                { name: projectParams.name },
             )
             return response.data
         } catch (error: any) {
-            const errorMessage = error.response?.data?.message || 'creating project failed'
+            const errorMessage = error.response?.data?.message || 'Creating project failed'
             return rejectWithValue(
                 typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage),
             )
@@ -56,7 +56,7 @@ const projectSlice = createSlice({
             })
             .addCase(createProject.fulfilled, (state, action) => {
                 state.loading = false
-                state.project = action.payload.project
+                state.projects = action.payload.project
             })
             .addCase(createProject.rejected, (state, action) => {
                 state.loading = false
@@ -68,7 +68,7 @@ const projectSlice = createSlice({
             })
             .addCase(getProjects.fulfilled, (state, action) => {
                 state.loading = false
-                state.project = action.payload
+                state.projects = action.payload
             })
             .addCase(getProjects.rejected, (state, action) => {
                 state.loading = false

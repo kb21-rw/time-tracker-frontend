@@ -13,12 +13,11 @@ import { useOutletContext } from 'react-router-dom'
 export default function ProjectPage() {
     const { workspaceName, id } = useOutletContext<OutletContextType>()
     const dispatch = useDispatch<AppDispatch>()
-    const { project, loading } = useSelector((state: RootState) => state.projects)
+    const { projects, loading } = useSelector((state: RootState) => state.projects)
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [editProjectModal, setEditProjectModal] = useState(false)
     const [, setSelectedRow] = useState<Project | null>(null)
 
-    console.log(project)
     const columns = ProjectTableColumns({
         setEditProjectModal,
         setSelectedRow,
@@ -42,7 +41,7 @@ export default function ProjectPage() {
                 <DataTable
                     tableName="projects"
                     columns={columns}
-                    data={project}
+                    data={projects}
                     loading={loading}
                 />
             </div>
@@ -59,7 +58,7 @@ export default function ProjectPage() {
                     isModalOpen={isModalOpen}
                     onClose={() => setIsModalOpen(false)}
                 >
-                    <CreateProjectForm />
+                    <CreateProjectForm setCreateProjectModal={setIsModalOpen} />
                 </DialogDemo>
             }
         </>

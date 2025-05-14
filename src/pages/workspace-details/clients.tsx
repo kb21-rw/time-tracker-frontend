@@ -1,3 +1,4 @@
+import CreateClient from '@/components/shared/forms/CreateClient'
 import RenameClientForm from '@/components/shared/forms/RenameClient'
 import DialogDemo from '@/components/shared/modal/Modal'
 import WorkspaceHeader from '@/components/shared/ui/WorkspaceHeader'
@@ -18,7 +19,6 @@ export default function ClientsPage() {
     const [editClientModal, setEditClientModal] = useState(false)
     const [selectedRow, setSelectedRow] = useState<ClientTable | null>(null)
 
-    
     const columns = ClientsTableColumns({
         setEditClientModal,
         setSelectedRow,
@@ -52,11 +52,11 @@ export default function ClientsPage() {
             }
             {
                 <DialogDemo
-                title='Create Client'
-                isModalOpen={isModalOpen}
-                onClose={()=> setIsModalOpen(false)}
+                    title="Create Client"
+                    isModalOpen={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
                 >
-
+                    <CreateClient />
                 </DialogDemo>
             }
         </>
