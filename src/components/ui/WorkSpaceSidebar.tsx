@@ -10,7 +10,7 @@ import {
     SidebarProvider,
     SidebarMenuItem,
 } from '../shadcn/sidebar'
-import { Link, useParams, useLocation } from 'react-router-dom'
+import { NavLink, useParams, useLocation } from 'react-router-dom'
 import FluentProject from '../../assets/icons/FluentProject'
 
 export default function WorkspaceSidebar() {
@@ -24,15 +24,19 @@ export default function WorkspaceSidebar() {
                 <SidebarHeader>
                     <SidebarMenu>
                         <SidebarMenuItem className="px-7">
-                            <SidebarMenuButton size="lg" className="my-1">
-                                <Link to="/tracker" className="flex items-center gap-2">
+                            <SidebarMenuButton
+                                size="lg"
+                                className="my-1"
+                                isActive={location.pathname === '/tracker'}
+                            >
+                                <NavLink to="/tracker" className="flex items-center gap-2">
                                     <Clock
                                         fill="white"
                                         stroke="currentColor"
                                         className="text-primary-500 text-2xl w-7 h-7"
                                     />
                                     <p className="text-xl">Track</p>
-                                </Link>
+                                </NavLink>
                             </SidebarMenuButton>
                         </SidebarMenuItem>
                     </SidebarMenu>
@@ -45,40 +49,54 @@ export default function WorkspaceSidebar() {
                             </SidebarGroupLabel>
                             <SidebarMenu>
                                 <SidebarMenuItem>
-                                    <SidebarMenuButton className="text-base">
-                                        <Link
+                                    <SidebarMenuButton
+                                        className="text-base"
+                                        isActive={location.pathname === `/manage-workspaces/${id}`}
+                                    >
+                                        <NavLink
                                             to={`/manage-workspaces/${id}`}
                                             className="flex gap-2"
                                         >
                                             <Users className="w-7 h-7" />
                                             <h1>Users</h1>
-                                        </Link>
+                                        </NavLink>
                                     </SidebarMenuButton>
                                 </SidebarMenuItem>
                             </SidebarMenu>
                             <SidebarMenu>
                                 <SidebarMenuItem>
-                                    <SidebarMenuButton className="text-base">
-                                        <Link
+                                    <SidebarMenuButton
+                                        className="text-base"
+                                        isActive={
+                                            location.pathname === `/manage-workspaces/${id}/clients`
+                                        }
+                                    >
+                                        <NavLink
                                             to={`/manage-workspaces/${id}/clients`}
                                             className="flex gap-2"
                                         >
                                             <Group className="w-7 h-7" />
                                             <h1>Clients</h1>
-                                        </Link>
+                                        </NavLink>
                                     </SidebarMenuButton>
                                 </SidebarMenuItem>
                             </SidebarMenu>
                             <SidebarMenu>
                                 <SidebarMenuItem>
-                                    <SidebarMenuButton className="text-base">
-                                        <Link
+                                    <SidebarMenuButton
+                                        className="text-base"
+                                        isActive={
+                                            location.pathname ===
+                                            `/manage-workspaces/${id}/projects`
+                                        }
+                                    >
+                                        <NavLink
                                             to={`/manage-workspaces/${id}/projects`}
                                             className="flex gap-2"
                                         >
                                             <FluentProject className="w-7 h-7" />
                                             <h1>Projects</h1>
-                                        </Link>
+                                        </NavLink>
                                     </SidebarMenuButton>
                                 </SidebarMenuItem>
                             </SidebarMenu>
