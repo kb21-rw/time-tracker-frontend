@@ -3,7 +3,7 @@ import DialogDemo from '@/components/shared/modal/Modal'
 import WorkspaceHeader from '@/components/shared/ui/WorkspaceHeader'
 import DataTable from '@/components/tables/DataTable'
 import { ProjectTableColumns } from '@/components/tables/ProjectsTableColumns'
-import { getProjects } from '@/redux/slice/projectSlice'
+import { getProjectsByWorkspaceId } from '@/redux/slice/projectSlice'
 import { AppDispatch, RootState } from '@/redux/store'
 import { OutletContextType, Project } from '@/util/interfaces'
 import { useEffect, useState } from 'react'
@@ -24,7 +24,7 @@ export default function ProjectPage() {
     })
 
     useEffect(() => {
-        dispatch(getProjects(id!))
+        dispatch(getProjectsByWorkspaceId(id!))
     }, [dispatch])
 
     return (

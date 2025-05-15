@@ -29,8 +29,8 @@ export const createProject = createAsyncThunk(
     },
 )
 
-export const getProjects = createAsyncThunk(
-    'workspaces/getProjects',
+export const getProjectsByWorkspaceId = createAsyncThunk(
+    'workspaces/getProjectsByWorkspaceId ',
     async (workspaceId: string, { rejectWithValue }) => {
         try {
             const response = await api.get(`/workspaces/${workspaceId}/projects`)
@@ -62,15 +62,15 @@ const projectSlice = createSlice({
                 state.loading = false
                 state.error = action.payload
             })
-            .addCase(getProjects.pending, state => {
+            .addCase(getProjectsByWorkspaceId.pending, state => {
                 state.loading = true
                 state.error = null
             })
-            .addCase(getProjects.fulfilled, (state, action) => {
+            .addCase(getProjectsByWorkspaceId.fulfilled, (state, action) => {
                 state.loading = false
                 state.projects = action.payload
             })
-            .addCase(getProjects.rejected, (state, action) => {
+            .addCase(getProjectsByWorkspaceId.rejected, (state, action) => {
                 state.loading = false
                 state.error = action.payload
             })
