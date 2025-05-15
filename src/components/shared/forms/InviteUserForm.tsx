@@ -40,22 +40,11 @@ function InviteUserForm({ id, setIsModalOpen }: Readonly<WorkspaceModalSharedPro
     } = useForm({
         resolver: zodResolver(inviteUserSchema),
         mode: 'all',
-        defaultValues: { fullName: '', email: '' },
+        defaultValues: { email: '' },
     })
 
     return (
         <form onSubmit={handleSubmit(handleInviteUser)}>
-            <Input
-                label="User’s full name"
-                id="fullName"
-                register={register('fullName')}
-                error={errors.fullName}
-            />
-            {error && (
-                <p className="text-red-500 text-sm mt-2">
-                    {typeof error === 'string' ? error : JSON.stringify(error)}
-                </p>
-            )}
             <Input
                 label="User's email"
                 id="email"
