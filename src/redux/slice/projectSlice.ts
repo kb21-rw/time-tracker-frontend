@@ -11,13 +11,13 @@ const initialState: projectState = {
 export const createProject = createAsyncThunk(
     'project',
     async (
-        projectParams: { workspaceId: string; clientId: string; name: string },
+        { workspaceId, clientId, name }: { workspaceId: string; clientId: string; name: string },
         { rejectWithValue },
     ) => {
         try {
             const response = await api.post(
-                `/workspaces/${projectParams.workspaceId}/clients/${projectParams.clientId}/projects`,
-                { name: projectParams.name },
+                `/workspaces/${workspaceId}/clients/${clientId}/projects`,
+                { name: name },
             )
             return response.data
         } catch (error: any) {
@@ -31,9 +31,9 @@ export const createProject = createAsyncThunk(
 
 export const getProjects = createAsyncThunk(
     'workspaces/getProjects',
-    async (id: string, { rejectWithValue }) => {
+    async (workspaceId: string, { rejectWithValue }) => {
         try {
-            const response = await api.get(`/workspaces/${id}/projects`)
+            const response = await api.get(`/workspaces/${workspaceId}/projects`)
             return response.data
         } catch (error: any) {
             const errorMessage = error.response?.data?.message || 'Fetching projects failed'
@@ -56,7 +56,7 @@ const projectSlice = createSlice({
             })
             .addCase(createProject.fulfilled, (state, action) => {
                 state.loading = false
-                state.projects = action.payload.project
+                state.projects = action.payload.projects
             })
             .addCase(createProject.rejected, (state, action) => {
                 state.loading = false

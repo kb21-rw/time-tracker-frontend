@@ -24,7 +24,7 @@ export default function DataTable<TData, TValue>({
                             {headerGroup.headers.map(header => (
                                 <TableHead
                                     key={header.id}
-                                    className="text-primary-500 text-lg font-bold"
+                                    className={`text-primary-500 text-lg font-bold ${header.column.id === 'actions' ? 'text-center' : ''}`}
                                 >
                                     {header.isPlaceholder
                                         ? null
@@ -54,7 +54,10 @@ export default function DataTable<TData, TValue>({
                                 data-state={row.getIsSelected() && 'selected'}
                             >
                                 {row.getVisibleCells().map(cell => (
-                                    <TableCell key={cell.id} className="truncate max-w-[100px]">
+                                    <TableCell
+                                        key={cell.id}
+                                        className={`truncate max-w-[100px] ${cell.column.id === 'actions' ? 'justify-end' : ''}`}
+                                    >
                                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                     </TableCell>
                                 ))}

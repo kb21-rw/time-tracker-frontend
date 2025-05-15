@@ -28,7 +28,7 @@ export const ProjectTableColumns = ({
             }
 
             return (
-                <div className="flex items-center gap-x-4">
+                <div className="flex items-center justify-center gap-x-4">
                     <Pencil
                         onClick={handleEditClick}
                         className="text-primary-500 w-5 h-5 cursor-pointer"

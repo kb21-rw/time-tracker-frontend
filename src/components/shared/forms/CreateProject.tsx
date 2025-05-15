@@ -10,7 +10,7 @@ import { getWorkspaceClients } from '@/redux/slice/clientSlice'
 import { useEffect } from 'react'
 import DownArrow from '@/assets/icons/DownArrow'
 import { z } from 'zod'
-import { createProject } from '@/redux/slice/projectSlice'
+import { createProject, getProjects } from '@/redux/slice/projectSlice'
 import { handleAxiosError } from '@/util/helpers'
 import { AxiosError } from 'axios'
 import toast from 'react-hot-toast'
@@ -54,6 +54,7 @@ export default function CreateProjectForm({
             if (responseData.requestStatus === 'fulfilled') {
                 toast.success('You have successfully created a new Project')
                 setCreateProjectModal(false)
+                dispatch(getProjects(id!))
             } else {
                 toast.error('Failed to create a new project')
             }

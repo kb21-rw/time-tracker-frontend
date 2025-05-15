@@ -36,7 +36,7 @@ export default function ProjectPage() {
             />
             <div className="w-full">
                 <div className="w-full flex justify-between px-9 py-12 font-bold text-xl">
-                    <p>Clients</p>
+                    <p>Projects</p>
                 </div>
                 <DataTable
                     tableName="projects"
