@@ -16,6 +16,6 @@ export const clientSchema = z.object({
 })
 
 export const ProjectSchema = z.object({
-    client: z.string().min(2, { message: 'Client is required' }),
+    clientId: z.string().min(2, { message: 'Client is required' }),
     name: z.string().min(3, { message: 'Project name required' }),
 })
