@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { InputProps } from '../../util/interfaces'
+import { InputProps } from '../../../util/interfaces'
 
 export default function Input({
     label,
@@ -8,19 +8,21 @@ export default function Input({
     type = 'text',
     placeholder,
     register,
-}: InputProps) {
+    ...props
+}: Readonly<InputProps>) {
     const [showPassword, setShowPassword] = useState(false)
     const togglePasswordVisibility = () => setShowPassword(previousState => !previousState)
 
     return (
         <div className="w-full max-w-3xl font-inter pb-6 text-left">
             {label && (
-                <label className="text-quaternary" htmlFor={id}>
+                <label className="text-primary-800" htmlFor={id}>
                     {label}
                 </label>
             )}
             <div className="relative h-14 mt-5">
                 <input
+                    {...props}
                     id={id}
                     {...register}
                     {...(!label && { 'aria-label': placeholder })}

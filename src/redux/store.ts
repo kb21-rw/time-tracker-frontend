@@ -1,12 +1,19 @@
 import { configureStore } from '@reduxjs/toolkit'
-import authReducer from './slice/authSlice'
 import counterReducer from './slice/counterSlice'
 import workspacesReducer from './slice/workspaceSlice'
+import authReducer from './slice/authSlice'
+import sidebarReducer from './features/sidebarSlice'
+import clientReducer from './slice/clientSlice'
+import projectReducer from './slice/projectSlice'
+
 const store = configureStore({
     reducer: {
         counter: counterReducer,
         auth: authReducer,
         workspaces: workspacesReducer,
+        sidebar: sidebarReducer,
+        clients: clientReducer,
+        projects: projectReducer,
     },
 })
 
