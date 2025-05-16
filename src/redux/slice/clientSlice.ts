@@ -24,15 +24,9 @@ export const getWorkspaceClients = createAsyncThunk(
 
 export const createClient = createAsyncThunk(
     'client',
-    async (
-        { workspaceId, name }: { workspaceId: string; name: string },
-        { rejectWithValue },
-    ) => {
+    async ({ workspaceId, name }: { workspaceId: string; name: string }, { rejectWithValue }) => {
         try {
-            const response = await api.post(
-                `/workspaces/${workspaceId}/clients`,
-                { name },
-            )
+            const response = await api.post(`/workspaces/${workspaceId}/clients`, { name })
             return response.data
         } catch (error: any) {
             const errorMessage = error.response?.data?.message || 'Creating client failed'
@@ -49,18 +43,18 @@ const ClientSlice = createSlice({
     reducers: {},
     extraReducers: builder => {
         builder
-         .addCase(createClient.pending, state => {
-                        state.loading = true
-                        state.error = null
-                    })
-                    .addCase(createClient.fulfilled, (state, action) => {
-                        state.loading = false
-                        state.clients = action.payload.projects
-                    })
-                    .addCase(createClient.rejected, (state, action) => {
-                        state.loading = false
-                        state.error = action.payload
-                    })
+            .addCase(createClient.pending, state => {
+                state.loading = true
+                state.error = null
+            })
+            .addCase(createClient.fulfilled, (state, action) => {
+                state.loading = false
+                state.clients = action.payload.projects
+            })
+            .addCase(createClient.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.payload
+            })
             .addCase(getWorkspaceClients.pending, state => {
                 state.loading = true
                 state.error = null
