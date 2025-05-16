@@ -15,7 +15,7 @@ import { useParams } from 'react-router-dom'
 
 type clientData = z.infer<typeof clientSchema>
 function CreateClient() {
-    const [createClientModal, setCreateClientModal] = useState(true)
+    const [, setCreateClientModal] = useState(true)
     const { id } = useParams<{ id: string }>()
     const dispatch = useDispatch<AppDispatch>()
     const { loading } = useSelector((state: RootState) => state.workspaces)
