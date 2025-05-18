@@ -58,6 +58,7 @@ export interface Workspace {
 export interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
     data: TData[]
+    tableName: string
     loading: boolean
 }
 export type TableUser = {
@@ -68,8 +69,8 @@ export type TableUser = {
 }
 export interface Project {
     id: string
-    clientId: string
     name: string
+    client: Client
 }
 
 export interface Client {
@@ -77,16 +78,11 @@ export interface Client {
     workspaceId: string
     name: string
 }
-
-export interface Group {
-    clients: Client[]
-    projects: Project[]
-}
 export interface WorkspaceModalSharedProps {
     id: string
     setIsModalOpen: (value: React.SetStateAction<boolean>) => void
 }
-export type GroupTable = {
+export type ProjectTable = {
     id: string
     client: string
     project: string
@@ -108,20 +104,35 @@ export interface RenameClientProps {
     clientName?: string
 }
 
+export interface ProjectTableColumnsProps {
+    setEditProjectModal: React.Dispatch<React.SetStateAction<boolean>>
+    setSelectedRow: React.Dispatch<React.SetStateAction<Project | null>>
+}
+
+export type ClientTable = {
+    id: string
+    name: string
+}
+
+export interface ClientsTableColumnsProps {
+    setEditClientModal: React.Dispatch<React.SetStateAction<boolean>>
+    setSelectedRow: React.Dispatch<React.SetStateAction<ClientTable | null>>
+}
+
+export interface WorkspaceHeaderProps {
+    workspaceName: string
+    buttonText: string
+    setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>
+}
+export type OutletContextType = {
+    workspaceName: string
+    id: string
+}
+export interface projectState {
+    projects: Project[]
+    loading: boolean
+    error: any
+}
 export interface RenameProjectProps {
     projectName?: string
-}
-
-export interface GroupsTableColumnsProps {
-    setEditClientModal: React.Dispatch<React.SetStateAction<boolean>>
-    setEditProjectModal: React.Dispatch<React.SetStateAction<boolean>>
-    setCreateProjectModal: React.Dispatch<React.SetStateAction<boolean>>
-    setSelectedRow: React.Dispatch<React.SetStateAction<GroupTable | null>>
-}
-
-export interface EditButtonsProps {
-    setClientModal?: React.Dispatch<React.SetStateAction<boolean>>
-    setProjectModal?: React.Dispatch<React.SetStateAction<boolean>>
-    rowData?: GroupTable
-    setSelectedRow?: React.Dispatch<React.SetStateAction<GroupTable | null>>
 }

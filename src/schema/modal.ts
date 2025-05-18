@@ -8,18 +8,14 @@ export const workspaceShema = z.object({
 })
 
 export const inviteUserSchema = z.object({
-    fullName: z.string().refine(value => value.trim().split(/\s+/).length >= 2, {
-        message: 'Please enter your full name (first and last name)',
-    }),
-
     email: z.string().email({ message: 'Please enter a valid email address' }),
 })
 
 export const clientSchema = z.object({
-    name: z.string().min(2, { message: 'Client name should be at least 3 characters' }),
+    name: z.string().min(3, { message: 'Client name must be at least 3 characters' }),
 })
 
 export const ProjectSchema = z.object({
-    client: z.string().min(2, { message: 'Client is required' }),
+    clientId: z.string().min(2, { message: 'Client is required' }),
     name: z.string().min(3, { message: 'Project name required' }),
 })

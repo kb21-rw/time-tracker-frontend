@@ -26,7 +26,7 @@ export default function RenameProject({ projectName }: RenameProjectProps) {
     } = useForm({
         resolver: zodResolver(ProjectSchema),
         mode: 'all',
-        defaultValues: { client: '', name: projectName || '' },
+        defaultValues: { clientId: '', name: projectName || '' },
     })
 
     return (
@@ -34,7 +34,7 @@ export default function RenameProject({ projectName }: RenameProjectProps) {
             <div className="w-full max-w-3xl font-inter pb-6 text-xl">
                 <div className="relative md:w-1/2">
                     <select
-                        {...register('client')}
+                        {...register('clientId')}
                         className="w-full appearance-none bg-transparent text-black text-lg font-normal pr-8 py-1 focus:outline-none cursor-pointer"
                     >
                         <option value="" disabled hidden>
