@@ -1,4 +1,5 @@
 import CreateProjectForm from '@/components/shared/forms/CreateProject'
+import RenameProject from '@/components/shared/forms/RenameProject'
 import DialogDemo from '@/components/shared/modal/Modal'
 import WorkspaceHeader from '@/components/shared/ui/WorkspaceHeader'
 import DataTable from '@/components/tables/DataTable'
@@ -16,7 +17,7 @@ export default function ProjectPage() {
     const { projects, loading } = useSelector((state: RootState) => state.projects)
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [editProjectModal, setEditProjectModal] = useState(false)
-    const [, setSelectedRow] = useState<Project | null>(null)
+    const [selectedRow, setSelectedRow] = useState<Project | null>(null)
 
     const columns = ProjectTableColumns({
         setEditProjectModal,
@@ -50,7 +51,9 @@ export default function ProjectPage() {
                     title="Edit Project"
                     isModalOpen={editProjectModal}
                     onClose={() => setEditProjectModal(false)}
-                ></DialogDemo>
+                >
+                    <RenameProject projectName={selectedRow?.name} />
+                </DialogDemo>
             }
             {
                 <DialogDemo
