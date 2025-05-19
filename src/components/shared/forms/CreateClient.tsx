@@ -15,7 +15,6 @@ import { useParams } from 'react-router-dom'
 
 type clientData = z.infer<typeof clientSchema>
 function CreateClient() {
-    const [, setCreateClientModal] = useState(true)
     const { id } = useParams<{ id: string }>()
     const dispatch = useDispatch<AppDispatch>()
     const { loading } = useSelector((state: RootState) => state.workspaces)
@@ -37,7 +36,6 @@ function CreateClient() {
             if (responseData.requestStatus === 'fulfilled') {
                 dispatch(getWorkspaceClients(id!))
                 toast.success('You have successfully created a new Project')
-                setCreateClientModal(false)
             } else {
                 toast.error('Failed to create a new project')
             }
