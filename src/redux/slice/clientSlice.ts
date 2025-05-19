@@ -23,7 +23,7 @@ export const getWorkspaceClients = createAsyncThunk(
 )
 
 export const createClient = createAsyncThunk(
-    'client',
+    'client/create',
     async ({ workspaceId, name }: { workspaceId: string; name: string }, { rejectWithValue }) => {
         try {
             const response = await api.post(`/workspaces/${workspaceId}/clients`, { name })
@@ -49,7 +49,7 @@ const ClientSlice = createSlice({
             })
             .addCase(createClient.fulfilled, (state, action) => {
                 state.loading = false
-                state.clients = action.payload.projects
+                state.clients = action.payload.clients
             })
             .addCase(createClient.rejected, (state, action) => {
                 state.loading = false
