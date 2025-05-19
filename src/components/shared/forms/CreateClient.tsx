@@ -11,9 +11,11 @@ import toast from 'react-hot-toast'
 import { handleAxiosError } from '@/util/helpers'
 import { AxiosError } from 'axios'
 import { useParams } from 'react-router-dom'
-
+type CreateClientProps = {
+    setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>
+}
 type clientData = z.infer<typeof clientSchema>
-function CreateClient() {
+function CreateClient({ setIsModalOpen }: CreateClientProps) {
     const { id } = useParams<{ id: string }>()
     const dispatch = useDispatch<AppDispatch>()
     const { loading } = useSelector((state: RootState) => state.workspaces)
@@ -34,13 +36,14 @@ function CreateClient() {
 
             if (responseData.requestStatus === 'fulfilled') {
                 dispatch(getWorkspaceClients(id!))
-                toast.success('You have successfully created a new Project')
+                toast.success('You have successfully created a new Client')
             } else {
-                toast.error('Failed to create a new project')
+                toast.error('Failed to create a new Client')
             }
         } catch (error) {
             handleAxiosError(error as AxiosError)
         }
+        setIsModalOpen(false)
     }
 
     return (

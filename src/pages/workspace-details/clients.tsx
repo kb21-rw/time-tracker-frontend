@@ -56,7 +56,7 @@ export default function ClientsPage() {
                     isModalOpen={isModalOpen}
                     onClose={() => setIsModalOpen(false)}
                 >
-                    <CreateClient />
+                    <CreateClient setIsModalOpen={setIsModalOpen} />
                 </DialogDemo>
             }
         </>
