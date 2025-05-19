@@ -82,7 +82,7 @@ export default function CreateProjectForm({
                                 </option>
                             ))
                         ) : (
-                            <option>No clients</option>
+                            <option value="">No clients</option>
                         )}
                     </select>
 
