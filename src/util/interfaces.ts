@@ -134,5 +134,5 @@ export interface projectState {
     error: any
 }
 export interface RenameProjectProps {
-    projectName?: string
+    projectName: string
 }
