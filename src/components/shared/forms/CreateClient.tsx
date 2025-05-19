@@ -10,15 +10,13 @@ import { createClient, getWorkspaceClients } from '@/redux/slice/clientSlice'
 import toast from 'react-hot-toast'
 import { handleAxiosError } from '@/util/helpers'
 import { AxiosError } from 'axios'
-import { useParams } from 'react-router-dom'
-type CreateClientProps = {
-    setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>
-}
+import { CreateClientProps, OutletContextType } from '@/util/interfaces'
+import { useOutletContext } from 'react-router-dom'
 type clientData = z.infer<typeof clientSchema>
 function CreateClient({ setIsModalOpen }: CreateClientProps) {
-    const { id } = useParams<{ id: string }>()
+    const { id } = useOutletContext<OutletContextType>()
     const dispatch = useDispatch<AppDispatch>()
-    const { loading } = useSelector((state: RootState) => state.workspaces)
+    const { loading } = useSelector((state: RootState) => state.clients)
     const {
         register,
         handleSubmit,
@@ -36,14 +34,14 @@ function CreateClient({ setIsModalOpen }: CreateClientProps) {
 
             if (responseData.requestStatus === 'fulfilled') {
                 dispatch(getWorkspaceClients(id!))
-                toast.success('You have successfully created a new Client')
+                toast.success('You have successfully created a new client')
+                setIsModalOpen(false)
             } else {
-                toast.error('Failed to create a new Client')
+                toast.error('Failed to create a new client')
             }
         } catch (error) {
             handleAxiosError(error as AxiosError)
         }
-        setIsModalOpen(false)
     }
 
     return (
