@@ -21,6 +21,26 @@ export const getWorkspaceClients = createAsyncThunk(
         }
     },
 )
+
+export const renameClient = createAsyncThunk(
+    'client',
+    async (
+        { workspaceId, clientId, name }: { workspaceId: string; clientId: string; name: string },
+        { rejectWithValue },
+    ) => {
+        try {
+            const response = await api.patch(`workspaces/${workspaceId}/clients/${clientId}`, {
+                name,
+            })
+            return response.data
+        } catch (error: any) {
+            const errorMessage = error.response?.data?.message || 'Renaming client failed'
+            return rejectWithValue(
+                typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage),
+            )
+        }
+    },
+)
 const ClientSlice = createSlice({
     name: 'clients',
     initialState,
@@ -36,6 +56,22 @@ const ClientSlice = createSlice({
                 state.clients = action.payload
             })
             .addCase(getWorkspaceClients.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.payload
+            })
+            .addCase(renameClient.pending, state => {
+                state.loading = true
+                state.error = null
+            })
+            .addCase(renameClient.fulfilled, (state, action) => {
+                state.loading = false
+                const index = state.clients.findIndex(client => client.id === action.payload.id)
+                if (index !== -1) {
+                    state.clients[index].name = action.payload.name
+                }
+                state.clients[1].name
+            })
+            .addCase(renameClient.rejected, (state, action) => {
                 state.loading = false
                 state.error = action.payload
             })

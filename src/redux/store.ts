@@ -1,5 +1,4 @@
 import { configureStore } from '@reduxjs/toolkit'
-import counterReducer from './slice/counterSlice'
 import workspacesReducer from './slice/workspaceSlice'
 import authReducer from './slice/authSlice'
 import sidebarReducer from './features/sidebarSlice'
@@ -8,7 +7,6 @@ import projectReducer from './slice/projectSlice'
 
 const store = configureStore({
     reducer: {
-        counter: counterReducer,
         auth: authReducer,
         workspaces: workspacesReducer,
         sidebar: sidebarReducer,

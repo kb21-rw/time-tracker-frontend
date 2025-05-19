@@ -1,4 +1,4 @@
-import { Form, useParams } from 'react-router-dom'
+import { Form, useOutletContext } from 'react-router-dom'
 import Input from '../ui/Input'
 import Button from '../ui/Button'
 import { ProjectSchema } from '@/schema/modal'
@@ -14,6 +14,7 @@ import { createProject, getProjectsByWorkspaceId } from '@/redux/slice/projectSl
 import { handleAxiosError } from '@/util/helpers'
 import { AxiosError } from 'axios'
 import toast from 'react-hot-toast'
+import { OutletContextType } from '@/util/interfaces'
 
 type createProjectData = z.infer<typeof ProjectSchema>
 
@@ -22,7 +23,7 @@ export default function CreateProjectForm({
 }: {
     setCreateProjectModal: React.Dispatch<React.SetStateAction<boolean>>
 }) {
-    const { id } = useParams<{ id: string }>()
+    const { id } = useOutletContext<OutletContextType>()
     const dispatch = useDispatch<AppDispatch>()
     const { clients, error: clientsError } = useSelector((state: RootState) => state.clients)
     const { loading, error } = useSelector((state: RootState) => state.projects)
@@ -103,7 +104,7 @@ export default function CreateProjectForm({
                 register={register('name')}
             />
             {error && (
-                <p className="text-red-500 text-sm mt-2">
+                <p className="text-accent-500 text-sm mt-2">
                     {typeof error === 'string' ? error : JSON.stringify(error)}
                 </p>
             )}
