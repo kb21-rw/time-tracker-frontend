@@ -133,3 +133,6 @@ export interface projectState {
     loading: boolean
     error: any
 }
+export interface RenameProjectProps {
+    projectName?: string
+}
