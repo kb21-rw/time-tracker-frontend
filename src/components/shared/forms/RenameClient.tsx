@@ -13,7 +13,7 @@ import toast from 'react-hot-toast'
 import { handleAxiosError } from '@/util/helpers'
 import { AxiosError } from 'axios'
 
-type createClientData = z.infer<typeof clientSchema>
+type renameClientData = z.infer<typeof clientSchema>
 export default function RenameClientForm({ client, setEditClientModal }: RenameClientProps) {
     const { id: workspaceId } = useOutletContext<OutletContextType>()
     const dispatch = useDispatch<AppDispatch>()
@@ -29,7 +29,7 @@ export default function RenameClientForm({ client, setEditClientModal }: RenameC
         defaultValues: { name: client.name ?? '' },
     })
 
-    async function handleClientRename({ name }: createClientData) {
+    async function handleClientRename({ name }: renameClientData) {
         try {
             const { meta: responseData } = await dispatch(
                 renameClient({ workspaceId, clientId: client.id, name }),
