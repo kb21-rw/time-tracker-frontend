@@ -113,7 +113,7 @@ const authSlice = createSlice({
             state.token = null
             localStorage.removeItem('token')
             localStorage.removeItem('user')
-            localStorage.removeItem('token_expiry');
+            localStorage.removeItem('token_expiry')
         },
         // Add a reducer to restore auth state from localStorage
         restoreAuth: state => {
@@ -123,8 +123,7 @@ const authSlice = createSlice({
             if (token && user && expiry) {
                 state.token = token
                 state.user = JSON.parse(user)
-                state.expiresAt = parseInt(expiry);
-
+                state.expiresAt = parseInt(expiry)
             }
         },
         clearError: state => {

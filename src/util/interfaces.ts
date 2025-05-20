@@ -23,7 +23,7 @@ export interface AuthState {
     user: User | null
     token: string | null
     loading: boolean
-    expiresAt: number | null,
+    expiresAt: number | null
     error: any
 }
 
