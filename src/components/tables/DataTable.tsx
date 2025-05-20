@@ -10,7 +10,7 @@ export default function DataTable<TData, TValue>({
     tableName,
 }: DataTableProps<TData, TValue>) {
     const table = useReactTable({
-        data,
+        data: Array.isArray(data) ? data : [],
         columns,
         getCoreRowModel: getCoreRowModel(),
     })
