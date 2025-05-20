@@ -38,11 +38,13 @@ export interface WorkspaceForCreation {
 
 export interface WorkspaceState {
     workspaces: Workspace[]
+    workspaceUsers: []
     loading: boolean
     error: any
 }
 
 export interface WorkspaceProps {
+    id: string
     name: string
     creationDate: string
 }
@@ -56,6 +58,8 @@ export interface Workspace {
 export interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
     data: TData[]
+    tableName: string
+    loading: boolean
 }
 export type TableUser = {
     id: string
@@ -65,11 +69,73 @@ export type TableUser = {
 }
 export interface Project {
     id: string
-    names: string
+    name: string
+    client: Client
 }
 
-export interface Group {
+export interface Client {
+    id: string
+    workspaceId: string
+    name: string
+}
+export interface WorkspaceModalSharedProps {
+    id: string
+    setIsModalOpen: (value: React.SetStateAction<boolean>) => void
+}
+export type ProjectTable = {
+    id: string
+    client: string
+    project: string
+    actions: string
+}
+
+export interface CommonModalProps {
+    isModalOpen: boolean
+    onClose: () => void
+}
+
+export interface ClientState {
+    clients: Client[]
+    loading: boolean
+    error: any
+}
+
+export interface RenameClientProps {
+    clientName?: string
+}
+
+export interface ProjectTableColumnsProps {
+    setEditProjectModal: React.Dispatch<React.SetStateAction<boolean>>
+    setSelectedRow: React.Dispatch<React.SetStateAction<Project | null>>
+}
+
+export type ClientTable = {
     id: string
     name: string
+}
+
+export interface ClientsTableColumnsProps {
+    setEditClientModal: React.Dispatch<React.SetStateAction<boolean>>
+    setSelectedRow: React.Dispatch<React.SetStateAction<ClientTable | null>>
+}
+
+export interface WorkspaceHeaderProps {
+    workspaceName: string
+    buttonText: string
+    setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>
+}
+export type OutletContextType = {
+    workspaceName: string
+    id: string
+}
+export interface projectState {
     projects: Project[]
+    loading: boolean
+    error: any
+}
+export type CreateClientProps = {
+    setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>
+}
+export interface RenameProjectProps {
+    projectName?: string
 }
