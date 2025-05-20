@@ -133,6 +133,9 @@ export interface projectState {
     loading: boolean
     error: any
 }
+export type CreateClientProps = {
+    setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>
+}
 export interface RenameProjectProps {
     projectName?: string
 }
