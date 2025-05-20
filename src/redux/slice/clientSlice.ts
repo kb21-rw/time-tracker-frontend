@@ -37,7 +37,6 @@ export const createClient = createAsyncThunk(
     },
 )
 
-
 export const renameClient = createAsyncThunk(
     'client',
     async (
