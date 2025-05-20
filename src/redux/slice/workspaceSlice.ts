@@ -37,6 +37,21 @@ export const getWorkspacesByUser = createAsyncThunk(
     },
 )
 
+export const getWorkspaceById = createAsyncThunk(
+    'workspace/id',
+    async (id: string, { rejectWithValue }) => {
+        try {
+            const response = await api.get(`workspaces/${id}`)
+            return response.data
+        } catch (error: any) {
+            const errorMessage =
+                error.response?.data?.message || 'Fetching workspace details failed'
+            return rejectWithValue(
+                typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage),
+            )
+        }
+    },
+)
 export const inviteUser = createAsyncThunk(
     'workspace/inviteUser',
     async (params: { id: string; userData: { email: string } }, { rejectWithValue }) => {
@@ -113,6 +128,18 @@ const workspacesSlice = createSlice({
                 state.loading = false
                 state.error = action.payload
             })
+            .addCase(getWorkspaceById.pending, state => {
+                state.loading = true
+                state.error = null
+            })
+            .addCase(getWorkspaceById.fulfilled, (state, action) => {
+                state.loading = false
+                state.workspaces = action.payload
+            })
+            .addCase(getWorkspaceById.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.payload
+            })
             .addCase(inviteUser.pending, state => {
                 state.loading = true
                 state.error = null
@@ -136,7 +163,6 @@ const workspacesSlice = createSlice({
                 if (index !== -1) {
                     state.workspaces[index].name = action.payload.name
                 }
-                state.workspaces[1].name
             })
             .addCase(renameWorkspace.rejected, (state, action) => {
                 state.loading = false
