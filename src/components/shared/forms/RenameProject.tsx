@@ -41,7 +41,6 @@ export default function RenameProject({
 
     async function handleProjectRename({ name, clientId }: renameProject) {
         try {
-            console.log(name, clientId)
             const { meta: responseData } = await dispatch(
                 renameProject({
                     workspaceId: id!,
