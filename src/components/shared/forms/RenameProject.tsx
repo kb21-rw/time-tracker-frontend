@@ -10,8 +10,18 @@ import { getWorkspaceClients } from '@/redux/slice/clientSlice'
 import { useEffect } from 'react'
 import DownArrow from '@/assets/icons/DownArrow'
 import { RenameProjectProps } from '@/util/interfaces'
-
-export default function RenameProject({ projectName }: RenameProjectProps) {
+import { getProjectsByWorkspaceId, renameProject } from '@/redux/slice/projectSlice'
+import toast from 'react-hot-toast'
+import { handleAxiosError } from '@/util/helpers'
+import { AxiosError } from 'axios'
+import { z } from 'zod'
+type renameProject = z.infer<typeof ProjectSchema>
+export default function RenameProject({
+    projectName,
+    projectId,
+    clientId: oldClientId,
+    setEditProjectModal,
+}: Readonly<RenameProjectProps>) {
     const { id } = useParams<{ id: string }>()
     const dispatch = useDispatch<AppDispatch>()
     const { clients, error: clientsError } = useSelector((state: RootState) => state.clients)
@@ -19,18 +29,42 @@ export default function RenameProject({ projectName }: RenameProjectProps) {
     useEffect(() => {
         dispatch(getWorkspaceClients(id!))
     }, [dispatch])
-
     const {
         register,
+        handleSubmit,
         formState: { errors, isValid },
     } = useForm({
         resolver: zodResolver(ProjectSchema),
         mode: 'all',
-        defaultValues: { clientId: '', name: projectName || '' },
+        defaultValues: { clientId: oldClientId || '', name: projectName || '' },
     })
 
+    async function handleProjectRename({ name, clientId }: renameProject) {
+        try {
+            console.log(name, clientId)
+            const { meta: responseData } = await dispatch(
+                renameProject({
+                    workspaceId: id!,
+                    clientId: oldClientId!,
+                    name,
+                    projectId: projectId!,
+                    newClientId: clientId,
+                }),
+            )
+            if (responseData.requestStatus === 'fulfilled') {
+                toast.success('You have successfully renamed your project!')
+                setEditProjectModal(false)
+                dispatch(getProjectsByWorkspaceId(id!))
+            } else {
+                toast.error('Renaming project failed')
+            }
+        } catch (error) {
+            handleAxiosError(error as AxiosError)
+        }
+    }
+
     return (
-        <Form className="flex flex-col">
+        <Form className="flex flex-col" onSubmit={handleSubmit(handleProjectRename)}>
             <div className="w-full max-w-3xl font-inter pb-6 text-xl">
                 <div className="relative md:w-1/2">
                     <select
