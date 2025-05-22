@@ -5,7 +5,7 @@ import Button from '../ui/Button'
 import Input from '../ui/Input'
 import { RenameClientProps } from '@/util/interfaces'
 
-export default function RenameClientForm({ clientName }: RenameClientProps) {
+export default function RenameClientForm({ clientName }: Readonly<RenameClientProps>) {
     const {
         register,
         formState: { errors, isValid },

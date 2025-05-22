@@ -52,7 +52,12 @@ export default function ProjectPage() {
                     isModalOpen={editProjectModal}
                     onClose={() => setEditProjectModal(false)}
                 >
-                    <RenameProject projectName={selectedRow?.name} />
+                    <RenameProject
+                        projectName={selectedRow?.name}
+                        projectId={selectedRow?.id}
+                        clientId={selectedRow?.client.id}
+                        setEditProjectModal={setEditProjectModal}
+                    />
                 </DialogDemo>
             }
             {

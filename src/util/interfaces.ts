@@ -138,4 +138,7 @@ export type CreateClientProps = {
 }
 export interface RenameProjectProps {
     projectName?: string
+    projectId?: string
+    clientId?: string
+    setEditProjectModal: (value: boolean) => void
 }
