@@ -1,4 +1,5 @@
-import Home from '../../assets/images/homeIcon.svg'
+import Tracker from '../../assets/images/Tracker-icon.svg'
+import Home from '../../assets/images/Home-icon.svg'
 import SidebarImage from '../../assets/images/sidebar-close.svg'
 import Notification from '../../assets/images/notification-line.svg'
 import Settings from '../../assets/images/settings_icon.svg'
@@ -15,10 +16,12 @@ export default function Sidebar() {
         <div className="fixed left-0 top-0 flex h-screen z-10">
             <aside className="w-20 bg-primary-800 p-4 flex-shrink-0">
                 <div className="h-full px-2 flex flex-col justify-between">
-                    {/* The links that redirect to specific route will be added later */}
-                    <div className="space-y-3">
+                    <div className="space-y-8 flex flex-col items-center">
                         <Link to="/tracker">
-                            <img src={Home} className="h-10 w-10" alt="Home" />
+                            <img src={Tracker} className="h-10 w-10" alt="Tracker" />
+                        </Link>
+                        <Link to="/manage-workspaces">
+                            <img src={Home} className="h-6 w-6" alt="Home" />
                         </Link>
                     </div>
                     <div>
@@ -26,7 +29,7 @@ export default function Sidebar() {
                             <img src={SidebarImage} className="h-10 w-10" alt="Sidebar" />
                         </button>
                     </div>
-                    <div className="space-y-8">
+                    <div className="space-y-8 flex flex-col items-center">
                         <Link to="#">
                             <img src={Notification} className="h-10 w-10" alt="Notification" />
                         </Link>
