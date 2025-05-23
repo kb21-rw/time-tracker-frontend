@@ -157,12 +157,8 @@ const workspacesSlice = createSlice({
             })
             .addCase(renameWorkspace.fulfilled, (state, action) => {
                 state.loading = false
-                const index = state.workspaces.findIndex(
-                    workspace => workspace.id === action.payload.id,
-                )
-                if (index !== -1) {
-                    state.workspaces[index].name = action.payload.name
-                }
+                state.workspaces.find(workspace => workspace.id === action.payload.id)!.name =
+                    action.payload.name
             })
             .addCase(renameWorkspace.rejected, (state, action) => {
                 state.loading = false

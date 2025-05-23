@@ -92,11 +92,8 @@ const ClientSlice = createSlice({
             })
             .addCase(renameClient.fulfilled, (state, action) => {
                 state.loading = false
-                const index = state.clients.findIndex(client => client.id === action.payload.id)
-                if (index !== -1) {
-                    state.clients[index].name = action.payload.name
-                }
-                state.clients[1].name
+                state.clients.find(client => client.id === action.payload.id)!.name =
+                    action.payload.name
             })
             .addCase(renameClient.rejected, (state, action) => {
                 state.loading = false
