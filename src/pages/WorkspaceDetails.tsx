@@ -1,25 +1,27 @@
 import Sidebar from '../components/shared/Sidebar'
-import { useLocation, Navigate, useParams, Outlet, useNavigate } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { useLocation, Navigate, useParams, Outlet } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { selectSidebarOpen } from '../redux/features/sidebarSlice'
+import { selectWorkspace } from '@/redux/features/workspaceStateSlice'
 
 export default function WorkspaceDetails() {
     const { state } = useLocation()
     const { id } = useParams<{ id: string }>()
-    const [workspaceName, setWorkspaceName] = useState<string | null>(null)
-    const navigate = useNavigate()
+    const [workspaceName, setWorkspaceName] = useState<string>()
     const isOpen = useSelector(selectSidebarOpen)
+    const workspace = useSelector(selectWorkspace)
 
     useEffect(() => {
+        if (!id) return
         if (state?.name) {
             setWorkspaceName(state.name)
-        } else if (!state && !workspaceName && id) {
-            navigate('/manage-workspaces')
+        } else if (workspace?.name) {
+            setWorkspaceName(workspace.name)
         }
-    }, [state, id])
+    }, [state, workspace])
 
-    if (!id || (!state?.name && !workspaceName)) {
+    if (!id || (!state?.name && !workspace)) {
         return <Navigate to="/manage-workspaces" />
     }
 
