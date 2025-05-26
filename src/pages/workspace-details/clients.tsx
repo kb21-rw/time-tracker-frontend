@@ -47,7 +47,10 @@ export default function ClientsPage() {
                     isModalOpen={editClientModal}
                     onClose={() => setEditClientModal(false)}
                 >
-                    <RenameClientForm clientName={selectedRow?.name} />
+                    <RenameClientForm
+                        client={selectedRow!}
+                        setEditClientModal={setEditClientModal}
+                    />
                 </DialogDemo>
             }
             {
