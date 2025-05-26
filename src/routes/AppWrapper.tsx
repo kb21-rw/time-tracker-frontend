@@ -1,7 +1,7 @@
 // components/AppWrapper.tsx
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { useAutoLogout } from '../hooks/auto-logout'
+import { useAutoLogout } from '../hooks/useAutoLogout'
 import { restoreAuth } from '../redux/slice/authSlice'
 
 export default function AppWrapper({ children }: { children: React.ReactNode }) {
