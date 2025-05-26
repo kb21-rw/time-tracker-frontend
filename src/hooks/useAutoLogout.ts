@@ -15,6 +15,7 @@ export function useAutoLogout() {
 
         const now = Date.now()
         const timeout = expiresAt - now
+        let timer: NodeJS.Timeout
 
         if (timeout <= 0) {
             toast('Token expired please login again.', {
@@ -23,15 +24,16 @@ export function useAutoLogout() {
             dispatch(logout())
             navigate('/login')
         } else {
-            const timer = setTimeout(() => {
+            timer = setTimeout(() => {
                 toast('Token expired please login again.', {
                     icon: '❗',
                 })
                 dispatch(logout())
                 navigate('/login')
             }, timeout)
-
-            return () => clearTimeout(timer)
+        }
+        return () => {
+            if (timer) clearTimeout(timer)
         }
     }, [expiresAt, dispatch])
 }
