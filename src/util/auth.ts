@@ -1,4 +1,3 @@
-// utils/auth.ts
 export function saveToken(token: string) {
     const decoded = JSON.parse(atob(token.split('.')[1]))
     const expiresAt = decoded.exp * 1000
@@ -7,7 +6,6 @@ export function saveToken(token: string) {
     return expiresAt
 }
 
-// utils/auth.ts
 export function logoutUser() {
     localStorage.clear()
     window.location.href = '/login'

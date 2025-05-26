@@ -16,8 +16,6 @@ export function useAutoLogout() {
         const now = Date.now()
         const timeout = expiresAt - now
 
-        console.log(timeout)
-
         if (timeout <= 0) {
             toast('Token expired please login again.', {
                 icon: '❗',
