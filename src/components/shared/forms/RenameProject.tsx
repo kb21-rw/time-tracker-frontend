@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form'
 import { RootState, AppDispatch } from '@/redux/store'
 import { useSelector, useDispatch } from 'react-redux'
 import { getWorkspaceClients } from '@/redux/slice/clientSlice'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import DownArrow from '@/assets/icons/DownArrow'
 import { RenameProjectProps } from '@/util/interfaces'
 import { getProjectsByWorkspaceId, renameProject } from '@/redux/slice/projectSlice'
@@ -25,7 +25,8 @@ export default function RenameProject({
     const { id } = useParams<{ id: string }>()
     const dispatch = useDispatch<AppDispatch>()
     const { clients, error: clientsError } = useSelector((state: RootState) => state.clients)
-    const [isLoading, setIsLoading] = useState(false)
+    const { loading: isLoading } = useSelector((state: RootState) => state.projects)
+
     useEffect(() => {
         dispatch(getWorkspaceClients(id!))
     }, [dispatch])
@@ -40,7 +41,6 @@ export default function RenameProject({
     })
 
     async function handleProjectRename({ name, clientId }: renameProject) {
-        setIsLoading(true)
         try {
             const { meta: responseData } = await dispatch(
                 renameProject({
@@ -60,8 +60,6 @@ export default function RenameProject({
             }
         } catch (error) {
             handleAxiosError(error as AxiosError)
-        } finally {
-            setIsLoading(false) // Set loading to false
         }
     }
 
@@ -104,11 +102,11 @@ export default function RenameProject({
                 error={errors.name}
                 register={register('name')}
             />
-
             <Button
                 className="self-center w-1/2"
                 disabled={!isValid || isLoading}
                 isLoading={isLoading}
+                type="submit"
             >
                 Save
             </Button>

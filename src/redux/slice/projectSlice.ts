@@ -109,6 +109,19 @@ const projectSlice = createSlice({
                 state.loading = false
                 state.error = action.payload
             })
+            .addCase(renameProject.pending, state => {
+                state.loading = true
+                state.error = null
+            })
+            .addCase(renameProject.fulfilled, (state, action) => {
+                state.loading = false
+                state.projects.find(project => project.id === action.payload.id)!.name =
+                    action.payload.name
+            })
+            .addCase(renameProject.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.payload
+            })
     },
 })
 
