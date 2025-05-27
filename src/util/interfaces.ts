@@ -9,7 +9,9 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
     label?: string
     id: string
     error?: FieldError
-    register: UseFormRegisterReturn
+    variant?: 'sm' | 'md' | 'lg'
+    hasIcon?: boolean
+    register?: UseFormRegisterReturn
 }
 
 export interface User {
@@ -141,4 +143,10 @@ export type CreateClientProps = {
 }
 export interface RenameProjectProps {
     projectName?: string
+}
+
+export interface VerticalToggleSwitchProps {
+    defaultMode?: 'play' | 'plus'
+    onToggle?: (mode: 'play' | 'plus') => void
+    className?: string
 }
