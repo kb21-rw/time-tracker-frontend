@@ -13,7 +13,7 @@ import TimeTracker from '@/pages/TimeTracker'
 import UsersDetails from '@/pages/workspace-details/users'
 import ClientsPage from '@/pages/workspace-details/clients'
 import ProjectsPage from '@/pages/workspace-details/projects'
-
+import AppWrapper from './AppWrapper'
 export const router = createBrowserRouter([
     {
         path: '/',
@@ -40,7 +40,11 @@ export const router = createBrowserRouter([
         element: <UserSignUpPage />,
     },
     {
-        element: <ProtectedRoute />,
+        element: (
+            <AppWrapper>
+                <ProtectedRoute />
+            </AppWrapper>
+        ),
         children: [
             {
                 path: '/dashboard',
