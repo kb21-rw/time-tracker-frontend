@@ -75,7 +75,7 @@ export default function RenameProject({
                             Select Client
                         </option>
                         {clients.length > 0 ? (
-                            clients.map(client => (
+                            clients.map((client: { id: string; name: string }) => (
                                 <option className="mx-6" key={client.id} value={client.id}>
                                     &nbsp;{client.name}
                                 </option>

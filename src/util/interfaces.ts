@@ -101,7 +101,8 @@ export interface ClientState {
 }
 
 export interface RenameClientProps {
-    clientName?: string
+    client: Client
+    setEditClientModal: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export interface ProjectTableColumnsProps {
@@ -111,6 +112,7 @@ export interface ProjectTableColumnsProps {
 
 export type ClientTable = {
     id: string
+    workspaceId: string
     name: string
 }
 
