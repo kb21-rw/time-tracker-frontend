@@ -44,6 +44,41 @@ export const getProjectsByWorkspaceId = createAsyncThunk(
     },
 )
 
+export const renameProject = createAsyncThunk(
+    'project/renameProject',
+    async (
+        {
+            workspaceId,
+            clientId,
+            projectId,
+            name,
+            newClientId,
+        }: {
+            workspaceId: string
+            clientId: string
+            name: string
+            projectId: string
+            newClientId: string
+        },
+        { rejectWithValue },
+    ) => {
+        try {
+            const response = await api.patch(
+                `/workspaces/${workspaceId}/clients/${clientId}/projects/${projectId}`,
+                {
+                    name,
+                    newClientId,
+                },
+            )
+            return response.data
+        } catch (error: any) {
+            const errorMessage = error.response?.data?.message || 'Renaming project failed'
+            return rejectWithValue(
+                typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage),
+            )
+        }
+    },
+)
 const projectSlice = createSlice({
     name: 'project',
     initialState,
@@ -71,6 +106,19 @@ const projectSlice = createSlice({
                 state.projects = action.payload
             })
             .addCase(getProjectsByWorkspaceId.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.payload
+            })
+            .addCase(renameProject.pending, state => {
+                state.loading = true
+                state.error = null
+            })
+            .addCase(renameProject.fulfilled, (state, action) => {
+                state.loading = false
+                state.projects.find(project => project.id === action.payload.id)!.name =
+                    action.payload.name
+            })
+            .addCase(renameProject.rejected, (state, action) => {
                 state.loading = false
                 state.error = action.payload
             })
