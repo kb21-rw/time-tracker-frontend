@@ -150,3 +150,10 @@ export interface VerticalToggleSwitchProps {
     onToggle?: (mode: 'play' | 'plus') => void
     className?: string
 }
+export interface TimerRunnerProps {
+    isRunning: boolean
+    startTimestamp: number | null
+}
+export interface ProjectsListProps extends CommonModalProps {
+    anchorRef?: React.RefObject<HTMLElement>
+}

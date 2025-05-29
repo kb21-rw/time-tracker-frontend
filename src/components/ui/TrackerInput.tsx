@@ -1,6 +1,8 @@
 import { Folder } from 'lucide-react'
 import { InputProps } from '@/util/interfaces'
 import clsx from 'clsx'
+import { useEffect, useRef, useState } from 'react'
+import ProjectsList from './ProjectsList'
 
 export default function TrackerInput({
     label,
@@ -11,6 +13,22 @@ export default function TrackerInput({
     register,
     ...props
 }: InputProps) {
+    const [isFolderActive, setIsFolderActive] = useState(false)
+    const [isPopoverOpen, setIsPopoverOpen] = useState(false)
+    const iconRef = useRef<HTMLDivElement>(null)
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (iconRef.current && !iconRef.current.contains(event.target as Node)) {
+                setIsFolderActive(false)
+            }
+        }
+
+        document.addEventListener('mousedown', handleClickOutside)
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside)
+        }
+    }, [])
     return (
         <div className="w-full max-w-3xl font-inter pb-6 text-left">
             {label && (
@@ -29,9 +47,26 @@ export default function TrackerInput({
                 />
                 {error && <p className="py-1 font-Inter text-sm text-red-400">{error.message}</p>}
                 {hasIcon && (
-                    <span className="absolute right-4 top-1/2 -translate-y-1/2">
-                        <Folder className={clsx('w-5 h-5 text-black/25')} />
+                    <span className="absolute right-4 top-1/2 -translate-y-1/2" ref={iconRef}>
+                        <Folder
+                            className={clsx(
+                                'w-5 h-5',
+                                !isFolderActive && 'text-black/25',
+                                isFolderActive && 'text-primary-500',
+                            )}
+                            onClick={() => {
+                                setIsFolderActive(true)
+                                setIsPopoverOpen(true)
+                            }}
+                        />
                     </span>
+                )}
+                {isFolderActive && (
+                    <ProjectsList
+                        isModalOpen={isPopoverOpen}
+                        onClose={() => setIsPopoverOpen(false)}
+                        anchorRef={iconRef as React.RefObject<HTMLDivElement>}
+                    />
                 )}
             </div>
         </div>

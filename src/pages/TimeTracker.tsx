@@ -1,13 +1,33 @@
 import StartTimer from '@/assets/icons/StartTmer'
+import ManualTimeForm from '@/components/ui/ManualTimeInput'
+import TimerRunner from '@/components/ui/TimerRunner'
 import TimerSwitch from '@/components/ui/TimerSwitch'
 import TrackerInput from '@/components/ui/TrackerInput'
+import { startTimer, stopTimer } from '@/redux/features/timerSlice'
+import { AppDispatch, RootState } from '@/redux/store'
 import { OutletContextType } from '@/util/interfaces'
-import { Download } from 'lucide-react'
+import { CirclePlus, CircleStop, Download } from 'lucide-react'
+import { useState } from 'react'
+import toast from 'react-hot-toast'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { useOutletContext } from 'react-router-dom'
 
 export default function TimeTracker() {
     const { workspaceName } = useOutletContext<OutletContextType>()
+    const [isManual, setIsManual] = useState(false)
+    const dispatch = useDispatch<AppDispatch>()
+    const { isRunning, startTimestamp } = useSelector((state: RootState) => state.timer)
+
+    const handleToggle = () => {
+        if (isRunning) {
+            toast.success(`End time: ${new Date(startTimestamp as number).toLocaleTimeString()}`)
+            dispatch(stopTimer())
+        } else {
+            dispatch(startTimer())
+        }
+    }
+
     return (
         <div>
             <div className="w-full shadow-md py-7 px-9 flex justify-between items-center bg-white">
@@ -15,17 +35,48 @@ export default function TimeTracker() {
                     {workspaceName}
                     <Download className="text-primary-500 w-5 h-5" />
                 </p>
-                <div className="w-1/3 flex items-center gap-x-2">
+                <div className="w-3/5 flex items-center gap-x-3">
                     <TrackerInput
                         id="description"
                         placeholder="Add a description"
                         variant="md"
                         hasIcon={true}
                     />
-                    <StartTimer className="text-primary-500 w-12 h-12" />
+                    {!isManual && (
+                        <>
+                            {isRunning && (
+                                <TimerRunner
+                                    isRunning={isRunning}
+                                    startTimestamp={startTimestamp}
+                                />
+                            )}
+                            <button onClick={handleToggle}>
+                                {isRunning ? (
+                                    <CircleStop
+                                        className="w-12 h-12 fill-accent-500 stroke-white"
+                                        strokeWidth={1}
+                                    />
+                                ) : (
+                                    <StartTimer className="text-primary-500 w-12 h-12" />
+                                )}
+                            </button>
+                        </>
+                    )}
+                    {isManual && (
+                        <>
+                            <ManualTimeForm />
+                            <CirclePlus className="w-16 h-16 fill-primary-500 stroke-white" />
+                        </>
+                    )}
                     <TimerSwitch
                         defaultMode="play"
-                        onToggle={mode => console.log(`Switched to ${mode} mode`)}
+                        onToggle={mode => {
+                            if (mode === 'plus') {
+                                setIsManual(true)
+                            } else {
+                                setIsManual(false)
+                            }
+                        }}
                     />
                 </div>
             </div>

@@ -25,13 +25,13 @@ export default function TimerSwitch({
             <button
                 onClick={() => toggle('play')}
                 className={clsx(
-                    'rounded-full flex items-center p-1 w-5 h-5 transition-colors',
+                    'rounded-full flex justify-center items-center p-1 w-5 h-5 transition-colors',
                     mode === 'play'
                         ? 'bg-primary-500 text-white'
                         : 'bg-gray-200 text-primary-500 hover:bg-gray-300',
                 )}
             >
-                <Play />
+                <Play strokeWidth={3} />
             </button>
             <button
                 onClick={() => toggle('plus')}
@@ -42,7 +42,7 @@ export default function TimerSwitch({
                         : 'bg-gray-200 text-primary-500 hover:bg-gray-300',
                 )}
             >
-                <Plus />
+                <Plus strokeWidth={3} />
             </button>
         </div>
     )
