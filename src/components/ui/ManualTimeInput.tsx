@@ -1,5 +1,5 @@
-import { ArrowRight } from "lucide-react";
-import { Input } from "../shadcn/input";
+import { ArrowRight } from 'lucide-react'
+import { Input } from '../shadcn/input'
 
 export default function ManualTimeForm() {
     return (
