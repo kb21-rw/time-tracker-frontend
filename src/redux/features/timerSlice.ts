@@ -1,13 +1,10 @@
+import { TimerState } from '@/util/interfaces'
 import { createSlice } from '@reduxjs/toolkit'
-
-interface TimerState {
-    isRunning: boolean
-    startTimestamp: number | null
-}
 
 const initialState: TimerState = {
     isRunning: false,
     startTimestamp: null,
+    stopTimestamp: null,
 }
 
 const timerSlice = createSlice({
@@ -17,9 +14,11 @@ const timerSlice = createSlice({
         startTimer(state) {
             state.isRunning = true
             state.startTimestamp = Date.now()
+            state.stopTimestamp = null
         },
         stopTimer(state) {
             state.isRunning = false
+            state.stopTimestamp = Date.now()
             state.startTimestamp = null
         },
     },

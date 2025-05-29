@@ -4,7 +4,7 @@ import TimerRunner from '@/components/ui/TimerRunner'
 import TimerSwitch from '@/components/ui/TimerSwitch'
 import TrackerInput from '@/components/ui/TrackerInput'
 import { startTimer, stopTimer } from '@/redux/features/timerSlice'
-import { AppDispatch, RootState } from '@/redux/store'
+import store, { AppDispatch, RootState } from '@/redux/store'
 import { OutletContextType } from '@/util/interfaces'
 import { CirclePlus, CircleStop, Download } from 'lucide-react'
 import { useState } from 'react'
@@ -21,8 +21,12 @@ export default function TimeTracker() {
 
     const handleToggle = () => {
         if (isRunning) {
-            toast.success(`End time: ${new Date(startTimestamp as number).toLocaleTimeString()}`)
             dispatch(stopTimer())
+            setTimeout(() => {
+                const { stopTimestamp } = store.getState().timer
+                toast.success(`Start time: ${new Date(startTimestamp!).toLocaleTimeString()}`)
+                toast.success(`End time: ${new Date(stopTimestamp!).toLocaleTimeString()}`)
+            }, 0)
         } else {
             dispatch(startTimer())
         }

@@ -1,27 +1,35 @@
 import { TimerRunnerProps } from '@/util/interfaces'
 import React, { useEffect, useState } from 'react'
-import { useStopwatch } from 'react-timer-hook'
 
 export default function TimerRunner({ isRunning, startTimestamp }: TimerRunnerProps) {
     const [key, setKey] = useState(0)
 
     useEffect(() => {
-        setKey(prev => prev + 1)
+        if (isRunning && startTimestamp) {
+            setKey(prev => prev + 1)
+        }
     }, [startTimestamp])
 
     return <StopwatchInner key={key} isRunning={isRunning} startTimestamp={startTimestamp} />
 }
 
 const StopwatchInner: React.FC<TimerRunnerProps> = ({ isRunning, startTimestamp }) => {
-    const { seconds, minutes, hours, start, pause } = useStopwatch({
-        autoStart: false,
-        offsetTimestamp: startTimestamp ? new Date(startTimestamp) : undefined,
-    })
+    const [currentTime, setCurrentTime] = useState(Date.now())
 
     useEffect(() => {
-        if (isRunning && startTimestamp) start()
-        else pause()
-    }, [isRunning, startTimestamp, start, pause])
+        if (isRunning) {
+            const interval = setInterval(() => {
+                setCurrentTime(Date.now())
+            }, 1000)
+            return () => clearInterval(interval)
+        }
+    }, [isRunning])
+
+    const elapsedTime = startTimestamp ? Math.floor((currentTime - startTimestamp) / 1000) : 0
+
+    const hours = Math.floor(elapsedTime / 3600)
+    const minutes = Math.floor((elapsedTime % 3600) / 60)
+    const seconds = elapsedTime % 60
 
     const format = (n: number) => n.toString().padStart(2, '0')
 

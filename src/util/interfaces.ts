@@ -150,6 +150,12 @@ export interface VerticalToggleSwitchProps {
     onToggle?: (mode: 'play' | 'plus') => void
     className?: string
 }
+
+export interface TimerState {
+    isRunning: boolean
+    startTimestamp: number | null
+    stopTimestamp: number | null
+}
 export interface TimerRunnerProps {
     isRunning: boolean
     startTimestamp: number | null
