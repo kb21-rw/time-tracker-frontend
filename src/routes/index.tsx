@@ -73,14 +73,14 @@ export const router = createBrowserRouter([
                                 path: 'projects',
                                 element: <ProjectsPage />,
                             },
+                            {
+                                path: 'tracker',
+                                element: <TimeTracker />,
+                            },
                         ],
                     },
                 ],
             },
         ],
-    },
-    {
-        path: '/tracker',
-        element: <TimeTracker />,
     },
 ])
