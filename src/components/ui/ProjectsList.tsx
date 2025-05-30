@@ -35,7 +35,7 @@ export default function ProjectsList({ isModalOpen, onClose, anchorRef }: Projec
                                 <ul className="ml-14 list-disc marker:text-primary-500 text-primary-800">
                                     {projectNames.map((name, idx) => (
                                         <li key={idx} className="leading-7">
-                                            {name}
+                                            <button className="cursor-grab">{name}</button>
                                         </li>
                                     ))}
                                 </ul>

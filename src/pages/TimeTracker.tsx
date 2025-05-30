@@ -57,11 +57,11 @@ export default function TimeTracker() {
                             <button onClick={handleToggle}>
                                 {isRunning ? (
                                     <CircleStop
-                                        className="w-12 h-12 fill-accent-500 stroke-white"
+                                        className="w-12 h-12 fill-accent-500 stroke-white cursor-grab"
                                         strokeWidth={1}
                                     />
                                 ) : (
-                                    <StartTimer className="text-primary-500 w-12 h-12" />
+                                    <StartTimer className="text-primary-500 w-12 h-12 cursor-grab" />
                                 )}
                             </button>
                         </>
@@ -69,7 +69,7 @@ export default function TimeTracker() {
                     {isManual && (
                         <>
                             <ManualTimeForm />
-                            <CirclePlus className="w-16 h-16 fill-primary-500 stroke-white" />
+                            <CirclePlus className="w-16 h-16 fill-primary-500 stroke-white cursor-grab" />
                         </>
                     )}
                     <TimerSwitch

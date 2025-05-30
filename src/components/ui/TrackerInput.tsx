@@ -50,7 +50,7 @@ export default function TrackerInput({
                     <span className="absolute right-4 top-1/2 -translate-y-1/2" ref={iconRef}>
                         <Folder
                             className={clsx(
-                                'w-5 h-5',
+                                'w-5 h-5 cursor-grab',
                                 !isFolderActive && 'text-black/25',
                                 isFolderActive && 'text-primary-500',
                             )}

@@ -25,7 +25,7 @@ export default function TimerSwitch({
             <button
                 onClick={() => toggle('play')}
                 className={clsx(
-                    'rounded-full flex justify-center items-center p-1 w-5 h-5 transition-colors',
+                    'rounded-full flex justify-center items-center p-1 w-5 h-5 transition-colors cursor-grab',
                     mode === 'play'
                         ? 'bg-primary-500 text-white'
                         : 'bg-gray-200 text-primary-500 hover:bg-gray-300',
@@ -36,7 +36,7 @@ export default function TimerSwitch({
             <button
                 onClick={() => toggle('plus')}
                 className={clsx(
-                    'rounded-full flex items-center p-1 w-5 h-5 transition-colors',
+                    'rounded-full flex items-center p-1 w-5 h-5 transition-colors cursor-grab',
                     mode === 'plus'
                         ? 'bg-primary-500 text-white'
                         : 'bg-gray-200 text-primary-500 hover:bg-gray-300',
