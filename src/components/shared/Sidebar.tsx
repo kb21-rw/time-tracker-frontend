@@ -1,40 +1,39 @@
-import Tracker from '../../assets/images/Tracker-icon.svg'
-import Home from '../../assets/images/Home-icon.svg'
-import SidebarImage from '../../assets/images/sidebar-close.svg'
-import Notification from '../../assets/images/notification-line.svg'
-import Settings from '../../assets/images/settings_icon.svg'
+import Tracker from '../../assets/icons/Tracker'
 import { Link } from 'react-router-dom'
 import WorkSpaceSidebar from '../ui/WorkSpaceSidebar'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectSidebarOpen, toggleSidebar } from '../../redux/features/sidebarSlice'
-
+import Home from '../../assets/icons/Home'
+import Notification from '../../assets/icons/Notification'
+import Settings from '../../assets/icons/Settings'
+import SidebarToggle from '../../assets/icons/SidebarToggle'
 export default function Sidebar() {
     const dispatch = useDispatch()
     const isOpen = useSelector(selectSidebarOpen)
 
     return (
-        <div className="fixed left-0 top-0 flex h-screen z-10">
+        <div className="fixed left-0 top-0 flex h-screen z-10 text-primary-500">
             <aside className="w-20 bg-primary-800 p-4 flex-shrink-0">
                 <div className="h-full px-2 flex flex-col justify-between">
                     <div className="space-y-8 flex flex-col items-center">
                         <Link to="/tracker">
-                            <img src={Tracker} className="h-10 w-10" alt="Tracker" />
+                            <Tracker />
                         </Link>
                         <Link to="/manage-workspaces">
-                            <img src={Home} className="h-6 w-6" alt="Home" />
+                            <Home className="h-6 w-6" />
                         </Link>
                     </div>
                     <div>
                         <button onClick={() => dispatch(toggleSidebar())}>
-                            <img src={SidebarImage} className="h-10 w-10" alt="Sidebar" />
+                            <SidebarToggle />
                         </button>
                     </div>
-                    <div className="space-y-8 flex flex-col items-center">
+                    <div className="space-y-8 flex flex-col items-center mb-12">
                         <Link to="#">
-                            <img src={Notification} className="h-10 w-10" alt="Notification" />
+                            <Notification />
                         </Link>
                         <Link to="#">
-                            <img src={Settings} className="h-10 w-10" alt="Settings" />
+                            <Settings />
                         </Link>
                     </div>
                 </div>

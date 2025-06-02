@@ -3,7 +3,7 @@
 import { ColumnDef } from '@tanstack/react-table'
 import { Trash2 } from 'lucide-react'
 import { TableUser } from '../../util/interfaces'
-import UserAddIcon from '@/assets/icons/UserAddIcon'
+import UserAddIcon from '@/assets/icons/UserAdd'
 
 export const usersTableColumns: ColumnDef<TableUser>[] = [
     {

@@ -1,4 +1,4 @@
-import LogoIcon from '../../../assets/icons/LogoIcon'
+import LogoIcon from '../../../assets/icons/Logo'
 
 export default function FocusFlowHeader() {
     return (
