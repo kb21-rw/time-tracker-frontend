@@ -12,8 +12,8 @@ import { workspaceShema } from '@/schema/modal'
 import toast from 'react-hot-toast'
 import { handleAxiosError } from '@/util/helpers'
 import { AxiosError } from 'axios'
-import { selectSidebarOpen } from '@/redux/features/sidebarSlice'
-
+import { selectSidebarOpen, setSidebarOpen } from '@/redux/features/sidebarSlice'
+import { useLocation } from 'react-router-dom'
 export type workspaceData = z.infer<typeof workspaceShema>
 
 export default function ManageWorkspacesPage() {
@@ -21,6 +21,14 @@ export default function ManageWorkspacesPage() {
     const isOpen = useSelector(selectSidebarOpen)
     const dispatch = useDispatch<AppDispatch>()
     const { workspaces } = useSelector((state: RootState) => state.workspaces)
+    const location = useLocation()
+    const isInWorkspace = location.pathname === `/manage-workspaces`
+
+    useEffect(() => {
+        if (isInWorkspace) {
+            dispatch(setSidebarOpen(false))
+        }
+    }, [isInWorkspace, dispatch])
 
     useEffect(() => {
         dispatch(getWorkspacesByUser())

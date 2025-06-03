@@ -9,7 +9,9 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
     label?: string
     id: string
     error?: FieldError
-    register: UseFormRegisterReturn
+    variant?: 'sm' | 'md' | 'lg'
+    hasIcon?: boolean
+    register?: UseFormRegisterReturn
 }
 
 export interface User {
@@ -144,4 +146,23 @@ export interface RenameProjectProps {
     projectId?: string
     clientId?: string
     setEditProjectModal: (value: boolean) => void
+}
+
+export interface VerticalToggleSwitchProps {
+    defaultMode?: 'play' | 'plus'
+    onToggle?: (mode: 'play' | 'plus') => void
+    className?: string
+}
+
+export interface TimerState {
+    isRunning: boolean
+    startTimestamp: number | null
+    stopTimestamp: number | null
+}
+export interface TimerRunnerProps {
+    isRunning: boolean
+    startTimestamp: number | null
+}
+export interface ProjectsListProps extends CommonModalProps {
+    anchorRef?: React.RefObject<HTMLElement>
 }
