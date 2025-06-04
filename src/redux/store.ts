@@ -9,6 +9,7 @@ import sidebarReducer from './features/sidebarSlice'
 import clientReducer from './slice/clientSlice'
 import projectReducer from './slice/projectSlice'
 import workspaceStateReducer from './features/workspaceStateSlice'
+import timerSliceReducer from './features/timerSlice'
 
 import { combineReducers } from '@reduxjs/toolkit'
 
@@ -19,12 +20,13 @@ const rootReducer = combineReducers({
     clients: clientReducer,
     projects: projectReducer,
     workspaceState: workspaceStateReducer,
+    timer: timerSliceReducer,
 })
 
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: ['workspaceState'],
+    whitelist: ['workspaceState', 'timer'],
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
