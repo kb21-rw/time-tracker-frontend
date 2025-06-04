@@ -19,9 +19,13 @@ export default function ClientsPage() {
     const [editClientModal, setEditClientModal] = useState(false)
     const [selectedRow, setSelectedRow] = useState<ClientTable | null>(null)
 
+    const handleEditClick = (rowData: ClientTable) => {
+        setEditClientModal(true)
+        setSelectedRow(rowData)
+    }
+
     const columns = ClientsTableColumns({
-        setEditClientModal,
-        setSelectedRow,
+        onEditClick: handleEditClick,
     })
 
     useEffect(() => {
