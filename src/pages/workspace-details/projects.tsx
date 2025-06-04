@@ -19,11 +19,14 @@ export default function ProjectPage() {
     const [editProjectModal, setEditProjectModal] = useState(false)
     const [selectedRow, setSelectedRow] = useState<Project | null>(null)
 
-    const columns = ProjectTableColumns({
-        setEditProjectModal,
-        setSelectedRow,
-    })
+    const handleEditClick = (rowData: Project) => {
+        setEditProjectModal(true)
+        setSelectedRow(rowData)
+    }
 
+    const columns = ProjectTableColumns({
+        onEditClick: handleEditClick,
+    })
     useEffect(() => {
         dispatch(getProjectsByWorkspaceId(id!))
     }, [dispatch])
