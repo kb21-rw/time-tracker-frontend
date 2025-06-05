@@ -1,4 +1,4 @@
-import { Calendar, Clock, Group } from 'lucide-react'
+import { Clock, Group, Users } from 'lucide-react'
 import {
     Sidebar,
     SidebarHeader,
@@ -6,47 +6,95 @@ import {
     SidebarGroup,
     SidebarGroupLabel,
     SidebarMenu,
-    SidebarMenuItem,
     SidebarMenuButton,
     SidebarProvider,
+    SidebarMenuItem,
 } from '../shadcn/sidebar'
-import UserIcon from '../../assets/icons/userIcon'
+import { NavLink, useParams, useLocation } from 'react-router-dom'
+import FluentProject from '../../assets/icons/FluentProject'
 
 export default function WorkspaceSidebar() {
+    const { id } = useParams<{ id: string }>()
+    const location = useLocation()
     return (
         <SidebarProvider className="p-0 m-0">
             <Sidebar className="relative text-white text-base font-bold">
-                <SidebarHeader className="flex flex-row items-center gap-x-2 px-7 py-12">
-                    <UserIcon className="text-white h-7 w-7" />
-                    <h1> Profile</h1>
-                </SidebarHeader>
-                <SidebarContent className="px-7">
-                    <SidebarGroup>
-                        <SidebarGroupLabel>
-                            <h1 className="text-blue-100 text-base">Track</h1>
-                        </SidebarGroupLabel>
-                        <SidebarMenu>
-                            <SidebarMenuButton className=" text-base">
-                                <Clock />
-                                <h1>Timer</h1>
+                <SidebarHeader>
+                    <SidebarMenu>
+                        <SidebarMenuItem className="px-7">
+                            <SidebarMenuButton
+                                size="lg"
+                                className="my-1"
+                                isActive={location.pathname === `/manage-workspaces/${id}/tracker`}
+                            >
+                                <NavLink
+                                    to={`/manage-workspaces/${id}/tracker`}
+                                    className="flex items-center gap-2"
+                                >
+                                    <Clock
+                                        fill="white"
+                                        stroke="currentColor"
+                                        className="text-primary-500 text-2xl w-7 h-7"
+                                    />
+                                    <p className="text-xl">Track</p>
+                                </NavLink>
                             </SidebarMenuButton>
-                            <SidebarMenuItem>
-                                <SidebarMenuButton className=" text-base">
-                                    <Calendar />
-                                    <h1>Calendar</h1>
-                                </SidebarMenuButton>
-                            </SidebarMenuItem>
-                        </SidebarMenu>
-                    </SidebarGroup>
-                    <SidebarGroup>
+                        </SidebarMenuItem>
+                    </SidebarMenu>
+                </SidebarHeader>
+                <SidebarContent className="px-7 mb-10">
+                    <SidebarGroup className="my-auto space-y-2">
                         <SidebarGroupLabel>
                             <h1 className="text-blue-100 text-base">Manage</h1>
                         </SidebarGroupLabel>
                         <SidebarMenu>
-                            <SidebarMenuButton className=" text-base">
-                                <Group />
-                                <h1>Group 1</h1>
-                            </SidebarMenuButton>
+                            <SidebarMenuItem>
+                                <SidebarMenuButton
+                                    className="text-base"
+                                    isActive={location.pathname === `/manage-workspaces/${id}`}
+                                >
+                                    <NavLink to={`/manage-workspaces/${id}`} className="flex gap-2">
+                                        <Users className="w-7 h-7" />
+                                        <h1>Users</h1>
+                                    </NavLink>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+                        </SidebarMenu>
+                        <SidebarMenu>
+                            <SidebarMenuItem>
+                                <SidebarMenuButton
+                                    className="text-base"
+                                    isActive={
+                                        location.pathname === `/manage-workspaces/${id}/clients`
+                                    }
+                                >
+                                    <NavLink
+                                        to={`/manage-workspaces/${id}/clients`}
+                                        className="flex gap-2"
+                                    >
+                                        <Group className="w-7 h-7" />
+                                        <h1>Clients</h1>
+                                    </NavLink>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+                        </SidebarMenu>
+                        <SidebarMenu>
+                            <SidebarMenuItem>
+                                <SidebarMenuButton
+                                    className="text-base"
+                                    isActive={
+                                        location.pathname === `/manage-workspaces/${id}/projects`
+                                    }
+                                >
+                                    <NavLink
+                                        to={`/manage-workspaces/${id}/projects`}
+                                        className="flex gap-2"
+                                    >
+                                        <FluentProject className="w-7 h-7" />
+                                        <h1>Projects</h1>
+                                    </NavLink>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
                         </SidebarMenu>
                     </SidebarGroup>
                 </SidebarContent>

@@ -9,7 +9,9 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
     label?: string
     id: string
     error?: FieldError
-    register: UseFormRegisterReturn
+    variant?: 'sm' | 'md' | 'lg'
+    hasIcon?: boolean
+    register?: UseFormRegisterReturn
 }
 
 export interface User {
@@ -23,6 +25,7 @@ export interface AuthState {
     user: User | null
     token: string | null
     loading: boolean
+    expiresAt: number | null
     error: any
 }
 
@@ -38,11 +41,13 @@ export interface WorkspaceForCreation {
 
 export interface WorkspaceState {
     workspaces: Workspace[]
+    workspaceUsers: []
     loading: boolean
     error: any
 }
 
 export interface WorkspaceProps {
+    id: string
     name: string
     creationDate: string
 }
@@ -56,6 +61,8 @@ export interface Workspace {
 export interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
     data: TData[]
+    tableName: string
+    loading: boolean
 }
 export type TableUser = {
     id: string
@@ -65,11 +72,91 @@ export type TableUser = {
 }
 export interface Project {
     id: string
-    names: string
+    name: string
+    client: Client
 }
 
-export interface Group {
+export interface Client {
     id: string
+    workspaceId: string
     name: string
+}
+export interface WorkspaceModalSharedProps {
+    id: string
+    setIsModalOpen: (value: React.SetStateAction<boolean>) => void
+}
+export type ProjectTable = {
+    id: string
+    client: string
+    project: string
+    actions: string
+}
+
+export interface CommonModalProps {
+    isModalOpen: boolean
+    onClose: () => void
+}
+
+export interface ClientState {
+    clients: Client[]
+    loading: boolean
+    error: any
+}
+
+export interface RenameClientProps {
+    client: Client
+    setEditClientModal: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export type ClientTable = {
+    id: string
+    workspaceId: string
+    name: string
+}
+
+export interface WorkspaceHeaderProps {
+    workspaceName: string
+    buttonText: string
+    setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>
+}
+export type OutletContextType = {
+    workspaceName: string
+    id: string
+}
+export interface projectState {
     projects: Project[]
+    loading: boolean
+    error: any
+}
+export type CreateClientProps = {
+    setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>
+}
+export interface RenameProjectProps {
+    projectName?: string
+    projectId?: string
+    clientId?: string
+    setEditProjectModal: (value: boolean) => void
+}
+
+export interface VerticalToggleSwitchProps {
+    defaultMode?: 'play' | 'plus'
+    onToggle?: (mode: 'play' | 'plus') => void
+    className?: string
+}
+
+export interface TimerState {
+    isRunning: boolean
+    startTimestamp: number | null
+    stopTimestamp: number | null
+}
+export interface TimerRunnerProps {
+    isRunning: boolean
+    startTimestamp: number | null
+}
+export interface ProjectsListProps extends CommonModalProps {
+    anchorRef?: React.RefObject<HTMLElement>
+}
+
+export interface ColumnsProps<T> {
+    onEditClick: (rowData: T) => void
 }

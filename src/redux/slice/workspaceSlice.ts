@@ -4,6 +4,7 @@ import { WorkspaceState } from '../../util/interfaces'
 
 const initialState: WorkspaceState = {
     workspaces: [],
+    workspaceUsers: [],
     loading: false,
     error: null,
 }
@@ -14,7 +15,7 @@ export const createWorkspace = createAsyncThunk(
             const response = await api.post(`/workspaces`, workspaceName)
             return response.data
         } catch (error: any) {
-            const errorMessage = error.response?.data?.message || 'creating Workspace faile'
+            const errorMessage = error.response?.data?.message || 'creating Workspace failed'
             return rejectWithValue(
                 typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage),
             )
@@ -29,6 +30,67 @@ export const getWorkspacesByUser = createAsyncThunk(
             return response.data
         } catch (error: any) {
             const errorMessage = error.response?.data?.message || 'Fetching workspaces failed'
+            return rejectWithValue(
+                typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage),
+            )
+        }
+    },
+)
+
+export const getWorkspaceById = createAsyncThunk(
+    'workspace/id',
+    async (id: string, { rejectWithValue }) => {
+        try {
+            const response = await api.get(`workspaces/${id}`)
+            return response.data
+        } catch (error: any) {
+            const errorMessage =
+                error.response?.data?.message || 'Fetching workspace details failed'
+            return rejectWithValue(
+                typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage),
+            )
+        }
+    },
+)
+export const inviteUser = createAsyncThunk(
+    'workspace/inviteUser',
+    async (params: { id: string; userData: { email: string } }, { rejectWithValue }) => {
+        const { id, userData } = params
+        try {
+            const response = await api.post(`Workspaces/${id}/invitations`, userData)
+            return response.data
+        } catch (error: any) {
+            const errorMessage = error.response?.data?.message || 'Failed to invite user'
+            return rejectWithValue(
+                typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage),
+            )
+        }
+    },
+)
+
+export const renameWorkspace = createAsyncThunk(
+    'workspace/rename',
+    async ({ name, id }: { name: string; id: string }, { rejectWithValue }) => {
+        try {
+            const response = await api.patch(`workspaces/${id}`, { name })
+            return response.data
+        } catch (error: any) {
+            const errorMessage = error.response.data.message || 'Renaming workspace failed'
+            return rejectWithValue(
+                typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage),
+            )
+        }
+    },
+)
+
+export const getWorkspaceUsers = createAsyncThunk(
+    'workspace/getUsers',
+    async (id: string, { rejectWithValue }) => {
+        try {
+            const response = await api.get(`Workspaces/${id}/users`)
+            return response.data
+        } catch (error: any) {
+            const errorMessage = error.response?.data?.message || 'Fetching users failed'
             return rejectWithValue(
                 typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage),
             )
@@ -51,7 +113,7 @@ const workspacesSlice = createSlice({
                 state.workspaces.push(action.payload.workspace)
             })
             .addCase(createWorkspace.rejected, (state, action) => {
-                state.loading = true
+                state.loading = false
                 state.error = action.payload
             })
             .addCase(getWorkspacesByUser.pending, state => {
@@ -63,7 +125,55 @@ const workspacesSlice = createSlice({
                 state.workspaces = action.payload
             })
             .addCase(getWorkspacesByUser.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.payload
+            })
+            .addCase(getWorkspaceById.pending, state => {
                 state.loading = true
+                state.error = null
+            })
+            .addCase(getWorkspaceById.fulfilled, (state, action) => {
+                state.loading = false
+                state.workspaces = action.payload
+            })
+            .addCase(getWorkspaceById.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.payload
+            })
+            .addCase(inviteUser.pending, state => {
+                state.loading = true
+                state.error = null
+            })
+            .addCase(inviteUser.fulfilled, state => {
+                state.loading = false
+            })
+            .addCase(inviteUser.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.payload
+            })
+            .addCase(renameWorkspace.pending, state => {
+                state.loading = true
+                state.error = null
+            })
+            .addCase(renameWorkspace.fulfilled, (state, action) => {
+                state.loading = false
+                state.workspaces.find(workspace => workspace.id === action.payload.id)!.name =
+                    action.payload.name
+            })
+            .addCase(renameWorkspace.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.payload
+            })
+            .addCase(getWorkspaceUsers.pending, state => {
+                state.loading = true
+                state.error = null
+            })
+            .addCase(getWorkspaceUsers.fulfilled, (state, action) => {
+                state.loading = false
+                state.workspaceUsers = action.payload
+            })
+            .addCase(getWorkspaceUsers.rejected, (state, action) => {
+                state.loading = false
                 state.error = action.payload
             })
     },
