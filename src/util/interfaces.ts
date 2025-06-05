@@ -108,20 +108,10 @@ export interface RenameClientProps {
     setEditClientModal: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export interface ProjectTableColumnsProps {
-    setEditProjectModal: React.Dispatch<React.SetStateAction<boolean>>
-    setSelectedRow: React.Dispatch<React.SetStateAction<Project | null>>
-}
-
 export type ClientTable = {
     id: string
     workspaceId: string
     name: string
-}
-
-export interface ClientsTableColumnsProps {
-    setEditClientModal: React.Dispatch<React.SetStateAction<boolean>>
-    setSelectedRow: React.Dispatch<React.SetStateAction<ClientTable | null>>
 }
 
 export interface WorkspaceHeaderProps {
@@ -165,4 +155,8 @@ export interface TimerRunnerProps {
 }
 export interface ProjectsListProps extends CommonModalProps {
     anchorRef?: React.RefObject<HTMLElement>
+}
+
+export interface ColumnsProps<T> {
+    onEditClick: (rowData: T) => void
 }

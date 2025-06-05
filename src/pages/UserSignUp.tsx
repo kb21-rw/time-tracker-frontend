@@ -1,5 +1,5 @@
 import FocusFlowHeader from '@/components/shared/ui/FocusFlowHeader'
-import UserSignupImage from '../assets/images/usersignup-image.png'
+import SignUpPageGraphic from '@/assets/images/signup-page-graphic.png'
 import Input from '@/components/shared/ui/Input'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import Button from '@/components/shared/ui/Button'
@@ -54,7 +54,7 @@ export default function UserSignUpPage() {
             <FocusFlowHeader />
             <div className="flex justify-between items-center mt-4 ">
                 <img
-                    src={UserSignupImage}
+                    src={SignUpPageGraphic}
                     className="hidden lg:block  max-w-lg"
                     alt="signup page illustration"
                 />

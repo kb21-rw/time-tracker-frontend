@@ -1,13 +1,12 @@
 'use client'
 
-import { ClientsTableColumnsProps, ClientTable } from '@/util/interfaces'
+import { ClientTable, ColumnsProps } from '@/util/interfaces'
 import { ColumnDef } from '@tanstack/react-table'
 import { Pencil } from 'lucide-react'
 
 export const ClientsTableColumns = ({
-    setEditClientModal,
-    setSelectedRow,
-}: ClientsTableColumnsProps): ColumnDef<ClientTable>[] => [
+    onEditClick,
+}: ColumnsProps<ClientTable>): ColumnDef<ClientTable>[] => [
     {
         accessorKey: 'name',
         header: 'Clients',
@@ -22,15 +21,10 @@ export const ClientsTableColumns = ({
             )
         },
         cell: ({ row }) => {
-            const rowData = row.original
-            function handleEditClick() {
-                setEditClientModal(true)
-                setSelectedRow(rowData)
-            }
             return (
                 <div className="flex items-center justify-center gap-x-4 relative">
                     <Pencil
-                        onClick={handleEditClick}
+                        onClick={() => onEditClick(row.original)}
                         className="text-primary-500 w-5 h-5 cursor-pointer"
                     />
                 </div>
