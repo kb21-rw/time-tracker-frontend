@@ -1,4 +1,5 @@
 import StartTimer from '@/assets/icons/StartTmer'
+import TimeLogsGroup from '@/components/card/TimeLogsGroup'
 import ManualTimeForm from '@/components/ui/ManualTimeInput'
 import TimerRunner from '@/components/ui/TimerRunner'
 import TimerSwitch from '@/components/ui/TimerSwitch'
@@ -33,7 +34,7 @@ export default function TimeTracker() {
     }
 
     return (
-        <div>
+        <div className="bg-white">
             <div className="w-full shadow-md py-7 px-9 flex justify-between items-center bg-white">
                 <p className="text-xl font-bold flex gap-x-4 items-center justify-center">
                     {workspaceName}
@@ -84,6 +85,7 @@ export default function TimeTracker() {
                     />
                 </div>
             </div>
+            <TimeLogsGroup time="Today" />
         </div>
     )
 }
