@@ -1,5 +1,6 @@
 import StartTimer from '@/assets/icons/StartTmer'
 import ManualTimeForm from '@/components/ui/ManualTimeInput'
+import ManualTrackedTime from '@/components/ui/ManualTrackedTime'
 import TimerRunner from '@/components/ui/TimerRunner'
 import TimerSwitch from '@/components/ui/TimerSwitch'
 import TrackerInput from '@/components/ui/TrackerInput'
@@ -84,6 +85,7 @@ export default function TimeTracker() {
                     />
                 </div>
             </div>
+            {isManual && <ManualTrackedTime />}
         </div>
     )
 }
