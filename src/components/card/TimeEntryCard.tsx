@@ -23,7 +23,7 @@ export default function TimeEntryCard({
                 <span> &mdash; </span>
                 <p>{endTime}</p>
             </div>
-            <div className='text-center'>{duration}</div>
+            <div className="text-center">{duration}</div>
             <div>
                 <button className="text-primary-500">
                     <Pencil className="w-5 h-5" />
