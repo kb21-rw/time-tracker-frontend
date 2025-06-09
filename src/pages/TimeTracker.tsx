@@ -5,20 +5,27 @@ import TimerRunner from '@/components/ui/TimerRunner'
 import TimerSwitch from '@/components/ui/TimerSwitch'
 import TrackerInput from '@/components/ui/TrackerInput'
 import { startTimer, stopTimer } from '@/redux/features/timerSlice'
+import { getUserTimeLogs } from '@/redux/slice/timeLogsSlice'
 import store, { AppDispatch, RootState } from '@/redux/store'
+import { formatTimeLogs } from '@/util/helpers'
 import { OutletContextType } from '@/util/interfaces'
 import { CirclePlus, CircleStop, Download } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { useOutletContext } from 'react-router-dom'
 
 export default function TimeTracker() {
-    const { workspaceName } = useOutletContext<OutletContextType>()
+    const { workspaceName, id } = useOutletContext<OutletContextType>()
     const [isManual, setIsManual] = useState(false)
     const dispatch = useDispatch<AppDispatch>()
     const { isRunning, startTimestamp } = useSelector((state: RootState) => state.timer)
+    const { timeLogs } = useSelector((state: RootState) => state.timeLog)
+
+    useEffect(() => {
+        dispatch(getUserTimeLogs(id!))
+    }, [dispatch])
 
     const handleToggle = () => {
         if (isRunning) {
@@ -32,7 +39,7 @@ export default function TimeTracker() {
             dispatch(startTimer())
         }
     }
-
+    const formattedTimelogs = formatTimeLogs(timeLogs)
     return (
         <div className="bg-white">
             <div className="w-full shadow-md py-7 px-9 flex justify-between items-center bg-white">
@@ -85,7 +92,7 @@ export default function TimeTracker() {
                     />
                 </div>
             </div>
-            <TimeLogsGroup time="Today" />
+            <TimeLogsGroup timeLogs={formattedTimelogs} />
         </div>
     )
 }

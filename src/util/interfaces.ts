@@ -177,10 +177,26 @@ export interface TimeLog {
     project: Project
     startTime: string
     endTime: string
+    createdAt: string
+}
+
+export interface formattedTimeLog{
+    id: string
+    description: string
+    project: string
+    client: string
+    startTime: string
+    endTime: string
     duration: string
+    createdAt: string
 }
 export interface TimeLogState {
     timeLogs: TimeLog[]
     loading: boolean
     error: unknown
 }
+
+export interface TimeLogsGroupPropsProps {
+    timeLogs: formattedTimeLog[];
+  };
+

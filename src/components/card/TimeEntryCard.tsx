@@ -15,7 +15,7 @@ export default function TimeEntryCard({
         <div className="grid grid-cols-8 gap-4 items-center justify-center bg-white px-9 py-8 drop-shadow-md font-inter">
             <div className="min-w-80 col-span-2">{description}</div>
             <div>
-                <li className="list-disc marker:text-primary-500">{project}</li>
+                <li className="list-disc marker:text-primary-500 truncate">{project}</li>
             </div>
             <div>{client}</div>
             <div className="col-span-2 flex justify-center gap-x-10 items-center">
