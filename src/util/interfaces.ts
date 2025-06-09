@@ -180,7 +180,7 @@ export interface TimeLog {
     createdAt: string
 }
 
-export interface formattedTimeLog{
+export interface formattedTimeLog {
     id: string
     description: string
     project: string
@@ -197,6 +197,5 @@ export interface TimeLogState {
 }
 
 export interface TimeLogsGroupPropsProps {
-    timeLogs: formattedTimeLog[];
-  };
-
+    timeLogs: formattedTimeLog[]
+}
