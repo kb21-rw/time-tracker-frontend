@@ -41,7 +41,7 @@ export default function TimeTracker() {
     }
     const formattedTimelogs = formatTimeLogs(timeLogs)
     return (
-        <div className="bg-white">
+        <div className="bg-white h-full">
             <div className="w-full shadow-md py-7 px-9 flex justify-between items-center bg-white">
                 <p className="text-xl font-bold flex gap-x-4 items-center justify-center">
                     {workspaceName}

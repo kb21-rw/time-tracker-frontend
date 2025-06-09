@@ -17,7 +17,7 @@ export default function TimeLogsGroup({ timeLogs }: TimeLogsGroupPropsProps) {
         }
     }
     if (!timeLogs || timeLogs.length === 0) {
-        return <p className="text-center text-gray-500">No time logs available.</p>
+        return <p className="text-center mt-14 text-gray-500">No time logs available.</p>
     }
     const sortedTimelogs = groupTimeLogsByDate(timeLogs)
 
