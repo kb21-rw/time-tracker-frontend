@@ -29,9 +29,9 @@ export function groupProjectsByClient(projects: Project[]): Record<string, strin
 export function formatTimeLogs(timeLogs: TimeLog[]): formattedTimeLog[] {
     return timeLogs.map(log => ({
         id: log.id,
-        description: log.description || '',
-        project: log.project.name || '',
-        client: log.project.client.name || '',
+        description: log.description,
+        project: log.project?.name || '',
+        client: log.project?.client?.name || '',
         startTime: new Date(log.startTime).toLocaleTimeString([], {
             hour: '2-digit',
             minute: '2-digit',

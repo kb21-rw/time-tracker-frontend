@@ -10,12 +10,17 @@ export default function TimeEntryCard({
     endTime,
     duration,
 }: TimeEntryCardProps) {
-    console.log(id)
     return (
         <div className="grid grid-cols-7 gap-4 items-center justify-center bg-white px-9 py-8 drop-shadow-md font-inter">
-            <div className="min-w-80 col-span-2">{description}</div>
+            <div
+                className={`min-w-80 col-span-2 ${description.length <= 0 ? 'text-black/20' : ''}`}
+            >
+                {description.length > 0 ? description : 'No description'}
+            </div>
             <div>
-                <li className="list-disc marker:text-primary-500 truncate">{project}</li>
+                {project.length <= 0 ? null : (
+                    <li className={`list-disc marker:text-primary-500 truncate`}>{project}</li>
+                )}
             </div>
             <div>{client}</div>
             <div className="flex justify-center gap-x-10 items-center">
@@ -26,7 +31,7 @@ export default function TimeEntryCard({
             <div className="text-center">{duration}</div>
             <div className="flex justify-center items-center">
                 <button className="text-primary-500">
-                    <Pencil className="w-5 h-5" />
+                    <Pencil className="w-5 h-5" onClick={() => id} />
                 </button>
             </div>
         </div>
