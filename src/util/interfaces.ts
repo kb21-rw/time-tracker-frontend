@@ -196,6 +196,6 @@ export interface TimeLogState {
     error: unknown
 }
 
-export interface TimeLogsGroupPropsProps {
+export interface TimeLogsGroupProps {
     timeLogs: formattedTimeLog[]
 }

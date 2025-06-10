@@ -1,15 +1,20 @@
-import { TimeLogsGroupPropsProps } from '@/util/interfaces'
+import { TimeLogsGroupProps } from '@/util/interfaces'
 import TimeEntryCard from './TimeEntryCard'
 import { groupTimeLogsByDate } from '@/util/helpers'
 
-export default function TimeLogsGroup({ timeLogs }: TimeLogsGroupPropsProps) {
+export default function TimeLogsGroup({ timeLogs }: TimeLogsGroupProps) {
     const formatTitle = (date: string) => {
-        if (new Date().getDay() === new Date(date).getDay()) {
+        const inputDate = new Date(date)
+        const today = new Date()
+        const yesterday = new Date()
+        yesterday.setDate(yesterday.getDate() - 1)
+
+        if (inputDate.toDateString() === today.toDateString()) {
             return 'Today'
-        } else if (new Date().getDay() - 1 === new Date(date).getDay()) {
+        } else if (inputDate.toDateString() === yesterday.toDateString()) {
             return 'Yesterday'
         } else {
-            return new Date(date).toLocaleDateString([], {
+            return inputDate.toLocaleDateString([], {
                 weekday: 'short',
                 day: '2-digit',
                 month: 'short',

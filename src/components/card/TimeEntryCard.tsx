@@ -24,7 +24,7 @@ export default function TimeEntryCard({
                 <p>{endTime}</p>
             </div>
             <div className="text-center">{duration}</div>
-            <div>
+            <div className="flex justify-center items-center">
                 <button className="text-primary-500">
                     <Pencil className="w-5 h-5" />
                 </button>
