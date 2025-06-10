@@ -1,39 +1,51 @@
-import Home from '../../assets/images/homeIcon.svg'
-import Profile from '../../assets/images/iconamoon_profile.svg'
-import SidebarImage from '../../assets/images/sidebar-close.svg'
-import Notification from '../../assets/images/notification-line.svg'
-import Settings from '../../assets/images/settings_icon.svg'
-import { Link } from 'react-router-dom'
-
+import { Link, useLocation } from 'react-router-dom'
+import WorkSpaceSidebar from '../ui/WorkSpaceSidebar'
+import { useDispatch, useSelector } from 'react-redux'
+import { selectSidebarOpen, toggleSidebar } from '../../redux/features/sidebarSlice'
+import Home from '../../assets/icons/Home'
+import Notification from '../../assets/icons/Notification'
+import Settings from '../../assets/icons/Settings'
+import SidebarToggle from '../../assets/icons/SidebarToggle'
+import Tracker from '@/assets/icons/Tracker'
 export default function Sidebar() {
+    const dispatch = useDispatch()
+    const isOpen = useSelector(selectSidebarOpen)
+    const location = useLocation()
+    const isInWorkspace = location.pathname.startsWith(`/manage-workspaces/`)
+
     return (
-        <div>
-            <aside className="row-span-5 bg-primary-800 p-4 h-screen top-0 bottom-0">
-                <div className="space-y-2 h-full px-2 mb-2 py-4 flex flex-col justify-between">
-                    {/* The links that redirect to specific route will be added later */}
-                    <div className="space-y-3">
-                        <Link to="#">
-                            <img src={Home} className="h-10 w-10" alt="Home" />
-                        </Link>
-                        <Link to="#">
-                            <img src={Profile} className="h-10 w-10" alt="Profile" />
+        <div className="fixed left-0 top-0 flex h-screen z-10 text-primary-500">
+            <aside className="w-20 bg-primary-800 p-4 flex-shrink-0">
+                <div className="h-full px-2 flex flex-col justify-between">
+                    <div className="space-y-8 flex flex-col items-center">
+                        <Tracker />
+
+                        <Link to="/manage-workspaces">
+                            <Home className="h-6 w-6" />
                         </Link>
                     </div>
                     <div>
-                        <Link to="#">
-                            <img src={SidebarImage} className="h-10 w-10" alt="Sidebar" />
-                        </Link>
+                        {isInWorkspace && (
+                            <button onClick={() => dispatch(toggleSidebar())}>
+                                <SidebarToggle />
+                            </button>
+                        )}
                     </div>
-                    <div>
+                    <div className="space-y-8 flex flex-col items-center mb-12">
                         <Link to="#">
-                            <img src={Notification} className="h-7 w-7" alt="Notification" />
+                            <Notification />
                         </Link>
                         <Link to="#">
-                            <img src={Settings} className="h-7 w-7" alt="Settings" />
+                            <Settings />
                         </Link>
                     </div>
                 </div>
             </aside>
+            <div
+                className={`${isOpen ? 'w-48' : 'w-0'} transition-all duration-300 overflow-hidden h-full`}
+            >
+                <WorkSpaceSidebar />
+            </div>
         </div>
     )
 }

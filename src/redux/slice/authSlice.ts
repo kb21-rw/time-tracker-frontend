@@ -1,15 +1,17 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import api from '../../lib/api'
 import { AuthState } from '../../util/interfaces'
+import { saveToken } from '@/util/auth'
 
 const initialState: AuthState = {
     user: null,
     token: null,
     loading: false,
+    expiresAt: null,
     error: null,
 }
-export const signupUser = createAsyncThunk(
-    'auth/signupUser',
+export const signupAdmin = createAsyncThunk(
+    'auth/signupAdmin',
     async (
         userData: { fullName: string; email: string; password: string },
         { rejectWithValue },
@@ -26,6 +28,28 @@ export const signupUser = createAsyncThunk(
     },
 )
 
+export const signupUser = createAsyncThunk(
+    'workspaces/invitations/accept',
+    async (
+        { token, password, fullName }: { token: string; fullName: string; password: string },
+        { rejectWithValue },
+    ) => {
+        try {
+            const response = await api.post(`workspaces/invitations/accept`, {
+                token,
+                fullName,
+                password,
+            })
+            return response.data
+        } catch (error: any) {
+            const errorMessage = error.response.data.message || 'Accepting invitation failed'
+            return rejectWithValue(
+                typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage),
+            )
+        }
+    },
+)
+
 export const loginUser = createAsyncThunk(
     'auth/loginUser',
     async (userData: { email: string; password: string }, { rejectWithValue }) => {
@@ -33,10 +57,13 @@ export const loginUser = createAsyncThunk(
             const response = await api.post(`/auth/login`, userData)
 
             if (response.data.access_token) {
-                localStorage.setItem('token', response.data.access_token)
+                const expiresAt = saveToken(response.data.access_token)
                 localStorage.setItem('user', JSON.stringify(response.data.user))
+                return {
+                    ...response.data,
+                    expiresAt,
+                }
             }
-            return response.data
         } catch (error: any) {
             const errorMessage = error.response?.data?.message || 'Login failed'
             return rejectWithValue(
@@ -86,14 +113,17 @@ const authSlice = createSlice({
             state.token = null
             localStorage.removeItem('token')
             localStorage.removeItem('user')
+            localStorage.removeItem('token_expiry')
         },
         // Add a reducer to restore auth state from localStorage
         restoreAuth: state => {
             const token = localStorage.getItem('token')
             const user = localStorage.getItem('user')
-            if (token && user) {
+            const expiry = localStorage.getItem('token_expiry')
+            if (token && user && expiry) {
                 state.token = token
                 state.user = JSON.parse(user)
+                state.expiresAt = parseInt(expiry)
             }
         },
         clearError: state => {
@@ -102,6 +132,19 @@ const authSlice = createSlice({
     },
     extraReducers: builder => {
         builder
+            .addCase(signupAdmin.pending, state => {
+                state.loading = true
+                state.error = null
+            })
+            .addCase(signupAdmin.fulfilled, (state, action) => {
+                state.loading = false
+                state.user = action.payload.user
+                state.token = action.payload.token
+            })
+            .addCase(signupAdmin.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.payload
+            })
             .addCase(signupUser.pending, state => {
                 state.loading = true
                 state.error = null
@@ -123,6 +166,7 @@ const authSlice = createSlice({
                 state.loading = false
                 state.user = action.payload.user
                 state.token = action.payload.token
+                state.expiresAt = action.payload.expiresAt
             })
             .addCase(loginUser.rejected, (state, action) => {
                 state.loading = false

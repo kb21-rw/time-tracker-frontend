@@ -1,11 +1,11 @@
-import FocusFlowHeader from '../components/shared/FocusFlowHeader'
+import FocusFlowHeader from '../components/shared/ui/FocusFlowHeader'
 import LoginImage from '../assets/images/landing-image.svg'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import Input from '../components/shared/Input'
+import Input from '../components/shared/ui/Input'
 import { Link, useNavigate } from 'react-router-dom'
-import Button from '../components/shared/Button'
+import Button from '../components/shared/ui/Button'
 import { loginSchema } from '../schema'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../redux/store'
@@ -58,14 +58,14 @@ export default function LoginPage() {
                 <img
                     src={LoginImage}
                     className="hidden lg:block  max-w-lg"
-                    alt="login page image"
+                    alt="login page illustration"
                 />
                 <div className="flex flex-col justify-between w-full lg:w-2/5 relative">
-                    <h1 className="text-4xl font-bold my-8">Sign in as an admin</h1>
-                    <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
+                    <h1 className="text-4xl font-bold my-8 font-inter">Log in</h1>
+                    <form className="w-full mt-3" onSubmit={handleSubmit(onSubmit)}>
                         <Input
                             id="email"
-                            label="Email Address:"
+                            label="Email address:"
                             placeholder="Enter your email"
                             register={register('email')}
                             error={errors.email}
@@ -92,7 +92,7 @@ export default function LoginPage() {
                             isLoading={loading}
                             disabled={!isValid || loading}
                         >
-                            Sign In
+                            Log in
                         </Button>
                     </form>
                     <p className="text-center mt-8 text-lg">
