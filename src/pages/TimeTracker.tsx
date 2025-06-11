@@ -25,7 +25,7 @@ export default function TimeTracker() {
 
     useEffect(() => {
         dispatch(getUserTimeLogs(id!))
-    }, [dispatch])
+    }, [dispatch, id])
 
     const handleToggle = () => {
         if (isRunning) {

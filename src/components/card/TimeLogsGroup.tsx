@@ -11,7 +11,11 @@ export default function TimeLogsGroup({ timeLogs }: TimeLogsGroupProps) {
 
         if (inputDate.toDateString() === today.toDateString()) {
             return 'Today'
-        } else if (inputDate.toDateString() === yesterday.toDateString()) {
+        } else if (
+            inputDate.getDate() === yesterday.getDate() &&
+            inputDate.getMonth() === yesterday.getMonth() &&
+            inputDate.getFullYear() === yesterday.getFullYear()
+        ) {
             return 'Yesterday'
         } else {
             return inputDate.toLocaleDateString([], {
@@ -31,7 +35,7 @@ export default function TimeLogsGroup({ timeLogs }: TimeLogsGroupProps) {
             {Object.entries(sortedTimelogs).map(([date, logs]) => (
                 <div key={date} className="mt-8">
                     <p className="font-bold text-xl ml-9 font-inter">{formatTitle(date)}</p>
-                    {logs.map((log: any) => (
+                    {logs.map(log => (
                         <TimeEntryCard key={log.id} {...log} />
                     ))}
                 </div>

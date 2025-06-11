@@ -47,7 +47,7 @@ export function formatTimeLogs(timeLogs: TimeLog[]): formattedTimeLog[] {
     }))
 }
 
-export function groupTimeLogsByDate(timeLogs: formattedTimeLog[]): Record<string, unknown[]> {
+export function groupTimeLogsByDate(timeLogs: formattedTimeLog[]): Record<string, formattedTimeLog[]> {
     return timeLogs.reduce(
         (acc, log) => {
             const date = log.createdAt
@@ -57,7 +57,7 @@ export function groupTimeLogsByDate(timeLogs: formattedTimeLog[]): Record<string
             acc[date].push(log)
             return acc
         },
-        {} as Record<string, unknown[]>,
+        {} as Record<string, formattedTimeLog[]>,
     )
 }
 

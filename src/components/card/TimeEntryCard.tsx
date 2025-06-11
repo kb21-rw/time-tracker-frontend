@@ -2,7 +2,6 @@ import { TimeEntryCardProps } from '@/util/interfaces'
 import { Pencil } from 'lucide-react'
 
 export default function TimeEntryCard({
-    id,
     description,
     project,
     client,
@@ -12,15 +11,13 @@ export default function TimeEntryCard({
 }: TimeEntryCardProps) {
     return (
         <div className="grid grid-cols-7 gap-4 items-center justify-center bg-white px-9 py-8 drop-shadow-md font-inter">
-            <div
-                className={`min-w-80 col-span-2 ${description.length <= 0 ? 'text-black/20' : ''}`}
-            >
-                {description.length > 0 ? description : 'No description'}
+            <div className={`min-w-80 col-span-2 ${description ? '' : 'text-black/20'}`}>
+                {description ? description : 'No description'}
             </div>
             <div>
-                {project.length <= 0 ? null : (
+                {project ? (
                     <li className={`list-disc marker:text-primary-500 truncate`}>{project}</li>
-                )}
+                ) : null}
             </div>
             <div>{client}</div>
             <div className="flex justify-center gap-x-10 items-center">
@@ -31,7 +28,7 @@ export default function TimeEntryCard({
             <div className="text-center">{duration}</div>
             <div className="flex justify-center items-center">
                 <button className="text-primary-500">
-                    <Pencil className="w-5 h-5" onClick={() => id} />
+                    <Pencil className="w-5 h-5" />
                 </button>
             </div>
         </div>
