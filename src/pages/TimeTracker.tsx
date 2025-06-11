@@ -1,5 +1,5 @@
 import StartTimer from '@/assets/icons/StartTmer'
-import ManualTimeForm from '@/components/ui/ManualTimeInput'
+import { Calendar24 } from '@/components/shadcn/datePicker'
 import TimerRunner from '@/components/ui/TimerRunner'
 import TimerSwitch from '@/components/ui/TimerSwitch'
 import TrackerInput from '@/components/ui/TrackerInput'
@@ -68,7 +68,7 @@ export default function TimeTracker() {
                     )}
                     {isManual && (
                         <>
-                            <ManualTimeForm />
+                            <Calendar24 />
                             <CirclePlus className="w-16 h-16 fill-primary-500 stroke-white cursor-grab" />
                         </>
                     )}
