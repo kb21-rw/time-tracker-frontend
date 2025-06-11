@@ -13,8 +13,8 @@ export default function TrackerInput({
     register,
     ...props
 }: InputProps) {
-    const [selectedClient, setSelectedClient] = useState<string | null>(null)
-    const [selectedProject, setSelectedProject] = useState<string | null>(null)
+    const [selectedClient] = useState<string | null>(null)
+    const [selectedProject] = useState<string | null>(null)
     const [isFolderActive, setIsFolderActive] = useState(false)
     const [isPopoverOpen, setIsPopoverOpen] = useState(false)
     const [project, setproject] = useState('')
