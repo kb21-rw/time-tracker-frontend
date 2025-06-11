@@ -53,7 +53,7 @@ export default function TrackerInput({
                     {...register}
                     {...(!label && { 'aria-label': placeholder })}
                     placeholder={placeholder}
-                    className={`w-full h-full rounded-lg border-2 border-black/25 px-5 font-inter placeholder:font-normal placeholder:text-black/30 focus:outline-none focus:ring-2 focus:border-0 focus:ring-primary-600`}
+                    className={`w-full h-full rounded-lg border-2 border-black/25 px-5 pr-60 font-inter placeholder:font-normal placeholder:text-black/30 focus:outline-none focus:ring-2 focus:border-0 focus:ring-primary-600`}
                 />
                 <div className=" absolute right-12 top-1/2 -translate-y-1/2 font-inter text-sm">
                     {project}
