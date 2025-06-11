@@ -13,9 +13,13 @@ export default function TrackerInput({
     register,
     ...props
 }: InputProps) {
+    const [selectedClient, setSelectedClient] = useState<string | null>(null)
+    const [selectedProject, setSelectedProject] = useState<string | null>(null)
     const [isFolderActive, setIsFolderActive] = useState(false)
     const [isPopoverOpen, setIsPopoverOpen] = useState(false)
+    const [project, setproject] = useState('codewar')
     const iconRef = useRef<HTMLDivElement>(null)
+    console.log(project)
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -36,6 +40,12 @@ export default function TrackerInput({
                     {label}
                 </label>
             )}
+            {selectedClient && selectedProject && (
+                <div className="mb-2 text-primary-700 text-sm">
+                    Selected: <span className="font-bold">{selectedClient}</span> /{' '}
+                    <span className="font-bold">{selectedProject}</span>
+                </div>
+            )}
             <div className="relative h-10 mt-5">
                 <input
                     {...props}
@@ -45,6 +55,7 @@ export default function TrackerInput({
                     placeholder={placeholder}
                     className={`w-full h-full rounded-lg border-2 border-black/25 px-5 font-inter placeholder:font-normal placeholder:text-black/30 focus:outline-none focus:ring-2 focus:border-0 focus:ring-primary-600`}
                 />
+                <div className="bg-red-400 absolute right-4 top-1/2 ">{project}</div>
                 {error && <p className="py-1 font-Inter text-sm text-red-400">{error.message}</p>}
                 {hasIcon && (
                     <span className="absolute right-4 top-1/2 -translate-y-1/2" ref={iconRef}>
@@ -61,13 +72,12 @@ export default function TrackerInput({
                         />
                     </span>
                 )}
-                {isFolderActive && (
-                    <ProjectsList
-                        isModalOpen={isPopoverOpen}
-                        onClose={() => setIsPopoverOpen(false)}
-                        anchorRef={iconRef as React.RefObject<HTMLDivElement>}
-                    />
-                )}
+                <ProjectsList
+                    setProject={setproject}
+                    isModalOpen={isPopoverOpen}
+                    onClose={() => setIsPopoverOpen(false)}
+                    anchorRef={iconRef as React.RefObject<HTMLDivElement>}
+                />
             </div>
         </div>
     )

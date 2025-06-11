@@ -155,6 +155,7 @@ export interface TimerRunnerProps {
 }
 export interface ProjectsListProps extends CommonModalProps {
     anchorRef?: React.RefObject<HTMLElement>
+    setProject: React.Dispatch<React.SetStateAction<string>>
 }
 
 export interface ColumnsProps<T> {
