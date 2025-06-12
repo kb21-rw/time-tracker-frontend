@@ -23,7 +23,9 @@ export default function ProjectsList({
     }, [dispatch])
 
     const [selectedClient, setSelectedClient] = useState<string | null>(null)
-    const [selectedProject, setSelectedProject] = useState<string | null>(null)
+    const [selectedProject, setSelectedProject] = useState<{ id: string; name: string } | null>(
+        null,
+    )
 
     const grouped = groupProjectsByClient(projects)
     return (
@@ -44,10 +46,13 @@ export default function ProjectsList({
                                     {projectNames.map((name, idx) => (
                                         <li key={idx} className="leading-7">
                                             <button
-                                                className={`cursor-pointer ${selectedClient === clientName && selectedProject === name ? 'bg-primary-100 font-bold' : ''}`}
+                                                className={`cursor-pointer ${selectedClient === clientName && selectedProject?.name === name ? ' font-bold' : ''}`}
                                                 onClick={() => {
                                                     setSelectedClient(clientName)
-                                                    setSelectedProject(name)
+                                                    setSelectedProject({
+                                                        id: `${name}/${clientName}`,
+                                                        name,
+                                                    })
                                                     setProject(`${name}/${clientName}`)
                                                     onClose()
                                                 }}

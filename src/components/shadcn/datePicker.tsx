@@ -54,7 +54,7 @@ export function Calendar24() {
                         {displayValue}
                     </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-auto overflow-hidden p-4" align="start">
+                <PopoverContent className="w-auto overflow-hidden p-4 mr-4" align="start">
                     <div className="flex flex-col gap-4 items-center">
                         <div className="flex gap-4">
                             <label className="flex flex-col items-start">
@@ -65,7 +65,7 @@ export function Calendar24() {
                                     step="1"
                                     value={startTime}
                                     onChange={handleStartTimeChange}
-                                    className="bg-background appearance-none pr-11"
+                                    className="bg-background appearance-none pr-11 w-32"
                                 />
                             </label>
                             <label className="flex flex-col items-start">
@@ -76,7 +76,7 @@ export function Calendar24() {
                                     step="1"
                                     value={endTime}
                                     onChange={handleEndTimeChange}
-                                    className="bg-background appearance-none pr-11"
+                                    className="bg-background appearance-none pr-11 w-32"
                                 />
                             </label>
                         </div>
@@ -86,7 +86,7 @@ export function Calendar24() {
                             captionLayout="dropdown"
                             onSelect={handleDateSelect}
                         />
-                        <Button onClick={handleDone} className="self-end" size="sm">
+                        <Button onClick={handleDone} className="self-end bg-primary-500" size="sm">
                             Done
                         </Button>
                     </div>

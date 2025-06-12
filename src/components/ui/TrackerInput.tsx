@@ -17,9 +17,8 @@ export default function TrackerInput({
     const [selectedProject] = useState<string | null>(null)
     const [isFolderActive, setIsFolderActive] = useState(false)
     const [isPopoverOpen, setIsPopoverOpen] = useState(false)
-    const [project, setproject] = useState('')
+    const [project, setProject] = useState('')
     const iconRef = useRef<HTMLDivElement>(null)
-    console.log(project)
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -75,7 +74,7 @@ export default function TrackerInput({
                     </span>
                 )}
                 <ProjectsList
-                    setProject={setproject}
+                    setProject={setProject}
                     isModalOpen={isPopoverOpen}
                     onClose={() => setIsPopoverOpen(false)}
                     anchorRef={iconRef as React.RefObject<HTMLDivElement>}
