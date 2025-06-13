@@ -161,3 +161,42 @@ export interface ProjectsListProps extends CommonModalProps {
 export interface ColumnsProps<T> {
     onEditClick: (rowData: T) => void
 }
+
+export interface TimeEntryCardProps {
+    id: string
+    description: string
+    project: string
+    client: string
+    startTime: string
+    endTime: string
+    duration: string
+}
+
+export interface TimeLog {
+    id: string
+    description: string
+    project: Project
+    startTime: string
+    endTime: string
+    createdAt: string
+}
+
+export interface formattedTimeLog {
+    id: string
+    description: string
+    project: string
+    client: string
+    startTime: string
+    endTime: string
+    duration: string
+    createdAt: string
+}
+export interface TimeLogState {
+    timeLogs: TimeLog[]
+    loading: boolean
+    error: unknown
+}
+
+export interface TimeLogsGroupProps {
+    timeLogs: formattedTimeLog[]
+}
