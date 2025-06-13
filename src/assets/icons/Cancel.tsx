@@ -13,9 +13,9 @@ export default function Cancel({ className }: IconProps) {
             <path
                 d="M13.5161 34.486L24.0021 24L34.4881 34.486M34.4881 13.514L24.0001 24L13.5161 13.514"
                 stroke="currentColor"
-                stroke-width="3"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="3"
+                strokeLinecap="round"
+                strokeLinejoin="round"
             />
         </svg>
     )

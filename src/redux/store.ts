@@ -10,6 +10,7 @@ import clientReducer from './slice/clientSlice'
 import projectReducer from './slice/projectSlice'
 import workspaceStateReducer from './features/workspaceStateSlice'
 import timerSliceReducer from './features/timerSlice'
+import timeLogReducer from './slice/timeLogsSlice'
 
 import { combineReducers } from '@reduxjs/toolkit'
 
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
     projects: projectReducer,
     workspaceState: workspaceStateReducer,
     timer: timerSliceReducer,
+    timeLog: timeLogReducer,
 })
 
 const persistConfig = {
