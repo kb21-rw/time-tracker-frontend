@@ -155,7 +155,10 @@ export interface TimerRunnerProps {
 }
 export interface ProjectsListProps extends CommonModalProps {
     anchorRef?: React.RefObject<HTMLElement>
-    setProject: React.Dispatch<React.SetStateAction<string>>
+    setProject: React.Dispatch<React.SetStateAction<{
+        id: string;
+        name: string;
+    }>>
 }
 
 export interface ColumnsProps<T> {
@@ -199,4 +202,12 @@ export interface TimeLogState {
 
 export interface TimeLogsGroupProps {
     timeLogs: formattedTimeLog[]
+}
+
+ export interface ManualEntryValues {
+    date?: any
+    description: string
+    projectId: string
+    startTime: string
+    endTime: string
 }

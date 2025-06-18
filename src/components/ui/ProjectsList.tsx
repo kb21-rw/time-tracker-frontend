@@ -28,6 +28,10 @@ export default function ProjectsList({
     )
 
     const grouped = groupProjectsByClient(projects)
+    function setManualEntry() {
+        throw new Error('Function not implemented.')
+    }
+
     return (
         <Popover open={isModalOpen} onOpenChange={onClose}>
             {anchorRef?.current && <PopoverAnchor virtualRef={{ current: anchorRef.current }} />}
@@ -53,7 +57,10 @@ export default function ProjectsList({
                                                         id: `${name}/${clientName}`,
                                                         name,
                                                     })
-                                                    setProject(`${name}/${clientName}`)
+                                                    setProject({
+                                                        id: id,
+                                                        name: `${name}/${clientName}`,
+                                                    })
                                                     onClose()
                                                 }}
                                             >

@@ -5,10 +5,14 @@ import TimerRunner from '@/components/ui/TimerRunner'
 import TimerSwitch from '@/components/ui/TimerSwitch'
 import TrackerInput from '@/components/ui/TrackerInput'
 import { startTimer, stopTimer } from '@/redux/features/timerSlice'
-import { getUserTimeLogs } from '@/redux/slice/timeLogsSlice'
+import {
+    getUserTimeLogs,
+    resetManualEntryState,
+    submitManualEntry,
+} from '@/redux/slice/timeLogsSlice'
 import store, { AppDispatch, RootState } from '@/redux/store'
 import { formatTimeLogs } from '@/util/helpers'
-import { OutletContextType } from '@/util/interfaces'
+import { ManualEntryValues, OutletContextType } from '@/util/interfaces'
 import { CirclePlus, CircleStop, Download } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
@@ -22,10 +26,24 @@ export default function TimeTracker() {
     const dispatch = useDispatch<AppDispatch>()
     const { isRunning, startTimestamp } = useSelector((state: RootState) => state.timer)
     const { timeLogs } = useSelector((state: RootState) => state.timeLog)
-
+    const [manualEntry, setManualEntry] = useState<ManualEntryValues>({
+        description: '',
+        projectId: '',
+        startTime: '',
+        endTime: '',
+    })
+    const { loading, success, error } = useSelector((state: RootState) => state.timeLog)
     useEffect(() => {
-        dispatch(getUserTimeLogs(id!))
-    }, [dispatch, id])
+        if (success) {
+            dispatch(getUserTimeLogs(id!))
+            dispatch(resetManualEntryState())
+            setIsManual(false)
+            toast.success('Manual entry added!')
+        }
+        if (error) {
+            toast.error(typeof error === 'string' ? error : 'An error occurred')
+        }
+    }, [success, error, dispatch, id])
 
     const handleToggle = () => {
         if (isRunning) {
@@ -76,8 +94,21 @@ export default function TimeTracker() {
                     )}
                     {isManual && (
                         <>
-                            <Calendar24 />
-                            <CirclePlus className="w-16 h-16 fill-primary-500 stroke-white cursor-grab" />
+                            <Calendar24 manualEntry={manualEntry} setManualEntry={setManualEntry} />
+                            <button
+                                onClick={() =>
+                                    dispatch(
+                                        submitManualEntry({
+                                            data: { ...manualEntry },
+                                            id: id,
+                                        }),
+                                    )
+                                }
+                                disabled={loading}
+                            >
+                                <CirclePlus className="w-16 h-16 fill-primary-500 stroke-white cursor-grab" />
+                            </button>
+                            {loading && <span>Submitting...</span>}
                         </>
                     )}
                     <TimerSwitch
