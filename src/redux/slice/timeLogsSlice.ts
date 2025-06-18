@@ -1,5 +1,5 @@
 import api from '@/lib/api'
-import { TimeLogState } from '@/util/interfaces'
+import { StartTimerPayload, TimeLogState } from '@/util/interfaces'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
 const initialState: TimeLogState = {
@@ -23,10 +23,36 @@ export const getUserTimeLogs = createAsyncThunk(
     },
 )
 
+export const startTimerAPI = createAsyncThunk(
+    'timeLog/startTimer',
+    async (payload: StartTimerPayload, { rejectWithValue }) => {
+        try {
+            const { workspaceId, ...data } = payload
+            const cleanData = Object.fromEntries(
+                Object.entries(data).filter(([_, value]) => value !== undefined && value !== ''),
+            )
+            const response = await api.post(
+                `workspaces/${workspaceId}/timeEntries/start`,
+                cleanData,
+            )
+            return response.data
+        } catch (error: any) {
+            const errorMessage = error.response?.data?.message || 'Starting timer failed'
+            return rejectWithValue(
+                typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage),
+            )
+        }
+    },
+)
+
 const TimeLogSlice = createSlice({
     name: 'timeLog',
     initialState,
-    reducers: {},
+    reducers: {
+        clearError: state => {
+            state.error = null
+        },
+    },
     extraReducers: builder => {
         builder
             .addCase(getUserTimeLogs.pending, state => {
@@ -41,7 +67,20 @@ const TimeLogSlice = createSlice({
                 state.loading = false
                 state.error = action.payload
             })
+            .addCase(startTimerAPI.pending, state => {
+                state.loading = true
+                state.error = null
+            })
+            .addCase(startTimerAPI.fulfilled, (state, action) => {
+                state.loading = false
+                state.timeLogs.push(action.payload)
+            })
+            .addCase(startTimerAPI.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.payload
+            })
     },
 })
 
+export const { clearError } = TimeLogSlice.actions
 export default TimeLogSlice.reducer

@@ -8,6 +8,14 @@ import { useEffect, useState } from 'react'
 import { getProjectsByWorkspaceId } from '@/redux/slice/projectSlice'
 import LoadingSpinner from '../shared/ui/LoadingSpinner'
 
+// Updated interface to handle both project ID and display name
+interface ProjectSelection {
+    id: string
+    name: string
+    clientName: string
+    displayName: string // This will be "projectName/clientName"
+}
+
 export default function ProjectsList({
     isModalOpen,
     onClose,
@@ -20,14 +28,29 @@ export default function ProjectsList({
 
     useEffect(() => {
         dispatch(getProjectsByWorkspaceId(id!))
-    }, [dispatch])
+    }, [dispatch, id])
 
     const [selectedClient, setSelectedClient] = useState<string | null>(null)
-    const [selectedProject, setSelectedProject] = useState<{ id: string; name: string } | null>(
-        null,
-    )
+    const [selectedProject, setSelectedProject] = useState<ProjectSelection | null>(null)
 
     const grouped = groupProjectsByClient(projects)
+
+    const handleProjectSelect = (project: any, clientName: string) => {
+        const projectSelection: ProjectSelection = {
+            id: project.id, // Use actual project ID from backend
+            name: project.name,
+            clientName: clientName,
+            displayName: `${project.name}/${clientName}`,
+        }
+
+        setSelectedClient(clientName)
+        setSelectedProject(projectSelection)
+
+        // Pass both the actual project ID and display name to parent
+        setProject(project.id, projectSelection.displayName)
+        onClose()
+    }
+
     return (
         <Popover open={isModalOpen} onOpenChange={onClose}>
             {anchorRef?.current && <PopoverAnchor virtualRef={{ current: anchorRef.current }} />}
@@ -39,25 +62,24 @@ export default function ProjectsList({
                     <p className="text-center text-primary-500">No projects found</p>
                 ) : (
                     <>
-                        {Object.entries(grouped).map(([clientName, projectNames]) => (
+                        {Object.entries(grouped).map(([clientName, clientProjects]) => (
                             <div key={clientName} className="font-inter space-y-2">
-                                <h2 className="font-bold mx-6 my-2">{clientName} </h2>
+                                <h2 className="font-bold mx-6 my-2">{clientName}</h2>
                                 <ul className="ml-14 list-disc marker:text-primary-500 text-primary-800">
-                                    {projectNames.map((name, idx) => (
-                                        <li key={idx} className="leading-7">
+                                    {clientProjects.map((project, idx) => (
+                                        <li key={project.id || idx} className="leading-7">
                                             <button
-                                                className={`cursor-pointer ${selectedClient === clientName && selectedProject?.name === name ? ' font-bold' : ''}`}
-                                                onClick={() => {
-                                                    setSelectedClient(clientName)
-                                                    setSelectedProject({
-                                                        id: `${name}/${clientName}`,
-                                                        name,
-                                                    })
-                                                    setProject(`${name}/${clientName}`)
-                                                    onClose()
-                                                }}
+                                                className={`cursor-pointer ${
+                                                    selectedClient === clientName &&
+                                                    selectedProject?.id === project.id
+                                                        ? 'font-bold'
+                                                        : ''
+                                                }`}
+                                                onClick={() =>
+                                                    handleProjectSelect(project, clientName)
+                                                }
                                             >
-                                                {name}
+                                                {project.name}
                                             </button>
                                         </li>
                                     ))}

@@ -14,15 +14,15 @@ export const formatDate = (isoString: string): string => {
     return date.toLocaleDateString('en-GB')
 }
 
-export function groupProjectsByClient(projects: Project[]): Record<string, string[]> {
+export function groupProjectsByClient(projects: Project[]): Record<string, Project[]> {
     return projects.reduce(
         (acc, project) => {
             const clientName = project.client.name
             acc[clientName] = acc[clientName] || []
-            acc[clientName].push(project.name)
+            acc[clientName].push(project)
             return acc
         },
-        {} as Record<string, string[]>,
+        {} as Record<string, Project[]>,
     )
 }
 
