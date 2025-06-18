@@ -1,4 +1,4 @@
-import { OutletContextType, ProjectsListProps } from '@/util/interfaces'
+import { OutletContextType, Project, ProjectsListProps } from '@/util/interfaces'
 import { Popover, PopoverAnchor, PopoverContent } from '../shadcn/popover'
 import { groupProjectsByClient } from '@/util/helpers'
 import { AppDispatch, RootState } from '@/redux/store'
@@ -8,12 +8,11 @@ import { useEffect, useState } from 'react'
 import { getProjectsByWorkspaceId } from '@/redux/slice/projectSlice'
 import LoadingSpinner from '../shared/ui/LoadingSpinner'
 
-// Updated interface to handle both project ID and display name
 interface ProjectSelection {
     id: string
     name: string
     clientName: string
-    displayName: string // This will be "projectName/clientName"
+    displayName: string
 }
 
 export default function ProjectsList({
@@ -35,9 +34,9 @@ export default function ProjectsList({
 
     const grouped = groupProjectsByClient(projects)
 
-    const handleProjectSelect = (project: any, clientName: string) => {
+    const handleProjectSelect = (project: Omit<Project, 'client'>, clientName: string) => {
         const projectSelection: ProjectSelection = {
-            id: project.id, // Use actual project ID from backend
+            id: project.id,
             name: project.name,
             clientName: clientName,
             displayName: `${project.name}/${clientName}`,
@@ -46,7 +45,6 @@ export default function ProjectsList({
         setSelectedClient(clientName)
         setSelectedProject(projectSelection)
 
-        // Pass both the actual project ID and display name to parent
         setProject(project.id, projectSelection.displayName)
         onClose()
     }
@@ -66,8 +64,8 @@ export default function ProjectsList({
                             <div key={clientName} className="font-inter space-y-2">
                                 <h2 className="font-bold mx-6 my-2">{clientName}</h2>
                                 <ul className="ml-14 list-disc marker:text-primary-500 text-primary-800">
-                                    {clientProjects.map((project, idx) => (
-                                        <li key={project.id || idx} className="leading-7">
+                                    {clientProjects.map(project => (
+                                        <li key={project.id} className="leading-7">
                                             <button
                                                 className={`cursor-pointer ${
                                                     selectedClient === clientName &&

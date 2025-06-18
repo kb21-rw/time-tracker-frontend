@@ -58,7 +58,6 @@ export default function TimeTrackerHeader() {
     const handleStartTimer = async (data: TimerStartFormData) => {
         try {
             dispatch(startTimer())
-            console.log(startTimestamp)
             const result = await dispatch(
                 startTimerAPI({
                     startTime: new Date().toISOString(),
@@ -79,14 +78,8 @@ export default function TimeTrackerHeader() {
     }
 
     const handleStopTimer = () => {
-        // Dispatch frontend timer stop
         dispatch(stopTimer())
-        // Get the stop timestamp from the store
         setTimeout(() => {
-            const { stopTimestamp } = store.getState().timer
-            if (!stopTimestamp) {
-                throw new Error('Stop timestamp is not available')
-            }
             reset()
             setSelectedProjectId('')
         }, 0)
@@ -159,11 +152,7 @@ export default function TimeTrackerHeader() {
                 <TimerSwitch
                     defaultMode="play"
                     onToggle={mode => {
-                        if (mode === 'plus') {
-                            setIsManual(true)
-                        } else {
-                            setIsManual(false)
-                        }
+                        setIsManual(mode === 'plus')
                     }}
                 />
             </div>
