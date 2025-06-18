@@ -52,7 +52,7 @@ export function groupTimeLogsByDate(
 ): Record<string, formattedTimeLog[]> {
     return timeLogs.reduce(
         (acc, log) => {
-            const date = log.createdAt
+            const date = log.createdAt.split('T')[0]
             if (!acc[date]) {
                 acc[date] = []
             }

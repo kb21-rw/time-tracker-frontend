@@ -41,14 +41,14 @@ export default function TimeTrackerHeader() {
 
     useEffect(() => {
         dispatch(clearError())
-    }, [dispatch])
+    }, [])
 
     useEffect(() => {
         if (error) {
             toast.error(error as unknown as Message)
             dispatch(clearError())
         }
-    }, [error])
+    }, [error, dispatch])
 
     const handleProjectSelect = (projectId: string) => {
         setSelectedProjectId(projectId)
@@ -78,22 +78,18 @@ export default function TimeTrackerHeader() {
         }
     }
 
-    const handleStopTimer = async () => {
-        try {
-            // Dispatch frontend timer stop
-            dispatch(stopTimer())
-            dispatch(clearError())
-            // Get the stop timestamp from the store
+    const handleStopTimer = () => {
+        // Dispatch frontend timer stop
+        dispatch(stopTimer())
+        // Get the stop timestamp from the store
+        setTimeout(() => {
             const { stopTimestamp } = store.getState().timer
             if (!stopTimestamp) {
                 throw new Error('Stop timestamp is not available')
             }
             reset()
             setSelectedProjectId('')
-        } catch (error) {
-            console.error('Error stopping timer:', error)
-            toast.error('Failed to stop timer')
-        }
+        }, 0)
     }
 
     const handleToggle = () => {
