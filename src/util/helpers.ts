@@ -1,5 +1,6 @@
 import { AxiosError } from 'axios'
 import { formattedTimeLog, Project, TimeLog } from './interfaces'
+import { format, isToday, isYesterday, parseISO } from 'date-fns'
 
 export const handleAxiosError = (error: AxiosError) => {
     if (error.response) {
@@ -14,15 +15,15 @@ export const formatDate = (isoString: string): string => {
     return date.toLocaleDateString('en-GB')
 }
 
-export function groupProjectsByClient(projects: Project[]): Record<string, string[]> {
+export function groupProjectsByClient(projects: Project[]): Record<string, Project[]> {
     return projects.reduce(
         (acc, project) => {
             const clientName = project.client.name
             acc[clientName] = acc[clientName] || []
-            acc[clientName].push(project.name)
+            acc[clientName].push(project)
             return acc
         },
-        {} as Record<string, string[]>,
+        {} as Record<string, Project[]>,
     )
 }
 
@@ -52,7 +53,7 @@ export function groupTimeLogsByDate(
 ): Record<string, formattedTimeLog[]> {
     return timeLogs.reduce(
         (acc, log) => {
-            const date = log.createdAt
+            const date = log.createdAt.split('T')[0]
             if (!acc[date]) {
                 acc[date] = []
             }
@@ -71,4 +72,18 @@ export function formatDuration(startTime: string, endTime: string): string {
     const seconds = Math.floor(duration % 60)
 
     return `${hours}h ${minutes}m ${seconds}s`
+}
+
+export function formatTitle(date: string): string {
+    const inputDate = parseISO(date)
+
+    if (isToday(inputDate)) {
+        return 'Today'
+    }
+
+    if (isYesterday(inputDate)) {
+        return 'Yesterday'
+    }
+
+    return format(inputDate, 'EEE, dd MMM')
 }

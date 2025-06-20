@@ -1,5 +1,5 @@
 import { Folder } from 'lucide-react'
-import { InputProps } from '@/util/interfaces'
+import { TrackerInputProps } from '@/util/interfaces'
 import clsx from 'clsx'
 import { useEffect, useRef, useState } from 'react'
 import ProjectsList from './ProjectsList'
@@ -11,10 +11,11 @@ export default function TrackerInput({
     placeholder,
     hasIcon = false,
     register,
+    onProjectSelect,
     manualEntry,
     handleEntryChange,
     ...props
-}: InputProps) {
+}: TrackerInputProps) {
     const [selectedClient] = useState<string | null>(null)
     const [selectedProject] = useState<string | null>(null)
     const [isFolderActive, setIsFolderActive] = useState(false)
@@ -39,6 +40,12 @@ export default function TrackerInput({
             document.removeEventListener('mousedown', handleClickOutside)
         }
     }, [])
+
+    const handleProjectSelect = (projectId: string, displayName: string) => {
+        setProject(displayName)
+        onProjectSelect?.(projectId, displayName)
+    }
+
     return (
         <div className="w-full max-w-3xl font-inter pb-6 text-left">
             {label && (
@@ -83,7 +90,7 @@ export default function TrackerInput({
                     </span>
                 )}
                 <ProjectsList
-                    handleProjectChange={handleProjectChange}
+                    setProject={handleProjectSelect}
                     isModalOpen={isPopoverOpen}
                     onClose={() => setIsPopoverOpen(false)}
                     anchorRef={iconRef as React.RefObject<HTMLDivElement>}

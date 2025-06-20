@@ -11,10 +11,8 @@ export default function TimeEntryCard({
 }: TimeEntryCardProps) {
     return (
         <div className="grid grid-cols-6 lg:grid-cols-7 gap-4 items-center justify-center bg-white px-9 py-8 drop-shadow-md font-inter">
-            <div
-                className={`lg:min-w-50 col-span-2 capitalize ${description ? '' : 'text-black/20'}`}
-            >
-                {description ? description : 'No description'}
+            <div className={`lg:min-w-50 col-span-2 capitalize ${!description && 'text-black/20'}`}>
+                {description || 'No description'}
             </div>
             <div className="col-span-2 w-full">
                 {project ? (

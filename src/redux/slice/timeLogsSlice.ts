@@ -1,5 +1,5 @@
 import api from '@/lib/api'
-import { TimeLogState as ImportedTimeLogState, ManualEntryValues } from '@/util/interfaces'
+import { StartTimerPayload, TimeLogState as ImportedTimeLogState, ManualEntryValues } from '@/util/interfaces'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
 
@@ -29,6 +29,28 @@ export const getUserTimeLogs = createAsyncThunk(
     },
 )
 
+export const startTimerAPI = createAsyncThunk(
+    'timeLog/startTimer',
+    async (payload: StartTimerPayload, { rejectWithValue }) => {
+        try {
+            const { workspaceId, ...data } = payload
+            const cleanData = Object.fromEntries(
+                Object.entries(data).filter(([_, value]) => value !== undefined && value !== ''),
+            )
+            const response = await api.post(
+                `workspaces/${workspaceId}/timeEntries/start`,
+                cleanData,
+            )
+            return response.data
+        } catch (error: any) {
+            const errorMessage = error.response?.data?.message || 'Starting timer failed'
+            return rejectWithValue(
+                typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage),
+            )
+        }
+    },
+)
+
 export const submitManualEntry = createAsyncThunk(
     'manualEntry',
     async ({id, data}: {id: string, data:ManualEntryValues}, { rejectWithValue }) => {
@@ -46,7 +68,11 @@ export const submitManualEntry = createAsyncThunk(
 const TimeLogSlice = createSlice({
     name: 'timeLog',
     initialState,
-    reducers: {  resetManualEntryState: state => {
+    reducers: {
+        clearError: state => {
+            state.error = null
+        },
+      resetManualEntryState: state => {
         state.loading = false
         state.error = null
         state.success = false
@@ -80,8 +106,21 @@ const TimeLogSlice = createSlice({
             })
             
             
+            .addCase(startTimerAPI.pending, state => {
+                state.loading = true
+                state.error = null
+            })
+            .addCase(startTimerAPI.fulfilled, (state, action) => {
+                state.loading = false
+                state.timeLogs.push(action.payload)
+            })
+            .addCase(startTimerAPI.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.payload
+            })
     },
 })
 
+export const { clearError } = TimeLogSlice.actions
 export default TimeLogSlice.reducer
 export const { resetManualEntryState } = TimeLogSlice.actions
