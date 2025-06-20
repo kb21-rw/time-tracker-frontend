@@ -1,17 +1,12 @@
 import api from '@/lib/api'
-import { StartTimerPayload, TimeLogState as ImportedTimeLogState, ManualEntryValues } from '@/util/interfaces'
+import { StartTimerPayload, TimeLogState , ManualEntryValues } from '@/util/interfaces'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import axios from 'axios'
 
-interface TimeLogState extends ImportedTimeLogState {
-    success: boolean
-}
 
 const initialState: TimeLogState = {
     timeLogs: [],
     loading: false,
     error: null,
-    success: false,
 }
 
 export const getUserTimeLogs = createAsyncThunk(
@@ -75,7 +70,6 @@ const TimeLogSlice = createSlice({
       resetManualEntryState: state => {
         state.loading = false
         state.error = null
-        state.success = false
     },},
     extraReducers: builder => {
         builder
@@ -94,18 +88,15 @@ const TimeLogSlice = createSlice({
             .addCase(submitManualEntry.pending, state => {
                 state.loading = true
                 state.error = null
-                state.success = false
             })
-            .addCase(submitManualEntry.fulfilled, state => {
+            .addCase(submitManualEntry.fulfilled,(state,action) => {
                 state.loading = false
-                state.success = true
+                state.timeLogs.push(action.payload)
             })
             .addCase(submitManualEntry.rejected, (state, action) => {
                 state.loading = false
                 state.error = action.payload as string
             })
-            
-            
             .addCase(startTimerAPI.pending, state => {
                 state.loading = true
                 state.error = null

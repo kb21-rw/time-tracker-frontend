@@ -157,13 +157,12 @@ export interface TimerRunnerProps {
 }
 export interface ProjectsListProps extends CommonModalProps {
     anchorRef?: React.RefObject<HTMLElement>
-    handleProjectChange: (id: string, name: string) => void
+    setProject: (id: string, displayName: string) => void
 }
 
 export interface ColumnsProps<T> {
     onEditClick: (rowData: T) => void
 }
-
 export interface TimeEntryCardProps {
     id: string
     description: string
@@ -209,4 +208,21 @@ export interface TimeLogsGroupProps {
     projectId: string
     startTime: Date|null
     endTime: Date|null
+}
+export interface TimerFormData {
+    description?: string
+    startTime?: string
+    endTime?: string
+    projectId?: string
+}
+export interface StartTimerPayload extends TimerFormData {
+    workspaceId: string
+}
+
+export interface StopTimerPayload extends TimerFormData {
+    workspaceId: string
+}
+
+export interface TrackerInputProps extends InputProps {
+    onProjectSelect?: (projectId: string, projectName: string) => void
 }
