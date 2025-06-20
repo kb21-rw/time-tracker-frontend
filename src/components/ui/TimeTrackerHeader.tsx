@@ -41,7 +41,7 @@ export default function TimeTrackerHeader() {
 
     useEffect(() => {
         dispatch(clearError())
-    }, [])
+    }, [dispatch])
 
     useEffect(() => {
         if (error) {

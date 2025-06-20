@@ -1,5 +1,6 @@
 import { AxiosError } from 'axios'
 import { formattedTimeLog, Project, TimeLog } from './interfaces'
+import { format, isToday, isYesterday, parseISO } from 'date-fns'
 
 export const handleAxiosError = (error: AxiosError) => {
     if (error.response) {
@@ -71,4 +72,18 @@ export function formatDuration(startTime: string, endTime: string): string {
     const seconds = Math.floor(duration % 60)
 
     return `${hours}h ${minutes}m ${seconds}s`
+}
+
+export function formatTitle(date: string): string {
+    const inputDate = parseISO(date)
+
+    if (isToday(inputDate)) {
+        return 'Today'
+    }
+
+    if (isYesterday(inputDate)) {
+        return 'Yesterday'
+    }
+
+    return format(inputDate, 'EEE, dd MMM')
 }
