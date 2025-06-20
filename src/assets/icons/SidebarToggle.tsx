@@ -13,16 +13,16 @@ export default function SidebarToggle({ className }: IconProps) {
             <path
                 d="M26.9167 4.25H7.08333C5.51853 4.25 4.25 5.51853 4.25 7.08333V26.9167C4.25 28.4815 5.51853 29.75 7.08333 29.75H26.9167C28.4815 29.75 29.75 28.4815 29.75 26.9167V7.08333C29.75 5.51853 28.4815 4.25 26.9167 4.25Z"
                 stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
             />
             <path
                 d="M12.75 4.25V29.75M22.6667 21.25L18.4167 17L22.6667 12.75"
                 stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
             />
         </svg>
     )
