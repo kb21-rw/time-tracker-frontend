@@ -34,7 +34,7 @@ export const submitManualEntry = createAsyncThunk(
     async ({id, data}: {id: string, data:ManualEntryValues}, { rejectWithValue }) => {
         try {
             console.log(data)
-            const response = await axios.post(`workspaces/${id}/timeEntries/manualEntry`,data)
+            const response = await api.post(`/workspaces/${id}/timeEntries`,data)
             return response.data
         } catch (err: any) {
             console.log(err)

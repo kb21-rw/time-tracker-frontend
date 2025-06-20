@@ -12,6 +12,8 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
     variant?: 'sm' | 'md' | 'lg'
     hasIcon?: boolean
     register?: UseFormRegisterReturn
+    manualEntry?: ManualEntryValues
+    handleEntryChange?: (key: string, value: string) => void
 }
 
 export interface User {
@@ -155,10 +157,7 @@ export interface TimerRunnerProps {
 }
 export interface ProjectsListProps extends CommonModalProps {
     anchorRef?: React.RefObject<HTMLElement>
-    setProject: React.Dispatch<React.SetStateAction<{
-        id: string;
-        name: string;
-    }>>
+    handleProjectChange: (id: string, name: string) => void
 }
 
 export interface ColumnsProps<T> {

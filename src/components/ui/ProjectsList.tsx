@@ -12,7 +12,7 @@ export default function ProjectsList({
     isModalOpen,
     onClose,
     anchorRef,
-    setProject,
+    handleProjectChange,
 }: Readonly<ProjectsListProps>) {
     const { id } = useOutletContext<OutletContextType>()
     const dispatch = useDispatch<AppDispatch>()
@@ -57,10 +57,10 @@ export default function ProjectsList({
                                                         id: `${name}/${clientName}`,
                                                         name,
                                                     })
-                                                    setProject({
-                                                        id: id,
-                                                        name: `${name}/${clientName}`,
-                                                    })
+                                                    handleProjectChange(
+                                                        id,
+                                                        `${name}/${clientName}`,
+                                                    )
                                                     onClose()
                                                 }}
                                             >

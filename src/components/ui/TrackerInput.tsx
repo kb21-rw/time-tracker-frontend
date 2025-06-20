@@ -11,6 +11,8 @@ export default function TrackerInput({
     placeholder,
     hasIcon = false,
     register,
+    manualEntry,
+    handleEntryChange,
     ...props
 }: InputProps) {
     const [selectedClient] = useState<string | null>(null)
@@ -19,6 +21,11 @@ export default function TrackerInput({
     const [isPopoverOpen, setIsPopoverOpen] = useState(false)
     const [project, setProject] = useState({ id: '', name: '' })
     const iconRef = useRef<HTMLDivElement>(null)
+
+    const handleProjectChange = (id: string, name: string ) => {
+        setProject({ id, name })
+        handleEntryChange && handleEntryChange('projectId', id)
+    }
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -53,6 +60,8 @@ export default function TrackerInput({
                     {...(!label && { 'aria-label': placeholder })}
                     placeholder={placeholder}
                     className={`w-full h-full rounded-lg border-2 border-black/25 px-5 pr-60 font-inter placeholder:font-normal placeholder:text-black/30 focus:outline-none focus:ring-2 focus:border-0 focus:ring-primary-600`}
+                    value={manualEntry?.description}
+                    onChange={e => handleEntryChange?.('description', e.target.value)}
                 />
                 <div className=" absolute right-12 top-1/2 -translate-y-1/2 font-inter text-sm bg-accent-500">
                     {project.name}
@@ -74,7 +83,7 @@ export default function TrackerInput({
                     </span>
                 )}
                 <ProjectsList
-                    setProject={setProject}
+                    handleProjectChange={handleProjectChange}
                     isModalOpen={isPopoverOpen}
                     onClose={() => setIsPopoverOpen(false)}
                     anchorRef={iconRef as React.RefObject<HTMLDivElement>}

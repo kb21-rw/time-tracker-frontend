@@ -58,6 +58,10 @@ export default function TimeTracker() {
         }
     }
     const formattedTimelogs = formatTimeLogs(timeLogs)
+
+    const handleEntryChange = (field: string, value: string) => {
+        setManualEntry(prev => ({ ...prev, [field]: value }))
+    }
     return (
         <div className="bg-white h-full">
             <div className="w-full shadow-md py-7 px-9 flex justify-between items-center bg-white">
@@ -71,6 +75,8 @@ export default function TimeTracker() {
                         placeholder="Add a description"
                         variant="md"
                         hasIcon={true}
+                        manualEntry={manualEntry}
+                        handleEntryChange={handleEntryChange}
                     />
                     {!isManual && (
                         <>
@@ -99,7 +105,12 @@ export default function TimeTracker() {
                                 onClick={() =>
                                     dispatch(
                                         submitManualEntry({
-                                            data: { ...manualEntry },
+                                            data: {
+                                                projectId: manualEntry.projectId,
+                                                description: manualEntry.description,
+                                                startTime: manualEntry.startTime,
+                                                endTime: manualEntry.endTime,
+                                            },
                                             id: id,
                                         }),
                                     )
