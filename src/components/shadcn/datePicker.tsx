@@ -24,7 +24,7 @@ export function Calendar24({ manualEntry, setManualEntry }: Calendar24Props) {
     }
 
     const displayValue = manualEntry.date
-        ? `${getDuration(manualEntry.startTime, manualEntry.endTime)} ${manualEntry.date}`
+        ? `${getDuration(manualEntry.startTime, manualEntry.endTime)} ${manualEntry.date ?? ''}`
         : '00:00:00'
 
     const handleStartTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,12 +33,15 @@ export function Calendar24({ manualEntry, setManualEntry }: Calendar24Props) {
     const handleEndTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setManualEntry(prev => ({ ...prev, endTime: e.target.value }))
     }
-    const handleDateSelect = (selectedDate: Date | undefined) => {
-        setManualEntry(prev => ({
-            ...prev,
-            date: selectedDate ? selectedDate.toISOString().split('T')[0] : '',
-        }))
+
+    // Fix: Update only the date property
+    const handleDateChange = (selectedDate: Date | undefined) => {
+        if (!selectedDate) return
+        // Format date as YYYY-MM-DD
+        const formattedDate = selectedDate.toISOString().split('T')[0]
+        setManualEntry(prev => ({ ...prev, date: formattedDate }))
     }
+
     const handleDone = () => {
         setOpen(false)
     }
@@ -85,7 +88,7 @@ export function Calendar24({ manualEntry, setManualEntry }: Calendar24Props) {
                             mode="single"
                             selected={manualEntry.date ? new Date(manualEntry.date) : undefined}
                             captionLayout="dropdown"
-                            onSelect={handleDateSelect}
+                            onSelect={handleDateChange} // <-- Fixed here
                         />
                         <Button onClick={handleDone} className="self-end bg-primary-500" size="sm">
                             Done

@@ -29,8 +29,8 @@ export default function TimeTracker() {
     const [manualEntry, setManualEntry] = useState<ManualEntryValues>({
         description: '',
         projectId: '',
-        startTime: '',
-        endTime: '',
+        startTime: null,
+        endTime: null,
     })
     const { loading, success, error } = useSelector((state: RootState) => state.timeLog)
     useEffect(() => {
@@ -59,9 +59,23 @@ export default function TimeTracker() {
     }
     const formattedTimelogs = formatTimeLogs(timeLogs)
 
-    const handleEntryChange = (field: string, value: string) => {
-        setManualEntry(prev => ({ ...prev, [field]: value }))
+    const handleEntryChange = (field: string, value: any) => {
+        // Ensure startTime and endTime are always Date or null
+        if (field === 'startTime' || field === 'endTime') {
+            let dateValue = value
+            if (typeof value === 'string' && value) {
+                dateValue = new Date(value)
+            }
+            setManualEntry(prev => ({
+                ...prev,
+                [field]:
+                    dateValue instanceof Date && !isNaN(dateValue.getTime()) ? dateValue : null,
+            }))
+        } else {
+            setManualEntry(prev => ({ ...prev, [field]: value }))
+        }
     }
+
     return (
         <div className="bg-white h-full">
             <div className="w-full shadow-md py-7 px-9 flex justify-between items-center bg-white">
@@ -119,7 +133,6 @@ export default function TimeTracker() {
                             >
                                 <CirclePlus className="w-16 h-16 fill-primary-500 stroke-white cursor-grab" />
                             </button>
-                            {loading && <span>Submitting...</span>}
                         </>
                     )}
                     <TimerSwitch

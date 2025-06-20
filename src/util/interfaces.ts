@@ -207,6 +207,6 @@ export interface TimeLogsGroupProps {
     date?: any
     description: string
     projectId: string
-    startTime: string
-    endTime: string
+    startTime: Date|null
+    endTime: Date|null
 }

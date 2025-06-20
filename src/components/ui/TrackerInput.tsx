@@ -22,7 +22,7 @@ export default function TrackerInput({
     const [project, setProject] = useState({ id: '', name: '' })
     const iconRef = useRef<HTMLDivElement>(null)
 
-    const handleProjectChange = (id: string, name: string ) => {
+    const handleProjectChange = (id: string, name: string) => {
         setProject({ id, name })
         handleEntryChange && handleEntryChange('projectId', id)
     }
@@ -63,7 +63,7 @@ export default function TrackerInput({
                     value={manualEntry?.description}
                     onChange={e => handleEntryChange?.('description', e.target.value)}
                 />
-                <div className=" absolute right-12 top-1/2 -translate-y-1/2 font-inter text-sm bg-accent-500">
+                <div className=" absolute right-12 top-1/2 -translate-y-1/2 font-inter text-sm">
                     {project.name}
                 </div>
                 {error && <p className="py-1 font-Inter text-sm text-red-400">{error.message}</p>}
