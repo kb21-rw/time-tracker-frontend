@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../redux/store'
 import { useEffect, useState } from 'react'
 import { createWorkspace, getWorkspacesByUser } from '../redux/slice/workspaceSlice'
-import DialogDemo from '@/components/shared/modal/Modal'
 import WorkspaceForm from '@/components/shared/forms/WorkspaceForm'
 import { z } from 'zod'
 import { workspaceShema } from '@/schema/modal'
@@ -14,6 +13,7 @@ import { handleAxiosError } from '@/util/helpers'
 import { AxiosError } from 'axios'
 import { selectSidebarOpen, setSidebarOpen } from '@/redux/features/sidebarSlice'
 import { useLocation } from 'react-router-dom'
+import Modal from '@/components/shared/modal/Modal'
 export type workspaceData = z.infer<typeof workspaceShema>
 
 export default function ManageWorkspacesPage() {
@@ -96,13 +96,13 @@ export default function ManageWorkspacesPage() {
             </div>
 
             {
-                <DialogDemo
+                <Modal
                     title="Create workspace"
                     isModalOpen={isModalOpen}
                     onClose={() => setIsModalOpen(false)}
                 >
                     <WorkspaceForm handleWorkspaceSubmit={handleWorkspaceSubmit} />
-                </DialogDemo>
+                </Modal>
             }
         </div>
     )

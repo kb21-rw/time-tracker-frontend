@@ -4,6 +4,7 @@ import { FieldError, UseFormRegisterReturn } from 'react-hook-form'
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     isLoading?: boolean
     disabled?: boolean
+    variant?: 'primary' | 'accent'
 }
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     label?: string
@@ -170,6 +171,7 @@ export interface TimeEntryCardProps {
     startTime: string
     endTime: string
     duration: string
+    date: string
 }
 
 export interface TimeLog {
@@ -186,6 +188,7 @@ export interface formattedTimeLog {
     description: string
     project: string
     client: string
+    date: string
     startTime: string
     endTime: string
     duration: string
@@ -216,4 +219,11 @@ export interface StopTimerPayload extends TimerFormData {
 
 export interface TrackerInputProps extends InputProps {
     onProjectSelect?: (projectId: string, projectName: string) => void
+}
+
+export interface DateTimePickerProps{
+    start?: string
+    end?: string
+    previousDate?: string
+    duration?: string
 }

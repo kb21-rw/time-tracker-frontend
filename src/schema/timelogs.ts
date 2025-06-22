@@ -13,3 +13,11 @@ export const TimerStartSchema = z.object({
 })
 
 export type TimerStartFormData = z.infer<typeof TimerStartSchema>
+
+export const EditTimerSchema = z.object({
+    description: z.string().optional(),
+    projectId: z.string().optional(),
+    startTime: z.string().optional(),
+    endTime: z.string().optional(),
+})
+export type EditTimerFormData = z.infer<typeof EditTimerSchema>

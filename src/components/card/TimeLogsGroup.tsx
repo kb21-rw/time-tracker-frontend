@@ -7,7 +7,6 @@ export default function TimeLogsGroup({ timeLogs }: TimeLogsGroupProps) {
         return <p className="text-center mt-14 text-gray-500">No time logs available.</p>
     }
     const sortedTimeLogs = groupTimeLogsByDate(timeLogs)
-
     return (
         <div className="w-full flex flex-col gap-y-2 bg-white mt-5">
             {Object.entries(sortedTimeLogs).map(([date, logs]) => (

@@ -33,6 +33,7 @@ export function formatTimeLogs(timeLogs: TimeLog[]): formattedTimeLog[] {
         description: log.description,
         project: log.project?.name || '',
         client: log.project?.client?.name || '',
+        date: log.startTime,
         startTime: new Date(log.startTime).toLocaleTimeString([], {
             hour: '2-digit',
             minute: '2-digit',
@@ -69,9 +70,13 @@ export function formatDuration(startTime: string, endTime: string): string {
 
     const hours = Math.floor(duration / 3600)
     const minutes = Math.floor((duration % 3600) / 60)
+        .toString()
+        .padStart(2, '0')
     const seconds = Math.floor(duration % 60)
+        .toString()
+        .padStart(2, '0')
 
-    return `${hours}h ${minutes}m ${seconds}s`
+    return `${hours}:${minutes}:${seconds}`
 }
 
 export function formatTitle(date: string): string {
@@ -86,4 +91,13 @@ export function formatTitle(date: string): string {
     }
 
     return format(inputDate, 'EEE, dd MMM')
+}
+
+export function formatTime(time?: string): string {
+    let formattedTime = ''
+    if (time && /^\d{2}:\d{2}$/.test(time)) {
+        const [hours, minutes] = time.split(':').map(Number)
+        formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:00`
+    }
+    return formattedTime
 }

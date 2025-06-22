@@ -50,9 +50,9 @@ export default function ProjectsList({
     }
 
     return (
-        <Popover open={isModalOpen} onOpenChange={onClose}>
-            {anchorRef?.current && <PopoverAnchor virtualRef={{ current: anchorRef.current }} />}
-            <PopoverContent className="p-4 mt-2 shadow-lg">
+        <Popover open={isModalOpen} onOpenChange={onClose} modal={false}>
+            <PopoverAnchor virtualRef={anchorRef?.current ? { current: anchorRef.current } : undefined} />
+            <PopoverContent className="z-99 p-4 mt-2 shadow-lg">
                 <h1 className="font-bold ml-2">Select Project</h1>
                 {loading ? (
                     <LoadingSpinner />
