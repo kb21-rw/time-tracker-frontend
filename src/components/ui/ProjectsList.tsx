@@ -19,7 +19,7 @@ export default function ProjectsList({
     isModalOpen,
     onClose,
     anchorRef,
-    handleProjectChange,
+    setProject,
 }: Readonly<ProjectsListProps>) {
     const { id } = useOutletContext<OutletContextType>()
     const dispatch = useDispatch<AppDispatch>()

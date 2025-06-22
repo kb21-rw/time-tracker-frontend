@@ -13,13 +13,7 @@ export default function TimeTracker() {
     const { id } = useOutletContext<OutletContextType>()
     const dispatch = useDispatch<AppDispatch>()
     const { timeLogs } = useSelector((state: RootState) => state.timeLog)
-    const [manualEntry, setManualEntry] = useState<ManualEntryValues>({
-        description: '',
-        projectId: '',
-        startTime: null,
-        endTime: null,
-    })
-    const { loading, success, error } = useSelector((state: RootState) => state.timeLog)
+
     useEffect(() => {
         dispatch(getUserTimeLogs(id!))
     }, [dispatch, id])

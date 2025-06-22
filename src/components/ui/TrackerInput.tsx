@@ -12,21 +12,14 @@ export default function TrackerInput({
     hasIcon = false,
     register,
     onProjectSelect,
-    manualEntry,
-    handleEntryChange,
     ...props
 }: TrackerInputProps) {
     const [selectedClient] = useState<string | null>(null)
     const [selectedProject] = useState<string | null>(null)
     const [isFolderActive, setIsFolderActive] = useState(false)
     const [isPopoverOpen, setIsPopoverOpen] = useState(false)
-    const [project, setProject] = useState({ id: '', name: '' })
+    const [project, setProject] = useState('')
     const iconRef = useRef<HTMLDivElement>(null)
-
-    const handleProjectChange = (id: string, name: string) => {
-        setProject({ id, name })
-        handleEntryChange && handleEntryChange('projectId', id)
-    }
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -67,11 +60,9 @@ export default function TrackerInput({
                     {...(!label && { 'aria-label': placeholder })}
                     placeholder={placeholder}
                     className={`w-full h-full rounded-lg border-2 border-black/25 px-5 pr-60 font-inter placeholder:font-normal placeholder:text-black/30 focus:outline-none focus:ring-2 focus:border-0 focus:ring-primary-600`}
-                    value={manualEntry?.description}
-                    onChange={e => handleEntryChange?.('description', e.target.value)}
                 />
                 <div className=" absolute right-12 top-1/2 -translate-y-1/2 font-inter text-sm">
-                    {project.name}
+                    {project}
                 </div>
                 {error && <p className="py-1 font-Inter text-sm text-red-400">{error.message}</p>}
                 {hasIcon && (

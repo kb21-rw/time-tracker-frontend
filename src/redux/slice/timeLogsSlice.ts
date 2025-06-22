@@ -1,7 +1,6 @@
 import api from '@/lib/api'
-import { StartTimerPayload, TimeLogState , ManualEntryValues } from '@/util/interfaces'
+import { StartTimerPayload, TimeLogState, ManualEntryValues } from '@/util/interfaces'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-
 
 const initialState: TimeLogState = {
     timeLogs: [],
@@ -48,16 +47,16 @@ export const startTimerAPI = createAsyncThunk(
 
 export const submitManualEntry = createAsyncThunk(
     'manualEntry',
-    async ({id, data}: {id: string, data:ManualEntryValues}, { rejectWithValue }) => {
+    async ({ id, data }: { id: string; data: ManualEntryValues }, { rejectWithValue }) => {
         try {
             console.log(data)
-            const response = await api.post(`/workspaces/${id}/timeEntries`,data)
+            const response = await api.post(`/workspaces/${id}/timeEntries`, data)
             return response.data
         } catch (err: any) {
             console.log(err)
             return rejectWithValue(err.response?.data?.message || 'Submission failed')
         }
-    }
+    },
 )
 
 const TimeLogSlice = createSlice({
@@ -67,10 +66,11 @@ const TimeLogSlice = createSlice({
         clearError: state => {
             state.error = null
         },
-      resetManualEntryState: state => {
-        state.loading = false
-        state.error = null
-    },},
+        resetManualEntryState: state => {
+            state.loading = false
+            state.error = null
+        },
+    },
     extraReducers: builder => {
         builder
             .addCase(getUserTimeLogs.pending, state => {
@@ -89,7 +89,7 @@ const TimeLogSlice = createSlice({
                 state.loading = true
                 state.error = null
             })
-            .addCase(submitManualEntry.fulfilled,(state,action) => {
+            .addCase(submitManualEntry.fulfilled, (state, action) => {
                 state.loading = false
                 state.timeLogs.push(action.payload)
             })

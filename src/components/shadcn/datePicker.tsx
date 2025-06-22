@@ -1,17 +1,16 @@
+'use client'
 import * as React from 'react'
 import { Button } from '../shadcn/button'
 import { Calendar } from '../shadcn/calendar'
 import { Input } from '../shadcn/input'
 import { Popover, PopoverContent, PopoverTrigger } from '../shadcn/popover'
-import { ManualEntryValues } from '@/util/interfaces'
+import { DateTimePickerProps } from '@/util/interfaces'
 
-interface Calendar24Props {
-    manualEntry: ManualEntryValues
-    setManualEntry: React.Dispatch<React.SetStateAction<ManualEntryValues>>
-}
-
-export function Calendar24({ manualEntry, setManualEntry }: Calendar24Props) {
+export function Calendar24(timeProps: DateTimePickerProps) {
     const [open, setOpen] = React.useState(false)
+    const [date, setDate] = React.useState<Date | undefined>(undefined)
+    const [startTime, setStartTime] = React.useState<string>('00:00:00')
+    const [endTime, setEndTime] = React.useState<string>('00:00:00')
 
     function getDuration(start: string, end: string) {
         const toSec = (t: string) =>
@@ -23,26 +22,35 @@ export function Calendar24({ manualEntry, setManualEntry }: Calendar24Props) {
             .join(':')
     }
 
-    const displayValue = manualEntry.date
-        ? `${getDuration(manualEntry.startTime, manualEntry.endTime)} ${manualEntry.date ?? ''}`
+    const displayValue = date
+        ? `${getDuration(startTime, endTime)} ${date.getDate().toString().padStart(2, '0')}/${(
+              date.getMonth() + 1
+          )
+              .toString()
+              .padStart(2, '0')}`
         : '00:00:00'
 
     const handleStartTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setManualEntry(prev => ({ ...prev, startTime: e.target.value }))
+        setStartTime(e.target.value)
     }
     const handleEndTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setManualEntry(prev => ({ ...prev, endTime: e.target.value }))
+        setEndTime(e.target.value)
     }
 
-    // Fix: Update only the date property
-    const handleDateChange = (selectedDate: Date | undefined) => {
-        if (!selectedDate) return
-        // Format date as YYYY-MM-DD
-        const formattedDate = selectedDate.toISOString().split('T')[0]
-        setManualEntry(prev => ({ ...prev, date: formattedDate }))
+    const handleDateSelect = (selectedDate: Date | undefined) => {
+        setDate(selectedDate)
     }
-
     const handleDone = () => {
+        if (timeProps.setStartTime) {
+            timeProps.setStartTime(
+                date ? new Date(`${date.toISOString().split('T')[0]}T${startTime}`) : null,
+            )
+        }
+        if (timeProps.setEndTime) {
+            timeProps.setEndTime(
+                date ? new Date(`${date.toISOString().split('T')[0]}T${endTime}`) : null,
+            )
+        }
         setOpen(false)
     }
 
@@ -53,12 +61,12 @@ export function Calendar24({ manualEntry, setManualEntry }: Calendar24Props) {
                     <Button
                         variant="outline"
                         id="date-time"
-                        className="w-32 justify-between font-normal pr-12"
+                        className="w-32 justify-between font-normal pr-12 hover:border-primary-500"
                     >
                         {displayValue}
                     </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-auto overflow-hidden p-4 mr-4" align="start">
+                <PopoverContent className="w-auto z-99 overflow-hidden p-4 mr-4" align="start">
                     <div className="flex flex-col gap-4 items-center">
                         <div className="flex gap-4">
                             <label className="flex flex-col items-start">
@@ -67,7 +75,7 @@ export function Calendar24({ manualEntry, setManualEntry }: Calendar24Props) {
                                     type="time"
                                     id="start-time"
                                     step="1"
-                                    value={manualEntry.startTime}
+                                    value={startTime}
                                     onChange={handleStartTimeChange}
                                     className="bg-background appearance-none pr-11 w-32"
                                 />
@@ -78,7 +86,7 @@ export function Calendar24({ manualEntry, setManualEntry }: Calendar24Props) {
                                     type="time"
                                     id="stop-time"
                                     step="1"
-                                    value={manualEntry.endTime}
+                                    value={endTime}
                                     onChange={handleEndTimeChange}
                                     className="bg-background appearance-none pr-11 w-32"
                                 />
@@ -86,9 +94,9 @@ export function Calendar24({ manualEntry, setManualEntry }: Calendar24Props) {
                         </div>
                         <Calendar
                             mode="single"
-                            selected={manualEntry.date ? new Date(manualEntry.date) : undefined}
+                            selected={date}
                             captionLayout="dropdown"
-                            onSelect={handleDateChange} // <-- Fixed here
+                            onSelect={handleDateSelect}
                         />
                         <Button onClick={handleDone} className="self-end bg-primary-500" size="sm">
                             Done
