@@ -3,7 +3,7 @@ import { stopTimer, startTimer } from '@/redux/features/timerSlice'
 import store, { AppDispatch, RootState } from '@/redux/store'
 import { OutletContextType } from '@/util/interfaces'
 import { Download, CircleStop } from 'lucide-react'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { useDispatch, useSelector } from 'react-redux'
 import { useOutletContext } from 'react-router-dom'
@@ -30,7 +30,6 @@ export default function TimeTrackerHeader() {
         handleSubmit,
         reset,
         getValues,
-        watch,
         setValue,
         formState: { errors },
     } = useForm<TimerStartFormData>({
