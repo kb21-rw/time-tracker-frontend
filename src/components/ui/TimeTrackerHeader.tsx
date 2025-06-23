@@ -15,12 +15,13 @@ import { TimerStartFormData, TimerStartSchema } from '@/schema/timelogs'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Message, useForm } from 'react-hook-form'
 import { clearError } from '@/redux/slice/authSlice'
-import { startTimerAPI } from '@/redux/slice/timeLogsSlice'
+import { getUserTimeLogs, startTimerAPI, stopTimerAPI } from '@/redux/slice/timeLogsSlice'
 
 export default function TimeTrackerHeader() {
     const { workspaceName, id } = useOutletContext<OutletContextType>()
     const [isManual, setIsManual] = useState(false)
     const [, setSelectedProjectId] = useState<string | null>(null)
+    const [isProcessing, setIsProcessing] = useState(false)
     const dispatch = useDispatch<AppDispatch>()
     const { isRunning, startTimestamp } = useSelector((state: RootState) => state.timer)
     const { loading, error } = useSelector((state: RootState) => state.timeLog)
@@ -55,9 +56,21 @@ export default function TimeTrackerHeader() {
         setValue('projectId', projectId)
     }
 
+    const resetForm = () => {
+        reset({
+            description: '',
+            projectId: '',
+        })
+        setSelectedProjectId(null)
+    }
+
     const handleStartTimer = async (data: TimerStartFormData) => {
+        if (isProcessing) return
+        setIsProcessing(true)
+
         try {
             dispatch(startTimer())
+
             const result = await dispatch(
                 startTimerAPI({
                     startTime: new Date().toISOString(),
@@ -74,29 +87,61 @@ export default function TimeTrackerHeader() {
             }
         } catch (error) {
             toast.error('Failed to start timer')
+        } finally {
+            setIsProcessing(false)
         }
     }
 
-    const handleStopTimer = () => {
-        dispatch(stopTimer())
-        setTimeout(() => {
-            reset()
-            setSelectedProjectId('')
-        }, 0)
-    }
+    const handleStopTimer = async (data: TimerStartFormData) => {
+        if (isProcessing) return
+        setIsProcessing(true)
 
-    const handleToggle = () => {
+        try {
+            dispatch(stopTimer())
+
+            const result = await dispatch(
+                stopTimerAPI({
+                    endTime: new Date().toISOString(),
+                    workspaceId: id,
+                    description: data.description,
+                    projectId: data.projectId || '',
+                }),
+            )
+
+            if (stopTimerAPI.fulfilled.match(result)) {
+                toast.success('Timer stopped successfully!')
+                resetForm()
+                dispatch(getUserTimeLogs(id!))
+                setTimeout(() => {
+                    const { stopTimestamp } = store.getState().timer
+                    if (startTimestamp && stopTimestamp) {
+                        toast.success(
+                            `Start time: ${new Date(startTimestamp).toLocaleTimeString()}`,
+                        )
+                        toast.success(`End time: ${new Date(stopTimestamp).toLocaleTimeString()}`)
+                    }
+                }, 100)
+            } else {
+                dispatch(startTimer())
+                toast.error('Failed to stop timer')
+            }
+        } catch (error) {
+            console.error('Stop timer error:', error)
+            toast.error('Failed to stop timer')
+            dispatch(startTimer())
+        } finally {
+            setIsProcessing(false)
+        }
+    }
+    
+    const onSubmit = (data: TimerStartFormData) => {
         if (isRunning) {
-            handleStopTimer()
-            setTimeout(() => {
-                const { stopTimestamp } = store.getState().timer
-                toast.success(`Start time: ${new Date(startTimestamp!).toLocaleTimeString()}`)
-                toast.success(`End time: ${new Date(stopTimestamp!).toLocaleTimeString()}`)
-            }, 0)
+            handleStopTimer(data)
         } else {
-            handleSubmit(handleStartTimer)()
+            handleStartTimer(data)
         }
     }
+
     return (
         <div className="w-full shadow-md py-7 px-9 flex justify-between items-center bg-white">
             <p className="text-xl font-bold flex gap-x-4 items-center justify-center">
@@ -105,7 +150,7 @@ export default function TimeTrackerHeader() {
             </p>
             <div className="w-3/5 flex items-center gap-x-3">
                 <form
-                    onSubmit={handleSubmit(handleStartTimer)}
+                    onSubmit={handleSubmit(onSubmit)}
                     className="flex items-center gap-x-3 w-full"
                 >
                     <TrackerInput
@@ -127,17 +172,16 @@ export default function TimeTrackerHeader() {
                             )}
                             <button
                                 type="submit"
-                                onClick={handleToggle}
-                                disabled={loading}
-                                className="disabled:opacity-50"
+                                disabled={loading || isProcessing}
+                                className="disabled:opacity-50 transition-opacity"
                             >
                                 {isRunning ? (
                                     <CircleStop
-                                        className="w-12 h-12 fill-accent-500 stroke-white cursor-grab"
+                                        className="w-12 h-12 fill-accent-500 stroke-white cursor-pointer"
                                         strokeWidth={1}
                                     />
                                 ) : (
-                                    <StartTimer className="text-primary-500 w-12 h-12 cursor-grab" />
+                                    <StartTimer className="text-primary-500 w-12 h-12 cursor-pointer" />
                                 )}
                             </button>
                         </>
@@ -146,7 +190,7 @@ export default function TimeTrackerHeader() {
                 {isManual && (
                     <>
                         <Calendar24 />
-                        <CirclePlus className="w-16 h-16 fill-primary-500 stroke-white cursor-grab" />
+                        <CirclePlus className="w-16 h-16 fill-primary-500 stroke-white cursor-pointer" />
                     </>
                 )}
                 <TimerSwitch
