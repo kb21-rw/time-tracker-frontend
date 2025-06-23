@@ -5,11 +5,14 @@ import { Calendar } from '../shadcn/calendar'
 import { Input } from '../shadcn/input'
 import { Popover, PopoverContent, PopoverTrigger } from '../shadcn/popover'
 import { DateTimePickerProps } from '@/util/interfaces'
+import { formatter } from '@/util/helpers'
 
 export function Calendar24(timeProps: DateTimePickerProps) {
     const [open, setOpen] = React.useState(false)
     const [date, setDate] = React.useState<Date | undefined>(undefined)
-    const [startTime, setStartTime] = React.useState<string>('00:00:00')
+    const today = new Date()
+    const currentDate = formatter.format(today)
+    const [startTime, setStartTime] = React.useState<string>(`${currentDate}`)
     const [endTime, setEndTime] = React.useState<string>('00:00:00')
 
     function getDuration(start: string, end: string) {
@@ -52,6 +55,8 @@ export function Calendar24(timeProps: DateTimePickerProps) {
             )
         }
         setOpen(false)
+        setStartTime(`${currentDate}`)
+        setEndTime('00:00:00')
     }
 
     return (

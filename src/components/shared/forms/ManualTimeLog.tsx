@@ -1,4 +1,4 @@
-import { Calendar24 } from '@/components/shadcn/datePicker'
+import { Calendar24 } from '@/components/ui/datePicker'
 import { submitManualEntry } from '@/redux/slice/timeLogsSlice'
 import { AppDispatch, RootState } from '@/redux/store'
 import { ManualEntryValues, ManualTimeLogProps, OutletContextType } from '@/util/interfaces'
@@ -11,6 +11,8 @@ import { useOutletContext } from 'react-router-dom'
 function ManualTimeLog({ description, projectId }: ManualTimeLogProps) {
     const { id } = useOutletContext<OutletContextType>()
     const [startTime, setStartTime] = useState<Date | null>(null)
+    const currentDate = new Date().toLocaleTimeString()
+    console.log('Current Date:', currentDate)
     const [endTime, setEndTime] = useState<Date | null>(null)
     const dispatch = useDispatch<AppDispatch>()
     const { loading } = useSelector((state: RootState) => state.timeLog)

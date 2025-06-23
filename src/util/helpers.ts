@@ -14,7 +14,12 @@ export const formatDate = (isoString: string): string => {
     const date = new Date(isoString)
     return date.toLocaleDateString('en-GB')
 }
-
+export const formatter = new Intl.DateTimeFormat('en-US', {
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false, // Use 24-hour format
+})
 export function groupProjectsByClient(projects: Project[]): Record<string, Project[]> {
     return projects.reduce(
         (acc, project) => {

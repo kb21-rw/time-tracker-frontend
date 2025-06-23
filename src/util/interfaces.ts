@@ -203,7 +203,6 @@ export interface TimeLogsGroupProps {
 }
 
 export interface ManualEntryValues {
-    date?: any
     description?: string
     projectId?: string
     startTime: string

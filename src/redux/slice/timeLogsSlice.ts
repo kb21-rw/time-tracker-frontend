@@ -49,11 +49,9 @@ export const submitManualEntry = createAsyncThunk(
     'manualEntry',
     async ({ id, data }: { id: string; data: ManualEntryValues }, { rejectWithValue }) => {
         try {
-            console.log(data)
             const response = await api.post(`/workspaces/${id}/timeEntries`, data)
             return response.data
         } catch (err: any) {
-            console.log(err)
             return rejectWithValue(err.response?.data?.message || 'Submission failed')
         }
     },
