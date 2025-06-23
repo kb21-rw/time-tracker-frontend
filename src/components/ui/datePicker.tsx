@@ -7,7 +7,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '../shadcn/popover'
 import { DateTimePickerProps } from '@/util/interfaces'
 import { formatter } from '@/util/helpers'
 
-export function Calendar24(timeProps: DateTimePickerProps) {
+export function DateTimePicker(timeProps: DateTimePickerProps) {
     const [open, setOpen] = React.useState(false)
     const [date, setDate] = React.useState<Date | undefined>(undefined)
     const today = new Date()

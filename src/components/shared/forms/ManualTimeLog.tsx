@@ -1,4 +1,4 @@
-import { Calendar24 } from '@/components/ui/datePicker'
+import { DateTimePicker } from '@/components/ui/datePicker'
 import { submitManualEntry } from '@/redux/slice/timeLogsSlice'
 import { AppDispatch, RootState } from '@/redux/store'
 import { ManualEntryValues, ManualTimeLogProps, OutletContextType } from '@/util/interfaces'
@@ -48,7 +48,7 @@ function ManualTimeLog({ description, projectId }: ManualTimeLogProps) {
 
     return (
         <div className="flex items-center justify-center gap-4 p-4">
-            <Calendar24 setStartTime={setStartTime} setEndTime={setEndTime} />
+            <DateTimePicker setStartTime={setStartTime} setEndTime={setEndTime} />
             <CirclePlus
                 className={`w-16 h-16 fill-primary-500 stroke-white cursor-grab ${loading ? 'animate-spin' : ''}`}
                 onClick={handleSubmit}
