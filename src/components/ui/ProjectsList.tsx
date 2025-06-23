@@ -1,19 +1,15 @@
-import { OutletContextType, Project, ProjectsListProps } from '@/util/interfaces'
+import { OutletContextType, Project, ProjectSelection, ProjectsListProps } from '@/util/interfaces'
 import { Popover, PopoverAnchor, PopoverContent } from '../shadcn/popover'
 import { groupProjectsByClient } from '@/util/helpers'
 import { AppDispatch, RootState } from '@/redux/store'
 import { useDispatch, useSelector } from 'react-redux'
 import { useOutletContext } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { getProjectsByWorkspaceId } from '@/redux/slice/projectSlice'
 import LoadingSpinner from '../shared/ui/LoadingSpinner'
+import {useClickAway} from 'react-use'
 
-interface ProjectSelection {
-    id: string
-    name: string
-    clientName: string
-    displayName: string
-}
+
 
 export default function ProjectsList({
     isModalOpen,
@@ -22,6 +18,7 @@ export default function ProjectsList({
     setProject,
 }: Readonly<ProjectsListProps>) {
     const { id } = useOutletContext<OutletContextType>()
+    const popoverRef = useRef(null);
     const dispatch = useDispatch<AppDispatch>()
     const { projects, loading } = useSelector((state: RootState) => state.projects)
 
@@ -48,11 +45,18 @@ export default function ProjectsList({
         setProject(project.id, projectSelection.displayName)
         onClose()
     }
-
+    
+    useClickAway(popoverRef, () => {
+        if (isModalOpen) {
+            onClose();
+        }
+    });
     return (
-        <Popover open={isModalOpen} onOpenChange={onClose} modal={false}>
-            <PopoverAnchor virtualRef={anchorRef?.current ? { current: anchorRef.current } : undefined} />
-            <PopoverContent className="z-99 p-4 mt-2 shadow-lg">
+        <Popover open={isModalOpen}  modal={false}>
+            <PopoverAnchor
+                virtualRef={anchorRef?.current ? { current: anchorRef.current } : undefined}
+            />
+            <PopoverContent ref={popoverRef}  className="z-99 p-4 mt-2 shadow-lg">
                 <h1 className="font-bold ml-2">Select Project</h1>
                 {loading ? (
                     <LoadingSpinner />

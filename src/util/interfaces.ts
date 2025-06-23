@@ -227,3 +227,10 @@ export interface DateTimePickerProps{
     previousDate?: string
     duration?: string
 }
+
+export interface ProjectSelection {    
+    id: string
+    name: string
+    clientName: string
+    displayName: string
+}

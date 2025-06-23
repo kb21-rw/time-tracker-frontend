@@ -78,8 +78,10 @@ export default function TimeEntryCard({
                     <Modal
                         title="Edit Time Entry"
                         isModalOpen={isModalOpen}
-                        onClose={() => setIsModalOpen(false)}
-                        
+                        onClose={() => {
+                            setIsModalOpen(false)
+                            setProjectListOpen(false)
+                        }}
                     >
                         <form className="px-4" onSubmit={() => handleSubmit}>
                             <Input

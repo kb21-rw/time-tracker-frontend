@@ -6,6 +6,7 @@ import { Input } from '../shadcn/input'
 import { Popover, PopoverContent, PopoverTrigger } from '../shadcn/popover'
 import { DateTimePickerProps } from '@/util/interfaces'
 import { formatTime } from '@/util/helpers'
+import { useMemo, useState } from 'react'
 
 export function Calendar24(timeProps: DateTimePickerProps) {
     const defaultTime = {
@@ -19,10 +20,10 @@ export function Calendar24(timeProps: DateTimePickerProps) {
     }
 
     const defaultDate = timeProps.previousDate ? new Date(timeProps.previousDate) : undefined
-    const [open, setOpen] = React.useState(false)
-    const [date, setDate] = React.useState<Date | undefined>(defaultDate)
-    const [startTime, setStartTime] = React.useState<string>(defaultTime.start || '00:00:00')
-    const [endTime, setEndTime] = React.useState<string>(defaultTime.end || '00:00:00')
+    const [open, setOpen] = useState(false)
+    const [date, setDate] = useState<Date | undefined>(defaultDate)
+    const [startTime, setStartTime] = useState<string>(defaultTime.start || '00:00:00')
+    const [endTime, setEndTime] = useState<string>(defaultTime.end || '00:00:00')
 
     function getDuration(start: string, end: string) {
         const toSec = (t: string) =>
@@ -34,13 +35,17 @@ export function Calendar24(timeProps: DateTimePickerProps) {
             .join(':')
     }
 
-    const displayValue = date
-        ? `${getDuration(startTime, endTime)} ${date.getDate().toString().padStart(2, '0')}/${(
-              date.getMonth() + 1
-          )
-              .toString()
-              .padStart(2, '0')}`
-        : '00:00:00'
+    const displayValue = useMemo(
+        () =>
+            date
+                ? `${getDuration(startTime, endTime)} ${date.getDate().toString().padStart(2, '0')}/${(
+                      date.getMonth() + 1
+                  )
+                      .toString()
+                      .padStart(2, '0')}`
+                : '00:00:00',
+        [date, startTime, endTime],
+    )
 
     const handleStartTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setStartTime(e.target.value)
@@ -58,8 +63,8 @@ export function Calendar24(timeProps: DateTimePickerProps) {
     }
 
     return (
-        <div className="flex flex-col gap-3">
-            <Popover open={open} onOpenChange={setOpen}>
+        <div className="flex flex-col gap-3 z-99">
+            <Popover open={open} onOpenChange={setOpen} modal={false}>
                 <PopoverTrigger asChild>
                     <Button
                         variant="outline"
@@ -69,7 +74,7 @@ export function Calendar24(timeProps: DateTimePickerProps) {
                         {displayValue}
                     </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-auto z-99 overflow-hidden p-4 mr-4" align="start">
+                <PopoverContent className="w-auto overflow-hidden p-4 mr-4" align="start">
                     <div className="flex flex-col gap-4 items-center">
                         <div className="flex gap-4">
                             <label className="flex flex-col items-start">

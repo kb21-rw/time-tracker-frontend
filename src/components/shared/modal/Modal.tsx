@@ -14,7 +14,7 @@ export default function Modal({
 }: PropsWithChildren<ModalProps>) {
     return (
         <Dialog open={isModalOpen} onOpenChange={onClose} aria-describedby={undefined}>
-            <DialogContent className="sm:max-w-[425px] z-50">
+            <DialogContent className="z-50">
                 <DialogHeader>
                     <DialogTitle className="text-xl font-bold text-gray-900">{title}</DialogTitle>
                 </DialogHeader>
