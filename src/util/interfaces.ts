@@ -12,8 +12,6 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
     variant?: 'sm' | 'md' | 'lg'
     hasIcon?: boolean
     register?: UseFormRegisterReturn
-    manualEntry?: ManualEntryValues
-    handleEntryChange?: (key: string, value: string) => void
 }
 
 export interface User {
