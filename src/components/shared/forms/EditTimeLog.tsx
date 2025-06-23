@@ -12,7 +12,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { EditTimeLogProps } from '@/util/interfaces'
 
 export default function EditTimeLog({
-    id,
     description,
     project,
     date,
