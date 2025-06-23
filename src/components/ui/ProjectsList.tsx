@@ -7,9 +7,7 @@ import { useOutletContext } from 'react-router-dom'
 import { useEffect, useRef, useState } from 'react'
 import { getProjectsByWorkspaceId } from '@/redux/slice/projectSlice'
 import LoadingSpinner from '../shared/ui/LoadingSpinner'
-import {useClickAway} from 'react-use'
-
-
+import { useClickAway } from 'react-use'
 
 export default function ProjectsList({
     isModalOpen,
@@ -18,7 +16,7 @@ export default function ProjectsList({
     setProject,
 }: Readonly<ProjectsListProps>) {
     const { id } = useOutletContext<OutletContextType>()
-    const popoverRef = useRef(null);
+    const popoverRef = useRef(null)
     const dispatch = useDispatch<AppDispatch>()
     const { projects, loading } = useSelector((state: RootState) => state.projects)
 
@@ -45,18 +43,20 @@ export default function ProjectsList({
         setProject(project.id, projectSelection.displayName)
         onClose()
     }
-    
-    useClickAway(popoverRef, () => {
+
+    useClickAway(popoverRef, e => {
+        e.preventDefault?.()
+        e.stopPropagation?.()
         if (isModalOpen) {
-            onClose();
+            onClose()
         }
-    });
+    })
     return (
-        <Popover open={isModalOpen}  modal={false}>
+        <Popover open={isModalOpen} modal={true}>
             <PopoverAnchor
                 virtualRef={anchorRef?.current ? { current: anchorRef.current } : undefined}
             />
-            <PopoverContent ref={popoverRef}  className="z-99 p-4 mt-2 shadow-lg">
+            <PopoverContent ref={popoverRef} className="z-99 p-4 mt-2 shadow-lg">
                 <h1 className="font-bold ml-2">Select Project</h1>
                 {loading ? (
                     <LoadingSpinner />
@@ -77,9 +77,11 @@ export default function ProjectsList({
                                                         ? 'font-bold'
                                                         : ''
                                                 }`}
-                                                onClick={() =>
+                                                onClick={e => {
+                                                    e.preventDefault()
+                                                    e.stopPropagation()
                                                     handleProjectSelect(project, clientName)
-                                                }
+                                                }}
                                             >
                                                 {project.name}
                                             </button>

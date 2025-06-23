@@ -1,14 +1,14 @@
 'use client'
 import * as React from 'react'
-import { Button } from '../shadcn/button'
-import { Calendar } from '../shadcn/calendar'
-import { Input } from '../shadcn/input'
-import { Popover, PopoverContent, PopoverTrigger } from '../shadcn/popover'
+import { Button } from '../../shadcn/button'
+import { Calendar } from '../../shadcn/calendar'
+import { Input } from '../../shadcn/input'
+import { Popover, PopoverContent, PopoverTrigger } from '../../shadcn/popover'
 import { DateTimePickerProps } from '@/util/interfaces'
 import { formatTime } from '@/util/helpers'
 import { useMemo, useState } from 'react'
 
-export function Calendar24(timeProps: DateTimePickerProps) {
+export function DateTimePicker(timeProps: DateTimePickerProps) {
     const defaultTime = {
         start: formatTime(timeProps?.start),
         end: formatTime(timeProps?.end),
@@ -64,7 +64,7 @@ export function Calendar24(timeProps: DateTimePickerProps) {
 
     return (
         <div className="flex flex-col gap-3 z-99">
-            <Popover open={open} onOpenChange={setOpen} modal={false}>
+            <Popover open={open} onOpenChange={setOpen} modal={true}>
                 <PopoverTrigger asChild>
                     <Button
                         variant="outline"
@@ -106,7 +106,12 @@ export function Calendar24(timeProps: DateTimePickerProps) {
                             captionLayout="dropdown"
                             onSelect={handleDateSelect}
                         />
-                        <Button onClick={handleDone} className="self-end bg-primary-500" size="sm">
+                        <Button
+                            type="button"
+                            onClick={handleDone}
+                            className="self-end bg-primary-500"
+                            size="sm"
+                        >
                             Done
                         </Button>
                     </div>

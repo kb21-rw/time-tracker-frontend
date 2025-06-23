@@ -221,16 +221,21 @@ export interface TrackerInputProps extends InputProps {
     onProjectSelect?: (projectId: string, projectName: string) => void
 }
 
-export interface DateTimePickerProps{
+export interface DateTimePickerProps {
     start?: string
     end?: string
     previousDate?: string
     duration?: string
 }
 
-export interface ProjectSelection {    
+export interface ProjectSelection {
     id: string
     name: string
     clientName: string
     displayName: string
+}
+
+export interface EditTimeLogProps extends TimeEntryCardProps {
+    isModalOpen: boolean
+    setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>
 }

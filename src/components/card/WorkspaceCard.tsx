@@ -9,7 +9,6 @@ import { AppDispatch } from '@/redux/store'
 import { setWorkspace } from '@/redux/features/workspaceStateSlice'
 import Modal from '../shared/modal/Modal'
 
-
 export default function WorkspaceCard({ name, creationDate, id }: WorkspaceProps) {
     const [isModalOpen, setIsModalOpen] = useState(false)
     const formattedDate = formatDate(creationDate)
@@ -41,11 +40,7 @@ export default function WorkspaceCard({ name, creationDate, id }: WorkspaceProps
                 </div>
             </div>
             {
-                <Modal
-                    title={name}
-                    isModalOpen={isModalOpen}
-                    onClose={() => setIsModalOpen(false)}
-                >
+                <Modal title={name} isModalOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
                     <RenameWorkspaceForm id={id} setIsModalOpen={setIsModalOpen} />
                 </Modal>
             }

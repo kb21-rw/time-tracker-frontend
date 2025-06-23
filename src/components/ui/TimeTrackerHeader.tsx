@@ -7,7 +7,6 @@ import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { useDispatch, useSelector } from 'react-redux'
 import { useOutletContext } from 'react-router-dom'
-import { Calendar24 } from '../shadcn/datePicker'
 import TimerRunner from './TimerRunner'
 import TimerSwitch from './TimerSwitch'
 import TrackerInput from './TrackerInput'
@@ -16,6 +15,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Message, useForm } from 'react-hook-form'
 import { clearError } from '@/redux/slice/authSlice'
 import { startTimerAPI } from '@/redux/slice/timeLogsSlice'
+import { DateTimePicker } from '../shared/ui/DateTimePicker'
 
 export default function TimeTrackerHeader() {
     const { workspaceName, id } = useOutletContext<OutletContextType>()
@@ -126,7 +126,7 @@ export default function TimeTrackerHeader() {
                                 />
                             )}
                             <button
-                                type="submit"
+                                type="button"
                                 onClick={handleToggle}
                                 disabled={loading}
                                 className="disabled:opacity-50"
@@ -145,7 +145,7 @@ export default function TimeTrackerHeader() {
                 </form>
                 {isManual && (
                     <>
-                        <Calendar24 />
+                        <DateTimePicker />
                         <CirclePlus className="w-16 h-16 fill-primary-500 stroke-white cursor-grab" />
                     </>
                 )}
