@@ -133,7 +133,7 @@ export default function TimeTrackerHeader() {
             setIsProcessing(false)
         }
     }
-    
+
     const onSubmit = (data: TimerStartFormData) => {
         if (isRunning) {
             handleStopTimer(data)
