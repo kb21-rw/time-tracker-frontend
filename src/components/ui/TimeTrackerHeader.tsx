@@ -115,12 +115,10 @@ export default function TimeTrackerHeader() {
                     }
                 }, 100)
             } else {
-                dispatch(startTimer())
                 toast.error('Failed to stop timer')
             }
         } catch (error) {
             toast.error('Failed to stop timer')
-            dispatch(startTimer())
         } finally {
             setIsProcessing(false)
         }
