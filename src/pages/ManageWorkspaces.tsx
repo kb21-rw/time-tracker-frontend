@@ -14,6 +14,7 @@ import { handleAxiosError } from '@/util/helpers'
 import { AxiosError } from 'axios'
 import { selectSidebarOpen, setSidebarOpen } from '@/redux/features/sidebarSlice'
 import { useLocation } from 'react-router-dom'
+import { clearTimer } from '@/redux/features/timerSlice'
 export type workspaceData = z.infer<typeof workspaceShema>
 
 export default function ManageWorkspacesPage() {
@@ -32,6 +33,7 @@ export default function ManageWorkspacesPage() {
 
     useEffect(() => {
         dispatch(getWorkspacesByUser())
+        dispatch(clearTimer())
     }, [dispatch])
 
     const handleWorkspaceSubmit = async (data: workspaceData) => {

@@ -3,6 +3,8 @@ import { TrackerInputProps } from '@/util/interfaces'
 import clsx from 'clsx'
 import { useEffect, useRef, useState } from 'react'
 import ProjectsList from './ProjectsList'
+import { useSelector } from 'react-redux'
+import { RootState } from '@/redux/store'
 
 export default function TrackerInput({
     label,
@@ -14,11 +16,16 @@ export default function TrackerInput({
     onProjectSelect,
     ...props
 }: TrackerInputProps) {
+    const {
+        isRunning,
+        description,
+        selectedProject: stateProject,
+    } = useSelector((state: RootState) => state.timer)
     const [selectedClient] = useState<string | null>(null)
     const [selectedProject] = useState<string | null>(null)
     const [isFolderActive, setIsFolderActive] = useState(false)
     const [isPopoverOpen, setIsPopoverOpen] = useState(false)
-    const [project, setProject] = useState('')
+    const [project, setProject] = useState(isRunning ? stateProject?.name : '')
     const iconRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
@@ -54,6 +61,7 @@ export default function TrackerInput({
             )}
             <div className="relative h-10 mt-5">
                 <input
+                    defaultValue={description || ''}
                     {...props}
                     id={id}
                     {...register}

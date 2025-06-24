@@ -7,6 +7,7 @@ import { useOutletContext } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { getProjectsByWorkspaceId } from '@/redux/slice/projectSlice'
 import LoadingSpinner from '../shared/ui/LoadingSpinner'
+import { setStateProject } from '@/redux/features/timerSlice'
 
 interface ProjectSelection {
     id: string
@@ -44,7 +45,7 @@ export default function ProjectsList({
 
         setSelectedClient(clientName)
         setSelectedProject(projectSelection)
-
+        dispatch(setStateProject({id:project.id, name: projectSelection.displayName}))
         setProject(project.id, projectSelection.displayName)
         onClose()
     }

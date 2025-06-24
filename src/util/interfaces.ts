@@ -146,6 +146,8 @@ export interface VerticalToggleSwitchProps {
 
 export interface TimerState {
     isRunning: boolean
+    description: string
+    selectedProject: Omit<Project, 'client'> | null
     startTimestamp: number | null
     stopTimestamp: number | null
 }
