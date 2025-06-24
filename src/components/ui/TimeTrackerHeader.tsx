@@ -56,14 +56,6 @@ export default function TimeTrackerHeader() {
         setValue('projectId', projectId)
     }
 
-    const resetForm = () => {
-        reset({
-            description: '',
-            projectId: '',
-        })
-        setSelectedProjectId(null)
-    }
-
     const handleStartTimer = async (data: TimerStartFormData) => {
         if (isProcessing) return
         setIsProcessing(true)
@@ -110,7 +102,8 @@ export default function TimeTrackerHeader() {
 
             if (stopTimerAPI.fulfilled.match(result)) {
                 toast.success('Timer stopped successfully!')
-                resetForm()
+                reset()
+                setSelectedProjectId(null)
                 dispatch(getUserTimeLogs(id!))
                 setTimeout(() => {
                     const { stopTimestamp } = store.getState().timer
@@ -126,7 +119,6 @@ export default function TimeTrackerHeader() {
                 toast.error('Failed to stop timer')
             }
         } catch (error) {
-            console.error('Stop timer error:', error)
             toast.error('Failed to stop timer')
             dispatch(startTimer())
         } finally {
