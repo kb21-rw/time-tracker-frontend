@@ -52,7 +52,10 @@ export const submitManualEntry = createAsyncThunk(
             const response = await api.post(`/workspaces/${id}/timeEntries`, data)
             return response.data
         } catch (err: any) {
-            return rejectWithValue(err.response?.data?.message || 'Submission failed')
+            const errorMessage = err.response?.data?.message || 'Submission failed'
+            return rejectWithValue(
+                typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage),
+            )
         }
     },
 )

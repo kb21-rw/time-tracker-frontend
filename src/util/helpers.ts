@@ -10,16 +10,24 @@ export const handleAxiosError = (error: AxiosError) => {
     }
 }
 
-export const formatDate = (isoString: string): string => {
+export const formatDateTime = (isoString: string) => {
     const date = new Date(isoString)
-    return date.toLocaleDateString('en-GB')
+    const dateFormatter = new Intl.DateTimeFormat('en-US', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+    })
+    const timeFormatter = new Intl.DateTimeFormat('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false,
+    })
+    return {
+        date: dateFormatter.format(date),
+        time: timeFormatter.format(date),
+    }
 }
-export const formatter = new Intl.DateTimeFormat('en-US', {
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-    hour12: false, // Use 24-hour format
-})
 export function groupProjectsByClient(projects: Project[]): Record<string, Project[]> {
     return projects.reduce(
         (acc, project) => {

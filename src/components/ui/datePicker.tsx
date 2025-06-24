@@ -5,13 +5,12 @@ import { Calendar } from '../shadcn/calendar'
 import { Input } from '../shadcn/input'
 import { Popover, PopoverContent, PopoverTrigger } from '../shadcn/popover'
 import { DateTimePickerProps } from '@/util/interfaces'
-import { formatter } from '@/util/helpers'
+import { formatDateTime } from '@/util/helpers'
 
 export function DateTimePicker(timeProps: DateTimePickerProps) {
     const [open, setOpen] = React.useState(false)
-    const [date, setDate] = React.useState<Date | undefined>(undefined)
-    const today = new Date()
-    const currentDate = formatter.format(today)
+    const [date, setDate] = React.useState<Date | undefined>(new Date())
+    const currentDate = formatDateTime(new Date().toISOString()).time
     const [startTime, setStartTime] = React.useState<string>(`${currentDate}`)
     const [endTime, setEndTime] = React.useState<string>('00:00:00')
 
