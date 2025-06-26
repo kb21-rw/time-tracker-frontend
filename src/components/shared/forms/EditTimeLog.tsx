@@ -110,10 +110,15 @@ export default function EditTimeLog({
                         </div>
                     </div>
                     <div className="flex flex-col lg:flex-row gap-4 mt-4 justify-between w-full">
-                        <Button className="w-full" type="submit" name="save">
+                        <Button className="w-full cursor-pointer" type="submit" name="save">
                             Save
                         </Button>
-                        <Button className="w-full" variant="accent" type="submit" name="delete">
+                        <Button
+                            className="w-full cursor-pointer"
+                            variant="accent"
+                            type="submit"
+                            name="delete"
+                        >
                             Delete
                         </Button>
                     </div>
