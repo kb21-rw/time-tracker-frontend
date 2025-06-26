@@ -2,7 +2,7 @@ import StartTimer from '@/assets/icons/StartTmer'
 import { stopTimer, startTimer } from '@/redux/features/timerSlice'
 import store, { AppDispatch, RootState } from '@/redux/store'
 import { OutletContextType } from '@/util/interfaces'
-import { Download, CircleStop, CirclePlus } from 'lucide-react'
+import { Download, CircleStop } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { useDispatch, useSelector } from 'react-redux'
@@ -15,12 +15,12 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Message, useForm } from 'react-hook-form'
 import { clearError } from '@/redux/slice/authSlice'
 import { startTimerAPI } from '@/redux/slice/timeLogsSlice'
-import { DateTimePicker } from '../shared/ui/DateTimePicker'
+import ManualTimeLog from '../shared/forms/ManualTimeLog'
 
 export default function TimeTrackerHeader() {
     const { workspaceName, id } = useOutletContext<OutletContextType>()
     const [isManual, setIsManual] = useState(false)
-    const [, setSelectedProjectId] = useState<string | null>(null)
+    const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null)
     const dispatch = useDispatch<AppDispatch>()
     const { isRunning, startTimestamp } = useSelector((state: RootState) => state.timer)
     const { loading, error } = useSelector((state: RootState) => state.timeLog)
@@ -29,6 +29,7 @@ export default function TimeTrackerHeader() {
         register,
         handleSubmit,
         reset,
+        getValues,
         setValue,
         formState: { errors },
     } = useForm<TimerStartFormData>({
@@ -144,10 +145,10 @@ export default function TimeTrackerHeader() {
                     )}
                 </form>
                 {isManual && (
-                    <>
-                        <DateTimePicker />
-                        <CirclePlus className="w-16 h-16 fill-primary-500 stroke-white cursor-grab" />
-                    </>
+                    <ManualTimeLog
+                        description={getValues('description')}
+                        projectId={selectedProjectId ?? undefined}
+                    />
                 )}
                 <TimerSwitch
                     defaultMode="play"

@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { WorkspaceProps } from '../../util/interfaces'
-import { formatDate } from '../../util/helpers'
+import { formatDateTime } from '../../util/helpers'
+import DialogDemo from '../shared/modal/Modal'
 import { useState } from 'react'
 import { RenameWorkspaceForm } from '../shared/forms/RenameWorkspaceForm'
 import { Pencil } from 'lucide-react'
@@ -11,7 +12,6 @@ import Modal from '../shared/modal/Modal'
 
 export default function WorkspaceCard({ name, creationDate, id }: WorkspaceProps) {
     const [isModalOpen, setIsModalOpen] = useState(false)
-    const formattedDate = formatDate(creationDate)
     const dispatch = useDispatch<AppDispatch>()
     const handleWorkspaceSelection = () => {
         dispatch(
@@ -33,7 +33,7 @@ export default function WorkspaceCard({ name, creationDate, id }: WorkspaceProps
                     <p className=" text-sm md:text-lg">{name}</p>
                 </Link>
                 <div className="flex items-center gap-x-9 md:gap-x-26">
-                    <span>{formattedDate}</span>
+                    <span>{formatDateTime(creationDate).date}</span>
                     <button onClick={() => setIsModalOpen(true)}>
                         <Pencil className="text-primary-500 w-5 h-5" />
                     </button>
