@@ -1,4 +1,4 @@
-import { DateTimePicker } from '@/components/ui/datePicker'
+import { DateTimePicker } from '@/components/ui/DateTimePicker'
 import { submitManualEntry } from '@/redux/slice/timeLogsSlice'
 import { AppDispatch, RootState } from '@/redux/store'
 import { ManualEntryValues, ManualTimeLogProps, OutletContextType } from '@/util/interfaces'
@@ -10,8 +10,8 @@ import { useOutletContext } from 'react-router-dom'
 
 function ManualTimeLog({ description, projectId }: ManualTimeLogProps) {
     const { id } = useOutletContext<OutletContextType>()
-    const [startTime, setStartTime] = useState<Date | null>(null)
-    const [endTime, setEndTime] = useState<Date | null>(null)
+    const [startTime, setStartTime] = useState<Date>(new Date())
+    const [endTime, setEndTime] = useState<Date>(new Date())
     const dispatch = useDispatch<AppDispatch>()
     const { loading } = useSelector((state: RootState) => state.timeLog)
 
@@ -48,7 +48,7 @@ function ManualTimeLog({ description, projectId }: ManualTimeLogProps) {
         <div className="flex items-center justify-center gap-4 p-4">
             <DateTimePicker setStartTime={setStartTime} setEndTime={setEndTime} />
             <CirclePlus
-                className={`w-16 h-16 fill-primary-500 stroke-white cursor-grab ${loading ? 'animate-spin' : ''}`}
+                className={`w-12 h-12 fill-primary-500 stroke-white cursor-grab ${loading ? 'animate-spin' : ''}`}
                 onClick={handleSubmit}
             />
         </div>

@@ -3,13 +3,15 @@ import Modal from '../modal/Modal'
 import Button from '../ui/Button'
 import ProjectsList from '@/components/ui/ProjectsList'
 import { ChevronDown } from 'lucide-react'
-import { DateTimePicker } from '../ui/DateTimePicker'
+import { DateTimePicker } from '@/components/ui/DateTimePicker'
 import Input from '../ui/Input'
 import { useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { EditTimerFormData, EditTimerSchema } from '@/schema/timelogs'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { EditTimeLogProps } from '@/util/interfaces'
+import { splitTime } from '@/util/helpers'
+import { set } from 'date-fns'
 
 export default function EditTimeLog({
     description,
@@ -22,6 +24,8 @@ export default function EditTimeLog({
     setIsModalOpen,
 }: EditTimeLogProps) {
     const [projectListOpen, setProjectListOpen] = useState(false)
+    const [start, setStartTime] = useState<Date>(new Date(date))
+    const [end, setEndTime] = useState<Date>(set(new Date(date),{...splitTime(endTime)}))
     const [selectedProject, setSelectedProject] = useState<string | null>(project || null)
     const buttonRef = useRef<HTMLDivElement>(null)
 
@@ -35,8 +39,8 @@ export default function EditTimeLog({
         defaultValues: {
             description: description || '',
             projectId: project || '',
-            startTime: startTime || '',
-            endTime: endTime || '',
+            startTime: start?.toISOString() || '',
+            endTime: end?.toISOString() || '',
         },
         mode: 'all',
     })
@@ -47,7 +51,8 @@ export default function EditTimeLog({
 
         setProjectListOpen(false)
     }
-    const onSubmit = (_data: EditTimerFormData, event: React.FormEvent<HTMLFormElement>) => {
+    const onSubmit = (data: EditTimerFormData, event: React.FormEvent<HTMLFormElement>) => {
+        console.log(data)
         const submitter = (event.nativeEvent as SubmitEvent & { submitter?: HTMLElement })
             .submitter as HTMLButtonElement | undefined
         if (submitter?.name === 'delete') {
@@ -86,6 +91,8 @@ export default function EditTimeLog({
                             end={endTime}
                             previousDate={date}
                             duration={duration}
+                            setStartTime={setStartTime}
+                            setEndTime={setEndTime}
                         />
                         <div
                             ref={buttonRef}

@@ -232,8 +232,8 @@ export interface DateTimePickerProps {
     end?: string
     previousDate?: string
     duration?: string
-    setStartTime: React.Dispatch<React.SetStateAction<Date | null>>
-    setEndTime: React.Dispatch<React.SetStateAction<Date | null>>
+    setStartTime: React.Dispatch<React.SetStateAction<Date>>
+    setEndTime: React.Dispatch<React.SetStateAction<Date>>
 }
 
 export interface ProjectSelection {
@@ -248,8 +248,8 @@ export interface EditTimeLogProps extends TimeEntryCardProps {
     setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>
     duration: string
     previousDate?: string
-    setStartTime: React.Dispatch<React.SetStateAction<Date | null>>
-    setEndTime: React.Dispatch<React.SetStateAction<Date | null>>
+    setStartTime: React.Dispatch<React.SetStateAction<Date>>
+    setEndTime: React.Dispatch<React.SetStateAction<Date>>
 }
 
 export interface ManualTimeLogProps {
