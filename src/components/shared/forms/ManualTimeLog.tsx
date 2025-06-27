@@ -1,7 +1,9 @@
 import { DateTimePicker } from '@/components/ui/DateTimePicker'
 import { submitManualEntry } from '@/redux/slice/timeLogsSlice'
 import { AppDispatch, RootState } from '@/redux/store'
+import { handleAxiosError } from '@/util/helpers'
 import { TimeLogEntryValues, ManualTimeLogProps, OutletContextType } from '@/util/interfaces'
+import { AxiosError } from 'axios'
 import { CirclePlus } from 'lucide-react'
 import { useState } from 'react'
 import toast from 'react-hot-toast'
@@ -32,15 +34,19 @@ function ManualTimeLog({ description, projectId }: ManualTimeLogProps) {
         }
 
         try {
-            await dispatch(
+            const { meta: response } = await dispatch(
                 submitManualEntry({
                     id,
                     data: payload,
                 }),
             )
-            toast.success('Manual time log created successfully!')
+            if (response.requestStatus === 'fulfilled') {
+                toast.success('Manual time log created successfully!')
+            } else {
+                toast.error('Failed to create manual time log.')
+            }
         } catch (error) {
-            toast.error('Failed to create manual time log.')
+            handleAxiosError(error as AxiosError)
         }
     }
 
