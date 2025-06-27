@@ -203,7 +203,7 @@ export interface TimeLogsGroupProps {
     timeLogs: formattedTimeLog[]
 }
 
-export interface ManualEntryValues {
+export interface TimeLogEntryValues {
     description?: string
     projectId?: string
     startTime: string
@@ -248,8 +248,6 @@ export interface EditTimeLogProps extends TimeEntryCardProps {
     setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>
     duration: string
     previousDate?: string
-    setStartTime: React.Dispatch<React.SetStateAction<Date>>
-    setEndTime: React.Dispatch<React.SetStateAction<Date>>
 }
 
 export interface ManualTimeLogProps {

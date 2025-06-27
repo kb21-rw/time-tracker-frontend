@@ -48,7 +48,7 @@ export function formatTimeLogs(timeLogs: TimeLog[]): formattedTimeLog[] {
             hour12: false,
         }),
         duration: calculateDuration(log.startTime, log.endTime),
-        createdAt: log.createdAt,
+        createdAt: log.startTime,
     }))
 }
 

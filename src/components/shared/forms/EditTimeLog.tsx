@@ -5,15 +5,21 @@ import ProjectsList from '@/components/ui/ProjectsList'
 import { ChevronDown } from 'lucide-react'
 import { DateTimePicker } from '@/components/ui/DateTimePicker'
 import Input from '../ui/Input'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { EditTimeLogFormData, EditTimeLogSchema } from '@/schema/timelogs'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { EditTimeLogProps } from '@/util/interfaces'
-import { splitTime } from '@/util/helpers'
+import { EditTimeLogProps, OutletContextType } from '@/util/interfaces'
+import { handleAxiosError, splitTime } from '@/util/helpers'
 import { set } from 'date-fns'
+import { useDispatch, useSelector } from 'react-redux'
+import { AppDispatch, RootState } from '@/redux/store'
+import { useOutletContext } from 'react-router-dom'
+import { deleteTimeLogAPI, editTimeLogAPI } from '@/redux/slice/timeLogsSlice'
+import { AxiosError } from 'axios'
 
 export default function EditTimeLog({
+    id,
     description,
     project,
     date,
@@ -23,12 +29,14 @@ export default function EditTimeLog({
     isModalOpen,
     setIsModalOpen,
 }: EditTimeLogProps) {
+    const { id: workSpaceId } = useOutletContext<OutletContextType>()
     const [projectListOpen, setProjectListOpen] = useState(false)
     const [start, setStartTime] = useState<Date>(new Date(date))
     const [end, setEndTime] = useState<Date>(set(new Date(date), { ...splitTime(endTime) }))
     const [selectedProject, setSelectedProject] = useState<string | null>(project || null)
     const buttonRef = useRef<HTMLDivElement>(null)
-
+    const dispatch = useDispatch<AppDispatch>()
+    const { loading } = useSelector((state: RootState) => state.timeLog)
     const {
         register,
         handleSubmit,
@@ -44,23 +52,49 @@ export default function EditTimeLog({
         },
         mode: 'all',
     })
-
+    useEffect(() => {
+        console.log('start', start, 'end', end)
+        if (start && end) {
+            setValue('startTime', start.toISOString())
+            setValue('endTime', end.toISOString())
+        }
+    }, [start, end])
     const handleProjectSelect = (projectId: string, displayName: string) => {
         setValue('projectId', projectId)
         setSelectedProject(displayName)
 
         setProjectListOpen(false)
     }
-    const onSubmit = (data: EditTimeLogFormData, event: React.FormEvent<HTMLFormElement>) => {
-        console.log(data)
-        const submitter = (event.nativeEvent as SubmitEvent & { submitter?: HTMLElement })
-            .submitter as HTMLButtonElement | undefined
-        if (submitter?.name === 'delete') {
-            toast.success('Time entry deleted!')
-        } else {
-            toast.success('Time entry saved!')
+    const handleEdit = async (data: EditTimeLogFormData) => {
+        try {
+            const { meta: response } = await dispatch(
+                editTimeLogAPI({ id, workspaceId: workSpaceId, data: { ...data } }),
+            )
+
+            if (response.requestStatus === 'fulfilled') {
+                toast.success('Timelog Edited successfully')
+                setIsModalOpen(false)
+            } else {
+                toast.error('Failed to create a new project')
+            }
+        } catch (error) {
+            handleAxiosError(error as AxiosError)
         }
-        setIsModalOpen(false)
+    }
+    const handleDelete = async () => {
+        try {
+            const { meta: response } = await dispatch(
+                deleteTimeLogAPI({ id, workspaceId: workSpaceId }),
+            )
+            if (response.requestStatus === 'fulfilled') {
+                toast.success('Time entry deleted successfully!')
+                setIsModalOpen(false)
+            } else {
+                toast.error('Failed to delete time entry.')
+            }
+        } catch (error) {
+            handleAxiosError(error as AxiosError)
+        }
     }
 
     return (
@@ -73,13 +107,7 @@ export default function EditTimeLog({
                     setProjectListOpen(false)
                 }}
             >
-                <form
-                    className="px-4"
-                    onSubmit={e => {
-                        e.preventDefault()
-                        handleSubmit(data => onSubmit(data, e))(e)
-                    }}
-                >
+                <form className="px-4" onSubmit={handleSubmit(handleEdit)}>
                     <Input
                         id="description"
                         register={register('description')}
@@ -117,7 +145,12 @@ export default function EditTimeLog({
                         </div>
                     </div>
                     <div className="flex flex-col lg:flex-row gap-4 mt-4 justify-between w-full">
-                        <Button className="w-full cursor-pointer" type="submit" name="save">
+                        <Button
+                            className="w-full cursor-pointer"
+                            type="submit"
+                            name="save"
+                            disabled={loading}
+                        >
                             Save
                         </Button>
                         <Button
@@ -125,6 +158,8 @@ export default function EditTimeLog({
                             variant="accent"
                             type="submit"
                             name="delete"
+                            onClick={handleDelete}
+                            disabled={loading}
                         >
                             Delete
                         </Button>

@@ -1,7 +1,7 @@
 import { DateTimePicker } from '@/components/ui/DateTimePicker'
 import { submitManualEntry } from '@/redux/slice/timeLogsSlice'
 import { AppDispatch, RootState } from '@/redux/store'
-import { ManualEntryValues, ManualTimeLogProps, OutletContextType } from '@/util/interfaces'
+import { TimeLogEntryValues, ManualTimeLogProps, OutletContextType } from '@/util/interfaces'
 import { CirclePlus } from 'lucide-react'
 import { useState } from 'react'
 import toast from 'react-hot-toast'
@@ -24,7 +24,7 @@ function ManualTimeLog({ description, projectId }: ManualTimeLogProps) {
             toast.error('End time must be after start time.')
             return
         }
-        const payload: ManualEntryValues = {
+        const payload: TimeLogEntryValues = {
             description,
             projectId,
             startTime: startTime.toISOString(),

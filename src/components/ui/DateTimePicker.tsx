@@ -7,7 +7,8 @@ import { Popover, PopoverContent, PopoverTrigger } from '../shadcn/popover'
 import { DateTimePickerProps } from '@/util/interfaces'
 import { formatDateTime, formatTime } from '@/util/helpers'
 import { calculateDuration } from '@/util/helpers'
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
+import { formatISO } from 'date-fns'
 
 export function DateTimePicker(timeProps: DateTimePickerProps) {
     const defaultTime = {
@@ -47,19 +48,20 @@ export function DateTimePicker(timeProps: DateTimePickerProps) {
     const handleDateSelect = (selectedDate: Date) => {
         setDate(selectedDate)
     }
-    const handleDone = () => {
+    const handleDone = useCallback(() => {
+        const finalDate = formatISO(date, { representation: 'date' })
         if (timeProps.setStartTime && date) {
-            timeProps.setStartTime(new Date(`${date.toISOString().split('T')[0]}T${startTime}`))
+            timeProps.setStartTime(new Date(`${finalDate}T${startTime}`))
         }
         if (timeProps.setEndTime && date) {
-            timeProps.setEndTime(new Date(`${date.toISOString().split('T')[0]}T${endTime}`))
+            timeProps.setEndTime(new Date(`${finalDate}T${endTime}`))
         }
         setOpen(false)
-    }
+    }, [date, startTime, endTime, timeProps])
 
     return (
         <div className="flex flex-col gap-3">
-            <Popover open={open} onOpenChange={setOpen}>
+            <Popover open={open} onOpenChange={setOpen} modal={false}>
                 <PopoverTrigger asChild>
                     <Button
                         variant="outline"
@@ -102,7 +104,12 @@ export function DateTimePicker(timeProps: DateTimePickerProps) {
                             onSelect={handleDateSelect}
                             required
                         />
-                        <Button onClick={handleDone} className="self-end bg-primary-500" size="sm">
+                        <Button
+                            type="button"
+                            onClick={handleDone}
+                            className="self-end bg-primary-500"
+                            size="sm"
+                        >
                             Done
                         </Button>
                     </div>

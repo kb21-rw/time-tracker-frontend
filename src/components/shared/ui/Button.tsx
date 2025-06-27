@@ -19,8 +19,11 @@ export default function Button({
             className={clsx(
                 'shadow shadow-black/40 drop-shadow-xl text-white rounded-lg text-center p-4',
                 className,
-                isLoading || (disabled && 'bg-primary-600/50'),
-                variantClassNames[variant] || variantClassNames.primary,
+                isLoading || disabled
+                    ? variant === 'accent'
+                        ? 'bg-accent-500/50 hover:bg-accent-500/50'
+                        : 'bg-primary-600/50 hover:bg-primary-600/50'
+                    : variantClassNames[variant] || variantClassNames.primary,
             )}
             disabled={isLoading || disabled}
             onClick={onClick}
