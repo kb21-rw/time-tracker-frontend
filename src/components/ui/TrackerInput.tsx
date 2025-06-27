@@ -1,7 +1,7 @@
 import { Folder } from 'lucide-react'
 import { TrackerInputProps } from '@/util/interfaces'
 import clsx from 'clsx'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import ProjectsList from './ProjectsList'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/redux/store'
@@ -26,6 +26,10 @@ export default function TrackerInput({
     const [isFolderActive, setIsFolderActive] = useState(false)
     const [isPopoverOpen, setIsPopoverOpen] = useState(false)
     const [project, setProject] = useState(isRunning ? stateProject?.name : '')
+    const defaultDescription = useMemo(
+        () => (isRunning ? description : ''),
+        [isRunning, description],
+    )
     const iconRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
@@ -40,6 +44,12 @@ export default function TrackerInput({
             document.removeEventListener('mousedown', handleClickOutside)
         }
     }, [])
+
+    useEffect(() => {
+        if (!isRunning) {
+            setProject('')
+        }
+    }, [isRunning])
 
     const handleProjectSelect = (projectId: string, displayName: string) => {
         setProject(displayName)
@@ -61,7 +71,7 @@ export default function TrackerInput({
             )}
             <div className="relative h-10 mt-5">
                 <input
-                    defaultValue={description || ''}
+                    defaultValue={defaultDescription}
                     {...props}
                     id={id}
                     {...register}

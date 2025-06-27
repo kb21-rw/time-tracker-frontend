@@ -23,6 +23,21 @@ export const getUserTimeLogs = createAsyncThunk(
     },
 )
 
+export const getActiveTimeLog = createAsyncThunk(
+    'getActiveTimelog',
+    async (id: string, { rejectWithValue }) => {
+        try {
+            const response = await api.get(`workspaces/${id}/timeEntries/active`)
+            return response.data
+        } catch (error: any) {
+            const errorMessage = error.response?.data?.message || 'Fetching active time log failed'
+            return rejectWithValue(
+                typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage),
+            )
+        }
+    },
+)
+
 export const startTimerAPI = createAsyncThunk(
     'timeLog/startTimer',
     async (payload: StartTimerPayload, { rejectWithValue }) => {
@@ -170,6 +185,18 @@ const TimeLogSlice = createSlice({
                 state.loading = true
                 state.error = null
             })
+            .addCase(stopTimerAPI.pending, state => {
+                state.loading = true
+                state.error = null
+            })
+            .addCase(stopTimerAPI.fulfilled, (state, action) => {
+                state.loading = false
+                state.timeLogs.push(action.payload)
+            })
+            .addCase(stopTimerAPI.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.payload
+            })
             .addCase(editTimeLogAPI.fulfilled, (state, action) => {
                 state.loading = false
                 const index = state.timeLogs.findIndex(log => log.id === action.payload.id)
@@ -190,6 +217,18 @@ const TimeLogSlice = createSlice({
                 state.timeLogs = state.timeLogs.filter(log => log.id !== action.payload.id)
             })
             .addCase(deleteTimeLogAPI.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.payload as string
+            })
+            .addCase(getActiveTimeLog.pending, state => {
+                state.loading = true
+                state.error = null
+            })
+            .addCase(getActiveTimeLog.fulfilled, (state, action) => {
+                state.loading = false
+                state.timeLogs = action.payload
+            })
+            .addCase(getActiveTimeLog.rejected, (state, action) => {
                 state.loading = false
                 state.error = action.payload as string
             })

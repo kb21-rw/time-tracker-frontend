@@ -13,6 +13,9 @@ const timerSlice = createSlice({
     name: 'timer',
     initialState,
     reducers: {
+        setTimerRunning(state, action){
+            state.isRunning = action.payload
+        },
         setDescription(state, action) {
             state.description = action.payload
         },
@@ -33,9 +36,10 @@ const timerSlice = createSlice({
             state.stopTimestamp = null
         },
 
-        startTimer(state) {
+        startTimer(state, action) {
             state.isRunning = true
-            state.startTimestamp = Date.now()
+            // state.startTimestamp = Date.now()
+            state.startTimestamp = action.payload
             state.stopTimestamp = null
         },
         stopTimer(state) {
@@ -47,6 +51,7 @@ const timerSlice = createSlice({
 })
 
 export const {
+    setTimerRunning,
     startTimer,
     stopTimer,
     setDescription,

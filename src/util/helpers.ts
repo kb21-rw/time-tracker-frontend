@@ -10,6 +10,11 @@ import {
     parse,
     parseISO,
 } from 'date-fns'
+import { useDispatch } from 'react-redux'
+import { AppDispatch } from '@/redux/store'
+import { setDescription, startTimer } from '@/redux/features/timerSlice'
+import { getActiveTimeLog } from '@/redux/slice/timeLogsSlice'
+import toast from 'react-hot-toast'
 
 export const handleAxiosError = (error: AxiosError) => {
     if (error.response) {
@@ -143,7 +148,7 @@ export function calculateDuration(start: string, end: string): string {
 
     if (isTimeOnly(start) && isTimeOnly(end)) {
         let diff = toSeconds(end) - toSeconds(start)
-        if (diff < 0) diff += 86400 // Adjust for next day if end time is earlier than start time
+        if (diff < 0) diff += 86400
         return formatToHHMMSS(diff)
     }
 
@@ -155,3 +160,17 @@ export function calculateDuration(start: string, end: string): string {
     const diff = differenceInSeconds(endDate, startDate)
     return formatToHHMMSS(diff)
 }
+
+export default async function fetchActiveTimeLog(id: string){
+    const dispatch = useDispatch<AppDispatch>()
+            try {
+                const activeLog = await dispatch(getActiveTimeLog(id!)).unwrap()
+                if (activeLog) {
+                    console.log('Active log:', activeLog)
+                    dispatch(setDescription(activeLog.description || ''))
+                    dispatch(startTimer(new Date(activeLog.startTime).getTime()))
+                }
+            } catch (err) {
+                toast.error('⚠️ Error fetching active time log:')
+            }
+        }

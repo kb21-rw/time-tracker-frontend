@@ -63,7 +63,7 @@ export default function TimeTrackerHeader() {
         setIsProcessing(true)
 
         try {
-            dispatch(startTimer())
+            dispatch(startTimer(Date.now()))
 
             const result = await dispatch(
                 startTimerAPI({
@@ -91,7 +91,7 @@ export default function TimeTrackerHeader() {
         try {
             dispatch(stopTimer())
 
-            const result = await dispatch(
+            const { meta: result } = await dispatch(
                 stopTimerAPI({
                     endTime: new Date().toISOString(),
                     workspaceId: id,
@@ -100,7 +100,8 @@ export default function TimeTrackerHeader() {
                 }),
             )
 
-            if (stopTimerAPI.fulfilled.match(result)) {
+            if (result.requestStatus === 'fulfilled') {
+                toast.success('Timer stopped successfully')
                 reset()
                 setSelectedProjectId(null)
                 dispatch(getUserTimeLogs(id!))
