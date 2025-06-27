@@ -1,6 +1,6 @@
 import StartTimer from '@/assets/icons/StartTmer'
 import { stopTimer, startTimer } from '@/redux/features/timerSlice'
-import store, { AppDispatch, RootState } from '@/redux/store'
+import { AppDispatch, RootState } from '@/redux/store'
 import { OutletContextType } from '@/util/interfaces'
 import { Download, CircleStop } from 'lucide-react'
 import { useEffect, useState } from 'react'
@@ -74,9 +74,7 @@ export default function TimeTrackerHeader() {
                 }),
             )
 
-            if (startTimerAPI.fulfilled.match(result)) {
-                toast.success('Timer started successfully!')
-            } else {
+            if (!startTimerAPI.fulfilled.match(result)) {
                 dispatch(stopTimer())
             }
         } catch (error) {
@@ -103,19 +101,9 @@ export default function TimeTrackerHeader() {
             )
 
             if (stopTimerAPI.fulfilled.match(result)) {
-                toast.success('Timer stopped successfully!')
                 reset()
                 setSelectedProjectId(null)
                 dispatch(getUserTimeLogs(id!))
-                setTimeout(() => {
-                    const { stopTimestamp } = store.getState().timer
-                    if (startTimestamp && stopTimestamp) {
-                        toast.success(
-                            `Start time: ${new Date(startTimestamp).toLocaleTimeString()}`,
-                        )
-                        toast.success(`End time: ${new Date(stopTimestamp).toLocaleTimeString()}`)
-                    }
-                }, 100)
             } else {
                 toast.error('Failed to stop timer')
             }
