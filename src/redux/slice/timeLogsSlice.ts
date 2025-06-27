@@ -45,6 +45,28 @@ export const startTimerAPI = createAsyncThunk(
     },
 )
 
+export const stopTimerAPI = createAsyncThunk(
+    'timeLog/stopTimer',
+    async (
+        payload: { workspaceId: string; endTime: string; description?: string; projectId?: string },
+        { rejectWithValue },
+    ) => {
+        try {
+            const { workspaceId, ...data } = payload
+            const cleanData = Object.fromEntries(
+                Object.entries(data).filter(([_, value]) => value !== undefined && value !== ''),
+            )
+            const response = await api.post(`workspaces/${workspaceId}/timeEntries/stop`, cleanData)
+            return response.data
+        } catch (error: any) {
+            const errorMessage = error.response?.data?.message || 'Stopping timer failed'
+            return rejectWithValue(
+                typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage),
+            )
+        }
+    },
+)
+
 export const submitManualEntry = createAsyncThunk(
     'manualEntry',
     async ({ id, data }: { id: string; data: TimeLogEntryValues }, { rejectWithValue }) => {
@@ -53,6 +75,7 @@ export const submitManualEntry = createAsyncThunk(
             return response.data
         } catch (err: any) {
             const errorMessage = err.response?.data?.message || 'Submission failed'
+
             return rejectWithValue(
                 typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage),
             )
