@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom'
 import { WorkspaceProps } from '../../util/interfaces'
 import { formatDateTime } from '../../util/helpers'
-import DialogDemo from '../shared/modal/Modal'
 import { useState } from 'react'
 import { RenameWorkspaceForm } from '../shared/forms/RenameWorkspaceForm'
 import { Pencil } from 'lucide-react'
