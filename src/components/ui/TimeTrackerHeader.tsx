@@ -17,7 +17,6 @@ import { clearError } from '@/redux/slice/authSlice'
 import { getUserTimeLogs, startTimerAPI, stopTimerAPI } from '@/redux/slice/timeLogsSlice'
 import ManualTimeLog from '../shared/forms/ManualTimeLog'
 
-
 export default function TimeTrackerHeader() {
     const { workspaceName, id } = useOutletContext<OutletContextType>()
     const [isManual, setIsManual] = useState(false)
@@ -181,10 +180,10 @@ export default function TimeTrackerHeader() {
                     )}
                 </form>
                 {isManual && (
-                        <ManualTimeLog
-                            description={getValues('description')}
-                            projectId={selectedProjectId ?? undefined}
-                            />
+                    <ManualTimeLog
+                        description={getValues('description')}
+                        projectId={selectedProjectId ?? undefined}
+                    />
                 )}
                 <TimerSwitch
                     defaultMode="play"

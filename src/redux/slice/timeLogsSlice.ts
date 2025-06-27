@@ -64,7 +64,8 @@ export const stopTimerAPI = createAsyncThunk(
                 typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage),
             )
         }
-    })
+    },
+)
 
 export const submitManualEntry = createAsyncThunk(
     'manualEntry',
