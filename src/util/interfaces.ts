@@ -4,6 +4,7 @@ import { FieldError, UseFormRegisterReturn } from 'react-hook-form'
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     isLoading?: boolean
     disabled?: boolean
+    variant?: 'primary' | 'accent'
 }
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     label?: string
@@ -169,6 +170,7 @@ export interface TimeEntryCardProps {
     startTime: string
     endTime: string
     duration: string
+    date: string
 }
 
 export interface TimeLog {
@@ -185,6 +187,7 @@ export interface formattedTimeLog {
     description: string
     project: string
     client: string
+    date: string
     startTime: string
     endTime: string
     duration: string
@@ -200,7 +203,7 @@ export interface TimeLogsGroupProps {
     timeLogs: formattedTimeLog[]
 }
 
-export interface ManualEntryValues {
+export interface TimeLogEntryValues {
     description?: string
     projectId?: string
     startTime: string
@@ -227,10 +230,24 @@ export interface TrackerInputProps extends InputProps {
 export interface DateTimePickerProps {
     start?: string
     end?: string
-    duration?: string
     previousDate?: string
-    setStartTime: React.Dispatch<React.SetStateAction<Date | null>>
-    setEndTime: React.Dispatch<React.SetStateAction<Date | null>>
+    duration?: string
+    setStartTime: React.Dispatch<React.SetStateAction<Date>>
+    setEndTime: React.Dispatch<React.SetStateAction<Date>>
+}
+
+export interface ProjectSelection {
+    id: string
+    name: string
+    clientName: string
+    displayName: string
+}
+
+export interface EditTimeLogProps extends TimeEntryCardProps {
+    isModalOpen: boolean
+    setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>
+    duration: string
+    previousDate?: string
 }
 
 export interface ManualTimeLogProps {

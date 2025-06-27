@@ -1,6 +1,6 @@
 import CreateProjectForm from '@/components/shared/forms/CreateProject'
 import RenameProject from '@/components/shared/forms/RenameProject'
-import DialogDemo from '@/components/shared/modal/Modal'
+import Modal from '@/components/shared/modal/Modal'
 import WorkspaceHeader from '@/components/shared/ui/WorkspaceHeader'
 import DataTable from '@/components/tables/DataTable'
 import { ProjectTableColumns } from '@/components/tables/ProjectsTableColumns'
@@ -50,7 +50,7 @@ export default function ProjectPage() {
                 />
             </div>
             {
-                <DialogDemo
+                <Modal
                     title="Edit Project"
                     isModalOpen={editProjectModal}
                     onClose={() => setEditProjectModal(false)}
@@ -61,16 +61,16 @@ export default function ProjectPage() {
                         clientId={selectedRow?.client.id}
                         setEditProjectModal={setEditProjectModal}
                     />
-                </DialogDemo>
+                </Modal>
             }
             {
-                <DialogDemo
+                <Modal
                     title="Create Project"
                     isModalOpen={isModalOpen}
                     onClose={() => setIsModalOpen(false)}
                 >
                     <CreateProjectForm setCreateProjectModal={setIsModalOpen} />
-                </DialogDemo>
+                </Modal>
             }
         </>
     )

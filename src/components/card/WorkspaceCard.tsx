@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom'
 import { WorkspaceProps } from '../../util/interfaces'
 import { formatDateTime } from '../../util/helpers'
-import DialogDemo from '../shared/modal/Modal'
 import { useState } from 'react'
 import { RenameWorkspaceForm } from '../shared/forms/RenameWorkspaceForm'
 import { Pencil } from 'lucide-react'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '@/redux/store'
 import { setWorkspace } from '@/redux/features/workspaceStateSlice'
+import Modal from '../shared/modal/Modal'
 
 export default function WorkspaceCard({ name, creationDate, id }: WorkspaceProps) {
     const [isModalOpen, setIsModalOpen] = useState(false)
@@ -39,13 +39,9 @@ export default function WorkspaceCard({ name, creationDate, id }: WorkspaceProps
                 </div>
             </div>
             {
-                <DialogDemo
-                    title={name}
-                    isModalOpen={isModalOpen}
-                    onClose={() => setIsModalOpen(false)}
-                >
+                <Modal title={name} isModalOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
                     <RenameWorkspaceForm id={id} setIsModalOpen={setIsModalOpen} />
-                </DialogDemo>
+                </Modal>
             }
         </div>
     )

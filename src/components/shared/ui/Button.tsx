@@ -1,10 +1,30 @@
+import clsx from 'clsx'
 import { ButtonProps } from '../../../util/interfaces'
 import LoadingSpinner from './LoadingSpinner'
 
-export default function Button({ isLoading, className, disabled, children, onClick }: ButtonProps) {
+export default function Button({
+    isLoading,
+    className,
+    disabled,
+    children,
+    onClick,
+    variant = 'primary',
+}: ButtonProps) {
+    const variantClassNames = {
+        primary: 'bg-primary-600 hover:bg-primary-600/90',
+        accent: 'bg-accent-500 hover:bg-accent-500/80',
+    }
     return (
         <button
-            className={`bg-primary-600 shadow shadow-black/40 drop-shadow-xl text-white rounded-lg text-center p-4 ${className} ${isLoading || disabled ? 'bg-primary-600/50' : ''}`}
+            className={clsx(
+                'shadow shadow-black/40 drop-shadow-xl text-white rounded-lg text-center p-4',
+                className,
+                isLoading || disabled
+                    ? variant === 'accent'
+                        ? 'bg-accent-500/50 hover:bg-accent-500/50'
+                        : 'bg-primary-600/50 hover:bg-primary-600/50'
+                    : variantClassNames[variant] || variantClassNames.primary,
+            )}
             disabled={isLoading || disabled}
             onClick={onClick}
         >

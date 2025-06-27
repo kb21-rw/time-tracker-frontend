@@ -1,6 +1,6 @@
 import CreateClient from '@/components/shared/forms/CreateClient'
 import RenameClientForm from '@/components/shared/forms/RenameClient'
-import DialogDemo from '@/components/shared/modal/Modal'
+import Modal from '@/components/shared/modal/Modal'
 import WorkspaceHeader from '@/components/shared/ui/WorkspaceHeader'
 import { ClientsTableColumns } from '@/components/tables/ClientsTableColumns'
 import DataTable from '@/components/tables/DataTable'
@@ -46,7 +46,7 @@ export default function ClientsPage() {
                 <DataTable tableName="clients" columns={columns} data={clients} loading={loading} />
             </div>
             {
-                <DialogDemo
+                <Modal
                     title={`Edit \u2018${selectedRow?.name || 'Client'}\u2019`}
                     isModalOpen={editClientModal}
                     onClose={() => setEditClientModal(false)}
@@ -55,16 +55,16 @@ export default function ClientsPage() {
                         client={selectedRow!}
                         setEditClientModal={setEditClientModal}
                     />
-                </DialogDemo>
+                </Modal>
             }
             {
-                <DialogDemo
+                <Modal
                     title="Create Client"
                     isModalOpen={isModalOpen}
                     onClose={() => setIsModalOpen(false)}
                 >
                     <CreateClient setIsModalOpen={setIsModalOpen} />
-                </DialogDemo>
+                </Modal>
             }
         </>
     )

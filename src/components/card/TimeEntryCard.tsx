@@ -1,14 +1,20 @@
 import { TimeEntryCardProps } from '@/util/interfaces'
 import { Pencil } from 'lucide-react'
+import { useState } from 'react'
+import EditTimeLog from '../shared/forms/EditTimeLog'
 
 export default function TimeEntryCard({
+    id,
     description,
     project,
     client,
+    date,
     startTime,
     endTime,
     duration,
 }: TimeEntryCardProps) {
+    const [isModalOpen, setIsModalOpen] = useState(false)
+
     return (
         <div className="grid grid-cols-6 lg:grid-cols-7 gap-4 items-center justify-center bg-white px-9 py-8 drop-shadow-md font-inter">
             <div className={`lg:min-w-50 col-span-2 capitalize ${!description && 'text-black/20'}`}>
@@ -34,10 +40,24 @@ export default function TimeEntryCard({
             </div>
             <div className="text-right">{duration}</div>
             <div className="flex justify-center items-center">
-                <button className="text-primary-500">
+                <button className="text-primary-500" onClick={() => setIsModalOpen(true)}>
                     <Pencil className="w-5 h-5" />
                 </button>
             </div>
+            {isModalOpen && (
+                <EditTimeLog
+                    isModalOpen={isModalOpen}
+                    setIsModalOpen={setIsModalOpen}
+                    description={description}
+                    project={project}
+                    client={client}
+                    date={date}
+                    startTime={startTime}
+                    endTime={endTime}
+                    duration={duration}
+                    id={id}
+                />
+            )}
         </div>
     )
 }

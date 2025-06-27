@@ -5,33 +5,39 @@ import { Calendar } from '../shadcn/calendar'
 import { Input } from '../shadcn/input'
 import { Popover, PopoverContent, PopoverTrigger } from '../shadcn/popover'
 import { DateTimePickerProps } from '@/util/interfaces'
-import { formatDateTime } from '@/util/helpers'
+import { formatDateTime, formatTime } from '@/util/helpers'
+import { calculateDuration } from '@/util/helpers'
+import { useCallback, useMemo } from 'react'
+import { formatISO } from 'date-fns'
 
 export function DateTimePicker(timeProps: DateTimePickerProps) {
-    const [open, setOpen] = React.useState(false)
-    const [date, setDate] = React.useState<Date | undefined>(new Date())
-    const currentDate = formatDateTime(new Date().toISOString()).time
-    const [startTime, setStartTime] = React.useState<string>(`${currentDate}`)
-    const [endTime, setEndTime] = React.useState<string>('00:00:00')
-
-    function getDuration(start: string, end: string) {
-        const toSec = (t: string) =>
-            t.split(':').reduce((s, v, i) => s + Number(v) * [3600, 60, 1][i], 0)
-        let diff = toSec(end) - toSec(start)
-        if (diff < 0) diff += 86400
-        return [Math.floor(diff / 3600), Math.floor(diff / 60) % 60, diff % 60]
-            .map(n => n.toString().padStart(2, '0'))
-            .join(':')
+    const defaultTime = {
+        start: formatTime(timeProps?.start),
+        end: formatTime(timeProps?.end),
+        previousDate: timeProps.previousDate
+            ? new Date(timeProps?.previousDate!).getDate() +
+              '/' +
+              (new Date(timeProps?.previousDate!.split('T')[0]).getMonth() + 1)
+            : '',
     }
+    const defaultDate = timeProps.previousDate ? new Date(timeProps.previousDate) : new Date()
+    const [open, setOpen] = React.useState(false)
+    const [date, setDate] = React.useState<Date>(new Date(defaultDate))
+    const currentTime = formatDateTime(new Date().toISOString()).time
+    const [startTime, setStartTime] = React.useState<string>(defaultTime.start || currentTime)
+    const [endTime, setEndTime] = React.useState<string>(defaultTime.end || currentTime)
 
-    const displayValue = date
-        ? `${getDuration(startTime, endTime)} ${date.getDate().toString().padStart(2, '0')}/${(
-              date.getMonth() + 1
-          )
-              .toString()
-              .padStart(2, '0')}`
-        : '00:00:00'
-
+    const displayValue = useMemo(
+        () =>
+            date
+                ? `${calculateDuration(startTime, endTime)} ${date.getDate().toString().padStart(2, '0')}/${(
+                      date.getMonth() + 1
+                  )
+                      .toString()
+                      .padStart(2, '0')}`
+                : '00:00:00',
+        [date, startTime, endTime],
+    )
     const handleStartTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setStartTime(e.target.value)
     }
@@ -39,28 +45,23 @@ export function DateTimePicker(timeProps: DateTimePickerProps) {
         setEndTime(e.target.value)
     }
 
-    const handleDateSelect = (selectedDate: Date | undefined) => {
+    const handleDateSelect = (selectedDate: Date) => {
         setDate(selectedDate)
     }
-    const handleDone = () => {
-        if (timeProps.setStartTime) {
-            timeProps.setStartTime(
-                date ? new Date(`${date.toISOString().split('T')[0]}T${startTime}`) : null,
-            )
+    const handleDone = useCallback(() => {
+        const finalDate = formatISO(date, { representation: 'date' })
+        if (timeProps.setStartTime && date) {
+            timeProps.setStartTime(new Date(`${finalDate}T${startTime}`))
         }
-        if (timeProps.setEndTime) {
-            timeProps.setEndTime(
-                date ? new Date(`${date.toISOString().split('T')[0]}T${endTime}`) : null,
-            )
+        if (timeProps.setEndTime && date) {
+            timeProps.setEndTime(new Date(`${finalDate}T${endTime}`))
         }
         setOpen(false)
-        setStartTime(`${currentDate}`)
-        setEndTime('00:00:00')
-    }
+    }, [date, startTime, endTime, timeProps])
 
     return (
         <div className="flex flex-col gap-3">
-            <Popover open={open} onOpenChange={setOpen}>
+            <Popover open={open} onOpenChange={setOpen} modal={false}>
                 <PopoverTrigger asChild>
                     <Button
                         variant="outline"
@@ -101,8 +102,14 @@ export function DateTimePicker(timeProps: DateTimePickerProps) {
                             selected={date}
                             captionLayout="dropdown"
                             onSelect={handleDateSelect}
+                            required
                         />
-                        <Button onClick={handleDone} className="self-end bg-primary-500" size="sm">
+                        <Button
+                            type="button"
+                            onClick={handleDone}
+                            className="self-end bg-primary-500"
+                            size="sm"
+                        >
                             Done
                         </Button>
                     </div>
