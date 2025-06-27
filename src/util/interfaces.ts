@@ -1,5 +1,5 @@
 import { ColumnDef } from '@tanstack/react-table'
-import { ButtonHTMLAttributes } from 'react'
+import React, { ButtonHTMLAttributes } from 'react'
 import { FieldError, UseFormRegisterReturn } from 'react-hook-form'
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     isLoading?: boolean
@@ -161,7 +161,6 @@ export interface ProjectsListProps extends CommonModalProps {
 export interface ColumnsProps<T> {
     onEditClick: (rowData: T) => void
 }
-
 export interface TimeEntryCardProps {
     id: string
     description: string
@@ -200,6 +199,13 @@ export interface TimeLogState {
 export interface TimeLogsGroupProps {
     timeLogs: formattedTimeLog[]
 }
+
+export interface ManualEntryValues {
+    description?: string
+    projectId?: string
+    startTime: string
+    endTime: string
+}
 export interface TimerFormData {
     description?: string
     startTime?: string
@@ -216,4 +222,18 @@ export interface StopTimerPayload extends TimerFormData {
 
 export interface TrackerInputProps extends InputProps {
     onProjectSelect?: (projectId: string, projectName: string) => void
+}
+
+export interface DateTimePickerProps {
+    start?: string
+    end?: string
+    duration?: string
+    previousDate?: string
+    setStartTime: React.Dispatch<React.SetStateAction<Date | null>>
+    setEndTime: React.Dispatch<React.SetStateAction<Date | null>>
+}
+
+export interface ManualTimeLogProps {
+    description?: string
+    projectId?: string
 }
