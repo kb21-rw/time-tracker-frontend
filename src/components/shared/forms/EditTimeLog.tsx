@@ -7,7 +7,7 @@ import { DateTimePicker } from '@/components/ui/DateTimePicker'
 import Input from '../ui/Input'
 import { useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { EditTimerFormData, EditTimerSchema } from '@/schema/timelogs'
+import { EditTimeLogFormData, EditTimeLogSchema } from '@/schema/timelogs'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { EditTimeLogProps } from '@/util/interfaces'
 import { splitTime } from '@/util/helpers'
@@ -25,7 +25,7 @@ export default function EditTimeLog({
 }: EditTimeLogProps) {
     const [projectListOpen, setProjectListOpen] = useState(false)
     const [start, setStartTime] = useState<Date>(new Date(date))
-    const [end, setEndTime] = useState<Date>(set(new Date(date),{...splitTime(endTime)}))
+    const [end, setEndTime] = useState<Date>(set(new Date(date), { ...splitTime(endTime) }))
     const [selectedProject, setSelectedProject] = useState<string | null>(project || null)
     const buttonRef = useRef<HTMLDivElement>(null)
 
@@ -34,8 +34,8 @@ export default function EditTimeLog({
         handleSubmit,
         setValue,
         formState: { errors },
-    } = useForm<EditTimerFormData>({
-        resolver: zodResolver(EditTimerSchema),
+    } = useForm<EditTimeLogFormData>({
+        resolver: zodResolver(EditTimeLogSchema),
         defaultValues: {
             description: description || '',
             projectId: project || '',
@@ -51,7 +51,7 @@ export default function EditTimeLog({
 
         setProjectListOpen(false)
     }
-    const onSubmit = (data: EditTimerFormData, event: React.FormEvent<HTMLFormElement>) => {
+    const onSubmit = (data: EditTimeLogFormData, event: React.FormEvent<HTMLFormElement>) => {
         console.log(data)
         const submitter = (event.nativeEvent as SubmitEvent & { submitter?: HTMLElement })
             .submitter as HTMLButtonElement | undefined
