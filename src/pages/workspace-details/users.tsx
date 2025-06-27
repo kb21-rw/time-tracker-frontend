@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useOutletContext } from 'react-router-dom'
 import InviteUserForm from '@/components/shared/forms/InviteUserForm'
-import DialogDemo from '@/components/shared/modal/Modal'
+import Modal from '@/components/shared/modal/Modal'
 import DataTable from '@/components/tables/DataTable'
 import WorkspaceHeader from '@/components/shared/ui/WorkspaceHeader'
 
@@ -40,13 +40,13 @@ export default function UsersDetails() {
                 />
             </div>
             {
-                <DialogDemo
+                <Modal
                     title="Invite a user to the workspace"
                     isModalOpen={isModalOpen}
                     onClose={() => setIsModalOpen(false)}
                 >
                     <InviteUserForm id={id} setIsModalOpen={setIsModalOpen} />
-                </DialogDemo>
+                </Modal>
             }
         </div>
     )
