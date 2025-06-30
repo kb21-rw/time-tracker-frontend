@@ -13,7 +13,7 @@ const timerSlice = createSlice({
     name: 'timer',
     initialState,
     reducers: {
-        setTimerRunning(state, action){
+        setTimerRunning(state, action) {
             state.isRunning = action.payload
         },
         setDescription(state, action) {
@@ -38,7 +38,6 @@ const timerSlice = createSlice({
 
         startTimer(state, action) {
             state.isRunning = true
-            // state.startTimestamp = Date.now()
             state.startTimestamp = action.payload
             state.stopTimestamp = null
         },

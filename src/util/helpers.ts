@@ -161,16 +161,16 @@ export function calculateDuration(start: string, end: string): string {
     return formatToHHMMSS(diff)
 }
 
-export default async function fetchActiveTimeLog(id: string){
+export default async function fetchActiveTimeLog(id: string) {
     const dispatch = useDispatch<AppDispatch>()
-            try {
-                const activeLog = await dispatch(getActiveTimeLog(id!)).unwrap()
-                if (activeLog) {
-                    console.log('Active log:', activeLog)
-                    dispatch(setDescription(activeLog.description || ''))
-                    dispatch(startTimer(new Date(activeLog.startTime).getTime()))
-                }
-            } catch (err) {
-                toast.error('⚠️ Error fetching active time log:')
-            }
+    try {
+        const activeLog = await dispatch(getActiveTimeLog(id!)).unwrap()
+        if (activeLog) {
+            console.log('Active log:', activeLog)
+            dispatch(setDescription(activeLog.description || ''))
+            dispatch(startTimer(new Date(activeLog.startTime).getTime()))
         }
+    } catch (err) {
+        toast.error('⚠️ Error fetching active time log:')
+    }
+}

@@ -40,7 +40,7 @@ export default function ProjectsList({
 
         setSelectedClient(clientName)
         setSelectedProject(projectSelection)
-        dispatch(setStateProject({id:project.id, name: projectSelection.displayName}))
+        dispatch(setStateProject({ id: project.id, name: projectSelection.displayName }))
         setProject(project.id, projectSelection.displayName)
         onClose()
     }
