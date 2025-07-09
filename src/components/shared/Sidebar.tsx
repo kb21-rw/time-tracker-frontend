@@ -14,8 +14,8 @@ export default function Sidebar() {
     const isInWorkspace = location.pathname.startsWith(`/manage-workspaces/`)
 
     return (
-        <div className="fixed left-0 top-0 flex h-screen z-10 text-primary-500">
-            <aside className="w-20 bg-primary-800 p-4 flex-shrink-0">
+        <div className="fixed left-0 top-0 flex h-screen z-10 bg-primary-800 text-primary-500">
+            <aside className="w-20 p-4 flex-shrink-0">
                 <div className="h-full px-2 flex flex-col justify-between">
                     <div className="space-y-8 flex flex-col items-center">
                         <Tracker />
