@@ -16,12 +16,16 @@ import { Message, useForm } from 'react-hook-form'
 import { clearError } from '@/redux/slice/authSlice'
 import { getUserTimeLogs, startTimerAPI, stopTimerAPI } from '@/redux/slice/timeLogsSlice'
 import ManualTimeLog from '../shared/forms/ManualTimeLog'
+import { MenuBar } from '@/components/ui/MenuBar'
+import { useIsMobile } from '@/hooks/use-mobile'
 
 export default function TimeTrackerHeader() {
     const { workspaceName, id } = useOutletContext<OutletContextType>()
     const [isManual, setIsManual] = useState(false)
     const [isProcessing, setIsProcessing] = useState(false)
     const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null)
+    const isMobile = useIsMobile()
+    const [menuOpen, setMenuOpen] = useState(false)
 
     const dispatch = useDispatch<AppDispatch>()
     const { isRunning, startTimestamp } = useSelector((state: RootState) => state.timer)
@@ -124,11 +128,17 @@ export default function TimeTrackerHeader() {
 
     return (
         <div className="w-full shadow-md py-7 px-9 flex justify-between items-center bg-white">
-            <p className="text-xl font-bold flex gap-x-4 items-center justify-center">
-                {workspaceName}
-                <Download className="text-primary-500 w-5 h-5" />
-            </p>
-            <div className="w-3/5 flex items-center gap-x-3">
+            <div className="flex items-center gap-x-4">
+                {/* Mobile menu button */}
+                {isMobile && (
+                    <MenuBar open={menuOpen} setOpen={setMenuOpen} />
+                )}
+                <p className="text-xl font-bold flex gap-x-4 items-center justify-center">
+                    {workspaceName}
+                    <Download className="text-primary-500 w-5 h-5" />
+                </p>
+            </div>
+            <div className={`${isMobile ? 'w-full' : 'w-3/5'} flex items-center gap-x-3`}>
                 <form
                     onSubmit={handleSubmit(onSubmit)}
                     className="flex items-center gap-x-3 w-full"
