@@ -34,11 +34,11 @@ export default function WorkspaceDetails() {
                 {!isMobile && <Sidebar />}
                 <div
                     className={`flex-1 transition-all duration-300 ${
-                        isMobile 
+                        isMobile
                             ? '' // No margin on mobile - full width
-                            : isOpen 
-                                ? 'ml-68' // Desktop with workspace sidebar open
-                                : 'ml-20' // Desktop with only main sidebar
+                            : isOpen
+                              ? 'ml-68' // Desktop with workspace sidebar open
+                              : 'ml-20' // Desktop with only main sidebar
                     }`}
                 >
                     <Outlet context={{ workspaceName, id }} />

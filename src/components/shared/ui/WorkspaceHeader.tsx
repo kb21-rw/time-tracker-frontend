@@ -16,9 +16,7 @@ export default function WorkspaceHeader({
         <div className="w-full shadow-md py-7 px-9 flex justify-between items-center bg-white">
             <div className="flex items-center gap-x-4">
                 {/* Mobile menu button */}
-                {isMobile && (
-                    <MenuBar open={menuOpen} setOpen={setMenuOpen} />
-                )}
+                {isMobile && <MenuBar open={menuOpen} setOpen={setMenuOpen} />}
                 <p className="text-xl font-bold flex gap-x-4 items-center">
                     {workspaceName}
                     <Download className="text-primary-500 w-5 h-5" />
