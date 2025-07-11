@@ -40,7 +40,7 @@ export default function TrackerInput({
     }
 
     return (
-        <div className="w-full max-w-3xl font-inter pb-6 text-left">
+        <div className="w-full max-w-3xl font-inter pb-6 text-left ">
             {label && (
                 <label className="text-primary-800" htmlFor={id}>
                     {label}

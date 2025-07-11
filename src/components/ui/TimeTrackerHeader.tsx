@@ -127,12 +127,9 @@ export default function TimeTrackerHeader() {
     }
 
     return (
-        <div className="w-full shadow-md py-7 px-9 flex justify-between items-center bg-white">
+        <div className="w-full shadow-md py-3 px-3 sm:py-7 sm:px-9 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-y-3">
             <div className="flex items-center gap-x-4">
-                {/* Mobile menu button */}
-                {isMobile && (
-                    <MenuBar open={menuOpen} setOpen={setMenuOpen} />
-                )}
+                {isMobile && <MenuBar open={menuOpen} setOpen={setMenuOpen} />}
                 <p className="text-xl font-bold flex gap-x-4 items-center justify-center">
                     {workspaceName}
                     <Download className="text-primary-500 w-5 h-5" />

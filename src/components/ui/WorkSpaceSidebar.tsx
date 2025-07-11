@@ -18,7 +18,7 @@ export default function WorkspaceSidebar() {
 
     return (
         <SidebarProvider>
-            <div className="h-full text-white text-base font-bold bg-primary-800">
+            <div className=" text-white text-base font-bold bg-primary-500 flex flex-col">
                 <SidebarHeader className="px-7">
                     <SidebarMenu>
                         <SidebarMenuItem>

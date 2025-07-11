@@ -16,7 +16,7 @@ export default function TimeEntryCard({
     const [isModalOpen, setIsModalOpen] = useState(false)
 
     return (
-        <div className="grid grid-cols-6 lg:grid-cols-7 gap-4 items-center justify-center bg-white px-9 py-8 drop-shadow-md font-inter">
+        <div className="grid grid-cols-1 sm:grid-cols-6 lg:grid-cols-7 gap-2 sm:gap-4 items-start sm:items-center justify-center bg-white px-3 py-3 sm:px-9 sm:py-8 drop-shadow-md font-inter">
             <div className={`lg:min-w-50 col-span-2 capitalize ${!description && 'text-black/20'}`}>
                 {description || 'No description'}
             </div>
