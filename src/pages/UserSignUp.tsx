@@ -1,6 +1,7 @@
 import FocusFlowHeader from '@/components/shared/ui/FocusFlowHeader'
 import SignUpPageGraphic from '@/assets/images/signup-page-graphic.png'
 import Input from '@/components/shared/ui/Input'
+import TimezoneDisplay from '@/components/shared/ui/TimezoneDisplay'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import Button from '@/components/shared/ui/Button'
 import { z } from 'zod'
@@ -11,7 +12,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '@/redux/store'
 import { signupUser } from '@/redux/slice/authSlice'
 import toast from 'react-hot-toast'
-import { handleAxiosError } from '@/util/helpers'
+import { handleAxiosError, getBrowserTimezone } from '@/util/helpers'
 import { AxiosError } from 'axios'
 
 type UserFormFiled = z.infer<typeof userSignUpShcema>
@@ -29,15 +30,23 @@ export default function UserSignUpPage() {
     } = useForm<UserFormFiled>({
         resolver: zodResolver(userSignUpShcema),
         mode: 'all',
-        defaultValues: { fullName: '' },
+        defaultValues: {
+            fullName: '',
+            timeZone: getBrowserTimezone(),
+        },
     })
-    const onSubmit = async ({ ConfirmPassword: password, fullName }: UserFormFiled) => {
+    const onSubmit = async ({ ConfirmPassword: password, fullName, timeZone }: UserFormFiled) => {
         try {
             if (!token) {
                 toast.error('A token is needed to signup as a user!')
                 return
             }
-            const acceptInvitationData = { fullName, token, password }
+            const acceptInvitationData = {
+                fullName,
+                token,
+                password,
+                timeZone: timeZone || getBrowserTimezone(),
+            }
             const { meta: responseData } = await dispatch(signupUser(acceptInvitationData))
             if (responseData.requestStatus === 'fulfilled') {
                 toast.success('Successfully created a user account!')
@@ -90,6 +99,9 @@ export default function UserSignUpPage() {
                             register={register('ConfirmPassword')}
                             error={errors.ConfirmPassword}
                         />
+
+                        <TimezoneDisplay className="mt-4 mb-2" />
+
                         {error && (
                             <p className="text-red-500 text-sm mt-2">
                                 {typeof error === 'string' ? error : JSON.stringify(error)}

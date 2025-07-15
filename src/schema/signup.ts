@@ -8,6 +8,7 @@ export const signUpSchema = z
         email: z.string().email({ message: 'Please enter a valid email address' }),
         password: z.string().min(8, { message: 'Password must be at least 8 characters' }),
         confirmPassword: z.string().min(1, { message: 'Confirm password is required' }),
+        timeZone: z.string().min(1, { message: 'Timezone is required' }),
     })
     .refine(data => data.password === data.confirmPassword, {
         message: "Passwords don't match",
@@ -21,6 +22,7 @@ export const userSignUpShcema = z
         }),
         CreatePassword: z.string().min(8, { message: 'Password must be 8 characters' }),
         ConfirmPassword: z.string().min(1, { message: 'Confirm password is required' }),
+        timeZone: z.string().min(1, { message: 'Timezone is required' }),
     })
     .refine(data => data.CreatePassword === data.ConfirmPassword, {
         message: "Passwords don't match",

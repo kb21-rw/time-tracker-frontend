@@ -2,6 +2,7 @@ import { z } from 'zod'
 import SignUpImage from '../assets/images/signup-image.svg'
 import Button from '../components/shared/ui/Button'
 import Input from '../components/shared/ui/Input'
+import TimezoneDisplay from '../components/shared/ui/TimezoneDisplay'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { AppDispatch, RootState } from '../redux/store'
@@ -9,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { signupAdmin } from '../redux/slice/authSlice'
 import toast from 'react-hot-toast'
 import { Link, useNavigate } from 'react-router-dom'
-import { handleAxiosError } from '../util/helpers'
+import { handleAxiosError, getBrowserTimezone } from '../util/helpers'
 import { AxiosError } from 'axios'
 import { signUpSchema } from '../schema'
 import FocusFlowHeader from '../components/shared/ui/FocusFlowHeader'
@@ -21,6 +22,7 @@ const defaultValues: FormFields = {
     email: '',
     password: '',
     confirmPassword: '',
+    timeZone: getBrowserTimezone(),
 }
 
 export default function AdminSignUpPage() {
@@ -39,7 +41,11 @@ export default function AdminSignUpPage() {
 
     const onSubmit: SubmitHandler<FormFields> = async ({ confirmPassword, ...data }) => {
         try {
-            const { meta: responseData } = await dispatch(signupAdmin(data))
+            const signupData = {
+                ...data,
+                timeZone: data.timeZone || getBrowserTimezone(),
+            }
+            const { meta: responseData } = await dispatch(signupAdmin(signupData))
             if (responseData.requestStatus === 'fulfilled') {
                 navigate('/login')
                 toast.success('You have successfully created an account!')
@@ -92,6 +98,8 @@ export default function AdminSignUpPage() {
                             register={register('confirmPassword')}
                             error={errors.confirmPassword}
                         />
+                        <TimezoneDisplay className="mt-4 mb-2" />
+
                         {error && (
                             <p className="text-red-500 text-sm mt-2">
                                 {typeof error === 'string' ? error : JSON.stringify(error)}
