@@ -49,11 +49,7 @@ export default function Sidebar() {
             {isInWorkspace && (
                 <div
                     className={`${
-                        isMobile
-                            ? 'w-48' // Always show on mobile when in workspace
-                            : isOpen
-                              ? 'w-48'
-                              : 'w-0'
+                        isMobile || isOpen ? 'w-48' : 'w-0'
                     } transition-all duration-300 overflow-hidden h-full bg-primary-800`}
                 >
                     <WorkSpaceSidebar />

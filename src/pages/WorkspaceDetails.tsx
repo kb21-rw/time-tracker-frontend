@@ -28,22 +28,16 @@ export default function WorkspaceDetails() {
     }
 
     return (
-        <>
-            <div className="flex w-full min-h-screen bg-background-accent">
-                {/* Only show sidebar on desktop */}
-                {!isMobile && <Sidebar />}
-                <div
-                    className={`flex-1 transition-all duration-300 ${
-                        isMobile
-                            ? '' // No margin on mobile - full width
-                            : isOpen
-                              ? 'ml-68' // Desktop with workspace sidebar open
-                              : 'ml-20' // Desktop with only main sidebar
-                    }`}
-                >
-                    <Outlet context={{ workspaceName, id }} />
-                </div>
+        <div className="flex w-full min-h-screen bg-background-accent">
+            {/* Only show sidebar on desktop */}
+            {!isMobile && <Sidebar />}
+            <div
+                className={`flex-1 transition-all duration-300 ${
+                    !isMobile && (isOpen ? 'ml-68' : 'ml-20')
+                }`}
+            >
+                <Outlet context={{ workspaceName, id }} />
             </div>
-        </>
+        </div>
     )
 }
