@@ -122,29 +122,29 @@ export function splitTime(time: string) {
     return { hours: 0, minutes: 0, seconds: 0 }
 }
 
+export const toSeconds = (time: string): number => {
+    const [h = 0, m = 0, s = 0] = time.split(':').map(Number)
+    return h * 3600 + m * 60 + s
+}
+
+export const secondsToTimeFormat = (totalSeconds: number): string => {
+    const hours = Math.floor(totalSeconds / 3600).toString()
+    const minutes = Math.floor((totalSeconds % 3600) / 60)
+        .toString()
+        .padStart(2, '0')
+    const seconds = Math.floor(totalSeconds % 60)
+        .toString()
+        .padStart(2, '0')
+    return `${hours}:${minutes}:${seconds}`
+}
+
 export function calculateDuration(start: string, end: string): string {
     const isTimeOnly = (time: string) => /^\d{2}:\d{2}(:\d{2})?$/.test(time)
 
-    const formatToHHMMSS = (totalSeconds: number): string => {
-        const hours = Math.floor(totalSeconds / 3600).toString()
-        const minutes = Math.floor((totalSeconds % 3600) / 60)
-            .toString()
-            .padStart(2, '0')
-        const seconds = Math.floor(totalSeconds % 60)
-            .toString()
-            .padStart(2, '0')
-        return `${hours}:${minutes}:${seconds}`
-    }
-
-    const toSeconds = (time: string): number => {
-        const [h = 0, m = 0, s = 0] = time.split(':').map(Number)
-        return h * 3600 + m * 60 + s
-    }
-
     if (isTimeOnly(start) && isTimeOnly(end)) {
         let diff = toSeconds(end) - toSeconds(start)
-        if (diff < 0) diff += 86400 // Adjust for next day if end time is earlier than start time
-        return formatToHHMMSS(diff)
+        if (diff < 0) diff += 86400
+        return secondsToTimeFormat(diff)
     }
 
     const startDate = parseISO(start)
@@ -153,5 +153,5 @@ export function calculateDuration(start: string, end: string): string {
     if (!isValid(startDate) || !isValid(endDate)) return '00:00:00'
 
     const diff = differenceInSeconds(endDate, startDate)
-    return formatToHHMMSS(diff)
+    return secondsToTimeFormat(diff)
 }
