@@ -13,7 +13,7 @@ const initialState: AuthState = {
 export const signupAdmin = createAsyncThunk(
     'auth/signupAdmin',
     async (
-        userData: { fullName: string; email: string; password: string },
+        userData: { fullName: string; email: string; password: string; timeZone: string },
         { rejectWithValue },
     ) => {
         try {
@@ -31,7 +31,12 @@ export const signupAdmin = createAsyncThunk(
 export const signupUser = createAsyncThunk(
     'workspaces/invitations/accept',
     async (
-        { token, password, fullName }: { token: string; fullName: string; password: string },
+        {
+            token,
+            password,
+            fullName,
+            timeZone,
+        }: { token: string; fullName: string; password: string; timeZone: string },
         { rejectWithValue },
     ) => {
         try {
@@ -39,6 +44,7 @@ export const signupUser = createAsyncThunk(
                 token,
                 fullName,
                 password,
+                timeZone,
             })
             return response.data
         } catch (error: any) {
