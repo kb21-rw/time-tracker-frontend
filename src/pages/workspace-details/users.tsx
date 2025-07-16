@@ -28,16 +28,20 @@ export default function UsersDetails() {
                 buttonText="User"
                 setIsModalOpen={setIsModalOpen}
             />
-            <div className="w-full">
-                <div className="w-full flex justify-between px-9 py-12 font-bold text-xl">
-                    <p>Users</p>
+            <div className="w-full ">
+                <div className="w-full flex justify-start sm:justify-between px-4 py-6 sm:px-9 sm:py-12 font-bold text-xl">
+                    <p className="text-left font-bold text-xl">Users</p>
                 </div>
-                <DataTable
-                    tableName="users"
-                    columns={usersTableColumns}
-                    data={data}
-                    loading={loading}
-                />
+                <div className="flex justify-center w-full">
+                    <div className="mx-auto w-full max-w-xs sm:max-w-full px-2 sm:px-0">
+                        <DataTable
+                            tableName="users"
+                            columns={usersTableColumns}
+                            data={data}
+                            loading={loading}
+                        />
+                    </div>
+                </div>
             </div>
             {
                 <Modal

@@ -1,6 +1,5 @@
 import { Clock, Group, Users } from 'lucide-react'
 import {
-    Sidebar,
     SidebarHeader,
     SidebarContent,
     SidebarGroup,
@@ -16,12 +15,13 @@ import FluentProject from '../../assets/icons/FluentProject'
 export default function WorkspaceSidebar() {
     const { id } = useParams<{ id: string }>()
     const location = useLocation()
+
     return (
-        <SidebarProvider className="p-0 m-0">
-            <Sidebar className="relative text-white text-base font-bold">
-                <SidebarHeader>
+        <SidebarProvider>
+            <div className=" text-white text-base font-bold bg-primary-500 flex flex-col">
+                <SidebarHeader className="px-7">
                     <SidebarMenu>
-                        <SidebarMenuItem className="px-7">
+                        <SidebarMenuItem>
                             <SidebarMenuButton
                                 size="lg"
                                 className="my-1"
@@ -98,7 +98,7 @@ export default function WorkspaceSidebar() {
                         </SidebarMenu>
                     </SidebarGroup>
                 </SidebarContent>
-            </Sidebar>
+            </div>
         </SidebarProvider>
     )
 }

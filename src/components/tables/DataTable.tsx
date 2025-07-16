@@ -16,15 +16,15 @@ export default function DataTable<TData, TValue>({
     })
 
     return (
-        <div className="px-10">
-            <Table className="font-poppins">
+        <div className="w-full overflow-x-auto px-2 md:px-10">
+            <Table className="font-poppins min-w-full block md:table text-sm md:text-base">
                 <TableHeader>
                     {table.getHeaderGroups().map(headerGroup => (
                         <TableRow key={headerGroup.id} className="border-none bg-white">
                             {headerGroup.headers.map(header => (
                                 <TableHead
                                     key={header.id}
-                                    className={`text-primary-500 text-lg font-bold ${header.column.id === 'actions' ? 'text-center' : ''}`}
+                                    className={`text-primary-500 text-xs md:text-lg font-bold px-2 md:px-4 py-2 md:py-3 whitespace-nowrap ${header.column.id === 'actions' ? 'text-center' : ''}`}
                                 >
                                     {header.isPlaceholder
                                         ? null
@@ -40,7 +40,10 @@ export default function DataTable<TData, TValue>({
                 <TableBody className="bg-background-accent">
                     {loading ? (
                         <TableRow>
-                            <TableCell colSpan={columns.length} className="h-24 text-center">
+                            <TableCell
+                                colSpan={columns.length}
+                                className="h-24 text-center text-xs md:text-base"
+                            >
                                 <div className="flex items-center justify-center gap-2 text-muted-foreground">
                                     <Loader2 className="animate-spin h-5 w-5" />
                                 </div>
@@ -56,7 +59,7 @@ export default function DataTable<TData, TValue>({
                                 {row.getVisibleCells().map(cell => (
                                     <TableCell
                                         key={cell.id}
-                                        className={`truncate max-w-[100px] ${cell.column.id === 'actions' ? 'justify-end' : ''}`}
+                                        className={`truncate max-w-[120px] break-words px-2 md:px-4 py-2 md:py-3 text-xs md:text-base whitespace-nowrap ${cell.column.id === 'actions' ? 'justify-end' : ''}`}
                                     >
                                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                     </TableCell>
@@ -65,7 +68,10 @@ export default function DataTable<TData, TValue>({
                         ))
                     ) : (
                         <TableRow>
-                            <TableCell colSpan={columns.length} className="h-24 text-center">
+                            <TableCell
+                                colSpan={columns.length}
+                                className="h-24 text-center text-xs md:text-base"
+                            >
                                 No {tableName} found in this workspace
                             </TableCell>
                         </TableRow>

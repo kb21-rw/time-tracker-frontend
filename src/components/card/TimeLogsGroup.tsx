@@ -8,7 +8,7 @@ export default function TimeLogsGroup({ timeLogs }: TimeLogsGroupProps) {
     }
     const sortedTimeLogs = groupTimeLogsByDate(timeLogs)
     return (
-        <div className="w-full flex flex-col gap-y-2 bg-white mt-5">
+        <div className="w-full flex flex-col gap-y-2  mt-5">
             {Object.entries(sortedTimeLogs).map(([date, logs]) => (
                 <div key={date} className="mt-8">
                     <p className="font-bold text-xl ml-9 font-inter">{formatTitle(date)}</p>
