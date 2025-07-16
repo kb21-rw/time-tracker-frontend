@@ -4,29 +4,40 @@ import { Button } from '../shadcn/button'
 import { Calendar } from '../shadcn/calendar'
 import { Input } from '../shadcn/input'
 import { Popover, PopoverContent, PopoverTrigger } from '../shadcn/popover'
+import { DateTimePickerProps } from '@/util/interfaces'
+import { formatDateTime, formatTime } from '@/util/helpers'
+import { calculateDuration } from '@/util/helpers'
+import { useCallback, useMemo } from 'react'
+import { formatISO } from 'date-fns'
 
-export function Calendar24() {
-    const [open, setOpen] = React.useState(false)
-    const [date, setDate] = React.useState<Date | undefined>(undefined)
-    const [startTime, setStartTime] = React.useState<string>('00:00:00')
-    const [endTime, setEndTime] = React.useState<string>('00:00:00')
-
-    function getDuration(start: string, end: string) {
-        const toSec = (t: string) =>
-            t.split(':').reduce((s, v, i) => s + Number(v) * [3600, 60, 1][i], 0)
-        let diff = toSec(end) - toSec(start)
-        if (diff < 0) diff += 86400
-        return [Math.floor(diff / 3600), Math.floor(diff / 60) % 60, diff % 60]
-            .map(n => n.toString().padStart(2, '0'))
-            .join(':')
+export function DateTimePicker(timeProps: DateTimePickerProps) {
+    const defaultTime = {
+        start: formatTime(timeProps?.start),
+        end: formatTime(timeProps?.end),
+        previousDate: timeProps.previousDate
+            ? new Date(timeProps?.previousDate!).getDate() +
+              '/' +
+              (new Date(timeProps?.previousDate!.split('T')[0]).getMonth() + 1)
+            : '',
     }
-    const displayValue = date
-        ? `${getDuration(startTime, endTime)} ${date.getDate().toString().padStart(2, '0')}/${(
-              date.getMonth() + 1
-          )
-              .toString()
-              .padStart(2, '0')}`
-        : '00:00:00'
+    const defaultDate = timeProps.previousDate ? new Date(timeProps.previousDate) : new Date()
+    const [open, setOpen] = React.useState(false)
+    const [date, setDate] = React.useState<Date>(new Date(defaultDate))
+    const currentTime = formatDateTime(new Date().toISOString()).time
+    const [startTime, setStartTime] = React.useState<string>(defaultTime.start || currentTime)
+    const [endTime, setEndTime] = React.useState<string>(defaultTime.end || currentTime)
+
+    const displayValue = useMemo(
+        () =>
+            date
+                ? `${calculateDuration(startTime, endTime)} ${date.getDate().toString().padStart(2, '0')}/${(
+                      date.getMonth() + 1
+                  )
+                      .toString()
+                      .padStart(2, '0')}`
+                : '00:00:00',
+        [date, startTime, endTime],
+    )
     const handleStartTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setStartTime(e.target.value)
     }
@@ -34,27 +45,33 @@ export function Calendar24() {
         setEndTime(e.target.value)
     }
 
-    const handleDateSelect = (selectedDate: Date | undefined) => {
+    const handleDateSelect = (selectedDate: Date) => {
         setDate(selectedDate)
     }
-
-    const handleDone = () => {
+    const handleDone = useCallback(() => {
+        const finalDate = formatISO(date, { representation: 'date' })
+        if (timeProps.setStartTime && date) {
+            timeProps.setStartTime(new Date(`${finalDate}T${startTime}`))
+        }
+        if (timeProps.setEndTime && date) {
+            timeProps.setEndTime(new Date(`${finalDate}T${endTime}`))
+        }
         setOpen(false)
-    }
+    }, [date, startTime, endTime, timeProps])
 
     return (
         <div className="flex flex-col gap-3">
-            <Popover open={open} onOpenChange={setOpen}>
+            <Popover open={open} onOpenChange={setOpen} modal={false}>
                 <PopoverTrigger asChild>
                     <Button
                         variant="outline"
                         id="date-time"
-                        className="w-32 justify-between font-normal pr-12"
+                        className="w-32 justify-between font-normal pr-12 hover:border-primary-500"
                     >
                         {displayValue}
                     </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-auto overflow-hidden p-4 mr-4" align="start">
+                <PopoverContent className="w-auto z-99 overflow-hidden p-4 mr-4" align="start">
                     <div className="flex flex-col gap-4 items-center">
                         <div className="flex gap-4">
                             <label className="flex flex-col items-start">
@@ -85,8 +102,14 @@ export function Calendar24() {
                             selected={date}
                             captionLayout="dropdown"
                             onSelect={handleDateSelect}
+                            required
                         />
-                        <Button onClick={handleDone} className="self-end bg-primary-500" size="sm">
+                        <Button
+                            type="button"
+                            onClick={handleDone}
+                            className="self-end bg-primary-500"
+                            size="sm"
+                        >
                             Done
                         </Button>
                     </div>

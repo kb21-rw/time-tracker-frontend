@@ -1,6 +1,6 @@
 import CreateClient from '@/components/shared/forms/CreateClient'
 import RenameClientForm from '@/components/shared/forms/RenameClient'
-import DialogDemo from '@/components/shared/modal/Modal'
+import Modal from '@/components/shared/modal/Modal'
 import WorkspaceHeader from '@/components/shared/ui/WorkspaceHeader'
 import { ClientsTableColumns } from '@/components/tables/ClientsTableColumns'
 import DataTable from '@/components/tables/DataTable'
@@ -39,14 +39,23 @@ export default function ClientsPage() {
                 buttonText="Client"
                 setIsModalOpen={setIsModalOpen}
             />
-            <div className="w-full">
-                <div className="w-full flex justify-between px-9 py-12 font-bold text-xl">
+            <div className="w-full flex flex-col items-center">
+                <div className="w-full flex justify-start sm:justify-between px-4 py-6 sm:px-9 sm:py-12 font-bold text-xl">
                     <p>Clients</p>
                 </div>
-                <DataTable tableName="clients" columns={columns} data={clients} loading={loading} />
+                <div className="flex justify-center w-full">
+                    <div className="mx-auto w-full max-w-xs sm:max-w-full px-2 sm:px-0">
+                        <DataTable
+                            tableName="clients"
+                            columns={columns}
+                            data={clients}
+                            loading={loading}
+                        />
+                    </div>
+                </div>
             </div>
             {
-                <DialogDemo
+                <Modal
                     title={`Edit \u2018${selectedRow?.name || 'Client'}\u2019`}
                     isModalOpen={editClientModal}
                     onClose={() => setEditClientModal(false)}
@@ -55,16 +64,16 @@ export default function ClientsPage() {
                         client={selectedRow!}
                         setEditClientModal={setEditClientModal}
                     />
-                </DialogDemo>
+                </Modal>
             }
             {
-                <DialogDemo
+                <Modal
                     title="Create Client"
                     isModalOpen={isModalOpen}
                     onClose={() => setIsModalOpen(false)}
                 >
                     <CreateClient setIsModalOpen={setIsModalOpen} />
-                </DialogDemo>
+                </Modal>
             }
         </>
     )

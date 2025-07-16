@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../redux/store'
 import { useEffect, useState } from 'react'
 import { createWorkspace, getWorkspacesByUser } from '../redux/slice/workspaceSlice'
-import DialogDemo from '@/components/shared/modal/Modal'
 import WorkspaceForm from '@/components/shared/forms/WorkspaceForm'
 import { z } from 'zod'
 import { workspaceShema } from '@/schema/modal'
@@ -14,15 +13,18 @@ import { handleAxiosError } from '@/util/helpers'
 import { AxiosError } from 'axios'
 import { selectSidebarOpen, setSidebarOpen } from '@/redux/features/sidebarSlice'
 import { useLocation } from 'react-router-dom'
+import Modal from '@/components/shared/modal/Modal'
+import { MenuBar } from '@/components/ui/MenuBar'
 export type workspaceData = z.infer<typeof workspaceShema>
 
 export default function ManageWorkspacesPage() {
     const [isModalOpen, setIsModalOpen] = useState(false)
     const isOpen = useSelector(selectSidebarOpen)
     const dispatch = useDispatch<AppDispatch>()
-    const { workspaces } = useSelector((state: RootState) => state.workspaces)
+    const workspaces = useSelector((state: RootState) => state.workspaces.workspaces)
     const location = useLocation()
     const isInWorkspace = location.pathname === `/manage-workspaces`
+    const [menuOpen, setMenuOpen] = useState(false)
 
     useEffect(() => {
         if (isInWorkspace) {
@@ -50,13 +52,18 @@ export default function ManageWorkspacesPage() {
     }
     return (
         <div>
-            <div className="flex w-full">
-                <Sidebar />
+            <div className="flex w-full relative z-50">
+                <div className="hidden lg:block">
+                    <Sidebar />
+                </div>
                 <div
-                    className={`w-full bg-white flex-1 transition-all duration-300 ml-20 ${isOpen ? 'md:ml-64' : 'ml-20'}`}
+                    className={`w-full bg-white flex-1 transition-all  duration-300  ${isOpen ? 'md:ml-64' : ''}lg:ml-20`}
                 >
                     <div className="w-full shadow-md  py-7 px-5 flex justify-between items-center">
-                        <p className="text-xl font-bold">Workspaces</p>
+                        <div className="lg:hidden block">
+                            <MenuBar open={menuOpen} setOpen={setMenuOpen} />
+                        </div>
+                        <p className="lg:text-xl lg:font-bold  ">Workspaces</p>
                         <button
                             className="flex items-center gap-x-2 bg-primary-500 rounded-lg text-white px-3 py-2 md:px-5 md:py-3 cursor-pointer"
                             onClick={() => setIsModalOpen(true)}
@@ -96,13 +103,13 @@ export default function ManageWorkspacesPage() {
             </div>
 
             {
-                <DialogDemo
+                <Modal
                     title="Create workspace"
                     isModalOpen={isModalOpen}
                     onClose={() => setIsModalOpen(false)}
                 >
                     <WorkspaceForm handleWorkspaceSubmit={handleWorkspaceSubmit} />
-                </DialogDemo>
+                </Modal>
             }
         </div>
     )

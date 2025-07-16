@@ -1,9 +1,10 @@
 import { ColumnDef } from '@tanstack/react-table'
-import { ButtonHTMLAttributes } from 'react'
+import React, { ButtonHTMLAttributes } from 'react'
 import { FieldError, UseFormRegisterReturn } from 'react-hook-form'
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     isLoading?: boolean
     disabled?: boolean
+    variant?: 'primary' | 'accent'
 }
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     label?: string
@@ -161,7 +162,6 @@ export interface ProjectsListProps extends CommonModalProps {
 export interface ColumnsProps<T> {
     onEditClick: (rowData: T) => void
 }
-
 export interface TimeEntryCardProps {
     id: string
     description: string
@@ -170,6 +170,7 @@ export interface TimeEntryCardProps {
     startTime: string
     endTime: string
     duration: string
+    date: string
 }
 
 export interface TimeLog {
@@ -186,6 +187,7 @@ export interface formattedTimeLog {
     description: string
     project: string
     client: string
+    date: string
     startTime: string
     endTime: string
     duration: string
@@ -199,6 +201,13 @@ export interface TimeLogState {
 
 export interface TimeLogsGroupProps {
     timeLogs: formattedTimeLog[]
+}
+
+export interface TimeLogEntryValues {
+    description?: string
+    projectId?: string
+    startTime: string
+    endTime: string
 }
 export interface TimerFormData {
     description?: string
@@ -216,4 +225,32 @@ export interface StopTimerPayload extends TimerFormData {
 
 export interface TrackerInputProps extends InputProps {
     onProjectSelect?: (projectId: string, projectName: string) => void
+}
+
+export interface DateTimePickerProps {
+    start?: string
+    end?: string
+    previousDate?: string
+    duration?: string
+    setStartTime: React.Dispatch<React.SetStateAction<Date>>
+    setEndTime: React.Dispatch<React.SetStateAction<Date>>
+}
+
+export interface ProjectSelection {
+    id: string
+    name: string
+    clientName: string
+    displayName: string
+}
+
+export interface EditTimeLogProps extends TimeEntryCardProps {
+    isModalOpen: boolean
+    setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>
+    duration: string
+    previousDate?: string
+}
+
+export interface ManualTimeLogProps {
+    description?: string
+    projectId?: string
 }

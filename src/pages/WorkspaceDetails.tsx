@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { selectSidebarOpen } from '../redux/features/sidebarSlice'
 import { selectWorkspace } from '@/redux/features/workspaceStateSlice'
+import { useIsMobile } from '@/hooks/use-mobile'
 
 export default function WorkspaceDetails() {
     const { state } = useLocation()
@@ -11,6 +12,7 @@ export default function WorkspaceDetails() {
     const [workspaceName, setWorkspaceName] = useState<string>()
     const isOpen = useSelector(selectSidebarOpen)
     const workspace = useSelector(selectWorkspace)
+    const isMobile = useIsMobile()
 
     useEffect(() => {
         if (!id) return
@@ -26,15 +28,16 @@ export default function WorkspaceDetails() {
     }
 
     return (
-        <>
-            <div className="flex w-full min-h-screen bg-background-accent">
-                <Sidebar />
-                <div
-                    className={`flex-1 transition-all duration-300 ml-20 ${isOpen ? 'md:ml-68' : 'ml-20'}`}
-                >
-                    <Outlet context={{ workspaceName, id }} />
-                </div>
+        <div className="flex w-full min-h-screen bg-background-accent">
+            {/* Only show sidebar on desktop */}
+            {!isMobile && <Sidebar />}
+            <div
+                className={`flex-1 transition-all duration-300 ${
+                    !isMobile && (isOpen ? 'ml-68' : 'ml-20')
+                }`}
+            >
+                <Outlet context={{ workspaceName, id }} />
             </div>
-        </>
+        </div>
     )
 }

@@ -1,6 +1,6 @@
 import CreateProjectForm from '@/components/shared/forms/CreateProject'
 import RenameProject from '@/components/shared/forms/RenameProject'
-import DialogDemo from '@/components/shared/modal/Modal'
+import Modal from '@/components/shared/modal/Modal'
 import WorkspaceHeader from '@/components/shared/ui/WorkspaceHeader'
 import DataTable from '@/components/tables/DataTable'
 import { ProjectTableColumns } from '@/components/tables/ProjectsTableColumns'
@@ -38,19 +38,23 @@ export default function ProjectPage() {
                 buttonText="Project"
                 setIsModalOpen={setIsModalOpen}
             />
-            <div className="w-full">
-                <div className="w-full flex justify-between px-9 py-12 font-bold text-xl">
+            <div className="w-full flex flex-col items-center">
+                <div className="w-full flex justify-start sm:justify-between px-4 py-6 sm:px-9 sm:py-12 font-bold text-xl">
                     <p>Projects</p>
                 </div>
-                <DataTable
-                    tableName="projects"
-                    columns={columns}
-                    data={projects}
-                    loading={loading}
-                />
+                <div className="flex justify-center w-full">
+                    <div className="mx-auto w-full max-w-xs sm:max-w-full px-2 sm:px-0">
+                        <DataTable
+                            tableName="projects"
+                            columns={columns}
+                            data={projects}
+                            loading={loading}
+                        />
+                    </div>
+                </div>
             </div>
             {
-                <DialogDemo
+                <Modal
                     title="Edit Project"
                     isModalOpen={editProjectModal}
                     onClose={() => setEditProjectModal(false)}
@@ -61,16 +65,16 @@ export default function ProjectPage() {
                         clientId={selectedRow?.client.id}
                         setEditProjectModal={setEditProjectModal}
                     />
-                </DialogDemo>
+                </Modal>
             }
             {
-                <DialogDemo
+                <Modal
                     title="Create Project"
                     isModalOpen={isModalOpen}
                     onClose={() => setIsModalOpen(false)}
                 >
                     <CreateProjectForm setCreateProjectModal={setIsModalOpen} />
-                </DialogDemo>
+                </Modal>
             }
         </>
     )
