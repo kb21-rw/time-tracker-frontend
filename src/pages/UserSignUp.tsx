@@ -99,14 +99,14 @@ export default function UserSignUpPage() {
                             register={register('ConfirmPassword')}
                             error={errors.ConfirmPassword}
                         />
-
-                        <TimezoneDisplay className="mt-4 mb-2" />
-
                         {error && (
                             <p className="text-red-500 text-sm mt-2">
                                 {typeof error === 'string' ? error : JSON.stringify(error)}
                             </p>
                         )}
+
+                        <TimezoneDisplay className="mt-4 mb-2" />
+
                         <Button
                             className="text-xl mt-5 font-inter w-full"
                             isLoading={loading}
