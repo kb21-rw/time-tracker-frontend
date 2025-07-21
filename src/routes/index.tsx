@@ -14,6 +14,7 @@ import UsersDetails from '@/pages/workspace-details/users'
 import ClientsPage from '@/pages/workspace-details/clients'
 import ProjectsPage from '@/pages/workspace-details/projects'
 import AppWrapper from './AppWrapper'
+import NotFoundPage from '@/pages/NotFound'
 export const router = createBrowserRouter([
     {
         path: '/',
@@ -38,6 +39,10 @@ export const router = createBrowserRouter([
     {
         path: '/user-signup',
         element: <UserSignUpPage />,
+    },
+    {
+        path: '/404',
+        element: <NotFoundPage />,
     },
     {
         element: (
