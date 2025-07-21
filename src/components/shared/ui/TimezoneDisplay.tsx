@@ -1,4 +1,3 @@
-import { getBrowserTimezone } from '@/util/helpers'
 import { TimezoneDisplayProps } from '@/util/interfaces'
 
 export default function TimezoneDisplay({ className = '', timeZone }: TimezoneDisplayProps) {
