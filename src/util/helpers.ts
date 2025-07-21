@@ -19,8 +19,8 @@ export const getBrowserTimezone = (): string => {
             return 'UTC'
         }
 
-        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
-        return timezone || 'UTC'
+        const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+        return timeZone || 'UTC'
     } catch (error) {
         toast.error('Failed to detect browser timezone, falling back to UTC:')
         return 'UTC'

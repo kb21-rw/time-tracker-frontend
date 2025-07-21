@@ -38,12 +38,13 @@ export default function AdminSignUpPage() {
         defaultValues,
     })
     const navigate = useNavigate()
+    const timeZone = getBrowserTimezone()
 
     const onSubmit: SubmitHandler<FormFields> = async ({ confirmPassword, ...data }) => {
         try {
             const signupData = {
                 ...data,
-                timeZone: data.timeZone || getBrowserTimezone(),
+                timeZone,
             }
             const { meta: responseData } = await dispatch(signupAdmin(signupData))
             if (responseData.requestStatus === 'fulfilled') {
@@ -98,7 +99,7 @@ export default function AdminSignUpPage() {
                             register={register('confirmPassword')}
                             error={errors.confirmPassword}
                         />
-                        <TimezoneDisplay className="mt-4 mb-2" />
+                        <TimezoneDisplay timeZone={timeZone} className="mt-4 mb-2" />
 
                         {error && (
                             <p className="text-red-500 text-sm mt-2">

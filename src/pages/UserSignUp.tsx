@@ -22,7 +22,7 @@ export default function UserSignUpPage() {
     const navigate = useNavigate()
     const [searchParams] = useSearchParams()
     const token = searchParams.get('token')
-
+    const timeZone = getBrowserTimezone()
     const {
         register,
         handleSubmit,
@@ -32,7 +32,7 @@ export default function UserSignUpPage() {
         mode: 'all',
         defaultValues: {
             fullName: '',
-            timeZone: getBrowserTimezone(),
+            timeZone,
         },
     })
     const onSubmit = async ({ ConfirmPassword: password, fullName, timeZone }: UserFormFiled) => {
@@ -78,11 +78,6 @@ export default function UserSignUpPage() {
                             register={register('fullName')}
                             error={errors.fullName}
                         />
-                        {error && (
-                            <p className="text-red-500 text-sm mt-2">
-                                {typeof error === 'string' ? error : JSON.stringify(error)}
-                            </p>
-                        )}
                         <Input
                             label="Create password:"
                             placeholder="CreatePassword"
@@ -99,13 +94,14 @@ export default function UserSignUpPage() {
                             register={register('ConfirmPassword')}
                             error={errors.ConfirmPassword}
                         />
+
+                        <TimezoneDisplay timeZone={timeZone} className="mt-4 mb-2" />
+
                         {error && (
                             <p className="text-red-500 text-sm mt-2">
                                 {typeof error === 'string' ? error : JSON.stringify(error)}
                             </p>
                         )}
-
-                        <TimezoneDisplay className="mt-4 mb-2" />
 
                         <Button
                             className="text-xl mt-5 font-inter w-full"
