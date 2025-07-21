@@ -254,3 +254,7 @@ export interface ManualTimeLogProps {
     description?: string
     projectId?: string
 }
+
+export interface ProtectedRouteProps {
+    allowedRoles?: string[]
+}
