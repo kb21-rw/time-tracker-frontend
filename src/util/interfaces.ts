@@ -256,5 +256,6 @@ export interface ManualTimeLogProps {
 }
 
 export interface TimezoneDisplayProps {
+    timeZone: string
     className?: string
 }
