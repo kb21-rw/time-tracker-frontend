@@ -42,7 +42,7 @@ export default function LoginPage() {
                 } else if (userData.roles === 'Member') {
                     navigate('/dashboard')
                     toast.success('Successfully logged in!')
-                } 
+                }
             } else {
                 toast.error('Login failed')
             }
