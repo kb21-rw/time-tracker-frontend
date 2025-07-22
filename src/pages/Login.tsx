@@ -39,10 +39,10 @@ export default function LoginPage() {
                 if (userData.roles === 'Admin') {
                     navigate('/manage-workspaces')
                     toast.success('Successfully logged in!')
-                } else {
+                } else if (userData.roles === 'Member') {
                     navigate('/dashboard')
                     toast.success('Successfully logged in!')
-                }
+                } 
             } else {
                 toast.error('Login failed')
             }
