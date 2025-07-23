@@ -41,7 +41,7 @@ export const router = createBrowserRouter([
         element: <UserSignUpPage />,
     },
     {
-        path: '/error',
+        path: '/unauthorized',
         element: <HttpErrorPage errorType="unauthorized" />,
     },
     {
