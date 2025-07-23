@@ -7,7 +7,7 @@ import Button from '@/components/shared/ui/Button'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { userSignUpShcema } from '../schema/signup'
+import { userSignUpSchema } from '../schema/signup'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '@/redux/store'
 import { signupUser } from '@/redux/slice/authSlice'
@@ -15,7 +15,7 @@ import toast from 'react-hot-toast'
 import { handleAxiosError, getBrowserTimezone } from '@/util/helpers'
 import { AxiosError } from 'axios'
 
-type UserFormFiled = z.infer<typeof userSignUpShcema>
+type UserFormFiled = z.infer<typeof userSignUpSchema>
 export default function UserSignUpPage() {
     const dispatch = useDispatch<AppDispatch>()
     const { loading, error } = useSelector((state: RootState) => state.auth)

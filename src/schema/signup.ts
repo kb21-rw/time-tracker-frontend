@@ -15,7 +15,7 @@ export const signUpSchema = z
         path: ['confirmPassword'],
     })
 
-export const userSignUpShcema = z
+export const userSignUpSchema = z
     .object({
         fullName: z.string().refine(value => value.trim().split(/\s+/).length >= 2, {
             message: 'Please enter your full name (first and last name)',
