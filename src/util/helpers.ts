@@ -10,7 +10,6 @@ import {
     parse,
     parseISO,
 } from 'date-fns'
-import toast from 'react-hot-toast'
 
 export const getBrowserTimezone = (): string => {
     // Check if Intl is available (for very old browsers)
