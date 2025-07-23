@@ -10,6 +10,7 @@ import Tracker from '@/assets/icons/Tracker'
 import { useIsMobile } from '@/hooks/use-mobile'
 import Logo from '../../assets/icons/Logo'
 import userProfile from '../../assets/images/ix_user-profile-filled.svg'
+import { UserRole } from '../../util/interfaces'
 
 export default function Sidebar() {
     const dispatch = useDispatch()
@@ -25,7 +26,7 @@ export default function Sidebar() {
             <aside className="w-20 p-4 flex-shrink-0">
                 <div className="h-full px-2 flex flex-col justify-between">
                     <div className="space-y-8 flex flex-col items-center">
-                        {userRole === 'Member' ? (
+                        {userRole === UserRole.MEMBER ? (
                             <>
                                 <Link to="/time-tracker">
                                     <Logo className="h-8 w-8" />
@@ -48,7 +49,7 @@ export default function Sidebar() {
                         )}
                     </div>
                     <div>
-                        {isInWorkspace && userRole !== 'admin' && (
+                        {isInWorkspace && userRole !== UserRole.ADMIN && (
                             <button onClick={() => dispatch(toggleSidebar())}>
                                 <SidebarToggle />
                             </button>
