@@ -8,7 +8,6 @@ export default function HttpErrorPage({ errorType }: HttpErrorPageProps): ReactE
     const navigate = useNavigate()
     const location = useLocation()
 
-  
     const detectedErrorType: 'notFound' | 'unauthorized' =
         errorType || (location.state?.errorType === 'unauthorized' ? 'unauthorized' : 'notFound')
 
