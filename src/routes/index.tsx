@@ -57,7 +57,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: '/manage-workspaces',
-                element: <ProtectedRoute allowedRoles={['Admin', 'Member']} />,
+                element: <ProtectedRoute allowedRoles={['Admin']} />,
                 children: [
                     {
                         index: true,
