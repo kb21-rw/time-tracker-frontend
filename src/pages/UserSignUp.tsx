@@ -28,7 +28,7 @@ export default function UserSignUpPage() {
         handleSubmit,
         formState: { errors, isValid },
     } = useForm<UserFormFiled>({
-        resolver: zodResolver(userSignUpShcema),
+        resolver: zodResolver(userSignUpSchema),
         mode: 'all',
         defaultValues: {
             fullName: '',
@@ -45,7 +45,7 @@ export default function UserSignUpPage() {
                 fullName,
                 token,
                 password,
-                timeZone: timeZone || getBrowserTimezone(),
+                timeZone,
             }
             const { meta: responseData } = await dispatch(signupUser(acceptInvitationData))
             if (responseData.requestStatus === 'fulfilled') {

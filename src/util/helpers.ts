@@ -13,18 +13,13 @@ import {
 import toast from 'react-hot-toast'
 
 export const getBrowserTimezone = (): string => {
-    try {
-        // Check if Intl is available (for very old browsers)
-        if (typeof Intl === 'undefined' || typeof Intl.DateTimeFormat === 'undefined') {
-            return 'UTC'
-        }
-
-        const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
-        return timeZone || 'UTC'
-    } catch (error) {
-        toast.error('Failed to detect browser timezone, falling back to UTC:')
+    // Check if Intl is available (for very old browsers)
+    if (typeof Intl === 'undefined' || typeof Intl.DateTimeFormat === 'undefined') {
         return 'UTC'
     }
+
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+    return timeZone || 'UTC'
 }
 
 export const handleAxiosError = (error: AxiosError) => {
