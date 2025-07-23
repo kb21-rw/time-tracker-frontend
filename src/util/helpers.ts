@@ -11,6 +11,16 @@ import {
     parseISO,
 } from 'date-fns'
 
+export const getBrowserTimezone = (): string => {
+    // Check if Intl is available (for very old browsers)
+    if (typeof Intl === 'undefined' || typeof Intl.DateTimeFormat === 'undefined') {
+        return 'UTC'
+    }
+
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+    return timeZone || 'UTC'
+}
+
 export const handleAxiosError = (error: AxiosError) => {
     if (error.response) {
         return (error.response.data as { message?: string }).message

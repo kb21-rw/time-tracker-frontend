@@ -1,43 +1,52 @@
 import FocusFlowHeader from '@/components/shared/ui/FocusFlowHeader'
 import SignUpPageGraphic from '@/assets/images/signup-page-graphic.png'
 import Input from '@/components/shared/ui/Input'
+import TimezoneDisplay from '@/components/shared/ui/TimezoneDisplay'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import Button from '@/components/shared/ui/Button'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { userSignUpShcema } from '../schema/signup'
+import { userSignUpSchema } from '../schema/signup'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '@/redux/store'
 import { signupUser } from '@/redux/slice/authSlice'
 import toast from 'react-hot-toast'
-import { handleAxiosError } from '@/util/helpers'
+import { handleAxiosError, getBrowserTimezone } from '@/util/helpers'
 import { AxiosError } from 'axios'
 
-type UserFormFiled = z.infer<typeof userSignUpShcema>
+type UserFormFiled = z.infer<typeof userSignUpSchema>
 export default function UserSignUpPage() {
     const dispatch = useDispatch<AppDispatch>()
     const { loading, error } = useSelector((state: RootState) => state.auth)
     const navigate = useNavigate()
     const [searchParams] = useSearchParams()
     const token = searchParams.get('token')
-
+    const timeZone = getBrowserTimezone()
     const {
         register,
         handleSubmit,
         formState: { errors, isValid },
     } = useForm<UserFormFiled>({
-        resolver: zodResolver(userSignUpShcema),
+        resolver: zodResolver(userSignUpSchema),
         mode: 'all',
-        defaultValues: { fullName: '' },
+        defaultValues: {
+            fullName: '',
+            timeZone,
+        },
     })
-    const onSubmit = async ({ ConfirmPassword: password, fullName }: UserFormFiled) => {
+    const onSubmit = async ({ ConfirmPassword: password, fullName, timeZone }: UserFormFiled) => {
         try {
             if (!token) {
                 toast.error('A token is needed to signup as a user!')
                 return
             }
-            const acceptInvitationData = { fullName, token, password }
+            const acceptInvitationData = {
+                fullName,
+                token,
+                password,
+                timeZone,
+            }
             const { meta: responseData } = await dispatch(signupUser(acceptInvitationData))
             if (responseData.requestStatus === 'fulfilled') {
                 toast.success('Successfully created a user account!')
@@ -69,11 +78,6 @@ export default function UserSignUpPage() {
                             register={register('fullName')}
                             error={errors.fullName}
                         />
-                        {error && (
-                            <p className="text-red-500 text-sm mt-2">
-                                {typeof error === 'string' ? error : JSON.stringify(error)}
-                            </p>
-                        )}
                         <Input
                             label="Create password:"
                             placeholder="CreatePassword"
@@ -90,11 +94,15 @@ export default function UserSignUpPage() {
                             register={register('ConfirmPassword')}
                             error={errors.ConfirmPassword}
                         />
+
+                        <TimezoneDisplay timeZone={timeZone} className="mt-4 mb-2" />
+
                         {error && (
                             <p className="text-red-500 text-sm mt-2">
                                 {typeof error === 'string' ? error : JSON.stringify(error)}
                             </p>
                         )}
+
                         <Button
                             className="text-xl mt-5 font-inter w-full"
                             isLoading={loading}
