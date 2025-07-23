@@ -258,3 +258,7 @@ export interface ManualTimeLogProps {
 export interface ProtectedRouteProps {
     allowedRoles?: string[]
 }
+
+export interface HttpErrorPageProps {
+    errorType?: 'notFound' | 'unauthorized'
+}
