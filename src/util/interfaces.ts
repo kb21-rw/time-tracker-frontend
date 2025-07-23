@@ -255,6 +255,14 @@ export interface ManualTimeLogProps {
     projectId?: string
 }
 
+export interface ProtectedRouteProps {
+    allowedRoles?: string[]
+}
+
+export interface HttpErrorPageProps {
+    errorType?: 'notFound' | 'unauthorized'
+}
+
 export interface TimezoneDisplayProps {
     timeZone: string
     className?: string

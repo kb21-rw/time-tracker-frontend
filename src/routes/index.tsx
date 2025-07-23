@@ -14,6 +14,7 @@ import UsersDetails from '@/pages/workspace-details/users'
 import ClientsPage from '@/pages/workspace-details/clients'
 import ProjectsPage from '@/pages/workspace-details/projects'
 import AppWrapper from './AppWrapper'
+import HttpErrorPage from '@/pages/HttpErrorPage'
 export const router = createBrowserRouter([
     {
         path: '/',
@@ -40,9 +41,13 @@ export const router = createBrowserRouter([
         element: <UserSignUpPage />,
     },
     {
+        path: '/unauthorized',
+        element: <HttpErrorPage errorType="unauthorized" />,
+    },
+    {
         element: (
             <AppWrapper>
-                <ProtectedRoute />
+                <ProtectedRoute allowedRoles={['Admin', 'Member']} />
             </AppWrapper>
         ),
         children: [
@@ -52,6 +57,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: '/manage-workspaces',
+                element: <ProtectedRoute allowedRoles={['Admin']} />,
                 children: [
                     {
                         index: true,
@@ -82,5 +88,9 @@ export const router = createBrowserRouter([
                 ],
             },
         ],
+    },
+    {
+        path: '*',
+        element: <HttpErrorPage errorType="notFound" />,
     },
 ])
