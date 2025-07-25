@@ -267,3 +267,8 @@ export interface TimezoneDisplayProps {
     timeZone: string
     className?: string
 }
+
+export interface TimeTrackerHeaderProps {
+    id: string
+    workspaceName: string
+}
