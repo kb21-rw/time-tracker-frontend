@@ -8,6 +8,9 @@ import Settings from '../../assets/icons/Settings'
 import SidebarToggle from '../../assets/icons/SidebarToggle'
 import Tracker from '@/assets/icons/Tracker'
 import { useIsMobile } from '@/hooks/use-mobile'
+import Logo from '../../assets/icons/Logo'
+import userProfile from '../../assets/images/ix_user-profile-filled.svg'
+import { UserRole } from '../../util/interfaces'
 
 export default function Sidebar() {
     const dispatch = useDispatch()
@@ -15,20 +18,38 @@ export default function Sidebar() {
     const location = useLocation()
     const isInWorkspace = location.pathname.startsWith(`/manage-workspaces/`)
     const isMobile = useIsMobile()
+    const user = useSelector((state: any) => state.auth.user)
+    const userRole = user?.roles
 
     return (
         <div className="fixed left-0 top-0 flex h-screen z-10 bg-primary-800 text-primary-500">
-            {/* Main sidebar - always visible on desktop, part of mobile sidebar */}
             <aside className="w-20 p-4 flex-shrink-0">
                 <div className="h-full px-2 flex flex-col justify-between">
                     <div className="space-y-8 flex flex-col items-center">
-                        <Tracker />
-                        <Link to="/manage-workspaces">
-                            <Home className="h-6 w-6" />
-                        </Link>
+                        {userRole === UserRole.MEMBER ? (
+                            <>
+                                <Link to="/time-tracker">
+                                    <Logo className="h-8 w-8" />
+                                </Link>
+                                <Link to="#">
+                                    <img
+                                        src={userProfile}
+                                        className="h-8 w-8"
+                                        alt="User profile Icon"
+                                    />
+                                </Link>
+                            </>
+                        ) : (
+                            <>
+                                <Tracker />
+                                <Link to="/manage-workspaces">
+                                    <Home className="h-6 w-6" />
+                                </Link>
+                            </>
+                        )}
                     </div>
                     <div>
-                        {isInWorkspace && (
+                        {isInWorkspace && userRole !== UserRole.ADMIN && (
                             <button onClick={() => dispatch(toggleSidebar())}>
                                 <SidebarToggle />
                             </button>
@@ -45,7 +66,6 @@ export default function Sidebar() {
                 </div>
             </aside>
 
-            {/* Workspace sidebar - responsive behavior */}
             {isInWorkspace && (
                 <div
                     className={`${

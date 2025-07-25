@@ -13,6 +13,7 @@ import { loginUser } from '../redux/slice/authSlice'
 import toast from 'react-hot-toast'
 import { handleAxiosError } from '../util/helpers'
 import { AxiosError } from 'axios'
+import { UserRole } from '../util/interfaces'
 
 type FormFields = z.infer<typeof loginSchema>
 export default function LoginPage() {
@@ -36,11 +37,11 @@ export default function LoginPage() {
             const user = localStorage.getItem('user')
             const userData = JSON.parse(user || '{}')
             if (responseData.requestStatus === 'fulfilled') {
-                if (userData.roles === 'Admin') {
+                if (userData.roles === UserRole.ADMIN) {
                     navigate('/manage-workspaces')
                     toast.success('Successfully logged in!')
-                } else {
-                    navigate('/dashboard')
+                } else if (userData.roles === UserRole.MEMBER) {
+                    navigate('/tracker')
                     toast.success('Successfully logged in!')
                 }
             } else {

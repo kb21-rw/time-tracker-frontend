@@ -2,7 +2,7 @@ import { createBrowserRouter } from 'react-router-dom'
 import LandingPage from '../pages/Landing'
 import AdminSignUpPage from '../pages/AdminSignUp'
 import LoginPage from '../pages/Login'
-import DashboardPage from '../pages/Dashboard'
+import DashboardPage from '../pages/UserTimeTracker'
 import ForgotPasswordPage from '../pages/password-reset/ForgotPassword'
 import ResetPasswordPage from '../pages/password-reset/ResetPassword'
 import ManageWorkspacesPage from '../pages/ManageWorkspaces'
@@ -52,7 +52,7 @@ export const router = createBrowserRouter([
         ),
         children: [
             {
-                path: '/dashboard',
+                path: '/tracker',
                 element: <DashboardPage />,
             },
             {
