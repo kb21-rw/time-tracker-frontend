@@ -26,14 +26,12 @@ export default function ProjectsList({
     const id = outletContext?.id
     const workspaceName = outletContext?.workspaceName
 
-
-
-    useEffect(()=> {
+    useEffect(() => {
         if (!isAdmin && workspaceInfo.id) {
             dispatch(getProjectsByWorkspaceId(workspaceInfo.id))
         }
-    },[dispatch, isAdmin, workspaceInfo.id])
-    
+    }, [dispatch, isAdmin, workspaceInfo.id])
+
     useEffect(() => {
         if (!isAdmin && workspaces.length > 0) {
             const workspace = workspaces[0]

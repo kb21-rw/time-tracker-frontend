@@ -14,18 +14,18 @@ export default function TimeTracker() {
     const outletContext = useOutletContext<OutletContextType>()
     const dispatch = useDispatch<AppDispatch>()
     const { timeLogs } = useSelector((state: RootState) => state.timeLog)
-    const [workspaceInfo, setWorkspaceInfo] = useState({id: '', workspaceName: ''})
+    const [workspaceInfo, setWorkspaceInfo] = useState({ id: '', workspaceName: '' })
     const { workspaces, loading } = useSelector((state: RootState) => state.workspaces)
     const user = JSON.parse(localStorage.getItem('user') || '{}')
     const isAdmin = user.roles === 'Admin'
     const id = outletContext?.id
     const workspaceName = outletContext?.workspaceName
 
-    useEffect(()=> {
+    useEffect(() => {
         if (!isAdmin) {
             dispatch(getWorkspacesByUser())
         }
-    },[dispatch, isAdmin])
+    }, [dispatch, isAdmin])
 
     useEffect(() => {
         if (!isAdmin && workspaces.length > 0) {
@@ -43,16 +43,15 @@ export default function TimeTracker() {
         }
     }, [dispatch, id, workspaces, isAdmin])
 
-
     // To be style
-     if (loading) {
-         return <div>Loading workspace...</div>
-     }
+    if (loading) {
+        return <div>Loading workspace...</div>
+    }
 
     const formattedTimelogs = formatTimeLogs(timeLogs)
     return (
         <div className="bg-white h-full">
-            <TimeTrackerHeader id={workspaceInfo.id} workspaceName={workspaceInfo.workspaceName}/>
+            <TimeTrackerHeader id={workspaceInfo.id} workspaceName={workspaceInfo.workspaceName} />
             <TimeLogsGroup timeLogs={formattedTimelogs} />
         </div>
     )
