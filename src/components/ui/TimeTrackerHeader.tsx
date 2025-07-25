@@ -1,7 +1,7 @@
 import StartTimer from '@/assets/icons/StartTmer'
 import { stopTimer, startTimer } from '@/redux/features/timerSlice'
 import { AppDispatch, RootState } from '@/redux/store'
-import { OutletContextType } from '@/util/interfaces'
+import { OutletContextType, TimeTrackerHeaderProps } from '@/util/interfaces'
 import { Download, CircleStop } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
@@ -19,8 +19,7 @@ import ManualTimeLog from '../shared/forms/ManualTimeLog'
 import { MenuBar } from '@/components/ui/MenuBar'
 import { useIsMobile } from '@/hooks/use-mobile'
 
-export default function TimeTrackerHeader() {
-    const { workspaceName, id } = useOutletContext<OutletContextType>()
+export default function TimeTrackerHeader({ id, workspaceName }: TimeTrackerHeaderProps) {
     const [isManual, setIsManual] = useState(false)
     const [isProcessing, setIsProcessing] = useState(false)
     const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null)
