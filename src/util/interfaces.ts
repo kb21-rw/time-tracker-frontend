@@ -260,7 +260,7 @@ export interface ProtectedRouteProps {
 }
 
 export interface HttpErrorPageProps {
-    errorType?: 'notFound' | 'unauthorized'
+    errorType?: 'notFound' | 'forbidden'
 }
 
 export interface TimezoneDisplayProps {
