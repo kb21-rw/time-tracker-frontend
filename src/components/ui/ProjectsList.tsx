@@ -15,14 +15,40 @@ export default function ProjectsList({
     anchorRef,
     setProject,
 }: Readonly<ProjectsListProps>) {
-    const { id } = useOutletContext<OutletContextType>()
+    const outletContext = useOutletContext<OutletContextType>()
     const popoverRef = useRef(null)
     const dispatch = useDispatch<AppDispatch>()
     const { projects, loading } = useSelector((state: RootState) => state.projects)
+    const { workspaces } = useSelector((state: RootState) => state.workspaces)
+    const [workspaceInfo, setWorkspaceInfo] = useState({ id: '', workspaceName: '' })
+    const user = JSON.parse(localStorage.getItem('user') || '{}')
+    const isAdmin = user.roles === 'Admin'
+    const id = outletContext?.id
+    const workspaceName = outletContext?.workspaceName
 
+
+
+    useEffect(()=> {
+        if (!isAdmin && workspaceInfo.id) {
+            dispatch(getProjectsByWorkspaceId(workspaceInfo.id))
+        }
+    },[dispatch, isAdmin, workspaceInfo.id])
+    
     useEffect(() => {
-        dispatch(getProjectsByWorkspaceId(id!))
-    }, [dispatch, id])
+        if (!isAdmin && workspaces.length > 0) {
+            const workspace = workspaces[0]
+            setWorkspaceInfo({
+                id: workspace.id,
+                workspaceName: workspace.name,
+            })
+        } else if (isAdmin && id) {
+            setWorkspaceInfo({
+                id: id,
+                workspaceName: workspaceName,
+            })
+            dispatch(getProjectsByWorkspaceId(id))
+        }
+    }, [dispatch, id, workspaces, isAdmin])
 
     const [selectedClient, setSelectedClient] = useState<string | null>(null)
     const [selectedProject, setSelectedProject] = useState<ProjectSelection | null>(null)
