@@ -5,7 +5,9 @@ export default function DashboardPage() {
     return (
         <div>
             <Sidebar />
-            <TimeTracker />
+            <div className="lg:ml-20">
+                <TimeTracker />
+            </div>
         </div>
     )
 }
