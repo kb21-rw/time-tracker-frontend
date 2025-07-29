@@ -9,7 +9,7 @@ import SidebarToggle from '../../assets/icons/SidebarToggle'
 import Tracker from '@/assets/icons/Tracker'
 import { useIsMobile } from '@/hooks/use-mobile'
 import Logo from '../../assets/icons/Logo'
-import userProfile from '../../assets/images/ix_user-profile-filled.svg'
+import userProfile from '../../assets/images/ix-user-profile-filled.svg'
 import { UserRole } from '../../util/interfaces'
 
 export default function Sidebar() {
