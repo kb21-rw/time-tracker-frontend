@@ -35,7 +35,7 @@ export default function UserSignUpPage() {
             timeZone,
         },
     })
-    const onSubmit = async ({ ConfirmPassword: password, fullName, timeZone }: UserFormFiled) => {
+    const onSubmit = async ({ confirmPassword: password, fullName, timeZone }: UserFormFiled) => {
         try {
             if (!token) {
                 toast.error('A token is needed to signup as a user!')
@@ -79,20 +79,20 @@ export default function UserSignUpPage() {
                             error={errors.fullName}
                         />
                         <Input
-                            label="Create password:"
-                            placeholder="CreatePassword"
+                            label="Create Password:"
+                            placeholder="Create Password"
                             type="password"
                             id="createPassword"
-                            register={register('CreatePassword')}
-                            error={errors.CreatePassword}
+                            register={register('createPassword')}
+                            error={errors.createPassword}
                         />
                         <Input
-                            label="Confirm password:"
-                            placeholder="ConfirmPassword"
+                            label="Confirm Password:"
+                            placeholder="Confirm Password"
                             type="password"
                             id="confirmPassword"
-                            register={register('ConfirmPassword')}
-                            error={errors.ConfirmPassword}
+                            register={register('confirmPassword')}
+                            error={errors.confirmPassword}
                         />
 
                         <TimezoneDisplay timeZone={timeZone} className="mt-4 mb-2" />
