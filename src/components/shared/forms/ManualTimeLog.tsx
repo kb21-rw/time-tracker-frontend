@@ -9,7 +9,7 @@ import { useState } from 'react'
 import toast from 'react-hot-toast'
 import { useDispatch, useSelector } from 'react-redux'
 
-function ManualTimeLog({ description, projectId, workspaceId:id }: ManualTimeLogProps) {
+function ManualTimeLog({ description, projectId, workspaceId: id }: ManualTimeLogProps) {
     const [startTime, setStartTime] = useState<Date>(new Date())
     const [endTime, setEndTime] = useState<Date>(new Date())
     const dispatch = useDispatch<AppDispatch>()

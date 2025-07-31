@@ -164,6 +164,7 @@ export interface ColumnsProps<T> {
 }
 export interface TimeEntryCardProps {
     id: string
+    workspaceId: string
     description: string
     project: string
     client: string
@@ -201,6 +202,7 @@ export interface TimeLogState {
 
 export interface TimeLogsGroupProps {
     timeLogs: formattedTimeLog[]
+    workspaceId: string
 }
 
 export interface TimeLogEntryValues {

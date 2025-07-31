@@ -21,33 +21,32 @@ export default function TimeTracker() {
     const id = outletContext?.id
     const workspaceName = outletContext?.workspaceName
 
-useEffect(() => {
-    if (isAdmin) {
-        if (id && workspaceName) {
-            setWorkspaceInfo({ id, workspaceName })
-            dispatch(getUserTimeLogs(id))
+    useEffect(() => {
+        if (isAdmin) {
+            if (id && workspaceName) {
+                setWorkspaceInfo({ id, workspaceName })
+                dispatch(getUserTimeLogs(id))
+            }
+            return
         }
-        return
-    }
 
-    if (workspaces.length === 0) {
-        dispatch(getWorkspacesByUser())
-        return
-    }
+        if (workspaces.length === 0) {
+            dispatch(getWorkspacesByUser())
+            return
+        }
 
-    const [firstWorkspace] = workspaces
-    setWorkspaceInfo({
-        id: firstWorkspace.id,
-        workspaceName: firstWorkspace.name,
-    })
-}, [dispatch, isAdmin, id, workspaces, workspaceName])
+        const [firstWorkspace] = workspaces
+        setWorkspaceInfo({
+            id: firstWorkspace.id,
+            workspaceName: firstWorkspace.name,
+        })
+    }, [dispatch, isAdmin, id, workspaces, workspaceName])
 
     useEffect(() => {
         if (workspaceInfo.id) {
             dispatch(getUserTimeLogs(workspaceInfo.id))
         }
     }, [dispatch, workspaceInfo.id])
-
 
     // To be style
     if (loading) {
@@ -58,7 +57,7 @@ useEffect(() => {
     return (
         <div className="bg-white h-full">
             <TimeTrackerHeader id={workspaceInfo.id} workspaceName={workspaceInfo.workspaceName} />
-            <TimeLogsGroup timeLogs={formattedTimelogs} />
+            <TimeLogsGroup timeLogs={formattedTimelogs} workspaceId={workspaceInfo.id} />
         </div>
     )
 }
