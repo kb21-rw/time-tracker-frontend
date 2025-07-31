@@ -26,5 +26,5 @@ export const userSignUpSchema = z
     })
     .refine(data => data.createPassword === data.confirmPassword, {
         message: "Passwords don't match",
-        path: ['ConfirmPassword'],
+        path: ['confirmPassword'],
     })

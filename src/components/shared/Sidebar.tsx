@@ -49,7 +49,7 @@ export default function Sidebar() {
                         )}
                     </div>
                     <div>
-                        {isInWorkspace && userRole !== UserRole.ADMIN && (
+                        {isInWorkspace && userRole !== UserRole.MEMBER && (
                             <button onClick={() => dispatch(toggleSidebar())}>
                                 <SidebarToggle />
                             </button>
