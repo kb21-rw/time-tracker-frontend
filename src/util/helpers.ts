@@ -165,3 +165,28 @@ export function calculateDuration(start: string, end: string): string {
     const diff = differenceInSeconds(endDate, startDate)
     return secondsToTimeFormat(diff)
 }
+
+export function getAuthInfo() {
+    const token = localStorage.getItem('token')
+    const isAuthenticated = !!token
+
+    if (!isAuthenticated) {
+        return { isAuthenticated: false, userRole: null }
+    }
+
+    let userRole = null
+
+    try {
+        const user = localStorage.getItem('user')
+        if (user) {
+            const userData = JSON.parse(user)
+            userRole = userData.roles
+        }
+    } catch (error) {
+        console.error('Failed to parse user data:', error)
+        localStorage.removeItem('user')
+        localStorage.removeItem('token')
+    }
+
+    return { isAuthenticated, userRole }
+}
