@@ -42,6 +42,12 @@ useEffect(() => {
     })
 }, [dispatch, isAdmin, id, workspaces, workspaceName])
 
+    useEffect(() => {
+        if (workspaceInfo.id) {
+            dispatch(getUserTimeLogs(workspaceInfo.id))
+        }
+    }, [dispatch, workspaceInfo.id])
+
 
     // To be style
     if (loading) {
