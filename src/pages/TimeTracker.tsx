@@ -21,27 +21,27 @@ export default function TimeTracker() {
     const id = outletContext?.id
     const workspaceName = outletContext?.workspaceName
 
-    useEffect(() => {
-        if (!isAdmin) {
-            dispatch(getWorkspacesByUser())
-        }
-    }, [dispatch, isAdmin])
-
-    useEffect(() => {
-        if (!isAdmin && workspaces.length > 0) {
-            const workspace = workspaces[0]
-            setWorkspaceInfo({
-                id: workspace.id,
-                workspaceName: workspace.name,
-            })
-        } else if (isAdmin && id) {
-            setWorkspaceInfo({
-                id: id,
-                workspaceName: workspaceName,
-            })
+useEffect(() => {
+    if (isAdmin) {
+        if (id && workspaceName) {
+            setWorkspaceInfo({ id, workspaceName })
             dispatch(getUserTimeLogs(id))
         }
-    }, [dispatch, id, workspaces, isAdmin])
+        return
+    }
+
+    if (workspaces.length === 0) {
+        dispatch(getWorkspacesByUser())
+        return
+    }
+
+    const [firstWorkspace] = workspaces
+    setWorkspaceInfo({
+        id: firstWorkspace.id,
+        workspaceName: firstWorkspace.name,
+    })
+}, [dispatch, isAdmin, id, workspaces, workspaceName])
+
 
     // To be style
     if (loading) {
