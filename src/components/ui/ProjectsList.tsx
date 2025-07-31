@@ -26,27 +26,28 @@ export default function ProjectsList({
     const id = outletContext?.id
     const workspaceName = outletContext?.workspaceName
 
-    useEffect(() => {
-        if (!isAdmin && workspaceInfo.id) {
-            dispatch(getProjectsByWorkspaceId(workspaceInfo.id))
-        }
-    }, [dispatch, isAdmin, workspaceInfo.id])
+   useEffect(() => {
+       if (isAdmin) {
+           if (id && workspaceName) {
+               setWorkspaceInfo({ id, workspaceName })
+               dispatch(getProjectsByWorkspaceId(id))
+           }
+           return
+       }
 
-    useEffect(() => {
-        if (!isAdmin && workspaces.length > 0) {
-            const workspace = workspaces[0]
-            setWorkspaceInfo({
-                id: workspace.id,
-                workspaceName: workspace.name,
-            })
-        } else if (isAdmin && id) {
-            setWorkspaceInfo({
-                id: id,
-                workspaceName: workspaceName,
-            })
-            dispatch(getProjectsByWorkspaceId(id))
-        }
-    }, [dispatch, id, workspaces, isAdmin])
+       if (workspaces.length === 0) {
+           return
+       }
+
+       const [firstWorkspace] = workspaces
+       setWorkspaceInfo({
+           id: firstWorkspace.id,
+           workspaceName: firstWorkspace.name,
+       })
+
+       dispatch(getProjectsByWorkspaceId(firstWorkspace.id))
+   }, [dispatch, isAdmin, id, workspaceName, workspaces])
+
 
     const [selectedClient, setSelectedClient] = useState<string | null>(null)
     const [selectedProject, setSelectedProject] = useState<ProjectSelection | null>(null)

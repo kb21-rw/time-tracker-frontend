@@ -253,6 +253,7 @@ export interface EditTimeLogProps extends TimeEntryCardProps {
 export interface ManualTimeLogProps {
     description?: string
     projectId?: string
+    workspaceId: string
 }
 
 export interface ProtectedRouteProps {
