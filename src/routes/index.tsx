@@ -2,7 +2,7 @@ import { createBrowserRouter } from 'react-router-dom'
 import LandingPage from '../pages/Landing'
 import AdminSignUpPage from '../pages/AdminSignUp'
 import LoginPage from '../pages/Login'
-import DashboardPage from '../pages/Dashboard'
+import DashboardPage from '../pages/UserTimeTracker'
 import ForgotPasswordPage from '../pages/password-reset/ForgotPassword'
 import ResetPasswordPage from '../pages/password-reset/ResetPassword'
 import ManageWorkspacesPage from '../pages/ManageWorkspaces'
@@ -14,6 +14,7 @@ import UsersDetails from '@/pages/workspace-details/users'
 import ClientsPage from '@/pages/workspace-details/clients'
 import ProjectsPage from '@/pages/workspace-details/projects'
 import AppWrapper from './AppWrapper'
+import HttpErrorPage from '@/pages/HttpErrorPage'
 export const router = createBrowserRouter([
     {
         path: '/',
@@ -40,18 +41,23 @@ export const router = createBrowserRouter([
         element: <UserSignUpPage />,
     },
     {
+        path: '/unauthorized',
+        element: <HttpErrorPage errorType="unauthorized" />,
+    },
+    {
         element: (
             <AppWrapper>
-                <ProtectedRoute />
+                <ProtectedRoute allowedRoles={['Admin', 'Member']} />
             </AppWrapper>
         ),
         children: [
             {
-                path: '/dashboard',
+                path: '/tracker',
                 element: <DashboardPage />,
             },
             {
                 path: '/manage-workspaces',
+                element: <ProtectedRoute allowedRoles={['Admin']} />,
                 children: [
                     {
                         index: true,
@@ -82,5 +88,9 @@ export const router = createBrowserRouter([
                 ],
             },
         ],
+    },
+    {
+        path: '*',
+        element: <HttpErrorPage errorType="notFound" />,
     },
 ])

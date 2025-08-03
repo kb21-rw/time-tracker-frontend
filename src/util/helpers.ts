@@ -11,6 +11,16 @@ import {
     parseISO,
 } from 'date-fns'
 
+export const getBrowserTimezone = (): string => {
+    // Check if Intl is available (for very old browsers)
+    if (typeof Intl === 'undefined' || typeof Intl.DateTimeFormat === 'undefined') {
+        return 'UTC'
+    }
+
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+    return timeZone || 'UTC'
+}
+
 export const handleAxiosError = (error: AxiosError) => {
     if (error.response) {
         return (error.response.data as { message?: string }).message
@@ -154,4 +164,29 @@ export function calculateDuration(start: string, end: string): string {
 
     const diff = differenceInSeconds(endDate, startDate)
     return secondsToTimeFormat(diff)
+}
+
+export function getAuthInfo() {
+    const token = localStorage.getItem('token')
+    const isAuthenticated = !!token
+
+    if (!isAuthenticated) {
+        return { isAuthenticated: false, userRole: null }
+    }
+
+    let userRole = null
+
+    try {
+        const user = localStorage.getItem('user')
+        if (user) {
+            const userData = JSON.parse(user)
+            userRole = userData.roles
+        }
+    } catch (error) {
+        console.error('Failed to parse user data:', error)
+        localStorage.removeItem('user')
+        localStorage.removeItem('token')
+    }
+
+    return { isAuthenticated, userRole }
 }
