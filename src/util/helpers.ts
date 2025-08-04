@@ -52,12 +52,14 @@ export function formatTimeLogs(timeLogs: TimeLog[]): formattedTimeLog[] {
             minute: '2-digit',
             hour12: false,
         }),
-        endTime: new Date(log.endTime).toLocaleTimeString([], {
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: false,
-        }),
-        duration: calculateDuration(log.startTime, log.endTime),
+        endTime: log.endTime
+            ? new Date(log.endTime).toLocaleTimeString([], {
+                  hour: '2-digit',
+                  minute: '2-digit',
+                  hour12: false,
+              })
+            : 'Running',
+        duration: log.endTime ? calculateDuration(log.startTime, log.endTime) : 'Running',
         createdAt: log.startTime,
     }))
 }
