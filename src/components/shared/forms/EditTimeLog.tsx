@@ -9,17 +9,17 @@ import { useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { EditTimeLogFormData, EditTimeLogSchema } from '@/schema/timelogs'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { EditTimeLogProps, OutletContextType } from '@/util/interfaces'
+import { EditTimeLogProps } from '@/util/interfaces'
 import { handleAxiosError, splitTime } from '@/util/helpers'
 import { set } from 'date-fns'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '@/redux/store'
-import { useOutletContext } from 'react-router-dom'
 import { deleteTimeLogAPI, editTimeLogAPI } from '@/redux/slice/timeLogsSlice'
 import { AxiosError } from 'axios'
 
 export default function EditTimeLog({
     id,
+    workspaceId,
     description,
     project,
     date,
@@ -29,7 +29,6 @@ export default function EditTimeLog({
     isModalOpen,
     setIsModalOpen,
 }: EditTimeLogProps) {
-    const { id: workSpaceId } = useOutletContext<OutletContextType>()
     const [projectListOpen, setProjectListOpen] = useState(false)
     const [start, setStartTime] = useState<Date>(new Date(date))
     const [end, setEndTime] = useState<Date>(set(new Date(date), { ...splitTime(endTime) }))
@@ -68,7 +67,7 @@ export default function EditTimeLog({
     const handleEdit = async (data: EditTimeLogFormData) => {
         try {
             const { meta: response } = await dispatch(
-                editTimeLogAPI({ id, workspaceId: workSpaceId, data: { ...data } }),
+                editTimeLogAPI({ id, workspaceId, data: { ...data } }),
             )
 
             if (response.requestStatus === 'fulfilled') {
@@ -83,9 +82,7 @@ export default function EditTimeLog({
     }
     const handleDelete = async () => {
         try {
-            const { meta: response } = await dispatch(
-                deleteTimeLogAPI({ id, workspaceId: workSpaceId }),
-            )
+            const { meta: response } = await dispatch(deleteTimeLogAPI({ id, workspaceId }))
             if (response.requestStatus === 'fulfilled') {
                 toast.success('Time entry deleted successfully!')
                 setIsModalOpen(false)
