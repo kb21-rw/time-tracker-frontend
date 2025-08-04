@@ -17,6 +17,7 @@ import { getUserTimeLogs, startTimerAPI, stopTimerAPI } from '@/redux/slice/time
 import ManualTimeLog from '../shared/forms/ManualTimeLog'
 import { MenuBar } from '@/components/ui/MenuBar'
 import { useIsMobile } from '@/hooks/use-mobile'
+import { useTimerSync } from '@/hooks/useTimerSync'
 
 export default function TimeTrackerHeader({ id, workspaceName }: TimeTrackerHeaderProps) {
     const [isManual, setIsManual] = useState(false)
@@ -28,6 +29,11 @@ export default function TimeTrackerHeader({ id, workspaceName }: TimeTrackerHead
     const dispatch = useDispatch<AppDispatch>()
     const { isRunning, startTimestamp } = useSelector((state: RootState) => state.timer)
     const { loading, error } = useSelector((state: RootState) => state.timeLog)
+
+    useTimerSync(id, {
+        periodicSyncMinutes: 5, // Sync every 5 minutes when timer is running
+        syncOnVisibilityChange: true, // Sync when user returns to tab
+    })
 
     const {
         register,
@@ -65,8 +71,6 @@ export default function TimeTrackerHeader({ id, workspaceName }: TimeTrackerHead
         setIsProcessing(true)
 
         try {
-            dispatch(startTimer())
-
             const result = await dispatch(
                 startTimerAPI({
                     startTime: new Date().toISOString(),
@@ -76,8 +80,11 @@ export default function TimeTrackerHeader({ id, workspaceName }: TimeTrackerHead
                 }),
             )
 
-            if (!startTimerAPI.fulfilled.match(result)) {
-                dispatch(stopTimer())
+            if (startTimerAPI.fulfilled.match(result)) {
+                // Start timer with the returned timer ID
+                dispatch(startTimer({ timerId: result.payload.id }))
+            } else {
+                toast.error('Failed to start timer')
             }
         } catch (error) {
             toast.error('Failed to start timer')
