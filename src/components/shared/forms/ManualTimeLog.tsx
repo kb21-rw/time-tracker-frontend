@@ -2,16 +2,14 @@ import { DateTimePicker } from '@/components/ui/DateTimePicker'
 import { submitManualEntry } from '@/redux/slice/timeLogsSlice'
 import { AppDispatch, RootState } from '@/redux/store'
 import { handleAxiosError } from '@/util/helpers'
-import { TimeLogEntryValues, ManualTimeLogProps, OutletContextType } from '@/util/interfaces'
+import { TimeLogEntryValues, ManualTimeLogProps } from '@/util/interfaces'
 import { AxiosError } from 'axios'
 import { CirclePlus } from 'lucide-react'
 import { useState } from 'react'
 import toast from 'react-hot-toast'
 import { useDispatch, useSelector } from 'react-redux'
-import { useOutletContext } from 'react-router-dom'
 
-function ManualTimeLog({ description, projectId }: ManualTimeLogProps) {
-    const { id } = useOutletContext<OutletContextType>()
+function ManualTimeLog({ description, projectId, workspaceId: id }: ManualTimeLogProps) {
     const [startTime, setStartTime] = useState<Date>(new Date())
     const [endTime, setEndTime] = useState<Date>(new Date())
     const dispatch = useDispatch<AppDispatch>()

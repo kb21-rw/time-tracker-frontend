@@ -20,11 +20,11 @@ export const userSignUpSchema = z
         fullName: z.string().refine(value => value.trim().split(/\s+/).length >= 2, {
             message: 'Please enter your full name (first and last name)',
         }),
-        CreatePassword: z.string().min(8, { message: 'Password must be 8 characters' }),
-        ConfirmPassword: z.string().min(1, { message: 'Confirm password is required' }),
+        createPassword: z.string().min(8, { message: 'Password must be 8 characters' }),
+        confirmPassword: z.string().min(1, { message: 'Confirm password is required' }),
         timeZone: z.string().min(1, { message: 'Time zone is required' }),
     })
-    .refine(data => data.CreatePassword === data.ConfirmPassword, {
+    .refine(data => data.createPassword === data.confirmPassword, {
         message: "Passwords don't match",
-        path: ['ConfirmPassword'],
+        path: ['confirmPassword'],
     })

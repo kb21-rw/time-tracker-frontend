@@ -12,6 +12,7 @@ export default function TimeEntryCard({
     startTime,
     endTime,
     duration,
+    workspaceId,
 }: TimeEntryCardProps) {
     const [isModalOpen, setIsModalOpen] = useState(false)
 
@@ -58,6 +59,7 @@ export default function TimeEntryCard({
                     endTime={endTime}
                     duration={duration}
                     id={id}
+                    workspaceId={workspaceId}
                 />
             )}
         </div>

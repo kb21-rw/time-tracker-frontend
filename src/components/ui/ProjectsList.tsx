@@ -20,33 +20,28 @@ export default function ProjectsList({
     const dispatch = useDispatch<AppDispatch>()
     const { projects, loading } = useSelector((state: RootState) => state.projects)
     const { workspaces } = useSelector((state: RootState) => state.workspaces)
-    const [workspaceInfo, setWorkspaceInfo] = useState({ id: '', workspaceName: '' })
+    // Removed unused workspaceInfo state
     const user = JSON.parse(localStorage.getItem('user') || '{}')
     const isAdmin = user.roles === 'Admin'
     const id = outletContext?.id
     const workspaceName = outletContext?.workspaceName
 
     useEffect(() => {
-        if (!isAdmin && workspaceInfo.id) {
-            dispatch(getProjectsByWorkspaceId(workspaceInfo.id))
+        if (isAdmin) {
+            if (id && workspaceName) {
+                dispatch(getProjectsByWorkspaceId(id))
+            }
+            return
         }
-    }, [dispatch, isAdmin, workspaceInfo.id])
 
-    useEffect(() => {
-        if (!isAdmin && workspaces.length > 0) {
-            const workspace = workspaces[0]
-            setWorkspaceInfo({
-                id: workspace.id,
-                workspaceName: workspace.name,
-            })
-        } else if (isAdmin && id) {
-            setWorkspaceInfo({
-                id: id,
-                workspaceName: workspaceName,
-            })
-            dispatch(getProjectsByWorkspaceId(id))
+        if (workspaces.length === 0) {
+            return
         }
-    }, [dispatch, id, workspaces, isAdmin])
+
+        const [firstWorkspace] = workspaces
+
+        dispatch(getProjectsByWorkspaceId(firstWorkspace.id))
+    }, [dispatch, isAdmin, id, workspaceName, workspaces])
 
     const [selectedClient, setSelectedClient] = useState<string | null>(null)
     const [selectedProject, setSelectedProject] = useState<ProjectSelection | null>(null)

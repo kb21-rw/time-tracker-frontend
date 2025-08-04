@@ -22,10 +22,25 @@ export default function TimeTracker() {
     const workspaceName = outletContext?.workspaceName
 
     useEffect(() => {
-        if (!isAdmin) {
-            dispatch(getWorkspacesByUser())
+        if (isAdmin) {
+            if (id && workspaceName) {
+                setWorkspaceInfo({ id, workspaceName })
+                dispatch(getUserTimeLogs(id))
+            }
+            return
         }
-    }, [dispatch, isAdmin])
+
+        if (workspaces.length === 0) {
+            dispatch(getWorkspacesByUser())
+            return
+        }
+
+        const [firstWorkspace] = workspaces
+        setWorkspaceInfo({
+            id: firstWorkspace.id,
+            workspaceName: firstWorkspace.name,
+        })
+    }, [dispatch, isAdmin, id, workspaces, workspaceName])
 
     useEffect(() => {
         if (!isAdmin && workspaces.length > 0) {
@@ -56,11 +71,8 @@ export default function TimeTracker() {
     const formattedTimelogs = formatTimeLogs(timeLogs)
     return (
         <div className="bg-white h-full">
-            <TimeTrackerHeader
-                id={workspaceInfo.id}
-                workspaceName={workspaceInfo.workspaceName || 'Unknown Workspace'}
-            />
-            <TimeLogsGroup timeLogs={formattedTimelogs} />
+            <TimeTrackerHeader id={workspaceInfo.id} workspaceName={workspaceInfo.workspaceName} />
+            <TimeLogsGroup timeLogs={formattedTimelogs} workspaceId={workspaceInfo.id} />
         </div>
     )
 }

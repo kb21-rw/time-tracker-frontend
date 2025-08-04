@@ -20,7 +20,6 @@ export interface User {
     fullName: string
     email: string
     roles: UserRole
-    timeZone?: string // User's configured timezone from signup
 }
 
 export interface AuthState {
@@ -173,6 +172,7 @@ export interface TimeEntryCardProps {
     endTime: string
     duration: string
     date: string
+    workspaceId: string
 }
 
 export interface TimeLog {
@@ -206,6 +206,7 @@ export interface TimeLogState {
 
 export interface TimeLogsGroupProps {
     timeLogs: formattedTimeLog[]
+    workspaceId: string
 }
 
 export interface TimeLogEntryValues {
@@ -258,6 +259,7 @@ export interface EditTimeLogProps extends TimeEntryCardProps {
 export interface ManualTimeLogProps {
     description?: string
     projectId?: string
+    workspaceId: string
 }
 
 export interface ProtectedRouteProps {

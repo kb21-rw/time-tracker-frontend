@@ -183,6 +183,7 @@ export default function TimeTrackerHeader({ id, workspaceName }: TimeTrackerHead
                     <ManualTimeLog
                         description={getValues('description')}
                         projectId={selectedProjectId ?? undefined}
+                        workspaceId={id}
                     />
                 )}
                 <TimerSwitch
