@@ -1,7 +1,7 @@
 import { WorkspaceHeaderProps } from '@/util/interfaces'
 import { Download, Plus } from 'lucide-react'
 import { MenuBar } from '@/components/ui/MenuBar'
-import { useIsMobile } from '@/hooks/use-mobile'
+import { useIsMobile } from '@/hooks/useMobile'
 import { useState } from 'react'
 
 export default function WorkspaceHeader({

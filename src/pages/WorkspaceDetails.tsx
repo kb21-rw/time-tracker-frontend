@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { selectSidebarOpen } from '../redux/features/sidebarSlice'
 import { selectWorkspace } from '@/redux/features/workspaceStateSlice'
-import { useIsMobile } from '@/hooks/use-mobile'
+import { useIsMobile } from '@/hooks/useMobile'
 import { getWorkspaceById } from '@/redux/slice/workspaceSlice'
 import { AppDispatch } from '@/redux/store'
 

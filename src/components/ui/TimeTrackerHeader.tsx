@@ -16,7 +16,7 @@ import { clearError } from '@/redux/slice/authSlice'
 import { getUserTimeLogs, startTimerAPI, stopTimerAPI } from '@/redux/slice/timeLogsSlice'
 import ManualTimeLog from '../shared/forms/ManualTimeLog'
 import { MenuBar } from '@/components/ui/MenuBar'
-import { useIsMobile } from '@/hooks/use-mobile'
+import { useIsMobile } from '@/hooks/useMobile'
 import { useTimerSync } from '@/hooks/useTimerSync'
 
 export default function TimeTrackerHeader({ id, workspaceName }: TimeTrackerHeaderProps) {
