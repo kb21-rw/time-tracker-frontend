@@ -34,24 +34,32 @@ export default function TimeTracker() {
                 id: workspace.id,
                 workspaceName: workspace.name,
             })
-        } else if (isAdmin && id) {
+        } else if (isAdmin && id && workspaceName) {
             setWorkspaceInfo({
                 id: id,
                 workspaceName: workspaceName,
             })
             dispatch(getUserTimeLogs(id))
         }
-    }, [dispatch, id, workspaces, isAdmin])
+    }, [dispatch, id, workspaces, isAdmin, workspaceName])
 
     // To be style
     if (loading) {
         return <div>Loading workspace...</div>
     }
 
+    // Don't render if we don't have workspace info yet
+    if (!workspaceInfo.id) {
+        return <div>Loading workspace information...</div>
+    }
+
     const formattedTimelogs = formatTimeLogs(timeLogs)
     return (
         <div className="bg-white h-full">
-            <TimeTrackerHeader id={workspaceInfo.id} workspaceName={workspaceInfo.workspaceName} />
+            <TimeTrackerHeader
+                id={workspaceInfo.id}
+                workspaceName={workspaceInfo.workspaceName || 'Unknown Workspace'}
+            />
             <TimeLogsGroup timeLogs={formattedTimelogs} />
         </div>
     )
