@@ -20,6 +20,7 @@ export interface User {
     fullName: string
     email: string
     roles: UserRole
+    timeZone?: string // User's configured timezone from signup
 }
 
 export interface AuthState {
@@ -149,6 +150,7 @@ export interface TimerState {
     isRunning: boolean
     startTimestamp: number | null
     stopTimestamp: number | null
+    currentTimerId: string | null
 }
 export interface TimerRunnerProps {
     isRunning: boolean
@@ -178,8 +180,11 @@ export interface TimeLog {
     description: string
     project: Project
     startTime: string
-    endTime: string
+    endTime: string | null
     createdAt: string
+    manualEntry?: boolean
+    autoStoppedAt?: string | null
+    updatedAt?: string
 }
 
 export interface formattedTimeLog {
@@ -271,4 +276,9 @@ export interface TimezoneDisplayProps {
 export interface TimeTrackerHeaderProps {
     id: string
     workspaceName: string
+}
+
+export interface TimerSyncOptions {
+    periodicSyncMinutes?: number
+    syncOnVisibilityChange?: boolean
 }
