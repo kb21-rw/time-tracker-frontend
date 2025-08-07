@@ -49,7 +49,6 @@ export default function TimeTracker() {
         }
     }, [dispatch, workspaceInfo.id])
 
-
     if (loading) {
         return <LoadingSpinner center size={80} className="text-primary-600 h-screen" />
     }
