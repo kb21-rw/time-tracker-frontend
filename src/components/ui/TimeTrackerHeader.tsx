@@ -22,6 +22,7 @@ export default function TimeTrackerHeader({ id, workspaceName }: TimeTrackerHead
     const [isManual, setIsManual] = useState(false)
     const [isProcessing, setIsProcessing] = useState(false)
     const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null)
+    const [resetProjectTrigger, setResetProjectTrigger] = useState(false)
     const isMobile = useIsMobile()
     const [menuOpen, setMenuOpen] = useState(false)
 
@@ -105,6 +106,7 @@ export default function TimeTrackerHeader({ id, workspaceName }: TimeTrackerHead
             if (stopTimerAPI.fulfilled.match(result)) {
                 reset()
                 setSelectedProjectId(null)
+                setResetProjectTrigger(prev => !prev) // Toggle to trigger TrackerInput reset
                 dispatch(getUserTimeLogs(id!))
             } else {
                 toast.error('Failed to stop timer')
@@ -114,6 +116,12 @@ export default function TimeTrackerHeader({ id, workspaceName }: TimeTrackerHead
         } finally {
             setIsProcessing(false)
         }
+    }
+
+    const handleManualSuccess = () => {
+        reset()
+        setSelectedProjectId(null)
+        setResetProjectTrigger(prev => !prev)
     }
 
     const onSubmit = (data: TimerStartFormData) => {
@@ -146,6 +154,7 @@ export default function TimeTrackerHeader({ id, workspaceName }: TimeTrackerHead
                         onProjectSelect={handleProjectSelect}
                         error={errors.description}
                         hasIcon={true}
+                        resetProject={resetProjectTrigger}
                     />
                     {!isManual && (
                         <>
@@ -177,6 +186,7 @@ export default function TimeTrackerHeader({ id, workspaceName }: TimeTrackerHead
                         description={getValues('description')}
                         projectId={selectedProjectId ?? undefined}
                         workspaceId={id}
+                        onSuccess={handleManualSuccess}
                     />
                 )}
                 <TimerSwitch

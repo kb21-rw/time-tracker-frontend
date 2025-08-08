@@ -12,6 +12,7 @@ export default function TrackerInput({
     hasIcon = false,
     register,
     onProjectSelect,
+    resetProject,
     ...props
 }: TrackerInputProps) {
     const [selectedClient] = useState<string | null>(null)
@@ -33,6 +34,13 @@ export default function TrackerInput({
             document.removeEventListener('mousedown', handleClickOutside)
         }
     }, [])
+
+    // Clear project display when resetProject changes
+    useEffect(() => {
+        if (resetProject) {
+            setProject('')
+        }
+    }, [resetProject])
 
     const handleProjectSelect = (projectId: string, displayName: string) => {
         setProject(displayName)

@@ -9,7 +9,7 @@ import { useState } from 'react'
 import toast from 'react-hot-toast'
 import { useDispatch, useSelector } from 'react-redux'
 
-function ManualTimeLog({ description, projectId, workspaceId: id }: ManualTimeLogProps) {
+function ManualTimeLog({ description, projectId, workspaceId: id, onSuccess }: ManualTimeLogProps) {
     const [startTime, setStartTime] = useState<Date>(new Date())
     const [endTime, setEndTime] = useState<Date>(new Date())
     const dispatch = useDispatch<AppDispatch>()
@@ -40,6 +40,12 @@ function ManualTimeLog({ description, projectId, workspaceId: id }: ManualTimeLo
             )
             if (response.requestStatus === 'fulfilled') {
                 toast.success('Manual time log created successfully!')
+                // Clear the form after successful submission
+                const now = new Date()
+                setStartTime(now)
+                setEndTime(now)
+                // Notify parent component to clear its form
+                onSuccess?.()
             } else {
                 toast.error('Failed to create manual time log.')
             }
