@@ -277,7 +277,7 @@ export interface TimeTrackerHeaderProps {
 }
 
 export interface SpinnerProps {
-    size?: number 
-    className?: string 
+    size?: number
+    className?: string
     center?: boolean
 }

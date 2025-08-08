@@ -1,6 +1,10 @@
-import { SpinnerProps } from "@/util/interfaces";
+import { SpinnerProps } from '@/util/interfaces'
 
-export default function LoadingSpinner({ size = 20, className = '', center = false }: SpinnerProps) {
+export default function LoadingSpinner({
+    size = 20,
+    className = '',
+    center = false,
+}: SpinnerProps) {
     return (
         <div
             className={`${
