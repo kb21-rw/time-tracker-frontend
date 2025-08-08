@@ -1,5 +1,5 @@
 import api from '@/lib/api'
-import { StartTimerPayload, TimeLogState, TimeLogEntryValues, TimeLog } from '@/util/interfaces'
+import { StartTimerPayload, TimeLogState, TimeLogEntryValues } from '@/util/interfaces'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
 const initialState: TimeLogState = {
