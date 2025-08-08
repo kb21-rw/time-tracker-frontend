@@ -275,3 +275,9 @@ export interface TimeTrackerHeaderProps {
     id: string
     workspaceName: string
 }
+
+export interface SpinnerProps {
+    size?: number 
+    className?: string 
+    center?: boolean
+}
