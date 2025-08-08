@@ -284,3 +284,8 @@ export interface TimerSyncOptions {
     periodicSyncMinutes?: number
     syncOnVisibilityChange?: boolean
 }
+export interface SpinnerProps {
+    size?: number
+    className?: string
+    center?: boolean
+}

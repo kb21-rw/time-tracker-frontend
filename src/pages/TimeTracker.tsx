@@ -1,4 +1,5 @@
 import TimeLogsGroup from '@/components/card/TimeLogsGroup'
+import LoadingSpinner from '@/components/shared/ui/LoadingSpinner'
 import TimeTrackerHeader from '@/components/ui/TimeTrackerHeader'
 import { getUserTimeLogs } from '@/redux/slice/timeLogsSlice'
 import { getWorkspacesByUser } from '@/redux/slice/workspaceSlice'
@@ -58,9 +59,8 @@ export default function TimeTracker() {
         }
     }, [dispatch, id, workspaces, isAdmin, workspaceName])
 
-    // To be style
     if (loading) {
-        return <div>Loading workspace...</div>
+        return <LoadingSpinner center size={80} className="text-primary-600 h-screen" />
     }
 
     // Don't render if we don't have workspace info yet
