@@ -1,5 +1,5 @@
 import api from '@/lib/api'
-import { StartTimerPayload, TimeLogState, TimeLogEntryValues } from '@/util/interfaces'
+import { StartTimerPayload, TimeLogState, TimeLogEntryValues, TimeLog } from '@/util/interfaces'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
 const initialState: TimeLogState = {
@@ -180,9 +180,8 @@ const TimeLogSlice = createSlice({
                 state.loading = true
                 state.error = null
             })
-            .addCase(startTimerAPI.fulfilled, (state, action) => {
+            .addCase(startTimerAPI.fulfilled, state => {
                 state.loading = false
-                state.timeLogs.push(action.payload)
             })
             .addCase(startTimerAPI.rejected, (state, action) => {
                 state.loading = false

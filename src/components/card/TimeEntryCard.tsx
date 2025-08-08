@@ -41,13 +41,11 @@ export default function TimeEntryCard({
             </div>
             <div className="text-right">{duration}</div>
             <div className="flex justify-center items-center">
-                {endTime !== 'Running' && (
-                    <button className="text-primary-500" onClick={() => setIsModalOpen(true)}>
-                        <Pencil className="w-5 h-5" />
-                    </button>
-                )}
+                <button className="text-primary-500" onClick={() => setIsModalOpen(true)}>
+                    <Pencil className="w-5 h-5" />
+                </button>
             </div>
-            {isModalOpen && endTime !== 'Running' && (
+            {isModalOpen && (
                 <EditTimeLog
                     isModalOpen={isModalOpen}
                     setIsModalOpen={setIsModalOpen}
