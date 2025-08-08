@@ -1,5 +1,5 @@
 import { DateTimePicker } from '@/components/ui/DateTimePicker'
-import { submitManualEntry } from '@/redux/slice/timeLogsSlice'
+import { submitManualEntry, getUserTimeLogs } from '@/redux/slice/timeLogsSlice'
 import { AppDispatch, RootState } from '@/redux/store'
 import { handleAxiosError } from '@/util/helpers'
 import { TimeLogEntryValues, ManualTimeLogProps } from '@/util/interfaces'
@@ -44,6 +44,8 @@ function ManualTimeLog({ description, projectId, workspaceId: id, onSuccess }: M
                 const now = new Date()
                 setStartTime(now)
                 setEndTime(now)
+                // Refresh time logs from server to show the new entry immediately
+                dispatch(getUserTimeLogs(id))
                 // Notify parent component to clear its form
                 onSuccess?.()
             } else {
