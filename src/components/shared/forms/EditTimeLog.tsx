@@ -5,7 +5,7 @@ import ProjectsList from '@/components/ui/ProjectsList'
 import { ChevronDown } from 'lucide-react'
 import { DateTimePicker } from '@/components/ui/DateTimePicker'
 import Input from '../ui/Input'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { EditTimeLogFormData, EditTimeLogSchema } from '@/schema/timelogs'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -36,6 +36,14 @@ export default function EditTimeLog({
     const buttonRef = useRef<HTMLDivElement>(null)
     const dispatch = useDispatch<AppDispatch>()
     const { loading } = useSelector((state: RootState) => state.timeLog)
+    const { projects, loading: projectLoading } = useSelector((state: RootState) => state.projects)
+    const selectedProjectId = useMemo(() => {
+        return projects.find(project_ => project === project_.name)?.id
+    }, [projects])
+
+    console.log('project', project)
+    console.log('selectedProject:', selectedProject)
+    console.log(selectedProjectId)
     const {
         register,
         handleSubmit,
@@ -45,7 +53,7 @@ export default function EditTimeLog({
         resolver: zodResolver(EditTimeLogSchema),
         defaultValues: {
             description: description || '',
-            projectId: project || '',
+            projectId: selectedProjectId || '',
             startTime: start?.toISOString() || '',
             endTime: end?.toISOString() || '',
         },
