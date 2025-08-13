@@ -36,10 +36,11 @@ export default function EditTimeLog({
     const buttonRef = useRef<HTMLDivElement>(null)
     const dispatch = useDispatch<AppDispatch>()
     const { loading } = useSelector((state: RootState) => state.timeLog)
-    const { projects, loading: projectLoading } = useSelector((state: RootState) => state.projects)
+    const { projects } = useSelector((state: RootState) => state.projects)
+
     const selectedProjectId = useMemo(() => {
-        return projects.find(project_ => project === project_.name)?.id
-    }, [projects])
+        return projects.find(currentProject => project === currentProject.name)?.id
+    }, [])
 
     const {
         register,
