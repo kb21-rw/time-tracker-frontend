@@ -41,9 +41,6 @@ export default function EditTimeLog({
         return projects.find(project_ => project === project_.name)?.id
     }, [projects])
 
-    console.log('project', project)
-    console.log('selectedProject:', selectedProject)
-    console.log(selectedProjectId)
     const {
         register,
         handleSubmit,

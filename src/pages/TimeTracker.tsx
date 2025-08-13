@@ -54,8 +54,6 @@ export default function TimeTracker() {
     }
 
     const formattedTimelogs = formatTimeLogs(timeLogs)
-    console.log('unfiltered timelogs:', timeLogs)
-    console.log('timeLogs', formattedTimelogs)
     return (
         <div className="bg-white h-full">
             <TimeTrackerHeader id={workspaceInfo.id} workspaceName={workspaceInfo.workspaceName} />
