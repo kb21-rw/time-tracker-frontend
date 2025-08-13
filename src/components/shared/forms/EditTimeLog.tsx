@@ -72,8 +72,16 @@ export default function EditTimeLog({
     }
     const handleEdit = async (data: EditTimeLogFormData) => {
         try {
+            const timeLogData = () => {
+                if (!data.projectId) {
+                    const { projectId, ...restData } = data
+                    return restData
+                }
+                return data
+            }
+
             const { meta: response } = await dispatch(
-                editTimeLogAPI({ id, workspaceId, data: { ...data } }),
+                editTimeLogAPI({ id, workspaceId, data: timeLogData() }),
             )
 
             if (response.requestStatus === 'fulfilled') {
