@@ -71,8 +71,11 @@ export function DateTimePicker(timeProps: DateTimePickerProps) {
                         {displayValue}
                     </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-auto z-99 overflow-hidden p-4 mr-4" align="start">
-                    <div className="flex flex-col gap-4 items-center">
+                <PopoverContent
+                    className="w-auto h-[40vh] lg:h-[50vh] 2xl:h-auto overflow-y-scroll overflow-y-auto- z-99 p-4 mr-4"
+                    align="center"
+                >
+                    <div className="flex flex-col gap-4 items-center ">
                         <div className="flex gap-4">
                             <label className="flex flex-col items-start">
                                 <span className="mb-1 text-sm font-medium">Start</span>
@@ -82,7 +85,7 @@ export function DateTimePicker(timeProps: DateTimePickerProps) {
                                     step="1"
                                     value={startTime}
                                     onChange={handleStartTimeChange}
-                                    className="bg-background appearance-none pr-11 w-32"
+                                    className="bg-background appearance-none w-full"
                                 />
                             </label>
                             <label className="flex flex-col items-start">
@@ -93,7 +96,7 @@ export function DateTimePicker(timeProps: DateTimePickerProps) {
                                     step="1"
                                     value={endTime}
                                     onChange={handleEndTimeChange}
-                                    className="bg-background appearance-none pr-11 w-32"
+                                    className="bg-background appearance-none w-full"
                                 />
                             </label>
                         </div>
