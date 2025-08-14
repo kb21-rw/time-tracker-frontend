@@ -16,7 +16,7 @@ export type TimerStartFormData = z.infer<typeof TimerStartSchema>
 
 export const EditTimeLogSchema = z.object({
     description: z.string().optional(),
-    projectId: z.string().optional() || null,
+    projectId: z.string().optional(),
     startTime: z.string(),
     endTime: z.string(),
 })
