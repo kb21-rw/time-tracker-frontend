@@ -12,10 +12,11 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { EditTimeLogProps } from '@/util/interfaces'
 import { handleAxiosError, splitTime } from '@/util/helpers'
 import { set } from 'date-fns'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { AppDispatch, RootState } from '@/redux/store'
 import { deleteTimeLogAPI, editTimeLogAPI } from '@/redux/slice/timeLogsSlice'
 import { AxiosError } from 'axios'
+import { useMultiSelector } from '@/hooks/useMultiSelector'
 
 export default function EditTimeLog({
     id,
@@ -35,8 +36,11 @@ export default function EditTimeLog({
     const [selectedProject, setSelectedProject] = useState<string | null>(project || null)
     const buttonRef = useRef<HTMLDivElement>(null)
     const dispatch = useDispatch<AppDispatch>()
-    const { loading } = useSelector((state: RootState) => state.timeLog)
-    const { projects } = useSelector((state: RootState) => state.projects)
+
+    const { projects, timeLogLoading } = useMultiSelector({
+        projects: (state: RootState) => state.projects.projects,
+        timeLogLoading: (state: RootState) => state.timeLog.loading,
+    })
 
     const selectedProjectId = useMemo(() => {
         return projects.find(currentProject => project === currentProject.name)?.id
@@ -160,7 +164,7 @@ export default function EditTimeLog({
                             className="w-full cursor-pointer"
                             type="submit"
                             name="save"
-                            disabled={loading}
+                            disabled={timeLogLoading}
                         >
                             Save
                         </Button>
@@ -170,7 +174,7 @@ export default function EditTimeLog({
                             type="submit"
                             name="delete"
                             onClick={handleDelete}
-                            disabled={loading}
+                            disabled={timeLogLoading}
                         >
                             Delete
                         </Button>
