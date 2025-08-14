@@ -9,6 +9,7 @@ import { formatDateTime, formatTime } from '@/util/helpers'
 import { calculateDuration } from '@/util/helpers'
 import { useCallback, useMemo } from 'react'
 import { formatISO } from 'date-fns'
+import { cn } from '@/lib/utils'
 
 export function DateTimePicker(timeProps: DateTimePickerProps) {
     const defaultTime = {
@@ -72,8 +73,13 @@ export function DateTimePicker(timeProps: DateTimePickerProps) {
                     </Button>
                 </PopoverTrigger>
                 <PopoverContent
-                    className="w-auto h-[40vh] lg:h-[50vh] 2xl:h-auto overflow-y-scroll overflow-y-auto- z-99 p-4 mr-4"
-                    align="center"
+                    className={cn(
+                        'w-auto z-99 p-4 mr-4',
+                        timeProps.scrollable
+                            ? 'h-[40vh] lg:h-[50vh] 2xl:h-auto overflow-y-scroll'
+                            : 'overflow-hidden',
+                    )}
+                    align="start"
                 >
                     <div className="flex flex-col gap-4 items-center ">
                         <div className="flex gap-4">

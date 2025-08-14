@@ -236,7 +236,7 @@ export interface DateTimePickerProps {
     duration?: string
     setStartTime: React.Dispatch<React.SetStateAction<Date>>
     setEndTime: React.Dispatch<React.SetStateAction<Date>>
-    floating?: boolean
+    scrollable?: boolean
 }
 
 export interface ProjectSelection {
