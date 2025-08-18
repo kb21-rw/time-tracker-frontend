@@ -6,7 +6,7 @@ import { getWorkspacesByUser } from '@/redux/slice/workspaceSlice'
 import { AppDispatch, RootState } from '@/redux/store'
 import { formatTimeLogs } from '@/util/helpers'
 import { OutletContextType } from '@/util/interfaces'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { useOutletContext } from 'react-router-dom'
@@ -21,12 +21,10 @@ export default function TimeTracker() {
     const isAdmin = user.roles === 'Admin'
     const id = outletContext?.id
     const workspaceName = outletContext?.workspaceName
-
     useEffect(() => {
         if (isAdmin) {
             if (id && workspaceName) {
                 setWorkspaceInfo({ id, workspaceName })
-                dispatch(getUserTimeLogs(id))
             }
             return
         }
@@ -44,31 +42,21 @@ export default function TimeTracker() {
     }, [dispatch, isAdmin, id, workspaces, workspaceName])
 
     useEffect(() => {
-        if (!isAdmin && workspaces.length > 0) {
-            const workspace = workspaces[0]
-            setWorkspaceInfo({
-                id: workspace.id,
-                workspaceName: workspace.name,
-            })
-        } else if (isAdmin && id && workspaceName) {
-            setWorkspaceInfo({
-                id: id,
-                workspaceName: workspaceName,
-            })
-            dispatch(getUserTimeLogs(id))
+        if (workspaceInfo.id) {
+            dispatch(getUserTimeLogs(workspaceInfo.id))
         }
-    }, [dispatch, id, workspaces, isAdmin, workspaceName])
+    }, [dispatch, workspaceInfo.id])
+
+    const formattedTimelogs = useMemo(() => formatTimeLogs(timeLogs), [timeLogs])
 
     if (loading) {
         return <LoadingSpinner center size={80} className="text-primary-600 h-screen" />
     }
 
-    // Don't render if we don't have workspace info yet
     if (!workspaceInfo.id) {
-        return <div>Loading workspace information...</div>
+        return <div>No workspace available.</div>
     }
 
-    const formattedTimelogs = formatTimeLogs(timeLogs)
     return (
         <div className="bg-white h-full">
             <TimeTrackerHeader id={workspaceInfo.id} workspaceName={workspaceInfo.workspaceName} />
