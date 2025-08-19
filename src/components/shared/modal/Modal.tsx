@@ -16,7 +16,7 @@ export default function Modal({
         <Dialog open={isModalOpen} onOpenChange={onClose} aria-describedby={undefined}>
             <DialogContent className="z-50">
                 <DialogHeader>
-                    <DialogTitle className="text-xl font-bold text-gray-900">{title}</DialogTitle>
+                    <DialogTitle className="text-xl  text-gray-900">{title}</DialogTitle>
                 </DialogHeader>
                 <div>{children}</div>
             </DialogContent>

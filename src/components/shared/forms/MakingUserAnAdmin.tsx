@@ -1,12 +1,10 @@
-import React from 'react'
 import Button from '../ui/Button'
 
 function MakingUserAnAdmin() {
-    
     return (
-        <div>
-            <Button className="w-1/2">Confirm</Button>
-            <Button className="w-1/2">Cancel</Button>
+        <div className="flex items-center gap-10 ">
+            <Button className="w-2/5">Confirm</Button>
+            <Button className="w-2/5 bg-red-600">Cancel</Button>
         </div>
     )
 }
