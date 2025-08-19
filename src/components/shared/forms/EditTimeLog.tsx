@@ -44,7 +44,7 @@ export default function EditTimeLog({
 
     const selectedProjectId = useMemo(() => {
         return projects.find(currentProject => project === currentProject.name)?.id
-    }, [])
+    }, [projects])
 
     const {
         register,
@@ -76,7 +76,9 @@ export default function EditTimeLog({
     }
     const handleEdit = async (data: EditTimeLogFormData) => {
         try {
-            const timeLogData = () => {
+            const timeLogData = ():
+                | EditTimeLogFormData
+                | Omit<EditTimeLogFormData, 'projectId'> => {
                 if (!data.projectId) {
                     const { projectId, ...restData } = data
                     return restData

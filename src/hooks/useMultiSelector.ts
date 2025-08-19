@@ -10,13 +10,15 @@ export const useMultiSelector = <T extends Record<string, (state: RootState) => 
     const values = Object.values(selectors)
 
     const derivedState = createSelector(values, (...results) => {
-        const data = results.reduce((acc, value, index) => {
-            const key = Object.keys(selectors)[index]
-            acc[key] = value
-            return acc
-        }, {} as any)
+        const data = results.reduce(
+            (acc, value, index) => {
+                const key = Object.keys(selectors)[index]
+                acc[key] = value
+                return acc
+            },
+            {} as { [K in keyof T]: ReturnType<T[K]> },
+        )
         return data
     })
-
     return useSelector(derivedState)
 }
