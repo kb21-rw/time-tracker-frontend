@@ -6,6 +6,10 @@ import { syncActiveTimer } from '@/redux/slice/timeLogsSlice'
 import { syncTimer } from '@/redux/features/timerSlice'
 import { TimerSyncOptions } from '@/util/interfaces'
 import { getBrowserTimezone } from '@/util/helpers'
+import { MS_PER_SECOND, SECONDS_PER_MINUTE, MINUTES_PER_HOUR, HOURS_PER_DAY } from '@/constants'
+
+const MS_PER_MINUTE = MS_PER_SECOND * SECONDS_PER_MINUTE
+const MS_PER_DAY = MS_PER_MINUTE * MINUTES_PER_HOUR * HOURS_PER_DAY
 
 export function useTimerSync(workspaceId?: string, options: TimerSyncOptions = {}) {
     const { periodicSyncMinutes, syncOnVisibilityChange = true } = options
@@ -92,7 +96,7 @@ export function useTimerSync(workspaceId?: string, options: TimerSyncOptions = {
 
         const timeout = setTimeout(() => {
             syncWithBackend()
-            dailyIntervalRef.current = setInterval(syncWithBackend, 24 * 60 * 60 * 1000)
+            dailyIntervalRef.current = setInterval(syncWithBackend, MS_PER_DAY)
         }, getMsUntilMidnight())
 
         midnightTimeoutRef.current = timeout
@@ -103,7 +107,10 @@ export function useTimerSync(workspaceId?: string, options: TimerSyncOptions = {
 
         clearTimerRef(periodicIntervalRef)
 
-        periodicIntervalRef.current = setInterval(syncWithBackend, periodicSyncMinutes * 60 * 1000)
+        periodicIntervalRef.current = setInterval(
+            syncWithBackend,
+            periodicSyncMinutes * MS_PER_MINUTE,
+        )
     }, [workspaceId, periodicSyncMinutes, isRunning, syncWithBackend])
 
     const handleVisibilityChange = useCallback(() => {
@@ -135,7 +142,7 @@ export function useTimerSync(workspaceId?: string, options: TimerSyncOptions = {
     // Re-sync when timer ID changes (real-time updates)
     useEffect(() => {
         if (workspaceId) syncWithBackend()
-    }, [isRunning, currentTimerId, workspaceId, syncWithBackend])
+    }, [currentTimerId, workspaceId, syncWithBackend])
 
     // Handle tab visibility change
     useEffect(() => {
