@@ -28,8 +28,8 @@ export default function TimeTracker() {
             if (id && workspaceName) return { id, name: workspaceName }
             return null
         }
-        const firstWorspace = workspaces[0]
-        return firstWorspace ? { id: firstWorspace.id, name: firstWorspace.name } : null
+        const firstWorkspace = workspaces[0]
+        return firstWorkspace ? { id: firstWorkspace.id, name: firstWorkspace.name } : null
     }, [isAdmin, id, workspaceName, workspaces])
 
     // Ensure non-admins have workspaces loaded
