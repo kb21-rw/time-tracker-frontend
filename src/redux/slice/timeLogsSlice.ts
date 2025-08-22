@@ -208,7 +208,7 @@ const TimeLogSlice = createSlice({
             })
             .addCase(deleteTimeLogAPI.fulfilled, (state, action) => {
                 state.loading = false
-                state.timeLogs = state.timeLogs.filter(log => log.id !== action.payload.id)
+                state.timeLogs = state.timeLogs.filter(log => log.id !== action.meta.arg.id)
             })
             .addCase(deleteTimeLogAPI.rejected, (state, action) => {
                 state.loading = false
