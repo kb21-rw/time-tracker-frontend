@@ -6,7 +6,7 @@ import { getWorkspacesByUser } from '@/redux/slice/workspaceSlice'
 import { AppDispatch, RootState } from '@/redux/store'
 import { formatTimeLogs } from '@/util/helpers'
 import { OutletContextType } from '@/util/interfaces'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { useOutletContext } from 'react-router-dom'
@@ -22,32 +22,29 @@ export default function TimeTracker() {
     const id = outletContext?.id
     const workspaceName = outletContext?.workspaceName
 
-    useEffect(() => {
+    // Pick the workspace we care about
+    const targetWorkspace = useMemo(() => {
         if (isAdmin) {
-            if (id && workspaceName) {
-                setWorkspaceInfo({ id, workspaceName })
-                dispatch(getUserTimeLogs(id))
-            }
-            return
+            if (id && workspaceName) return { id, name: workspaceName }
+            return null
         }
+        const firstWorkspace = workspaces[0]
+        return firstWorkspace ? { id: firstWorkspace.id, name: firstWorkspace.name } : null
+    }, [isAdmin, id, workspaceName, workspaces])
 
-        if (workspaces.length === 0) {
-            dispatch(getWorkspacesByUser())
-            return
-        }
-
-        const [firstWorkspace] = workspaces
-        setWorkspaceInfo({
-            id: firstWorkspace.id,
-            workspaceName: firstWorkspace.name,
-        })
-    }, [dispatch, isAdmin, id, workspaces, workspaceName])
-
+    // Ensure non-admins have workspaces loaded
     useEffect(() => {
-        if (workspaceInfo.id) {
-            dispatch(getUserTimeLogs(workspaceInfo.id))
+        if (!isAdmin && workspaces.length === 0) {
+            dispatch(getWorkspacesByUser())
         }
-    }, [dispatch, workspaceInfo.id])
+    }, [isAdmin, workspaces.length, dispatch])
+
+    // Set the active workspace + fetch logs once per target change
+    useEffect(() => {
+        if (!targetWorkspace) return
+        setWorkspaceInfo({ id: targetWorkspace.id, workspaceName: targetWorkspace.name })
+        dispatch(getUserTimeLogs(targetWorkspace.id))
+    }, [dispatch, targetWorkspace])
 
     if (loading) {
         return <LoadingSpinner center size={80} className="text-primary-600 h-screen" />
