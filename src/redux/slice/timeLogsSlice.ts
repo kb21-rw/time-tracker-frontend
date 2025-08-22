@@ -116,6 +116,28 @@ export const deleteTimeLogAPI = createAsyncThunk(
     },
 )
 
+export const syncActiveTimer = createAsyncThunk(
+    'syncActiveTimer',
+    async ({ workspaceId }: { workspaceId: string }, { rejectWithValue }) => {
+        try {
+            const response = await api.get(`/workspaces/${workspaceId}/timeEntries/active`)
+            const activeTimer = response.data
+
+            // Check if response is empty object (no active timer)
+            if (Object.keys(activeTimer).length === 0) {
+                return null // No active timer
+            }
+
+            return activeTimer // Return the active timer object
+        } catch (err: any) {
+            const errorMessage = err.response?.data?.message || 'Sync failed'
+            return rejectWithValue(
+                typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage),
+            )
+        }
+    },
+)
+
 const TimeLogSlice = createSlice({
     name: 'timeLog',
     initialState,
@@ -158,9 +180,8 @@ const TimeLogSlice = createSlice({
                 state.loading = true
                 state.error = null
             })
-            .addCase(startTimerAPI.fulfilled, (state, action) => {
+            .addCase(startTimerAPI.fulfilled, state => {
                 state.loading = false
-                state.timeLogs.push(action.payload)
             })
             .addCase(startTimerAPI.rejected, (state, action) => {
                 state.loading = false
@@ -190,6 +211,18 @@ const TimeLogSlice = createSlice({
                 state.timeLogs = state.timeLogs.filter(log => log.id !== action.payload.id)
             })
             .addCase(deleteTimeLogAPI.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.payload as string
+            })
+            .addCase(syncActiveTimer.pending, state => {
+                state.loading = true
+                state.error = null
+            })
+            .addCase(syncActiveTimer.fulfilled, state => {
+                state.loading = false
+                // Note: Timer sync is handled in the timer slice, not here
+            })
+            .addCase(syncActiveTimer.rejected, (state, action) => {
                 state.loading = false
                 state.error = action.payload as string
             })

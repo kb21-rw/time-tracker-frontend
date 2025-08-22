@@ -1,28 +1,46 @@
 import { TimerState } from '@/util/interfaces'
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 const initialState: TimerState = {
     isRunning: false,
     startTimestamp: null,
     stopTimestamp: null,
+    currentTimerId: null,
 }
 
 const timerSlice = createSlice({
     name: 'timer',
     initialState,
     reducers: {
-        startTimer(state) {
+        startTimer(state, action: PayloadAction<{ timerId?: string } | undefined>) {
             state.isRunning = true
             state.startTimestamp = Date.now()
             state.stopTimestamp = null
+            state.currentTimerId = action.payload?.timerId || null
         },
         stopTimer(state) {
             state.isRunning = false
             state.stopTimestamp = Date.now()
             state.startTimestamp = null
+            state.currentTimerId = null
+        },
+        syncTimer(state, action: PayloadAction<{ timerId: string; startTime: string } | null>) {
+            if (action.payload) {
+                // Sync to an active timer from backend
+                state.isRunning = true
+                state.startTimestamp = new Date(action.payload.startTime).getTime()
+                state.stopTimestamp = null
+                state.currentTimerId = action.payload.timerId
+            } else {
+                // No active timer on backend, stop local timer
+                state.isRunning = false
+                state.stopTimestamp = Date.now()
+                state.startTimestamp = null
+                state.currentTimerId = null
+            }
         },
     },
 })
 
-export const { startTimer, stopTimer } = timerSlice.actions
+export const { startTimer, stopTimer, syncTimer } = timerSlice.actions
 export default timerSlice.reducer

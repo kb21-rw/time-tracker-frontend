@@ -20,6 +20,7 @@ export interface User {
     fullName: string
     email: string
     roles: UserRole
+    timeZone: string
 }
 
 export interface AuthState {
@@ -149,6 +150,7 @@ export interface TimerState {
     isRunning: boolean
     startTimestamp: number | null
     stopTimestamp: number | null
+    currentTimerId: string | null
 }
 export interface TimerRunnerProps {
     isRunning: boolean
@@ -164,7 +166,6 @@ export interface ColumnsProps<T> {
 }
 export interface TimeEntryCardProps {
     id: string
-    workspaceId: string
     description: string
     project: string
     client: string
@@ -172,6 +173,7 @@ export interface TimeEntryCardProps {
     endTime: string
     duration: string
     date: string
+    workspaceId: string
 }
 
 export interface TimeLog {
@@ -179,8 +181,11 @@ export interface TimeLog {
     description: string
     project: Project
     startTime: string
-    endTime: string
+    endTime: string | null
     createdAt: string
+    manualEntry?: boolean
+    autoStoppedAt?: string | null
+    updatedAt?: string
 }
 
 export interface formattedTimeLog {
@@ -276,6 +281,10 @@ export interface TimeTrackerHeaderProps {
     workspaceName: string
 }
 
+export interface TimerSyncOptions {
+    periodicSyncMinutes?: number
+    syncOnVisibilityChange?: boolean
+}
 export interface SpinnerProps {
     size?: number
     className?: string
