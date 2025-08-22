@@ -241,6 +241,13 @@ export interface DateTimePickerProps {
     duration?: string
     setStartTime: React.Dispatch<React.SetStateAction<Date>>
     setEndTime: React.Dispatch<React.SetStateAction<Date>>
+    /**
+     * Whether the popover content should be scrollable with a fixed height.
+     * Use this when the component is used in constrained spaces where the calendar
+     * might overflow the viewport. When true, applies responsive height limits
+     * and enables vertical scrolling.
+     */
+    scrollable?: boolean
 }
 
 export interface ProjectSelection {

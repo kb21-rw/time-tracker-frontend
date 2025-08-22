@@ -138,6 +138,7 @@ export default function EditTimeLog({
                             duration={duration}
                             setStartTime={setStartTime}
                             setEndTime={setEndTime}
+                            scrollable
                         />
                         <div
                             ref={buttonRef}
