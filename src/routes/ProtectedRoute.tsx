@@ -10,7 +10,7 @@ export function ProtectedRoute({ allowedRoles }: ProtectedRouteProps) {
     }
 
     if (allowedRoles && (!userRole || !allowedRoles.includes(userRole))) {
-        return <Navigate to="/unauthorized" replace />
+        return <Navigate to="/forbidden" replace />
     }
 
     return <Outlet />

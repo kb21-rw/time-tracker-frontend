@@ -8,8 +8,8 @@ export default function HttpErrorPage({ errorType }: HttpErrorPageProps): ReactE
     const navigate = useNavigate()
     const location = useLocation()
 
-    const detectedErrorType: 'notFound' | 'unauthorized' =
-        errorType || (location.state?.errorType === 'unauthorized' ? 'unauthorized' : 'notFound')
+    const detectedErrorType: 'notFound' | 'forbidden' =
+        errorType || (location.state?.errorType === 'forbidden' ? 'forbidden' : 'notFound')
 
     const handleGoBack = () => {
         if (location.key !== 'default') {
@@ -25,7 +25,7 @@ export default function HttpErrorPage({ errorType }: HttpErrorPageProps): ReactE
             title: 'Page Not Found',
             description: "The page you're looking for doesn't exist.",
         },
-        unauthorized: {
+        forbidden: {
             code: '403',
             title: 'Access Denied',
             description: "You don't have permission to access this resource.",

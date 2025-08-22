@@ -1,19 +1,20 @@
 import { TimeLogsGroupProps } from '@/util/interfaces'
 import TimeEntryCard from './TimeEntryCard'
 import { formatTitle, groupTimeLogsByDate } from '@/util/helpers'
+import { useMemo } from 'react'
 
-export default function TimeLogsGroup({ timeLogs }: TimeLogsGroupProps) {
+export default function TimeLogsGroup({ timeLogs, workspaceId }: TimeLogsGroupProps) {
     if (!timeLogs || timeLogs.length === 0) {
         return <p className="text-center mt-14 text-gray-500">No time logs available.</p>
     }
-    const sortedTimeLogs = groupTimeLogsByDate(timeLogs)
+    const sortedTimeLogs = useMemo(() => groupTimeLogsByDate(timeLogs), [timeLogs])
     return (
         <div className="w-full flex flex-col gap-y-2  mt-5">
             {Object.entries(sortedTimeLogs).map(([date, logs]) => (
                 <div key={date} className="mt-8">
                     <p className="font-bold text-xl ml-9 font-inter">{formatTitle(date)}</p>
                     {logs.map(log => (
-                        <TimeEntryCard key={log.id} {...log} />
+                        <TimeEntryCard key={log.id} workspaceId={workspaceId} {...log} />
                     ))}
                 </div>
             ))}

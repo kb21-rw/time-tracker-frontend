@@ -164,6 +164,7 @@ export interface ColumnsProps<T> {
 }
 export interface TimeEntryCardProps {
     id: string
+    workspaceId: string
     description: string
     project: string
     client: string
@@ -201,6 +202,7 @@ export interface TimeLogState {
 
 export interface TimeLogsGroupProps {
     timeLogs: formattedTimeLog[]
+    workspaceId: string
 }
 
 export interface TimeLogEntryValues {
@@ -253,6 +255,7 @@ export interface EditTimeLogProps extends TimeEntryCardProps {
 export interface ManualTimeLogProps {
     description?: string
     projectId?: string
+    workspaceId: string
 }
 
 export interface ProtectedRouteProps {
@@ -260,10 +263,21 @@ export interface ProtectedRouteProps {
 }
 
 export interface HttpErrorPageProps {
-    errorType?: 'notFound' | 'unauthorized'
+    errorType?: 'notFound' | 'forbidden'
 }
 
 export interface TimezoneDisplayProps {
     timeZone: string
     className?: string
+}
+
+export interface TimeTrackerHeaderProps {
+    id: string
+    workspaceName: string
+}
+
+export interface SpinnerProps {
+    size?: number
+    className?: string
+    center?: boolean
 }

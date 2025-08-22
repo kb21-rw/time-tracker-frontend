@@ -4,7 +4,7 @@ import { groupProjectsByClient } from '@/util/helpers'
 import { AppDispatch, RootState } from '@/redux/store'
 import { useDispatch, useSelector } from 'react-redux'
 import { useOutletContext } from 'react-router-dom'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { getProjectsByWorkspaceId } from '@/redux/slice/projectSlice'
 import LoadingSpinner from '../shared/ui/LoadingSpinner'
 import { useClickAway } from 'react-use'
@@ -15,14 +15,29 @@ export default function ProjectsList({
     anchorRef,
     setProject,
 }: Readonly<ProjectsListProps>) {
-    const { id } = useOutletContext<OutletContextType>()
+    const outletContext = useOutletContext<OutletContextType>()
     const popoverRef = useRef(null)
     const dispatch = useDispatch<AppDispatch>()
     const { projects, loading } = useSelector((state: RootState) => state.projects)
+    const { workspaces } = useSelector((state: RootState) => state.workspaces)
+    // Removed unused workspaceInfo state
+    const user = JSON.parse(localStorage.getItem('user') || '{}')
+    const isAdmin = user.roles === 'Admin'
+    const id = outletContext?.id
+    const workspaceName = outletContext?.workspaceName
+
+    const targetWorkspaceId = useMemo(() => {
+        if (isAdmin) {
+            return id && workspaceName ? id : null
+        }
+        return workspaces[0]?.id ?? null
+    }, [isAdmin, id, workspaceName, workspaces])
 
     useEffect(() => {
-        dispatch(getProjectsByWorkspaceId(id!))
-    }, [dispatch, id])
+        if (targetWorkspaceId) {
+            dispatch(getProjectsByWorkspaceId(targetWorkspaceId))
+        }
+    }, [dispatch, targetWorkspaceId])
 
     const [selectedClient, setSelectedClient] = useState<string | null>(null)
     const [selectedProject, setSelectedProject] = useState<ProjectSelection | null>(null)
