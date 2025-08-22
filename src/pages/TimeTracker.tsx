@@ -21,31 +21,30 @@ export default function TimeTracker() {
     const isAdmin = user.roles === 'Admin'
     const id = outletContext?.id
     const workspaceName = outletContext?.workspaceName
-    useEffect(() => {
+
+    // Pick the workspace we care about
+    const targetWorkspace = useMemo(() => {
         if (isAdmin) {
-            if (id && workspaceName) {
-                setWorkspaceInfo({ id, workspaceName })
-            }
-            return
+            if (id && workspaceName) return { id, name: workspaceName }
+            return null
         }
+        const firstWorkspace = workspaces[0]
+        return firstWorkspace ? { id: firstWorkspace.id, name: firstWorkspace.name } : null
+    }, [isAdmin, id, workspaceName, workspaces])
 
-        if (workspaces.length === 0) {
-            dispatch(getWorkspacesByUser())
-            return
-        }
-
-        const [firstWorkspace] = workspaces
-        setWorkspaceInfo({
-            id: firstWorkspace.id,
-            workspaceName: firstWorkspace.name,
-        })
-    }, [dispatch, isAdmin, id, workspaces, workspaceName])
-
+    // Ensure non-admins have workspaces loaded
     useEffect(() => {
-        if (workspaceInfo.id) {
-            dispatch(getUserTimeLogs(workspaceInfo.id))
+        if (!isAdmin && workspaces.length === 0) {
+            dispatch(getWorkspacesByUser())
         }
-    }, [dispatch, workspaceInfo.id])
+    }, [isAdmin, workspaces.length, dispatch])
+
+    // Set the active workspace + fetch logs once per target change
+    useEffect(() => {
+        if (!targetWorkspace) return
+        setWorkspaceInfo({ id: targetWorkspace.id, workspaceName: targetWorkspace.name })
+        dispatch(getUserTimeLogs(targetWorkspace.id))
+    }, [dispatch, targetWorkspace])
 
     const formattedTimelogs = useMemo(() => formatTimeLogs(timeLogs), [timeLogs])
 
