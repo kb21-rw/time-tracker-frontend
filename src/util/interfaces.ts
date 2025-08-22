@@ -20,6 +20,7 @@ export interface User {
     fullName: string
     email: string
     roles: UserRole
+    timeZone: string
 }
 
 export interface AuthState {

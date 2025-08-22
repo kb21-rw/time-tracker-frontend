@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios'
-import { formattedTimeLog, Project, TimeLog } from './interfaces'
+import { formattedTimeLog, Project, TimeLog, User } from './interfaces'
 import {
     differenceInSeconds,
     format,
@@ -41,27 +41,27 @@ export function groupProjectsByClient(projects: Project[]): Record<string, Proje
 }
 
 export function formatTimeLogs(timeLogs: TimeLog[]): formattedTimeLog[] {
-    return timeLogs.map(log => ({
-        id: log.id,
-        description: log.description,
-        project: log.project?.name || '',
-        client: log.project?.client?.name || '',
-        date: log.startTime,
-        startTime: new Date(log.startTime).toLocaleTimeString([], {
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: false,
-        }),
-        endTime: log.endTime
-            ? new Date(log.endTime).toLocaleTimeString([], {
-                  hour: '2-digit',
-                  minute: '2-digit',
-                  hour12: false,
-              })
-            : 'Running',
-        duration: log.endTime ? calculateDuration(log.startTime, log.endTime) : 'Running',
-        createdAt: log.startTime,
-    }))
+    return timeLogs
+        .filter(log => log.endTime)
+        .map(log => ({
+            id: log.id,
+            description: log.description,
+            project: log.project?.name || '',
+            client: log.project?.client?.name || '',
+            date: log.startTime,
+            startTime: new Date(log.startTime).toLocaleTimeString([], {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false,
+            }),
+            endTime: new Date(log.endTime!).toLocaleTimeString([], {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false,
+            }),
+            duration: calculateDuration(log.startTime, log.endTime!),
+            createdAt: log.startTime,
+        }))
 }
 
 export function groupTimeLogsByDate(
@@ -191,4 +191,11 @@ export function getAuthInfo() {
     }
 
     return { isAuthenticated, userRole }
+}
+
+export function getUserCurrentTime(user: User): string {
+    const now = new Date()
+    const tzDateString = now.toLocaleString('default', { timeZone: user.timeZone })
+    let currentTime = new Date(tzDateString).toISOString()
+    return currentTime
 }

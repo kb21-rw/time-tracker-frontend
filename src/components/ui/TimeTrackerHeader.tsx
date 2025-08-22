@@ -18,6 +18,7 @@ import ManualTimeLog from '../shared/forms/ManualTimeLog'
 import { MenuBar } from '@/components/ui/MenuBar'
 import { useIsMobile } from '@/hooks/useIsMobile'
 import { useTimerSync } from '@/hooks/useTimerSync'
+import { getUserCurrentTime } from '@/util/helpers'
 
 export default function TimeTrackerHeader({ id, workspaceName }: TimeTrackerHeaderProps) {
     const [isManual, setIsManual] = useState(false)
@@ -29,7 +30,7 @@ export default function TimeTrackerHeader({ id, workspaceName }: TimeTrackerHead
     const dispatch = useDispatch<AppDispatch>()
     const { isRunning, startTimestamp } = useSelector((state: RootState) => state.timer)
     const { loading, error } = useSelector((state: RootState) => state.timeLog)
-
+    const { user } = useSelector((state: RootState) => state.auth)
     useTimerSync(id, {
         periodicSyncMinutes: 5, // Sync every 5 minutes when timer is running
         syncOnVisibilityChange: true, // Sync when user returns to tab
@@ -71,9 +72,12 @@ export default function TimeTrackerHeader({ id, workspaceName }: TimeTrackerHead
         setIsProcessing(true)
 
         try {
+            const currentTime =
+                user && user.timeZone ? getUserCurrentTime(user) : new Date().toISOString()
+
             const result = await dispatch(
                 startTimerAPI({
-                    startTime: new Date().toISOString(),
+                    startTime: currentTime,
                     workspaceId: id,
                     description: data.description,
                     projectId: data.projectId,
@@ -100,9 +104,12 @@ export default function TimeTrackerHeader({ id, workspaceName }: TimeTrackerHead
         try {
             dispatch(stopTimer())
 
+            const currentTime =
+                user && user.timeZone ? getUserCurrentTime(user) : new Date().toISOString()
+
             const result = await dispatch(
                 stopTimerAPI({
-                    endTime: new Date().toISOString(),
+                    endTime: currentTime,
                     workspaceId: id,
                     description: data.description,
                     projectId: data.projectId || '',
