@@ -5,17 +5,18 @@ import { AppDispatch, RootState } from '@/redux/store'
 import { syncActiveTimer } from '@/redux/slice/timeLogsSlice'
 import { syncTimer } from '@/redux/features/timerSlice'
 import { TimerSyncOptions } from '@/util/interfaces'
-import { getBrowserTimezone } from '@/util/helpers'
-import { MS_PER_SECOND, SECONDS_PER_MINUTE, MINUTES_PER_HOUR, HOURS_PER_DAY } from '@/constants'
+import { getUserCurrentTime } from '@/util/helpers'
+import { TimeConstants } from '@/constants'
 
-const MS_PER_MINUTE = MS_PER_SECOND * SECONDS_PER_MINUTE
-const MS_PER_DAY = MS_PER_MINUTE * MINUTES_PER_HOUR * HOURS_PER_DAY
+const MS_PER_MINUTE = TimeConstants.MS_PER_SECOND * TimeConstants.SECONDS_PER_MINUTE
+const MS_PER_DAY = MS_PER_MINUTE * TimeConstants.MINUTES_PER_HOUR * TimeConstants.HOURS_PER_DAY
 
 export function useTimerSync(workspaceId?: string, options: TimerSyncOptions = {}) {
     const { periodicSyncMinutes, syncOnVisibilityChange = true } = options
 
     const dispatch = useDispatch<AppDispatch>()
     const { isRunning, currentTimerId } = useSelector((state: RootState) => state.timer)
+    const { user } = useSelector((state: RootState) => state.auth)
 
     const midnightTimeoutRef = useRef<NodeJS.Timeout | null>(null)
     const dailyIntervalRef = useRef<NodeJS.Timeout | null>(null)
@@ -39,8 +40,7 @@ export function useTimerSync(workspaceId?: string, options: TimerSyncOptions = {
         if (!workspaceId) return
 
         try {
-            const result = await dispatch(syncActiveTimer({ workspaceId }))
-            const activeTimer = result.payload
+            const { payload: activeTimer } = await dispatch(syncActiveTimer({ workspaceId }))
 
             if (!activeTimer?.id) {
                 dispatch(syncTimer(null))
@@ -60,33 +60,13 @@ export function useTimerSync(workspaceId?: string, options: TimerSyncOptions = {
         }
     }, [workspaceId, currentTimerId, dispatch])
 
-    const getUserTimezone = useCallback((): string => {
-        try {
-            const token = localStorage.getItem('token')
-            if (token) {
-                const [, payload] = token.split('.')
-                const decoded = JSON.parse(atob(payload))
-                if (decoded?.timeZone) return decoded.timeZone
-            }
-        } catch {
-            // Ignore decoding errors
-        }
-        return getBrowserTimezone()
-    }, [])
-
     const getMsUntilMidnight = useCallback((): number => {
-        const timezone = getUserTimezone()
-        const now = new Date()
-        const nowInTimezone = new Date(now.toLocaleString('en-US', { timeZone: timezone }))
-        const midnightInTimezone = new Date(nowInTimezone)
+        const now = user && user.timeZone ? new Date(getUserCurrentTime(user)) : new Date()
+        const midnightInTimezone = new Date(now)
         midnightInTimezone.setDate(midnightInTimezone.getDate() + 1)
         midnightInTimezone.setHours(0, 0, 0, 0)
-
-        const offset = nowInTimezone.getTime() - now.getTime()
-        const utcMidnight = new Date(midnightInTimezone.getTime() - offset)
-
-        return utcMidnight.getTime() - now.getTime()
-    }, [getUserTimezone])
+        return midnightInTimezone.getTime() - now.getTime()
+    }, [user])
 
     const startMidnightSync = useCallback(() => {
         if (!workspaceId) return
@@ -123,11 +103,14 @@ export function useTimerSync(workspaceId?: string, options: TimerSyncOptions = {
 
     // Initial sync on mount
     useEffect(() => {
-        if (workspaceId) syncWithBackend()
+        if (workspaceId) {
+            syncWithBackend()
+        }
+
         return cleanupTimers
     }, [workspaceId, syncWithBackend])
 
-    // Sync on running state changes
+    // Sync when running state changes
     useEffect(() => {
         if (isRunning && workspaceId) {
             startMidnightSync()
@@ -141,7 +124,9 @@ export function useTimerSync(workspaceId?: string, options: TimerSyncOptions = {
 
     // Re-sync when timer ID changes (real-time updates)
     useEffect(() => {
-        if (workspaceId) syncWithBackend()
+        if (workspaceId) {
+            syncWithBackend()
+        }
     }, [currentTimerId, workspaceId, syncWithBackend])
 
     // Handle tab visibility change
