@@ -22,6 +22,7 @@ export function usersTableColumns(onOpenAdminModal: () => void): ColumnDef<Table
                         <UserAddIcon
                             className="text-primary-500 w-5 h-5 cursor-pointer"
                             onClick={onOpenAdminModal}
+                            aria-label="Make user admin"
                         />
                     </button>
                     <Trash2 className="text-accent-500 w-5 h-5 cursor-pointer" />
