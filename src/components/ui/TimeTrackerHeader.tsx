@@ -124,7 +124,7 @@ export default function TimeTrackerHeader({ id, workspaceName }: TimeTrackerHead
             )
 
             if (stopTimerAPI.fulfilled.match(result)) {
-               handleFormCleanUp() 
+                handleFormCleanUp()
                 dispatch(getUserTimeLogs(id!))
             } else {
                 toast.error('Failed to stop timer')
