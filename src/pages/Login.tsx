@@ -53,7 +53,7 @@ export default function LoginPage() {
     }
 
     return (
-        <div className="w-full flex flex-col px-4 py-2 md:px-24 md:py-12 h-screen">
+        <div className="w-full flex flex-col px-4 py-2 md:px-24 md:py-12 h-screen m-5">
             <FocusFlowHeader />
             <div className="flex h-full justify-between items-center">
                 <img
