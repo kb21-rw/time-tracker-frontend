@@ -1,7 +1,7 @@
 import { DateTimePicker } from '@/components/ui/DateTimePicker'
 import { submitManualEntry, getUserTimeLogs } from '@/redux/slice/timeLogsSlice'
 import { AppDispatch, RootState } from '@/redux/store'
-import { handleAxiosError } from '@/util/helpers'
+import { getUserCurrentTime, handleAxiosError } from '@/util/helpers'
 import { TimeLogEntryValues, ManualTimeLogProps } from '@/util/interfaces'
 import { AxiosError } from 'axios'
 import { CirclePlus } from 'lucide-react'
@@ -14,6 +14,7 @@ function ManualTimeLog({ description, projectId, workspaceId: id, onSuccess }: M
     const [endTime, setEndTime] = useState<Date>(new Date())
     const dispatch = useDispatch<AppDispatch>()
     const { loading } = useSelector((state: RootState) => state.timeLog)
+    const { user } = useSelector((state: RootState) => state.auth)
 
     const handleSubmit = async () => {
         if (!startTime || !endTime) {
@@ -41,10 +42,10 @@ function ManualTimeLog({ description, projectId, workspaceId: id, onSuccess }: M
             if (response.requestStatus === 'fulfilled') {
                 toast.success('Manual time log created successfully!')
                 // Clear the form after successful submission
-                const now = new Date()
-                setStartTime(now)
-                setEndTime(now)
-                // Refresh time logs from server to show the new entry immediately
+                if (user) {
+                    getUserCurrentTime(user)
+                }
+
                 dispatch(getUserTimeLogs(id))
                 // Notify parent component to clear its form
                 onSuccess?.()
