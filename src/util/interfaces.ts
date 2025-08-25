@@ -20,6 +20,7 @@ export interface User {
     fullName: string
     email: string
     roles: UserRole
+    timeZone: string
 }
 
 export interface AuthState {
@@ -149,6 +150,7 @@ export interface TimerState {
     isRunning: boolean
     startTimestamp: number | null
     stopTimestamp: number | null
+    currentTimerId: string | null
 }
 export interface TimerRunnerProps {
     isRunning: boolean
@@ -164,7 +166,6 @@ export interface ColumnsProps<T> {
 }
 export interface TimeEntryCardProps {
     id: string
-    workspaceId: string
     description: string
     project: string
     client: string
@@ -172,6 +173,7 @@ export interface TimeEntryCardProps {
     endTime: string
     duration: string
     date: string
+    workspaceId: string
 }
 
 export interface TimeLog {
@@ -179,8 +181,11 @@ export interface TimeLog {
     description: string
     project: Project
     startTime: string
-    endTime: string
+    endTime: string | null
     createdAt: string
+    manualEntry?: boolean
+    autoStoppedAt?: string | null
+    updatedAt?: string
 }
 
 export interface formattedTimeLog {
@@ -237,6 +242,13 @@ export interface DateTimePickerProps {
     duration?: string
     setStartTime: React.Dispatch<React.SetStateAction<Date>>
     setEndTime: React.Dispatch<React.SetStateAction<Date>>
+    /**
+     * Whether the popover content should be scrollable with a fixed height.
+     * Use this when the component is used in constrained spaces where the calendar
+     * might overflow the viewport. When true, applies responsive height limits
+     * and enables vertical scrolling.
+     */
+    scrollable?: boolean
 }
 
 export interface ProjectSelection {
@@ -276,4 +288,14 @@ export interface TimezoneDisplayProps {
 export interface TimeTrackerHeaderProps {
     id: string
     workspaceName: string
+}
+
+export interface TimerSyncOptions {
+    periodicSyncMinutes?: number
+    syncOnVisibilityChange?: boolean
+}
+export interface SpinnerProps {
+    size?: number
+    className?: string
+    center?: boolean
 }

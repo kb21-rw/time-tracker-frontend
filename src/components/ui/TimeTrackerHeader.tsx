@@ -16,7 +16,9 @@ import { clearError } from '@/redux/slice/authSlice'
 import { getUserTimeLogs, startTimerAPI, stopTimerAPI } from '@/redux/slice/timeLogsSlice'
 import ManualTimeLog from '../shared/forms/ManualTimeLog'
 import { MenuBar } from '@/components/ui/MenuBar'
-import { useIsMobile } from '@/hooks/use-mobile'
+import { useIsMobile } from '@/hooks/useIsMobile'
+import { useTimerSync } from '@/hooks/useTimerSync'
+import { getUserCurrentTime } from '@/util/helpers'
 
 export default function TimeTrackerHeader({ id, workspaceName }: TimeTrackerHeaderProps) {
     const [isManual, setIsManual] = useState(false)
@@ -29,6 +31,11 @@ export default function TimeTrackerHeader({ id, workspaceName }: TimeTrackerHead
     const dispatch = useDispatch<AppDispatch>()
     const { isRunning, startTimestamp } = useSelector((state: RootState) => state.timer)
     const { loading, error } = useSelector((state: RootState) => state.timeLog)
+    const { user } = useSelector((state: RootState) => state.auth)
+    useTimerSync(id, {
+        periodicSyncMinutes: 5, // Sync every 5 minutes when timer is running
+        syncOnVisibilityChange: true, // Sync when user returns to tab
+    })
 
     const {
         register,
@@ -72,19 +79,23 @@ export default function TimeTrackerHeader({ id, workspaceName }: TimeTrackerHead
         setIsProcessing(true)
 
         try {
-            dispatch(startTimer())
+            const currentTime =
+                user && user.timeZone ? getUserCurrentTime(user) : new Date().toISOString()
 
             const result = await dispatch(
                 startTimerAPI({
-                    startTime: new Date().toISOString(),
+                    startTime: currentTime,
                     workspaceId: id,
                     description: data.description,
                     projectId: data.projectId,
                 }),
             )
 
-            if (!startTimerAPI.fulfilled.match(result)) {
-                dispatch(stopTimer())
+            if (startTimerAPI.fulfilled.match(result)) {
+                // Start timer with the returned timer ID
+                dispatch(startTimer({ timerId: result.payload.id }))
+            } else {
+                toast.error('Failed to start timer')
             }
         } catch (error) {
             toast.error('Failed to start timer')
@@ -100,9 +111,12 @@ export default function TimeTrackerHeader({ id, workspaceName }: TimeTrackerHead
         try {
             dispatch(stopTimer())
 
+            const currentTime =
+                user && user.timeZone ? getUserCurrentTime(user) : new Date().toISOString()
+
             const result = await dispatch(
                 stopTimerAPI({
-                    endTime: new Date().toISOString(),
+                    endTime: currentTime,
                     workspaceId: id,
                     description: data.description,
                     projectId: data.projectId || '',

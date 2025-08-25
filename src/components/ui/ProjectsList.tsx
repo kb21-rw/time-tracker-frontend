@@ -4,7 +4,7 @@ import { groupProjectsByClient } from '@/util/helpers'
 import { AppDispatch, RootState } from '@/redux/store'
 import { useDispatch, useSelector } from 'react-redux'
 import { useOutletContext } from 'react-router-dom'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { getProjectsByWorkspaceId } from '@/redux/slice/projectSlice'
 import LoadingSpinner from '../shared/ui/LoadingSpinner'
 import { useClickAway } from 'react-use'
@@ -26,22 +26,18 @@ export default function ProjectsList({
     const id = outletContext?.id
     const workspaceName = outletContext?.workspaceName
 
-    useEffect(() => {
+    const targetWorkspaceId = useMemo(() => {
         if (isAdmin) {
-            if (id && workspaceName) {
-                dispatch(getProjectsByWorkspaceId(id))
-            }
-            return
+            return id && workspaceName ? id : null
         }
+        return workspaces[0]?.id ?? null
+    }, [isAdmin, id, workspaceName, workspaces])
 
-        if (workspaces.length === 0) {
-            return
+    useEffect(() => {
+        if (targetWorkspaceId) {
+            dispatch(getProjectsByWorkspaceId(targetWorkspaceId))
         }
-
-        const [firstWorkspace] = workspaces
-
-        dispatch(getProjectsByWorkspaceId(firstWorkspace.id))
-    }, [dispatch, isAdmin, id, workspaceName, workspaces])
+    }, [dispatch, targetWorkspaceId])
 
     const [selectedClient, setSelectedClient] = useState<string | null>(null)
     const [selectedProject, setSelectedProject] = useState<ProjectSelection | null>(null)
