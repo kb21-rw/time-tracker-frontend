@@ -9,13 +9,16 @@ import InviteUserForm from '@/components/shared/forms/InviteUserForm'
 import Modal from '@/components/shared/modal/Modal'
 import DataTable from '@/components/tables/DataTable'
 import WorkspaceHeader from '@/components/shared/ui/WorkspaceHeader'
+import RemoveUser from '@/components/shared/forms/Remove A User'
 
 export default function UsersDetails() {
     const { workspaceName, id } = useOutletContext<OutletContextType>()
     const [isModalOpen, setIsModalOpen] = useState(false)
+    const [isRemoveUserModalOpen, setIsRemoveUserModalOpen] = useState(false)
     const dispatch = useDispatch<AppDispatch>()
     const { workspaceUsers, loading } = useSelector((state: RootState) => state.workspaces)
     const data: TableUser[] = workspaceUsers
+    const columns = usersTableColumns(() => setIsRemoveUserModalOpen(true))
 
     useEffect(() => {
         dispatch(getWorkspaceUsers(id!))
@@ -36,7 +39,7 @@ export default function UsersDetails() {
                     <div className="mx-auto w-full max-w-xs sm:max-w-full px-2 sm:px-0">
                         <DataTable
                             tableName="users"
-                            columns={usersTableColumns}
+                            columns={columns}
                             data={data}
                             loading={loading}
                         />
@@ -50,6 +53,17 @@ export default function UsersDetails() {
                     onClose={() => setIsModalOpen(false)}
                 >
                     <InviteUserForm id={id} setIsModalOpen={setIsModalOpen} />
+                </Modal>
+            }
+            {
+                <Modal
+                    title="Are you sure you want to
+                   remove this user from this
+                    workspace?"
+                    isModalOpen={isRemoveUserModalOpen}
+                    onClose={() => setIsRemoveUserModalOpen(false)}
+                >
+                    <RemoveUser />
                 </Modal>
             }
         </div>
