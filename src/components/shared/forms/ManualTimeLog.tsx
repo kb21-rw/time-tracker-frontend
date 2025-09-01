@@ -48,12 +48,12 @@ function ManualTimeLog({ description, projectId, workspaceId: id, onSuccess }: M
                 }
 
                 dispatch(getUserTimeLogs(id))
-                
+
                 // Reset the DateTimePicker by changing the key
                 setResetKey(prev => prev + 1)
                 setStartTime(new Date())
                 setEndTime(new Date())
-                
+
                 // Notify parent component to clear its form
                 onSuccess?.()
             } else {
@@ -66,10 +66,10 @@ function ManualTimeLog({ description, projectId, workspaceId: id, onSuccess }: M
 
     return (
         <div className="flex items-center justify-center gap-4 p-4">
-            <DateTimePicker 
+            <DateTimePicker
                 key={resetKey} // Force reset when key changes
-                setStartTime={setStartTime} 
-                setEndTime={setEndTime} 
+                setStartTime={setStartTime}
+                setEndTime={setEndTime}
             />
             <CirclePlus
                 className={`w-12 h-12 fill-primary-500 stroke-white cursor-grab ${loading ? 'animate-spin' : ''}`}
