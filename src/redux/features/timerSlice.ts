@@ -24,24 +24,20 @@ const timerSlice = createSlice({
             state.startTimestamp = null
             state.currentTimerId = null
         },
-     
 
-
-
-
-syncTimer(state, action: PayloadAction<{ timerId: string; startTime: string } | null>) {
-  if (!action.payload) {
-    state.isRunning = false
-    state.stopTimestamp = Date.now()
-    state.startTimestamp = null
-    state.currentTimerId = null
-    return
-  }
-  state.isRunning = true
-  state.startTimestamp = new Date(action.payload.startTime).getTime()
-  state.stopTimestamp = null
-  state.currentTimerId = action.payload.timerId
-}
+        syncTimer(state, action: PayloadAction<{ timerId: string; startTime: string } | null>) {
+            if (!action.payload) {
+                state.isRunning = false
+                state.stopTimestamp = Date.now()
+                state.startTimestamp = null
+                state.currentTimerId = null
+                return
+            }
+            state.isRunning = true
+            state.startTimestamp = new Date(action.payload.startTime).getTime()
+            state.stopTimestamp = null
+            state.currentTimerId = action.payload.timerId
+        },
     },
 })
 
