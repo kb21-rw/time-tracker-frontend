@@ -232,6 +232,7 @@ export interface StopTimerPayload extends TimerFormData {
 
 export interface TrackerInputProps extends InputProps {
     onProjectSelect?: (projectId: string, projectName: string) => void
+    resetProject?: boolean
 }
 
 export interface DateTimePickerProps {
@@ -268,6 +269,7 @@ export interface ManualTimeLogProps {
     description?: string
     projectId?: string
     workspaceId: string
+    onSuccess?: () => void
 }
 
 export interface ProtectedRouteProps {
