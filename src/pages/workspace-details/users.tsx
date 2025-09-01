@@ -60,7 +60,6 @@ export default function UsersDetails() {
                 isModalOpen={isAdminModalOpen}
                 onClose={() => setIsAdminModalOpen(false)}
             >
-
                 <ConfirmationModal
                     confirm={() => {
                         console.log('User made admin')
