@@ -9,7 +9,7 @@ import InviteUserForm from '@/components/shared/forms/InviteUserForm'
 import Modal from '@/components/shared/modal/Modal'
 import DataTable from '@/components/tables/DataTable'
 import WorkspaceHeader from '@/components/shared/ui/WorkspaceHeader'
-import MakingUserAnAdmin from '@/components/shared/forms/MakingUserAnAdmin'
+import ConfirmationModal from '@/components/shared/modal/confirmationModal'
 
 export default function UsersDetails() {
     const { workspaceName, id } = useOutletContext<OutletContextType>()
@@ -60,7 +60,15 @@ export default function UsersDetails() {
                 isModalOpen={isAdminModalOpen}
                 onClose={() => setIsAdminModalOpen(false)}
             >
-                <MakingUserAnAdmin />
+
+                <ConfirmationModal
+                    confirm={() => {
+                        console.log('User made admin')
+                    }}
+                    cancel={() => {
+                        console.log('User not made admin')
+                    }}
+                />
             </Modal>
         </div>
     )
