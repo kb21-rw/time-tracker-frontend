@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux'
 function ManualTimeLog({ description, projectId, workspaceId: id, onSuccess }: ManualTimeLogProps) {
     const [startTime, setStartTime] = useState<Date>(new Date())
     const [endTime, setEndTime] = useState<Date>(new Date())
+    const [resetKey, setResetKey] = useState(0) // Add key to force DateTimePicker reset
     const dispatch = useDispatch<AppDispatch>()
     const { loading } = useSelector((state: RootState) => state.timeLog)
     const { user } = useSelector((state: RootState) => state.auth)
@@ -47,6 +48,12 @@ function ManualTimeLog({ description, projectId, workspaceId: id, onSuccess }: M
                 }
 
                 dispatch(getUserTimeLogs(id))
+                
+                // Reset the DateTimePicker by changing the key
+                setResetKey(prev => prev + 1)
+                setStartTime(new Date())
+                setEndTime(new Date())
+                
                 // Notify parent component to clear its form
                 onSuccess?.()
             } else {
@@ -59,7 +66,11 @@ function ManualTimeLog({ description, projectId, workspaceId: id, onSuccess }: M
 
     return (
         <div className="flex items-center justify-center gap-4 p-4">
-            <DateTimePicker setStartTime={setStartTime} setEndTime={setEndTime} />
+            <DateTimePicker 
+                key={resetKey} // Force reset when key changes
+                setStartTime={setStartTime} 
+                setEndTime={setEndTime} 
+            />
             <CirclePlus
                 className={`w-12 h-12 fill-primary-500 stroke-white cursor-grab ${loading ? 'animate-spin' : ''}`}
                 onClick={handleSubmit}
