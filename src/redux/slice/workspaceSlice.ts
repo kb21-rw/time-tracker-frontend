@@ -99,7 +99,7 @@ export const getWorkspaceUsers = createAsyncThunk(
 )
 export const makeAdmin = createAsyncThunk(
     'workspace/makeAdmin',
-    async (params: { workspaceId: string; userId: string }, { rejectWithValue }) => {   
+    async (params: { workspaceId: string; userId: string }, { rejectWithValue }) => {
         const { workspaceId, userId } = params
         try {
             console.log('Making user admin with params:', userId)
@@ -200,7 +200,9 @@ const workspacesSlice = createSlice({
             })
             .addCase(makeAdmin.fulfilled, (state, action) => {
                 state.loading = false
-                const user = (state.workspaceUsers as User[]).find((user: User) => user.id === action.payload.id)
+                const user = (state.workspaceUsers as User[]).find(
+                    (user: User) => user.id === action.payload.id,
+                )
                 if (user) {
                     user.roles = action.payload.roles
                 }
