@@ -24,6 +24,7 @@ export default function TimeTrackerHeader({ id, workspaceName }: TimeTrackerHead
     const [isManual, setIsManual] = useState(false)
     const [isProcessing, setIsProcessing] = useState(false)
     const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null)
+    const [resetProjectTrigger, setResetProjectTrigger] = useState(false)
     const isMobile = useIsMobile()
     const [menuOpen, setMenuOpen] = useState(false)
 
@@ -65,6 +66,12 @@ export default function TimeTrackerHeader({ id, workspaceName }: TimeTrackerHead
     const handleProjectSelect = (projectId: string) => {
         setSelectedProjectId(projectId)
         setValue('projectId', projectId)
+    }
+
+    const handleFormCleanUp = () => {
+        reset()
+        setSelectedProjectId(null)
+        setResetProjectTrigger(prev => !prev)
     }
 
     const handleStartTimer = async (data: TimerStartFormData) => {
@@ -117,8 +124,7 @@ export default function TimeTrackerHeader({ id, workspaceName }: TimeTrackerHead
             )
 
             if (stopTimerAPI.fulfilled.match(result)) {
-                reset()
-                setSelectedProjectId(null)
+                handleFormCleanUp()
                 dispatch(getUserTimeLogs(id!))
             } else {
                 toast.error('Failed to stop timer')
@@ -160,6 +166,7 @@ export default function TimeTrackerHeader({ id, workspaceName }: TimeTrackerHead
                         onProjectSelect={handleProjectSelect}
                         error={errors.description}
                         hasIcon={true}
+                        resetProject={resetProjectTrigger}
                     />
                     {!isManual && (
                         <>
@@ -191,6 +198,7 @@ export default function TimeTrackerHeader({ id, workspaceName }: TimeTrackerHead
                         description={getValues('description')}
                         projectId={selectedProjectId ?? undefined}
                         workspaceId={id}
+                        onSuccess={handleFormCleanUp}
                     />
                 )}
                 <TimerSwitch
