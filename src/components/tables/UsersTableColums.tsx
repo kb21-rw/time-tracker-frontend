@@ -26,7 +26,14 @@ export function usersTableColumns(onOpenAdminModal: () => void): ColumnDef<Table
                     >
                         <UserAddIcon />
                     </button>
-                    <Trash2 className="text-accent-500 w-5 h-5 cursor-pointer" />
+                    <button
+                        type="button"
+                        className="text-accent-500 w-5 h-5 cursor-pointer"
+                        onClick={onOpenAdminModal}
+                        aria-label="Remove user"
+                    >
+                        <Trash2 />
+                    </button>
                 </div>
             ),
         },

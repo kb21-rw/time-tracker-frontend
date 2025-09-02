@@ -12,8 +12,10 @@ import WorkspaceHeader from '@/components/shared/ui/WorkspaceHeader'
 import ConfirmationModal from '@/components/shared/modal/confirmationModal'
 
 export default function UsersDetails() {
+    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [isRemoveUserModalOpen, setIsRemoveUserModalOpen] = useState(false)
     const { workspaceName, id } = useOutletContext<OutletContextType>()
-    const [isInviteModalOpen, setIsInviteModalOpen] = useState(false)
+    const [, setIsInviteModalOpen] = useState(false)
     const [isAdminModalOpen, setIsAdminModalOpen] = useState(false)
     const dispatch = useDispatch<AppDispatch>()
     const { workspaceUsers, loading } = useSelector((state: RootState) => state.workspaces)
@@ -49,10 +51,27 @@ export default function UsersDetails() {
 
             <Modal
                 title="Invite a user to the workspace"
-                isModalOpen={isInviteModalOpen}
-                onClose={() => setIsInviteModalOpen(false)}
+                isModalOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
             >
-                <InviteUserForm id={id} setIsModalOpen={setIsInviteModalOpen} />
+                <InviteUserForm id={id} setIsModalOpen={setIsModalOpen} />
+            </Modal>
+
+            <Modal
+                title="Are you sure you want to
+                   remove this user from this
+                    workspace?"
+                isModalOpen={isRemoveUserModalOpen}
+                onClose={() => setIsRemoveUserModalOpen(false)}
+            >
+                <ConfirmationModal
+                    confirm={() => {
+                        console.log('User removed')
+                    }}
+                    cancel={() => {
+                        console.log('User not removed')
+                    }}
+                />
             </Modal>
 
             <Modal
