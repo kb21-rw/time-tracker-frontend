@@ -15,7 +15,7 @@ export default function UsersDetails() {
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [isRemoveUserModalOpen, setIsRemoveUserModalOpen] = useState(false)
     const { workspaceName, id } = useOutletContext<OutletContextType>()
-    const [isInviteModalOpen, setIsInviteModalOpen] = useState(false)
+    const [, setIsInviteModalOpen] = useState(false)
     const [isAdminModalOpen, setIsAdminModalOpen] = useState(false)
     const dispatch = useDispatch<AppDispatch>()
     const { workspaceUsers, loading } = useSelector((state: RootState) => state.workspaces)
