@@ -3,7 +3,6 @@ import { TableUser } from '../../util/interfaces'
 import { Trash2 } from 'lucide-react'
 import UserAddIcon from '@/assets/icons/UserAdd'
 
-// Pass userId to the callback
 export function usersTableColumns(
     onOpenAdminModal: (userId: string) => void,
 ): ColumnDef<TableUser>[] {
@@ -38,6 +37,26 @@ export function usersTableColumns(
                     </div>
                 )
             },
+            cell: () => (
+                <div className="flex items-center justify-center gap-x-4">
+                    <button
+                        type="button"
+                        onClick={onOpenAdminModal}
+                        className=" text-primary-500 w-5 h-5 cursor-pointer"
+                        aria-label="Remove user"
+                    >
+                        <UserAddIcon />
+                    </button>
+                    <button
+                        type="button"
+                        className="text-accent-500 w-5 h-5 cursor-pointer"
+                        onClick={onOpenAdminModal}
+                        aria-label="Remove user"
+                    >
+                        <Trash2 />
+                    </button>
+                </div>
+            ),
         },
     ]
 }
