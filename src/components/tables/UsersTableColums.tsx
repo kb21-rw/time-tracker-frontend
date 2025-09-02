@@ -3,7 +3,10 @@ import { TableUser } from '../../util/interfaces'
 import { Trash2 } from 'lucide-react'
 import UserAddIcon from '@/assets/icons/UserAdd'
 
-export function usersTableColumns(onOpenAdminModal: () => void): ColumnDef<TableUser>[] {
+// Pass userId to the callback
+export function usersTableColumns(
+    onOpenAdminModal: (userId: string) => void,
+): ColumnDef<TableUser>[] {
     return [
         {
             accessorKey: 'fullName',
@@ -16,13 +19,13 @@ export function usersTableColumns(onOpenAdminModal: () => void): ColumnDef<Table
         {
             accessorKey: 'actions',
             header: 'Actions',
-            cell: () => (
+            cell: ({ row }) => (
                 <div className="flex items-center justify-center gap-x-4">
                     <button
                         type="button"
-                        onClick={onOpenAdminModal}
+                        onClick={() => onOpenAdminModal(row.original.id)}
                         className=" text-primary-500 w-5 h-5 cursor-pointer"
-                        aria-label="Remove user"
+                        aria-label="Make admin"
                     >
                         <UserAddIcon />
                     </button>
