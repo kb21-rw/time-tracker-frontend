@@ -18,39 +18,20 @@ export function usersTableColumns(
         {
             accessorKey: 'actions',
             header: 'Actions',
-            cell: ({ row }) => {
-                const handleClick = () => {
-                    onOpenAdminModal(row.original.id)
-                }
-
-                return (
-                    <div className="flex items-center justify-center gap-x-4">
-                        <button
-                            type="button"
-                            onClick={handleClick}
-                            className=" text-primary-500 w-5 h-5 cursor-pointer"
-                            aria-label="Make admin"
-                        >
-                            <UserAddIcon />
-                        </button>
-                        <Trash2 className="text-accent-500 w-5 h-5 cursor-pointer" />
-                    </div>
-                )
-            },
-            cell: () => (
+            cell: ({ row }) => (
                 <div className="flex items-center justify-center gap-x-4">
                     <button
                         type="button"
-                        onClick={onOpenAdminModal}
+                        onClick={() => onOpenAdminModal(row.original.id)}
                         className=" text-primary-500 w-5 h-5 cursor-pointer"
-                        aria-label="Remove user"
+                        aria-label="Make admin"
                     >
                         <UserAddIcon />
                     </button>
                     <button
                         type="button"
                         className="text-accent-500 w-5 h-5 cursor-pointer"
-                        onClick={onOpenAdminModal}
+                        onClick={() => onOpenAdminModal(row.original.id)}
                         aria-label="Remove user"
                     >
                         <Trash2 />
