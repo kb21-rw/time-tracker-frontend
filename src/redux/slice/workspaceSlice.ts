@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import api from '../../lib/api'
-import { WorkspaceState } from '../../util/interfaces'
+import { WorkspaceState, User } from '../../util/interfaces'
 
 const initialState: WorkspaceState = {
     workspaces: [],
@@ -97,6 +97,24 @@ export const getWorkspaceUsers = createAsyncThunk(
         }
     },
 )
+export const makeAdmin = createAsyncThunk(
+    'workspace/makeAdmin',
+    async (params: { workspaceId: string; userId: string }, { rejectWithValue }) => {   
+        const { workspaceId, userId } = params
+        try {
+            console.log('Making user admin with params:', userId)
+            const response = await api.post(`workspaces/${workspaceId}/users/make-admin`, {
+                userId,
+            })
+            return response.data
+        } catch (error: any) {
+            const errorMessage = error.response?.data?.message || 'Failed to make user admin'
+            return rejectWithValue(
+                typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage),
+            )
+        }
+    },
+)
 
 const workspacesSlice = createSlice({
     name: 'workspace',
@@ -173,6 +191,21 @@ const workspacesSlice = createSlice({
                 state.workspaceUsers = action.payload
             })
             .addCase(getWorkspaceUsers.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.payload
+            })
+            .addCase(makeAdmin.pending, state => {
+                state.loading = true
+                state.error = null
+            })
+            .addCase(makeAdmin.fulfilled, (state, action) => {
+                state.loading = false
+                const user = (state.workspaceUsers as User[]).find((user: User) => user.id === action.payload.id)
+                if (user) {
+                    user.roles = action.payload.roles
+                }
+            })
+            .addCase(makeAdmin.rejected, (state, action) => {
                 state.loading = false
                 state.error = action.payload
             })
