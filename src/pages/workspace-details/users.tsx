@@ -15,7 +15,6 @@ export default function UsersDetails() {
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [isRemoveUserModalOpen, setIsRemoveUserModalOpen] = useState(false)
     const { workspaceName, id } = useOutletContext<OutletContextType>()
-    const [, setIsInviteModalOpen] = useState(false)
     const [isAdminModalOpen, setIsAdminModalOpen] = useState(false)
     const dispatch = useDispatch<AppDispatch>()
     const { workspaceUsers, loading } = useSelector((state: RootState) => state.workspaces)
@@ -31,7 +30,7 @@ export default function UsersDetails() {
             <WorkspaceHeader
                 workspaceName={workspaceName}
                 buttonText="User"
-                setIsModalOpen={setIsInviteModalOpen}
+                setIsModalOpen={setIsModalOpen}
             />
             <div className="w-full ">
                 <div className="w-full flex justify-start sm:justify-between px-4 py-6 sm:px-9 sm:py-12 font-bold text-xl">
