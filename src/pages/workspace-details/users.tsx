@@ -12,10 +12,12 @@ import WorkspaceHeader from '@/components/shared/ui/WorkspaceHeader'
 import ConfirmationModal from '@/components/shared/modal/confirmationModal'
 
 export default function UsersDetails() {
-    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [isInviteUserModalOpen, setIsInviteUserModalOpen] = useState(false)
     const [isRemoveUserModalOpen, setIsRemoveUserModalOpen] = useState(false)
-    const { workspaceName, id } = useOutletContext<OutletContextType>()
     const [isAdminModalOpen, setIsAdminModalOpen] = useState(false)
+
+    const { workspaceName, id } = useOutletContext<OutletContextType>()
+
     const dispatch = useDispatch<AppDispatch>()
     const { workspaceUsers, loading } = useSelector((state: RootState) => state.workspaces)
     const data: TableUser[] = workspaceUsers
@@ -30,7 +32,7 @@ export default function UsersDetails() {
             <WorkspaceHeader
                 workspaceName={workspaceName}
                 buttonText="User"
-                setIsModalOpen={setIsModalOpen}
+                setIsModalOpen={setIsInviteUserModalOpen}
             />
             <div className="w-full ">
                 <div className="w-full flex justify-start sm:justify-between px-4 py-6 sm:px-9 sm:py-12 font-bold text-xl">
@@ -50,10 +52,10 @@ export default function UsersDetails() {
 
             <Modal
                 title="Invite a user to the workspace"
-                isModalOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
+                isModalOpen={isInviteUserModalOpen}
+                onClose={() => setIsInviteUserModalOpen(false)}
             >
-                <InviteUserForm id={id} setIsModalOpen={setIsModalOpen} />
+                <InviteUserForm id={id} setIsModalOpen={setIsInviteUserModalOpen} />
             </Modal>
 
             <Modal
