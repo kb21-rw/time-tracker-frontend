@@ -28,27 +28,27 @@ export default function UsersDetails() {
         setIsAdminModalOpen(true)
     })
     const [selectedUserId, setSelectedUserId] = useState<string | null>(null)
-   const handleMakeAdmin = async () => {
-       if (!selectedUserId || !id) return
+    const handleMakeAdmin = async () => {
+        if (!selectedUserId || !id) return
 
-       try {
-           await dispatch(
-               makeAdmin({
-                   workspaceId: id,
-                   userId: selectedUserId,
-               }),
-           ).unwrap()
-           dispatch(getWorkspaceUsers(id))
+        try {
+            await dispatch(
+                makeAdmin({
+                    workspaceId: id,
+                    userId: selectedUserId,
+                }),
+            ).unwrap()
+            dispatch(getWorkspaceUsers(id))
 
-           toast.success('User successfully made admin')
-       } catch (error) {
-           handleAxiosError(error as AxiosError)
-           toast.error('Failed to make user admin')
-       } finally {
-           setIsAdminModalOpen(false)
-           setSelectedUserId(null)
-       }
-   }
+            toast.success('User successfully made admin')
+        } catch (error) {
+            handleAxiosError(error as AxiosError)
+            toast.error('Failed to make user admin')
+        } finally {
+            setIsAdminModalOpen(false)
+            setSelectedUserId(null)
+        }
+    }
 
     const handleCancelMakeAdmin = () => {
         setIsAdminModalOpen(false)
