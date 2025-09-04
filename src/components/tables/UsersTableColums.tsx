@@ -4,7 +4,7 @@ import { Trash2 } from 'lucide-react'
 import UserAddIcon from '@/assets/icons/UserAdd'
 
 export function usersTableColumns(
-    onOpenAdminModal: (userId: string) => void,
+    onOpenAdminModal: (userId: number) => void,
 ): ColumnDef<TableUser>[] {
     return [
         {
