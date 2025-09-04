@@ -28,11 +28,6 @@ export default function UsersDetails() {
         setIsAdminModalOpen(true)
     })
     const [selectedUserId, setSelectedUserId] = useState<string | null>(null)
-
-    useEffect(() => {
-        dispatch(getWorkspaceUsers(id!))
-    }, [dispatch])
-
     const handleMakeAdmin = async () => {
         if (selectedUserId && id) {
             try {
@@ -58,6 +53,11 @@ export default function UsersDetails() {
         setIsAdminModalOpen(false)
         setSelectedUserId(null)
     }
+
+    useEffect(() => {
+        dispatch(getWorkspaceUsers(id!))
+    }, [dispatch])
+
     return (
         <div className="w-full">
             <WorkspaceHeader
