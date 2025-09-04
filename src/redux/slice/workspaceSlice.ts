@@ -99,7 +99,7 @@ export const getWorkspaceUsers = createAsyncThunk(
 )
 export const makeAdmin = createAsyncThunk(
     'workspace/makeAdmin',
-    async (params: { workspaceId: string; userId: string }, { rejectWithValue }) => {
+    async (params: { workspaceId: string; userId: number }, { rejectWithValue }) => {
         const { workspaceId, userId } = params
         try {
             console.log('Making user admin with params:', userId)

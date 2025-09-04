@@ -23,11 +23,11 @@ export default function UsersDetails() {
     const dispatch = useDispatch<AppDispatch>()
     const { workspaceUsers, loading } = useSelector((state: RootState) => state.workspaces)
     const data: TableUser[] = workspaceUsers
-    const columns = usersTableColumns((userId: string) => {
+    const columns = usersTableColumns((userId: number) => {
         setSelectedUserId(userId)
         setIsAdminModalOpen(true)
     })
-    const [selectedUserId, setSelectedUserId] = useState<string | null>(null)
+    const [selectedUserId, setSelectedUserId] = useState<number | null>(null)
     const handleMakeAdmin = async () => {
         if (!selectedUserId || !id) return
 
