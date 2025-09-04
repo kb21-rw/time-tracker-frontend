@@ -35,7 +35,7 @@ export default function EditTimeLog({
     const [start, setStartTime] = useState<Date>(new Date(date))
     const [end, setEndTime] = useState<Date>(set(new Date(date), { ...splitTime(endTime) }))
     const [selectedProject, setSelectedProject] = useState<string | null>(project || null)
-    const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false)
+    const [isDeleteConfirmationModalOpen, setIsDeleteConfirmationModalOpen] = useState(false)
 
     const buttonRef = useRef<HTMLDivElement>(null)
     const dispatch = useDispatch<AppDispatch>()
@@ -98,7 +98,8 @@ export default function EditTimeLog({
         }
     }
 
-    const toggleDeleteConfirmationModal = () => setIsConfirmationModalOpen(!isConfirmationModalOpen)
+    const toggleDeleteConfirmationModal = () =>
+        setIsDeleteConfirmationModalOpen(!isDeleteConfirmationModalOpen)
 
     const handleDelete = async () => {
         try {
@@ -196,7 +197,7 @@ export default function EditTimeLog({
             </Modal>
             <Modal
                 title="Are you sure you want to delete this time entry?"
-                isModalOpen={isConfirmationModalOpen}
+                isModalOpen={isDeleteConfirmationModalOpen}
                 onClose={toggleDeleteConfirmationModal}
             >
                 <ConfirmationModal confirm={handleDelete} cancel={toggleDeleteConfirmationModal} />
