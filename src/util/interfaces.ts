@@ -67,10 +67,11 @@ export interface DataTableProps<TData, TValue> {
     loading: boolean
 }
 export type TableUser = {
-    id: string
-    names: string
+    id: number
+    fullName: string
     email: string
     actions?: string
+    roles: string
 }
 export interface Project {
     id: string
