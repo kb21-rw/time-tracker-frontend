@@ -43,7 +43,7 @@ export interface WorkspaceForCreation {
 
 export interface WorkspaceState {
     workspaces: Workspace[]
-    workspaceUsers: []
+    workspaceUsers: User[]
     loading: boolean
     error: any
 }

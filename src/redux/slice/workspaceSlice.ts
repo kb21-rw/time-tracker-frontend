@@ -201,11 +201,15 @@ const workspacesSlice = createSlice({
             .addCase(makeAdmin.fulfilled, (state, action) => {
                 state.loading = false
                 state.error = null
-                const user = (state.workspaceUsers as User[]).find(
+                const userIndex = state.workspaceUsers.findIndex(
                     (user: User) => user.id === action.payload.id,
                 )
-                if (user) {
-                    user.roles = action.payload.roles
+
+                if (userIndex !== -1) {
+                    state.workspaceUsers[userIndex] = {
+                        ...state.workspaceUsers[userIndex],
+                        ...action.payload,
+                    }
                 }
             })
             .addCase(makeAdmin.rejected, (state, action) => {
