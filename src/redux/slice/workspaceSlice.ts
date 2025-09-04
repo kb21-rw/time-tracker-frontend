@@ -200,6 +200,7 @@ const workspacesSlice = createSlice({
             })
             .addCase(makeAdmin.fulfilled, (state, action) => {
                 state.loading = false
+                state.error = null
                 const user = (state.workspaceUsers as User[]).find(
                     (user: User) => user.id === action.payload.id,
                 )
