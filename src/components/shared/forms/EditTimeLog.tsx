@@ -17,6 +17,7 @@ import { AppDispatch, RootState } from '@/redux/store'
 import { deleteTimeLogAPI, editTimeLogAPI } from '@/redux/slice/timeLogsSlice'
 import { AxiosError } from 'axios'
 import { useMultiSelector } from '@/hooks/useMultiSelector'
+import ConfirmationModal from '../modal/confirmationModal'
 
 export default function EditTimeLog({
     id,
@@ -34,6 +35,8 @@ export default function EditTimeLog({
     const [start, setStartTime] = useState<Date>(new Date(date))
     const [end, setEndTime] = useState<Date>(set(new Date(date), { ...splitTime(endTime) }))
     const [selectedProject, setSelectedProject] = useState<string | null>(project || null)
+    const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false)
+
     const buttonRef = useRef<HTMLDivElement>(null)
     const dispatch = useDispatch<AppDispatch>()
 
@@ -61,13 +64,7 @@ export default function EditTimeLog({
         },
         mode: 'all',
     })
-    useEffect(() => {
-        console.log('start', start, 'end', end)
-        if (start && end) {
-            setValue('startTime', start.toISOString())
-            setValue('endTime', end.toISOString())
-        }
-    }, [start, end])
+
     const handleProjectSelect = (projectId: string, displayName: string) => {
         setValue('projectId', projectId)
         setSelectedProject(displayName)
@@ -100,6 +97,9 @@ export default function EditTimeLog({
             handleAxiosError(error as AxiosError)
         }
     }
+
+    const toggleDeleteConfirmationModal = () => setIsConfirmationModalOpen(!isConfirmationModalOpen)
+
     const handleDelete = async () => {
         try {
             const { meta: response } = await dispatch(deleteTimeLogAPI({ id, workspaceId }))
@@ -111,8 +111,18 @@ export default function EditTimeLog({
             }
         } catch (error) {
             handleAxiosError(error as AxiosError)
+        } finally {
+            toggleDeleteConfirmationModal()
         }
     }
+
+    useEffect(() => {
+        console.log('start', start, 'end', end)
+        if (start && end) {
+            setValue('startTime', start.toISOString())
+            setValue('endTime', end.toISOString())
+        }
+    }, [start, end])
 
     return (
         <div>
@@ -176,13 +186,20 @@ export default function EditTimeLog({
                             variant="accent"
                             type="submit"
                             name="delete"
-                            onClick={handleDelete}
+                            onClick={toggleDeleteConfirmationModal}
                             disabled={timeLogLoading}
                         >
                             Delete
                         </Button>
                     </div>
                 </form>
+            </Modal>
+            <Modal
+                title="Are you sure you want to delete this time entry?"
+                isModalOpen={isConfirmationModalOpen}
+                onClose={toggleDeleteConfirmationModal}
+            >
+                <ConfirmationModal confirm={handleDelete} cancel={toggleDeleteConfirmationModal} />
             </Modal>
         </div>
     )
