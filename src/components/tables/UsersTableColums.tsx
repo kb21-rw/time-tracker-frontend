@@ -3,7 +3,9 @@ import { TableUser } from '../../util/interfaces'
 import { Trash2 } from 'lucide-react'
 import UserAddIcon from '@/assets/icons/UserAdd'
 
-export function usersTableColumns(onOpenAdminModal: () => void): ColumnDef<TableUser>[] {
+export function usersTableColumns(
+    onOpenAdminModal: (userId: number) => void,
+): ColumnDef<TableUser>[] {
     return [
         {
             accessorKey: 'fullName',
@@ -16,26 +18,31 @@ export function usersTableColumns(onOpenAdminModal: () => void): ColumnDef<Table
         {
             accessorKey: 'actions',
             header: 'Actions',
-            cell: () => (
-                <div className="flex items-center justify-center gap-x-4">
-                    <button
-                        type="button"
-                        onClick={onOpenAdminModal}
-                        className=" text-primary-500 w-5 h-5 cursor-pointer"
-                        aria-label="Remove user"
-                    >
-                        <UserAddIcon />
-                    </button>
-                    <button
-                        type="button"
-                        className="text-accent-500 w-5 h-5 cursor-pointer"
-                        onClick={onOpenAdminModal}
-                        aria-label="Remove user"
-                    >
-                        <Trash2 />
-                    </button>
-                </div>
-            ),
+            cell: ({ row }) => {
+                const user = row.original
+                const isAdmin = user.roles === 'Admin'
+                return (
+                    <div className="flex items-center justify-center gap-x-4">
+                        <button
+                            type="button"
+                            onClick={() => onOpenAdminModal(user.id)}
+                            className={`text-primary-500 w-5 h-5 cursor-pointer ${isAdmin ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            aria-label="Make admin"
+                            disabled={isAdmin}
+                        >
+                            <UserAddIcon />
+                        </button>
+                        <button
+                            type="button"
+                            className="text-accent-500 w-5 h-5 cursor-pointer"
+                            onClick={() => onOpenAdminModal(user.id)}
+                            aria-label="Remove user"
+                        >
+                            <Trash2 />
+                        </button>
+                    </div>
+                )
+            },
         },
     ]
 }
