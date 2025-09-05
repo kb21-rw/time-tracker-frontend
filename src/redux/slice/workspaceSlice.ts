@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import api from '../../lib/api'
-import { WorkspaceState } from '../../util/interfaces'
+import { WorkspaceState, User } from '../../util/interfaces'
 
 const initialState: WorkspaceState = {
     workspaces: [],
@@ -97,6 +97,24 @@ export const getWorkspaceUsers = createAsyncThunk(
         }
     },
 )
+export const makeAdmin = createAsyncThunk(
+    'workspace/makeAdmin',
+    async (params: { workspaceId: string; userId: number }, { rejectWithValue }) => {
+        const { workspaceId, userId } = params
+        try {
+            console.log('Making user admin with params:', userId)
+            const response = await api.post(`workspaces/${workspaceId}/users/make-admin`, {
+                userId,
+            })
+            return response.data
+        } catch (error: any) {
+            const errorMessage = error.response?.data?.message || 'Failed to make user admin'
+            return rejectWithValue(
+                typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage),
+            )
+        }
+    },
+)
 
 const workspacesSlice = createSlice({
     name: 'workspace',
@@ -173,6 +191,28 @@ const workspacesSlice = createSlice({
                 state.workspaceUsers = action.payload
             })
             .addCase(getWorkspaceUsers.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.payload
+            })
+            .addCase(makeAdmin.pending, state => {
+                state.loading = true
+                state.error = null
+            })
+            .addCase(makeAdmin.fulfilled, (state, action) => {
+                state.loading = false
+                state.error = null
+                const userIndex = state.workspaceUsers.findIndex(
+                    (user: User) => user.id === action.payload.id,
+                )
+
+                if (userIndex !== -1) {
+                    state.workspaceUsers[userIndex] = {
+                        ...state.workspaceUsers[userIndex],
+                        ...action.payload,
+                    }
+                }
+            })
+            .addCase(makeAdmin.rejected, (state, action) => {
                 state.loading = false
                 state.error = action.payload
             })
