@@ -1,5 +1,5 @@
 import { usersTableColumns } from '@/components/tables/UsersTableColums'
-import { getWorkspaceUsers } from '@/redux/slice/workspaceSlice'
+import { getWorkspaceUsers, makeAdmin } from '@/redux/slice/workspaceSlice'
 import { AppDispatch, RootState } from '@/redux/store'
 import { OutletContextType, TableUser } from '@/util/interfaces'
 import { useEffect, useState } from 'react'
@@ -10,6 +10,9 @@ import Modal from '@/components/shared/modal/Modal'
 import DataTable from '@/components/tables/DataTable'
 import WorkspaceHeader from '@/components/shared/ui/WorkspaceHeader'
 import ConfirmationModal from '@/components/shared/modal/confirmationModal'
+import toast from 'react-hot-toast'
+import { handleAxiosError } from '@/util/helpers'
+import { AxiosError } from 'axios'
 
 export default function UsersDetails() {
     const [isModalOpen, setIsModalOpen] = useState(false)
@@ -20,7 +23,37 @@ export default function UsersDetails() {
     const dispatch = useDispatch<AppDispatch>()
     const { workspaceUsers, loading } = useSelector((state: RootState) => state.workspaces)
     const data: TableUser[] = workspaceUsers
-    const columns = usersTableColumns(() => setIsAdminModalOpen(true))
+    const columns = usersTableColumns((userId: number) => {
+        setSelectedUserId(userId)
+        setIsAdminModalOpen(true)
+    })
+    const [selectedUserId, setSelectedUserId] = useState<number | null>(null)
+    const handleMakeAdmin = async () => {
+        if (!selectedUserId || !id) return
+
+        try {
+            await dispatch(
+                makeAdmin({
+                    workspaceId: id,
+                    userId: selectedUserId,
+                }),
+            ).unwrap()
+            dispatch(getWorkspaceUsers(id))
+
+            toast.success('User successfully made admin')
+        } catch (error) {
+            handleAxiosError(error as AxiosError)
+            toast.error('Failed to make user admin')
+        } finally {
+            setIsAdminModalOpen(false)
+            setSelectedUserId(null)
+        }
+    }
+
+    const handleCancelMakeAdmin = () => {
+        setIsAdminModalOpen(false)
+        setSelectedUserId(null)
+    }
 
     useEffect(() => {
         dispatch(getWorkspaceUsers(id!))
@@ -79,14 +112,7 @@ export default function UsersDetails() {
                 isModalOpen={isAdminModalOpen}
                 onClose={() => setIsAdminModalOpen(false)}
             >
-                <ConfirmationModal
-                    confirm={() => {
-                        console.log('User made admin')
-                    }}
-                    cancel={() => {
-                        console.log('User not made admin')
-                    }}
-                />
+                <ConfirmationModal confirm={handleMakeAdmin} cancel={handleCancelMakeAdmin} />
             </Modal>
         </div>
     )
