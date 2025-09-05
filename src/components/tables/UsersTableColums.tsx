@@ -26,7 +26,7 @@ export function usersTableColumns(
                         <button
                             type="button"
                             onClick={() => onOpenAdminModal(user.id)}
-                            className={`text-primary-500 w-5 h-5 cursor-pointer ${isAdmin ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            className={`text-primary-500 w-5 h-5 ${isAdmin ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
                             aria-label="Make admin"
                             disabled={isAdmin}
                         >
