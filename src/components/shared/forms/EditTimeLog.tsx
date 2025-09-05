@@ -98,10 +98,11 @@ export default function EditTimeLog({
         }
     }
 
-    const toggleDeleteConfirmationModal = () => setIsDeleteConfirmationModalOpen(!isDeleteConfirmationModalOpen)
-    
-    const handleOpenDeleteConfirmation = (e:MouseEvent<HTMLButtonElement | HTMLDivElement>) => {
-        e.preventDefault();
+    const toggleDeleteConfirmationModal = () =>
+        setIsDeleteConfirmationModalOpen(!isDeleteConfirmationModalOpen)
+
+    const handleOpenDeleteConfirmation = (e: MouseEvent<HTMLButtonElement | HTMLDivElement>) => {
+        e.preventDefault()
         toggleDeleteConfirmationModal()
     }
 
@@ -116,11 +117,11 @@ export default function EditTimeLog({
             }
         } catch (error) {
             handleAxiosError(error as AxiosError)
-        } finally {         
+        } finally {
             toggleDeleteConfirmationModal()
         }
     }
-  
+
     useEffect(() => {
         console.log('start', start, 'end', end)
         if (start && end) {
@@ -192,7 +193,7 @@ export default function EditTimeLog({
                             type="button"
                             name="delete"
                             onClick={handleOpenDeleteConfirmation}
-                            disabled={timeLogLoading}         
+                            disabled={timeLogLoading}
                         >
                             Delete
                         </Button>
