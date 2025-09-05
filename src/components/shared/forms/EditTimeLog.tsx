@@ -5,7 +5,7 @@ import ProjectsList from '@/components/ui/ProjectsList'
 import { ChevronDown } from 'lucide-react'
 import { DateTimePicker } from '@/components/ui/DateTimePicker'
 import Input from '../ui/Input'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { MouseEvent, useEffect, useMemo, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { EditTimeLogFormData, EditTimeLogSchema } from '@/schema/timelogs'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -98,8 +98,12 @@ export default function EditTimeLog({
         }
     }
 
-    const toggleDeleteConfirmationModal = () =>
-        setIsDeleteConfirmationModalOpen(!isDeleteConfirmationModalOpen)
+    const toggleDeleteConfirmationModal = () => setIsDeleteConfirmationModalOpen(!isDeleteConfirmationModalOpen)
+    
+    const handleOpenDeleteConfirmation = (e:MouseEvent<HTMLButtonElement | HTMLDivElement>) => {
+        e.preventDefault();
+        toggleDeleteConfirmationModal()
+    }
 
     const handleDelete = async () => {
         try {
@@ -112,11 +116,11 @@ export default function EditTimeLog({
             }
         } catch (error) {
             handleAxiosError(error as AxiosError)
-        } finally {
+        } finally {         
             toggleDeleteConfirmationModal()
         }
     }
-
+  
     useEffect(() => {
         console.log('start', start, 'end', end)
         if (start && end) {
@@ -185,10 +189,10 @@ export default function EditTimeLog({
                         <Button
                             className="w-full cursor-pointer"
                             variant="accent"
-                            type="submit"
+                            type="button"
                             name="delete"
-                            onClick={toggleDeleteConfirmationModal}
-                            disabled={timeLogLoading}
+                            onClick={handleOpenDeleteConfirmation}
+                            disabled={timeLogLoading}         
                         >
                             Delete
                         </Button>
