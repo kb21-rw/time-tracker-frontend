@@ -5,7 +5,7 @@ import ProjectsList from '@/components/ui/ProjectsList'
 import { ChevronDown } from 'lucide-react'
 import { DateTimePicker } from '@/components/ui/DateTimePicker'
 import Input from '../ui/Input'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { MouseEvent, useEffect, useMemo, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { EditTimeLogFormData, EditTimeLogSchema } from '@/schema/timelogs'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -17,6 +17,7 @@ import { AppDispatch, RootState } from '@/redux/store'
 import { deleteTimeLogAPI, editTimeLogAPI } from '@/redux/slice/timeLogsSlice'
 import { AxiosError } from 'axios'
 import { useMultiSelector } from '@/hooks/useMultiSelector'
+import ConfirmationModal from '../modal/confirmationModal'
 
 export default function EditTimeLog({
     id,
@@ -34,6 +35,8 @@ export default function EditTimeLog({
     const [start, setStartTime] = useState<Date>(new Date(date))
     const [end, setEndTime] = useState<Date>(set(new Date(date), { ...splitTime(endTime) }))
     const [selectedProject, setSelectedProject] = useState<string | null>(project || null)
+    const [isDeleteConfirmationModalOpen, setIsDeleteConfirmationModalOpen] = useState(false)
+
     const buttonRef = useRef<HTMLDivElement>(null)
     const dispatch = useDispatch<AppDispatch>()
 
@@ -61,13 +64,7 @@ export default function EditTimeLog({
         },
         mode: 'all',
     })
-    useEffect(() => {
-        console.log('start', start, 'end', end)
-        if (start && end) {
-            setValue('startTime', start.toISOString())
-            setValue('endTime', end.toISOString())
-        }
-    }, [start, end])
+
     const handleProjectSelect = (projectId: string, displayName: string) => {
         setValue('projectId', projectId)
         setSelectedProject(displayName)
@@ -100,6 +97,15 @@ export default function EditTimeLog({
             handleAxiosError(error as AxiosError)
         }
     }
+
+    const toggleDeleteConfirmationModal = () =>
+        setIsDeleteConfirmationModalOpen(!isDeleteConfirmationModalOpen)
+
+    const handleOpenDeleteConfirmation = (e: MouseEvent<HTMLButtonElement | HTMLDivElement>) => {
+        e.preventDefault()
+        toggleDeleteConfirmationModal()
+    }
+
     const handleDelete = async () => {
         try {
             const { meta: response } = await dispatch(deleteTimeLogAPI({ id, workspaceId }))
@@ -111,8 +117,18 @@ export default function EditTimeLog({
             }
         } catch (error) {
             handleAxiosError(error as AxiosError)
+        } finally {
+            toggleDeleteConfirmationModal()
         }
     }
+
+    useEffect(() => {
+        console.log('start', start, 'end', end)
+        if (start && end) {
+            setValue('startTime', start.toISOString())
+            setValue('endTime', end.toISOString())
+        }
+    }, [start, end])
 
     return (
         <div>
@@ -174,15 +190,22 @@ export default function EditTimeLog({
                         <Button
                             className="w-full cursor-pointer"
                             variant="accent"
-                            type="submit"
+                            type="button"
                             name="delete"
-                            onClick={handleDelete}
+                            onClick={handleOpenDeleteConfirmation}
                             disabled={timeLogLoading}
                         >
                             Delete
                         </Button>
                     </div>
                 </form>
+            </Modal>
+            <Modal
+                title="Are you sure you want to delete this time entry?"
+                isModalOpen={isDeleteConfirmationModalOpen}
+                onClose={toggleDeleteConfirmationModal}
+            >
+                <ConfirmationModal confirm={handleDelete} cancel={toggleDeleteConfirmationModal} />
             </Modal>
         </div>
     )
