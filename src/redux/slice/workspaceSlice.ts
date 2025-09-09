@@ -117,13 +117,14 @@ export const makeAdmin = createAsyncThunk(
 )
 export const deleteUserFromWorkspace = createAsyncThunk(
     'workspace/deleteUser',
-    async (params: { workspaceId: string; userId: number }, { rejectWithValue }) => {   
+    async (params: { workspaceId: string; userId: number }, { rejectWithValue }) => {
         const { workspaceId, userId } = params
         try {
             const response = await api.delete(`workspaces/${workspaceId}/users/${userId}`)
             return response.data
         } catch (error: any) {
-            const errorMessage = error.response?.data?.message || 'Failed to delete user from workspace'
+            const errorMessage =
+                error.response?.data?.message || 'Failed to delete user from workspace'
             return rejectWithValue(
                 typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage),
             )

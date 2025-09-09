@@ -31,7 +31,7 @@ export default function UsersDetails() {
         (userId: number) => {
             setSelectedUserId(userId)
             setIsDeleteUserModalOpen(true)
-        }
+        },
     )
     const [selectedUserId, setSelectedUserId] = useState<number | null>(null)
     const handleMakeAdmin = async () => {
