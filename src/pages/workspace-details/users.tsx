@@ -1,5 +1,5 @@
 import { usersTableColumns } from '@/components/tables/UsersTableColums'
-import { getWorkspaceUsers, makeAdmin } from '@/redux/slice/workspaceSlice'
+import { deleteUserFromWorkspace, getWorkspaceUsers, makeAdmin } from '@/redux/slice/workspaceSlice'
 import { AppDispatch, RootState } from '@/redux/store'
 import { OutletContextType, TableUser } from '@/util/interfaces'
 import { useEffect, useState } from 'react'
@@ -16,17 +16,23 @@ import { AxiosError } from 'axios'
 
 export default function UsersDetails() {
     const [isModalOpen, setIsModalOpen] = useState(false)
-    const [isRemoveUserModalOpen, setIsRemoveUserModalOpen] = useState(false)
+    const [isDeleteUserModalOpen, setIsDeleteUserModalOpen] = useState(false)
     const { workspaceName, id } = useOutletContext<OutletContextType>()
     const [, setIsInviteModalOpen] = useState(false)
     const [isAdminModalOpen, setIsAdminModalOpen] = useState(false)
     const dispatch = useDispatch<AppDispatch>()
     const { workspaceUsers, loading } = useSelector((state: RootState) => state.workspaces)
     const data: TableUser[] = workspaceUsers
-    const columns = usersTableColumns((userId: number) => {
-        setSelectedUserId(userId)
-        setIsAdminModalOpen(true)
-    })
+    const columns = usersTableColumns(
+        (userId: number) => {
+            setSelectedUserId(userId)
+            setIsAdminModalOpen(true)
+        },
+        (userId: number) => {
+            setSelectedUserId(userId)
+            setIsDeleteUserModalOpen(true)
+        }
+    )
     const [selectedUserId, setSelectedUserId] = useState<number | null>(null)
     const handleMakeAdmin = async () => {
         if (!selectedUserId || !id) return
@@ -53,6 +59,33 @@ export default function UsersDetails() {
     const handleCancelMakeAdmin = () => {
         setIsAdminModalOpen(false)
         setSelectedUserId(null)
+    }
+
+    const handleCancelDeleteUser = () => {
+        setIsDeleteUserModalOpen(false)
+        setSelectedUserId(null)
+    }
+
+    const handleDeleteUser = async () => {
+        if (!selectedUserId || !id) return
+
+        try {
+            await dispatch(
+                deleteUserFromWorkspace({
+                    workspaceId: id,
+                    userId: selectedUserId,
+                }),
+            ).unwrap()
+            // dispatch(getWorkspaceUsers(id))
+
+            toast.success('User Deleted successfully')
+        } catch (error) {
+            handleAxiosError(error as AxiosError)
+            toast.error('Failed to delete user')
+        } finally {
+            setIsDeleteUserModalOpen(false)
+            setSelectedUserId(null)
+        }
     }
 
     useEffect(() => {
@@ -94,17 +127,10 @@ export default function UsersDetails() {
                 title="Are you sure you want to
                    remove this user from this
                     workspace?"
-                isModalOpen={isRemoveUserModalOpen}
-                onClose={() => setIsRemoveUserModalOpen(false)}
+                isModalOpen={isDeleteUserModalOpen}
+                onClose={() => setIsDeleteUserModalOpen(false)}
             >
-                <ConfirmationModal
-                    confirm={() => {
-                        console.log('User removed')
-                    }}
-                    cancel={() => {
-                        console.log('User not removed')
-                    }}
-                />
+                <ConfirmationModal confirm={handleDeleteUser} cancel={handleCancelDeleteUser} />
             </Modal>
 
             <Modal
