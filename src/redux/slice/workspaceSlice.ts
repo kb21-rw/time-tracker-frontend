@@ -115,6 +115,22 @@ export const makeAdmin = createAsyncThunk(
         }
     },
 )
+export const deleteUserFromWorkspace = createAsyncThunk(
+    'workspace/deleteUser',
+    async (params: { workspaceId: string; userId: number }, { rejectWithValue }) => {
+        const { workspaceId, userId } = params
+        try {
+            const response = await api.delete(`workspaces/${workspaceId}/users/${userId}`)
+            return response.data
+        } catch (error: any) {
+            const errorMessage =
+                error.response?.data?.message || 'Failed to delete user from workspace'
+            return rejectWithValue(
+                typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage),
+            )
+        }
+    },
+)
 
 const workspacesSlice = createSlice({
     name: 'workspace',
@@ -213,6 +229,21 @@ const workspacesSlice = createSlice({
                 }
             })
             .addCase(makeAdmin.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.payload
+            })
+            .addCase(deleteUserFromWorkspace.pending, state => {
+                state.loading = true
+                state.error = null
+            })
+            .addCase(deleteUserFromWorkspace.fulfilled, (state, action) => {
+                state.loading = false
+                state.error = null
+                state.workspaceUsers = state.workspaceUsers.filter(
+                    (user: User) => user.id !== action.meta.arg.userId,
+                )
+            })
+            .addCase(deleteUserFromWorkspace.rejected, (state, action) => {
                 state.loading = false
                 state.error = action.payload
             })

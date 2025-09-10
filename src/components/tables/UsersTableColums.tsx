@@ -5,6 +5,7 @@ import UserAddIcon from '@/assets/icons/UserAdd'
 
 export function usersTableColumns(
     onOpenAdminModal: (userId: number) => void,
+    onOpenDeleteUserModal: (userId: number) => void,
 ): ColumnDef<TableUser>[] {
     return [
         {
@@ -35,7 +36,7 @@ export function usersTableColumns(
                         <button
                             type="button"
                             className="text-accent-500 w-5 h-5 cursor-pointer"
-                            onClick={() => onOpenAdminModal(user.id)}
+                            onClick={() => onOpenDeleteUserModal(user.id)}
                             aria-label="Remove user"
                         >
                             <Trash2 />
