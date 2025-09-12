@@ -10,5 +10,6 @@ export default defineConfig({
         VITE_API_URL: process.env.VITE_API_URL,
         VITE_API_VERSION: process.env.VITE_API_VERSION,
         VITE_APP_NAME: process.env.VITE_APP_NAME,
+        JWT_SECRET: process.env.JWT_SECRET,
     },
 })

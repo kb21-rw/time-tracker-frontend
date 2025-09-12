@@ -1,22 +1,31 @@
 name: Cypress E2E Workflow
+
 on:
     push:
         branches: [main, dev, staging]
     pull_request:
         branches: [main, dev, staging]
+
 jobs:
     test:
         runs-on: ubuntu-latest
+
         env:
+            # frontend envs
             VITE_API_URL: ${{ secrets.VITE_API_URL }}
             VITE_API_VERSION: ${{ secrets.VITE_API_VERSION }}
             VITE_APP_NAME: ${{ secrets.VITE_APP_NAME }}
+
+            # backend envs (add whatever you use in projects/time-tracker-api/.env)
+            JWT_SECRET: ${{ secrets.JWT_SECRET }}
+            DATABASE_URL: ${{ secrets.DATABASE_URL }} # example, if your Nest app connects to a DB
+            # add more as needed...
 
         steps:
             - name: Checkout Repository
               uses: actions/checkout@v2
 
-            - name: Clone backend repositoru
+            - name: Clone backend repository
               run: |
                   git clone https://github.com/kb21-rw/time-tracker-api.git projects/time-tracker-api
                   chmod -R 777 projects/time-tracker-api
@@ -33,7 +42,7 @@ jobs:
                   echo "Waiting for backend to be ready (max 120 seconds)..."
                   timeout=120
                   elapsed=0
-                  while ! curl -s VITE_API_URL >/dev/null; do
+                  while ! curl -s $VITE_API_URL >/dev/null; do   # ✅ fixed env reference
                     sleep 10
                     elapsed=$((elapsed+10))
                     echo "Backend is not ready yet... ($elapsed seconds)"
@@ -79,4 +88,4 @@ jobs:
                   echo "Listing contents of 'projects/' directory:"
                   ls -F projects/
                   echo "Checking existence and permissions of 'projects/time-tracker-api':"
-                  ls -ld projects/drec-origin || true
+                  ls -ld projects/time-tracker-api || true   # ✅ fixed path
