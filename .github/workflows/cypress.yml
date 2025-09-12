@@ -1,0 +1,88 @@
+name: Cypress E2E Workflow
+on:
+    push:
+        branches:
+            - dev
+            - main
+            - staging
+    pull_request:
+        branches:
+            - dev
+            - main
+            - staging
+jobs:
+    test:
+        run-on: ubuntu-latest
+        env:
+            VITE_API_URL: ${VITE_API_URL}
+            VITE_API_VERSION: ${VITE_API_VERSION}
+            VITE_APP_NAME: ${VITE_APP_NAME}
+
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v2
+
+            - name: Clone backend repositoru
+              run: |
+                  git clone https://github.com/kb21-rw/time-tracker-api.git projects/time-tracker-api
+                  chmod -R 777 projects/time-tracker-api
+
+            - name: Install Backend Dependencies
+              working-directory: projects/time-tracker-api
+              run: npm install
+
+            - name: Start Backend and Wait for Readiness
+              working-directory: projects/time-tracker-api
+              run: |
+                  echo "Starting backend in background..."
+                  npm run start:dev &
+                  echo "Waiting for backend to be ready (max 120 seconds)..."
+                  timeout=120
+                  elapsed=0
+                  while ! curl -s VITE_API_URL >/dev/null; do
+                    sleep 10
+                    elapsed=$((elapsed+10))
+                    echo "Backend is not ready yet... ($elapsed seconds)"
+                    if [ "$elapsed" -ge "$timeout" ]; then
+                      echo "Backend failed to start within $timeout seconds."
+                      exit 1
+                    fi
+                  done
+                  echo "Backend is ready!"
+
+            - name: Install and Start Frontend
+              run: |
+                  echo "Installing frontend dependencies..."
+                  npm install
+                  echo "Starting frontend in background..."
+                  nohup npm run dev &
+                  echo "Waiting for Frontend to be ready (max 60 seconds)..."
+                  timeout=60
+                  elapsed=0
+                  until curl -s http://localhost:5173; do
+                    sleep 5
+                    elapsed=$((elapsed+5))
+                    echo "Frontend is not ready yet... ($elapsed seconds)"
+                    if [ "$elapsed" -ge "$timeout" ]; then
+                      echo "Frontend failed to start within $timeout seconds."
+                      exit 1
+                    fi
+                  done
+                  echo "Frontend is ready!"
+
+            - name: Run Cypress Tests
+              run: npx cypress run
+
+            - name: Upload Cypress Screenshots
+              if: failure()
+              uses: actions/upload-artifact@v4
+              with:
+                  name: cypress-screenshots
+                  path: cypress/screenshots
+
+            - name: Debug - Check parent directory before backend teardown
+              run: |
+                  echo "Listing contents of 'projects/' directory:"
+                  ls -F projects/
+                  echo "Checking existence and permissions of 'projects/time-tracker-api':"
+                  ls -ld projects/drec-origin || true
