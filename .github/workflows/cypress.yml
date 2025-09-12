@@ -1,15 +1,9 @@
 name: Cypress E2E Workflow
 on:
     push:
-        branches:
-            - dev
-            - main
-            - staging
+        branches: [main, dev, staging]
     pull_request:
-        branches:
-            - dev
-            - main
-            - staging
+        branches: [main, dev, staging]
 jobs:
     test:
         run-on: ubuntu-latest
