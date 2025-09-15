@@ -11,15 +11,12 @@ jobs:
         runs-on: ubuntu-latest
 
         env:
-            # frontend envs
             VITE_API_URL: ${{ secrets.VITE_API_URL }}
             VITE_API_VERSION: ${{ secrets.VITE_API_VERSION }}
             VITE_APP_NAME: ${{ secrets.VITE_APP_NAME }}
 
-            # backend envs (add whatever you use in projects/time-tracker-api/.env)
             JWT_SECRET: ${{ secrets.JWT_SECRET }}
-            DATABASE_URL: ${{ secrets.DATABASE_URL }} # example, if your Nest app connects to a DB
-            # add more as needed...
+            DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
         steps:
             - name: Checkout Repository
