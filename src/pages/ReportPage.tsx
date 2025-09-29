@@ -46,9 +46,9 @@ const mockReportData = {
 }
 
 export default function ReportPage() {
-    const { workspaceName, id } = useOutletContext<OutletContextType>()
-    const [startDate, setStartDate] = useState<Date>(new Date())
-    const [endDate, setEndDate] = useState<Date>(new Date())
+    const { workspaceName } = useOutletContext<OutletContextType>()
+    const [startDate] = useState<Date>(new Date())
+    const [endDate] = useState<Date>(new Date())
 
     return (
         <div>
