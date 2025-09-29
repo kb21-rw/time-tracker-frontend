@@ -46,11 +46,16 @@ export default function TimeTracker() {
         dispatch(getUserTimeLogs(targetWorkspace.id))
     }, [dispatch, targetWorkspace])
 
+    const formattedTimelogs = useMemo(() => formatTimeLogs(timeLogs), [timeLogs])
+
     if (loading) {
         return <LoadingSpinner center size={80} className="text-primary-600 h-screen" />
     }
 
-    const formattedTimelogs = formatTimeLogs(timeLogs)
+    if (!workspaceInfo.id) {
+        return <div>No workspace available.</div>
+    }
+
     return (
         <div className="bg-white h-full">
             <TimeTrackerHeader id={workspaceInfo.id} workspaceName={workspaceInfo.workspaceName} />

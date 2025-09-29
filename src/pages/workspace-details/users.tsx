@@ -1,5 +1,5 @@
 import { usersTableColumns } from '@/components/tables/UsersTableColums'
-import { getWorkspaceUsers } from '@/redux/slice/workspaceSlice'
+import { deleteUserFromWorkspace, getWorkspaceUsers, makeAdmin } from '@/redux/slice/workspaceSlice'
 import { AppDispatch, RootState } from '@/redux/store'
 import { OutletContextType, TableUser } from '@/util/interfaces'
 import { useEffect, useState } from 'react'
@@ -9,13 +9,84 @@ import InviteUserForm from '@/components/shared/forms/InviteUserForm'
 import Modal from '@/components/shared/modal/Modal'
 import DataTable from '@/components/tables/DataTable'
 import WorkspaceHeader from '@/components/shared/ui/WorkspaceHeader'
+import ConfirmationModal from '@/components/shared/modal/confirmationModal'
+import toast from 'react-hot-toast'
+import { handleAxiosError } from '@/util/helpers'
+import { AxiosError } from 'axios'
 
 export default function UsersDetails() {
+    const [isDeleteUserModalOpen, setIsDeleteUserModalOpen] = useState(false)
     const { workspaceName, id } = useOutletContext<OutletContextType>()
-    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [isInviteUserModalOpen, setIsInviteUserModalOpen] = useState(false)
+    const [isAdminModalOpen, setIsAdminModalOpen] = useState(false)
+
     const dispatch = useDispatch<AppDispatch>()
     const { workspaceUsers, loading } = useSelector((state: RootState) => state.workspaces)
     const data: TableUser[] = workspaceUsers
+    const columns = usersTableColumns(
+        (userId: number) => {
+            setSelectedUserId(userId)
+            setIsAdminModalOpen(true)
+        },
+        (userId: number) => {
+            setSelectedUserId(userId)
+            setIsDeleteUserModalOpen(true)
+        },
+    )
+    const [selectedUserId, setSelectedUserId] = useState<number | null>(null)
+    const handleMakeAdmin = async () => {
+        if (!selectedUserId || !id) return
+
+        try {
+            await dispatch(
+                makeAdmin({
+                    workspaceId: id,
+                    userId: selectedUserId,
+                }),
+            ).unwrap()
+            dispatch(getWorkspaceUsers(id))
+
+            toast.success('User successfully made admin')
+        } catch (error) {
+            handleAxiosError(error as AxiosError)
+            toast.error('Failed to make user admin')
+        } finally {
+            setIsAdminModalOpen(false)
+            setSelectedUserId(null)
+        }
+    }
+
+    const handleCancelMakeAdmin = () => {
+        setIsAdminModalOpen(false)
+        setSelectedUserId(null)
+    }
+
+    const handleCancelDeleteUser = () => {
+        setIsDeleteUserModalOpen(false)
+        setSelectedUserId(null)
+    }
+
+    const handleDeleteUser = async () => {
+        if (!selectedUserId || !id) return
+
+        try {
+            await dispatch(
+                deleteUserFromWorkspace({
+                    workspaceId: id,
+                    userId: selectedUserId,
+                }),
+            ).unwrap()
+            // dispatch(getWorkspaceUsers(id))
+
+            toast.success('User Deleted successfully')
+        } catch (error) {
+            handleAxiosError(error as AxiosError)
+            toast.error('Failed to delete user')
+        } finally {
+            setIsDeleteUserModalOpen(false)
+            setSelectedUserId(null)
+        }
+    }
 
     useEffect(() => {
         dispatch(getWorkspaceUsers(id!))
@@ -26,7 +97,7 @@ export default function UsersDetails() {
             <WorkspaceHeader
                 workspaceName={workspaceName}
                 buttonText="User"
-                setIsModalOpen={setIsModalOpen}
+                setIsModalOpen={setIsInviteUserModalOpen}
             />
             <div className="w-full ">
                 <div className="w-full flex justify-start sm:justify-between px-4 py-6 sm:px-9 sm:py-12 font-bold text-xl">
@@ -36,22 +107,39 @@ export default function UsersDetails() {
                     <div className="mx-auto w-full max-w-xs sm:max-w-full px-2 sm:px-0">
                         <DataTable
                             tableName="users"
-                            columns={usersTableColumns}
+                            columns={columns}
                             data={data}
                             loading={loading}
                         />
                     </div>
                 </div>
             </div>
-            {
-                <Modal
-                    title="Invite a user to the workspace"
-                    isModalOpen={isModalOpen}
-                    onClose={() => setIsModalOpen(false)}
-                >
-                    <InviteUserForm id={id} setIsModalOpen={setIsModalOpen} />
-                </Modal>
-            }
+
+            <Modal
+                title="Invite a user to the workspace"
+                isModalOpen={isInviteUserModalOpen}
+                onClose={() => setIsInviteUserModalOpen(false)}
+            >
+                <InviteUserForm id={id} setIsModalOpen={setIsInviteUserModalOpen} />
+            </Modal>
+
+            <Modal
+                title="Are you sure you want to
+                   remove this user from this
+                    workspace?"
+                isModalOpen={isDeleteUserModalOpen}
+                onClose={() => setIsDeleteUserModalOpen(false)}
+            >
+                <ConfirmationModal confirm={handleDeleteUser} cancel={handleCancelDeleteUser} />
+            </Modal>
+
+            <Modal
+                title="Are you sure you want to make this user an admin?"
+                isModalOpen={isAdminModalOpen}
+                onClose={() => setIsAdminModalOpen(false)}
+            >
+                <ConfirmationModal confirm={handleMakeAdmin} cancel={handleCancelMakeAdmin} />
+            </Modal>
         </div>
     )
 }

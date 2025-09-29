@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { selectSidebarOpen } from '../redux/features/sidebarSlice'
 import { selectWorkspace } from '@/redux/features/workspaceStateSlice'
-import { useIsMobile } from '@/hooks/use-mobile'
+import { useIsMobile } from '@/hooks/useIsMobile'
 
 export default function WorkspaceDetails() {
     const { state } = useLocation()
@@ -16,12 +16,13 @@ export default function WorkspaceDetails() {
 
     useEffect(() => {
         if (!id) return
+
         if (state?.name) {
             setWorkspaceName(state.name)
         } else if (workspace?.name) {
             setWorkspaceName(workspace.name)
         }
-    }, [state, workspace])
+    }, [state, workspace, id])
 
     if (!id || (!state?.name && !workspace)) {
         return <Navigate to="/manage-workspaces" />
