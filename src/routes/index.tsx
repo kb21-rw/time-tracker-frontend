@@ -86,7 +86,7 @@ export const router = createBrowserRouter([
                             },
                             {
                                 path: 'report',
-                                element: <ReportPage/>,
+                                element: <ReportPage />,
                             },
                         ],
                     },

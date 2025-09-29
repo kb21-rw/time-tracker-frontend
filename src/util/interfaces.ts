@@ -316,5 +316,3 @@ export interface ReportDataProps {
         }[]
     }[]
 }
-
-

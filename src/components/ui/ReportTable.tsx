@@ -1,4 +1,4 @@
-import { ReportDataProps } from "@/util/interfaces";
+import { ReportDataProps } from '@/util/interfaces'
 
 export default function ReportTable(mockReportData: ReportDataProps) {
     return (
