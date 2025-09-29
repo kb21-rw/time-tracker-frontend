@@ -106,7 +106,7 @@ export default function WorkspaceSidebar() {
                                     }
                                 >
                                     <NavLink
-                                        to="#"
+                                        to="/manage-workspaces/${id}/report"
                                         className="flex gap-2"
                                     >
                                         <ReportIcon className="w-7 h-7" />
