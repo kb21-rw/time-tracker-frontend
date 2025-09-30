@@ -300,3 +300,19 @@ export interface SpinnerProps {
     className?: string
     center?: boolean
 }
+
+export interface ReportDataProps {
+    user: {
+        fullName: string
+    }
+    projects: {
+        id: number
+        name: string
+        client: string
+        activities: {
+            name: string
+            /** Duration in HH:MM:SS format */
+            duration: string
+        }[]
+    }[]
+}

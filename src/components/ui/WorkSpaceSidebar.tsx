@@ -11,6 +11,7 @@ import {
 } from '../shadcn/sidebar'
 import { NavLink, useParams, useLocation } from 'react-router-dom'
 import FluentProject from '../../assets/icons/FluentProject'
+import ReportIcon from '@/assets/icons/Report'
 
 export default function WorkspaceSidebar() {
     const { id } = useParams<{ id: string }>()
@@ -92,6 +93,24 @@ export default function WorkspaceSidebar() {
                                     >
                                         <FluentProject className="w-7 h-7" />
                                         <h1>Projects</h1>
+                                    </NavLink>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+                        </SidebarMenu>
+                        <SidebarMenu>
+                            <SidebarMenuItem>
+                                <SidebarMenuButton
+                                    className="text-base"
+                                    isActive={
+                                        location.pathname === `/manage-workspaces/${id}/reports`
+                                    }
+                                >
+                                    <NavLink
+                                        to="/manage-workspaces/${id}/report"
+                                        className="flex gap-2"
+                                    >
+                                        <ReportIcon className="w-7 h-7" />
+                                        <h1>Report</h1>
                                     </NavLink>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>

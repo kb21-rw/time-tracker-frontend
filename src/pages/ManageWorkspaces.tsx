@@ -63,7 +63,7 @@ export default function ManageWorkspacesPage() {
                         <div className="lg:hidden block">
                             <MenuBar open={menuOpen} setOpen={setMenuOpen} />
                         </div>
-                        <p className="lg:text-xl lg:font-bold  ">Workspaces</p>
+                        <p className="lg:text-xl lg:font-bold">Workspaces</p>
                         <button
                             className="flex items-center gap-x-2 bg-primary-500 rounded-lg text-white px-3 py-2 md:px-5 md:py-3 cursor-pointer"
                             onClick={() => setIsModalOpen(true)}
