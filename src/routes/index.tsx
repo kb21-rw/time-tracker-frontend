@@ -15,6 +15,7 @@ import ClientsPage from '@/pages/workspace-details/clients'
 import ProjectsPage from '@/pages/workspace-details/projects'
 import AppWrapper from './AppWrapper'
 import HttpErrorPage from '@/pages/HttpErrorPage'
+import ReportPage from '@/pages/ReportPage'
 export const router = createBrowserRouter([
     {
         path: '/',
@@ -82,6 +83,10 @@ export const router = createBrowserRouter([
                             {
                                 path: 'tracker',
                                 element: <TimeTracker />,
+                            },
+                            {
+                                path: 'report',
+                                element: <ReportPage />,
                             },
                         ],
                     },
